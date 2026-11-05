@@ -657,3 +657,51 @@ class Ring(_ChartBase):
         if self._value > 0:
             p.setPen(QPen(self._color, self._thick, Qt.PenStyle.SolidLine, Qt.PenCapStyle.RoundCap))
             p.drawArc(r, 90 * 16, int(-360 * 16 * self._value))
+
+
+@QmlElement
+class SvgIcon(QQuickPaintedItem):
+    """Stroked line icon drawn through QSvgRenderer: crisp at any display scale and properly clipped."""
+    pathDataChanged = Signal()
+    colorChanged = Signal()
+    strokeWidthChanged = Signal()
+
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.setAntialiasing(True)
+        self._path = ""
+        self._color = QColor("#F1F3F0")
+        self._stroke = 1.8
+        self._renderer = None
+
+    def _rebuild(self):
+        from PySide6.QtCore import QByteArray
+        from PySide6.QtSvg import QSvgRenderer
+        if not self._path:
+            self._renderer = None
+        else:
+            svg = (f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="{self._path}" fill="none" '
+                   f'stroke="{self._color.name()}" stroke-opacity="{self._color.alphaF():.3f}" '
+                   f'stroke-width="{self._stroke:.3f}" stroke-linecap="round" stroke-linejoin="round"/></svg>')
+            self._renderer = QSvgRenderer(QByteArray(svg.encode()))
+        self.update()
+
+    def _gp(self): return self._path
+    def _sp(self, v):
+        self._path = str(v or ""); self.pathDataChanged.emit(); self._rebuild()
+    pathData = Property(str, _gp, _sp, notify=pathDataChanged)
+
+    def _gc(self): return self._color
+    def _sc(self, c):
+        self._color = QColor(c); self.colorChanged.emit(); self._rebuild()
+    color = Property(QColor, _gc, _sc, notify=colorChanged)
+
+    def _gs(self): return self._stroke
+    def _ss(self, v):
+        self._stroke = float(v); self.strokeWidthChanged.emit(); self._rebuild()
+    strokeWidth = Property(float, _gs, _ss, notify=strokeWidthChanged)
+
+    def paint(self, p: QPainter) -> None:
+        if self._renderer is not None:
+            p.setRenderHint(QPainter.RenderHint.Antialiasing, True)
+            self._renderer.render(p, QRectF(0, 0, self.width(), self.height()))

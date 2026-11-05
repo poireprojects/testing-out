@@ -128,6 +128,7 @@ class TradingEngine:
         self._summarized_day: Optional[date] = None
         self._daily_limit_day: Optional[date] = None
         self._software_stop_warned: set[int] = set()
+        self._stop_synced: dict[int, float] = {}
         self._last_signal_logged: dict[tuple[str, str], datetime] = {}
         self._last_error_at = 0.0
         self._events: deque = deque(maxlen=500)
@@ -378,8 +379,18 @@ class TradingEngine:
             if delta:
                 self._on_fill(delta, now)
 
+    STOP_SYNC_SECONDS = 10.0
+
     def process_orders(self, now: datetime) -> None:
+        closing = {t["id"] for t in self.db.open_trades() if t["status"] == "closing"}
         for o in self.db.active_orders():
+            # Resting protective stops rarely change: check them every 10 s (a fill is also caught by
+            # reconciliation), but entries/exits and anything on a closing trade every tick.
+            if o["purpose"] == "stop" and o["trade_id"] not in closing and o["status"] != "pending_submit":
+                last = self._stop_synced.get(o["id"], -1e18)
+                if self._mono() - last < self.STOP_SYNC_SECONDS:
+                    continue
+                self._stop_synced[o["id"]] = self._mono()
             try:
                 _, delta = self.orders.sync(o)
             except BrokerUnavailable as exc:

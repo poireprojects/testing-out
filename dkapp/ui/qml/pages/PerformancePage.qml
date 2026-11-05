@@ -49,7 +49,9 @@ DkScroll {
             spacing: Theme.gap
             Card {
                 Layout.fillWidth: true
-                Layout.preferredWidth: 3; Layout.minimumWidth: 3; Layout.maximumWidth: 3
+                Layout.preferredWidth: 3
+                Layout.preferredHeight: 390
+                Layout.alignment: Qt.AlignTop
                 title: "account growth"
                 tip: "benchmark"
                 subtitle: "end-of-day account value. the dashed line is what the same money would be worth in SPY (the S&P 500)."
@@ -77,7 +79,9 @@ DkScroll {
             }
             Card {
                 Layout.fillWidth: true
-                Layout.preferredWidth: 2; Layout.minimumWidth: 2; Layout.maximumWidth: 2
+                Layout.preferredWidth: 2
+                Layout.preferredHeight: 390
+                Layout.alignment: Qt.AlignTop
                 title: "daily results"
                 subtitle: "profit or loss for each trading day"
                 BarChart {
@@ -102,7 +106,7 @@ DkScroll {
             // by strategy
             Card {
                 Layout.fillWidth: true
-                Layout.preferredWidth: 3; Layout.minimumWidth: 3; Layout.maximumWidth: 3
+                Layout.preferredWidth: 3
                 Layout.alignment: Qt.AlignTop
                 title: "by strategy"
                 tip: "evidence"
@@ -131,7 +135,7 @@ DkScroll {
             // ai helping + costs
             ColumnLayout {
                 Layout.fillWidth: true
-                Layout.preferredWidth: 2; Layout.minimumWidth: 2; Layout.maximumWidth: 2
+                Layout.preferredWidth: 2
                 Layout.alignment: Qt.AlignTop
                 spacing: Theme.gap
                 Card {
