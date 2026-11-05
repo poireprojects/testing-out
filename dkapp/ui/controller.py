@@ -36,7 +36,7 @@ SCANNER_ROLES = ["symbol", "price", "changePct", "changeOpenPct", "dayVolume", "
 POSITION_ROLES = ["tradeId", "symbol", "strategy", "status", "qty", "entryPrice", "price", "value", "pnl", "pnlPct",
                   "stop", "target", "protection", "heldMinutes", "reasoning", "exitReason"]
 EVENT_ROLES = ["id", "time", "timeText", "level", "category", "title", "message", "symbol"]
-DECISION_ROLES = ["id", "time", "timeText", "kind", "symbol", "strategy", "provider", "model", "action", "confidence",
+DECISION_ROLES = ["id", "time", "timeText", "kind", "symbol", "strategy", "provider", "modelName", "action", "confidence",
                   "evidenceQuality", "reasoning", "risks", "valid", "error", "costUsd", "latencyMs"]
 TRADE_ROLES = ["id", "symbol", "strategy", "qty", "entryPrice", "exitPrice", "pnl", "pnlPct", "fees", "entryTime",
                "exitTime", "heldMinutes", "exitReason", "reasoning", "decisionMode"]
@@ -254,7 +254,7 @@ class AppController(QObject):
                 "id": r["id"], "time": r["time"], "timeText": _time_text(r["time"]), "kind": r["kind"],
                 "symbol": r["symbol"] or "", "strategy": ALL_STRATEGIES[r["strategy"]].name
                 if r["strategy"] in ALL_STRATEGIES else (r["strategy"] or ""),
-                "provider": r["provider"] or "", "model": r["model"] or "", "action": r["action"] or "",
+                "provider": r["provider"] or "", "modelName": r["model"] or "", "action": r["action"] or "",
                 "confidence": r["confidence"] if r["confidence"] is not None else -1.0,
                 "evidenceQuality": r["evidence_quality"] or "", "reasoning": r["reasoning"] or "",
                 "risks": ", ".join(json.loads(r["risks"] or "[]")), "valid": bool(r["valid"]),

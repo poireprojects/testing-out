@@ -190,7 +190,7 @@ Item {
                                     Txt { visible: model.strategy !== ""; text: "setup: " + model.strategy; color: Theme.textMuted; font.pixelSize: 12 }
                                     Txt { text: model.reasoning; color: model.valid ? Theme.text : Theme.amber; font.pixelSize: 13; wrapMode: Text.WordWrap; elide: Text.ElideNone; Layout.fillWidth: true; lineHeight: 1.25 }
                                     Txt { visible: model.risks !== ""; text: "risks: " + model.risks; color: Theme.textDim; font.pixelSize: 12; wrapMode: Text.WordWrap; elide: Text.ElideNone; Layout.fillWidth: true }
-                                    Txt { text: model.model + " · " + (model.latencyMs / 1000).toFixed(1) + "s" + (model.costUsd > 0 ? " · " + Theme.money(model.costUsd, 4) : " · free"); color: Theme.textMuted; font.pixelSize: 11 }
+                                    Txt { text: model.modelName + " · " + (model.latencyMs / 1000).toFixed(1) + "s" + (model.costUsd > 0 ? " · " + Theme.money(model.costUsd, 4) : " · free"); color: Theme.textMuted; font.pixelSize: 11 }
                                 }
                             }
                         }

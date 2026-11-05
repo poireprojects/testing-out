@@ -81,3 +81,29 @@ def test_charts_paint_with_data():
         p = QPainter(img)
         item.paint(p)
         p.end()
+
+
+def test_model_roles_do_not_shadow_qml_delegate_names():
+    from dkapp.ui import controller
+    reserved = {"model", "modelData", "index", "parent"}
+    for name in dir(controller):
+        if name.endswith("_ROLES"):
+            assert not reserved & set(getattr(controller, name)), name
+
+
+def test_app_self_test_entry_point(tmp_path):
+    """Runs the real entry point (`python -m dkapp --self-test`): loads every page with a live demo engine."""
+    import os
+    import subprocess
+    import sys
+    from pathlib import Path
+    root = str(Path(__file__).resolve().parents[1])
+    env = dict(os.environ, DK_HOME=str(tmp_path / "selftest"), QT_QPA_PLATFORM="offscreen",
+               PYTHONPATH=root + os.pathsep + os.environ.get("PYTHONPATH", ""))
+    r = subprocess.run([sys.executable, "-m", "dkapp", "--self-test"], env=env, capture_output=True, text=True,
+                       timeout=120, cwd=str(tmp_path))
+    rp = tmp_path / "selftest" / "logs" / "self-test.txt"
+    assert rp.exists(), r.stdout[-2000:] + r.stderr[-3000:]
+    report = rp.read_text()
+    assert r.returncode == 0, report + r.stdout[-2000:] + r.stderr[-2000:]
+    assert report.startswith("OK")

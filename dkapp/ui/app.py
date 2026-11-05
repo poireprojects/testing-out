@@ -101,6 +101,18 @@ class _Tray:
 
 def main(argv: list[str] | None = None) -> int:
     argv = list(sys.argv if argv is None else argv)
+    self_test = "--self-test" in argv
+    if self_test:
+        # Packaging smoke test: isolated data folder, offscreen rendering, quit after loading the UI.
+        import tempfile
+        os.environ.setdefault("DK_HOME", tempfile.mkdtemp(prefix="dk-selftest-"))
+        os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
+    if sys.platform == "win32":
+        try:  # own taskbar entry + correct attribution for Windows notifications
+            import ctypes
+            ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID("com.dontknowwhatimdoing.app")  # type: ignore[attr-defined]
+        except Exception:
+            pass
     setup_logging()
     log.info("starting %s %s", APP_NAME, __version__)
 
@@ -123,7 +135,7 @@ def main(argv: list[str] | None = None) -> int:
     # ---- single instance: a second launch just brings the first window forward
     lock = QLockFile(str(paths.data_dir() / "app.lock"))
     lock.setStaleLockTime(0)
-    if not lock.tryLock(200):
+    if not lock.tryLock(200) and not self_test:
         sock = QLocalSocket()
         sock.connectToServer(APP_ID)
         if sock.waitForConnected(1500):
@@ -141,6 +153,8 @@ def main(argv: list[str] | None = None) -> int:
     app.setWindowIcon(icon)
 
     settings = load_settings()
+    if self_test:
+        settings.first_run_done = True
     from .charts import LineChart  # noqa: F401  (registers DkCharts QML types)
     from .controller import AppController
 
@@ -163,12 +177,31 @@ def main(argv: list[str] | None = None) -> int:
     ctx.setContextProperty("trayAvailable", tray.available)
     ctx.setContextProperty("iconUrl", QUrl.fromLocalFile(str(paths.assets_dir() / "icons" / "dk.png")))
     ctx.setContextProperty("startMinimized", "--minimized" in argv or settings.automation.start_minimized)
+    qml_warnings: list[str] = []
+    engine.warnings.connect(lambda ws: qml_warnings.extend(w.toString() for w in ws))
     engine.load(QUrl.fromLocalFile(str(paths.qml_dir() / "Main.qml")))
     if not engine.rootObjects():
-        log.error("QML failed to load")
+        log.error("QML failed to load: %s", qml_warnings)
+        if self_test:
+            (paths.log_dir() / "self-test.txt").write_text("FAIL\n" + "\n".join(qml_warnings), encoding="utf-8")
+            print("SELF-TEST FAIL", *qml_warnings, sep="\n")
         controller.shutdown()
         return 1
     window = engine.rootObjects()[0]
+    if self_test:
+        from PySide6.QtCore import QTimer
+
+        def finish():
+            ok = bool(controller.state.get("mode")) and window.property("visible") is not None
+            for p in range(6):
+                window.setProperty("page", p)
+            real = [w for w in qml_warnings if "of null" not in w]
+            result = "OK" if ok and not real else "FAIL"
+            text = f"{result}\nmode={controller.state.get('mode')}\n" + "\n".join(real)
+            (paths.log_dir() / "self-test.txt").write_text(text, encoding="utf-8")
+            print("SELF-TEST", text)
+            app.exit(0 if result == "OK" else 2)
+        QTimer.singleShot(6000, finish)
 
     def show_window():
         window.show()
