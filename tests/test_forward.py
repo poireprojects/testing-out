@@ -134,3 +134,22 @@ def test_gap_observer_records_qualifying_stocks_in_play_once_per_day(tmp_path, m
     orb = plans["P2-H2 gap stocks in play (ORB)"]
     assert orb["triggerPrice"] == pytest.approx(53.6) and orb["stopPrice"] == pytest.approx(52.8)  # first 5 bars only
     assert all(r["decision"] == "would-take" for r in rows)
+
+
+def test_shipped_phase2_summary_matches_the_committed_holdout_results():
+    """The Performance page's phase-2 table is generated from holdout.json; a stale copy would misreport evidence."""
+    import json
+    from pathlib import Path
+    root = Path(__file__).resolve().parents[1]
+    hold = json.loads((root / "research/runs/2026-11-07-phase2/holdout.json").read_text())
+    shipped = json.loads((root / "dkapp/assets/research/phase2-summary.json").read_text())
+    rows = {r["key"]: r for r in shipped["rows"]}
+    assert rows["no_trade"]["trades"] == 0
+    for k, r in rows.items():
+        if k == "no_trade":
+            continue
+        e = hold["evals"][k]
+        assert r["trades"] == e["trades"] and r["netPct"] == pytest.approx(e["avgRetPct"])
+        assert r["verdict"] == hold["verdicts"].get(k, {}).get("verdict", "baseline")
+    passed = [h for h, v in hold["verdicts"].items() if v["verdict"] == "eligible_for_forward_test"]
+    assert sorted(shipped["passed"]) == sorted(passed)

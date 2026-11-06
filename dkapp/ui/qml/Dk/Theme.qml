@@ -85,8 +85,10 @@ QtObject {
     }
     function signedMoney(v, d) {
         if (v === undefined || v === null || isNaN(v)) return "—"
-        var s = fixed(Math.abs(v), d === undefined ? 2 : d)
-        return (v >= 0.005 ? "+$" : (v <= -0.005 ? "−$" : "$")) + s
+        var nd = d === undefined ? 2 : d
+        var s = fixed(Math.abs(v), nd)
+        var half = 0.5 * Math.pow(10, -nd)
+        return (v >= half ? "+$" : (v <= -half ? "−$" : "$")) + s
     }
     function pct(v, d) {
         if (v === undefined || v === null || isNaN(v)) return "—"
@@ -94,8 +96,10 @@ QtObject {
     }
     function signedPct(v, d) {
         if (v === undefined || v === null || isNaN(v)) return "—"
-        var s = fixed(Math.abs(v), d === undefined ? 2 : d)
-        return (v >= 0.005 ? "+" : (v <= -0.005 ? "−" : "")) + s + "%"
+        var nd = d === undefined ? 2 : d
+        var s = fixed(Math.abs(v), nd)
+        var half = 0.5 * Math.pow(10, -nd)          // values that round to zero at this precision get no sign
+        return (v >= half ? "+" : (v <= -half ? "−" : "")) + s + "%"
     }
     function pnlColor(v) {
         if (v === undefined || v === null || isNaN(v)) return textDim

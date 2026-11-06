@@ -1,0 +1,26 @@
+[
+ {
+  "label": "H1 unfiltered",
+  "n": 1774,
+  "grossPct": 0.03178225840844655,
+  "netPct": -0.09947975332023817
+ },
+ {
+  "label": "H1 + relative volume \u2265 2 and SPY above VWAP",
+  "n": 348,
+  "grossPct": 0.10218822517202329,
+  "netPct": -0.02909147020845319
+ },
+ {
+  "label": "H2 unfiltered",
+  "n": 194,
+  "grossPct": 0.26030824498189176,
+  "netPct": 0.058677276320128556
+ },
+ {
+  "label": "H2 + rvol5 \u2265 4",
+  "n": 79,
+  "grossPct": 0.07840843743921068,
+  "netPct": -0.12279081001389631
+ }
+]

@@ -1,0 +1,100 @@
+{
+ "round": "research phase 2",
+ "holdout": "2023-09-01 \u2192 2025-08-29 (used once)",
+ "development": "2025-09-02 \u2192 2026-11-05",
+ "source": "Alpaca IEX bars; $20 positions, 2 slots, after spread, slippage and fees (daily cent rounding)",
+ "rows": [
+  {
+   "key": "no_trade",
+   "label": "doing nothing",
+   "trades": 0,
+   "netPct": 0.0,
+   "lo": 0.0,
+   "hi": 0.0,
+   "pnl": 0.0,
+   "verdict": "baseline"
+  },
+  {
+   "key": "P2-H1",
+   "label": "H1 momentum, held to the close",
+   "trades": 1180,
+   "netPct": -0.1868246138347218,
+   "grossPct": -0.016252206988587842,
+   "lo": -0.2554866926566135,
+   "hi": -0.11335837951966808,
+   "pnl": -44.09060886499434,
+   "devTrades": 677,
+   "devNetPct": -0.16927596240637025,
+   "verdict": "rejected"
+  },
+  {
+   "key": "H1-random",
+   "label": "baseline: random entry time (biased)",
+   "trades": 1125,
+   "netPct": -0.0016268801554434446,
+   "grossPct": 0.1711777278955953,
+   "lo": -0.06697678472999699,
+   "hi": 0.06723390364512181,
+   "pnl": -0.3660480349747758,
+   "devTrades": 624,
+   "devNetPct": 0.09894670130355085,
+   "verdict": "baseline"
+  },
+  {
+   "key": "P2-H3",
+   "label": "H3 = H1 with a passive limit entry",
+   "trades": 1135,
+   "netPct": -0.15804931188982987,
+   "grossPct": -0.05176137087781271,
+   "lo": -0.23131700117236728,
+   "hi": -0.08084112378107962,
+   "pnl": -35.87719379899138,
+   "devTrades": 657,
+   "devNetPct": -0.1817020007676373,
+   "verdict": "rejected"
+  },
+  {
+   "key": "P2-H2",
+   "label": "H2 gap stocks in play, breakout",
+   "trades": 278,
+   "netPct": -0.18353599738534518,
+   "grossPct": 0.09162712971820011,
+   "lo": -0.47185535061177386,
+   "hi": 0.11247873546451125,
+   "pnl": -10.204601454625191,
+   "devTrades": 194,
+   "devNetPct": -0.03176462853145474,
+   "verdict": "rejected"
+  },
+  {
+   "key": "H2-at-9:35",
+   "label": "baseline: same stocks bought at 9:35",
+   "trades": 349,
+   "netPct": -0.12433886555912495,
+   "grossPct": 0.1459535227370112,
+   "lo": -0.3600860747101468,
+   "hi": 0.12086984031264313,
+   "pnl": -8.67885281602692,
+   "devTrades": 234,
+   "devNetPct": 0.04847026175444435,
+   "verdict": "baseline"
+  },
+  {
+   "key": "P2-H4",
+   "label": "H4 index ETFs overnight (research)",
+   "trades": 1996,
+   "netPct": -0.07839382364759577,
+   "grossPct": 0.05163789264697304,
+   "lo": -0.13048474761539688,
+   "hi": -0.0279719538729703,
+   "pnl": -31.294814400120273,
+   "devTrades": 1188,
+   "devNetPct": -0.06453103651476635,
+   "verdict": "rejected"
+  }
+ ],
+ "passed": [],
+ "note": "gap stocks in play moved the most (+2.1% at best on average) but kept only +0.09% per trade before costs, and a $20 round trip in them costs about 0.28% (wider spreads plus fees rounded up to a cent each day). holding momentum signals to the close did not help (-0.02% before costs). a passive limit entry filled 74% of the time \u2014 mostly on trades that went on to lose (-0.19% when filled vs +0.12% when not).",
+ "trend": "research only (the app never holds overnight): an SPY trend filter returned +33% vs +43% buy-and-hold, and its worst drop was 8% instead of 19%, but after testing five ideas it can't be told apart from luck (adjusted p=0.12). holding index ETFs overnight lost -0.08% per night after costs; its worst night was -5.4%.",
+ "conclusion": "No phase 2 strategy passed: every one lost money after costs on the unseen holdout, or could not be told apart from luck."
+}

@@ -25,3 +25,4 @@ SectionLabel 1.0 SectionLabel.qml
 ActionChip 1.0 ActionChip.qml
 TitleBar 1.0 TitleBar.qml
 WindowButton 1.0 WindowButton.qml
+EvidenceTable 1.0 EvidenceTable.qml

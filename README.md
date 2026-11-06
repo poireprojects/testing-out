@@ -149,18 +149,50 @@ portfolio value, and they only ever shrink after losses. The app never borrows, 
 
 ### Research: is there an edge? (November 2026)
 
-No — not yet. `research/runs/2026-11-06-round1/REPORT.md` has the details; in short:
+No — not yet. Round 1 (`research/runs/2026-11-06-round1/REPORT.md`), in short:
 
 * One year of real 1-minute history (40 symbols). Hypotheses and pass/fail rules were **committed before** any
   result was computed, and a reserved holdout (81 days) was evaluated **once**.
 * On that unseen holdout, every approach that trades lost money after costs: the app's rules + ranker −0.13% per
   trade (−$6.11 on $100 over 81 days), intraday mean reversion −0.15%, relative strength −0.13%, market intraday
   momentum −0.27%. The statistical models declined every trade. Doing nothing was best.
-* Why: a $20 round trip costs ≈0.17% (spread + slippage; fees are tiny); the strongest signal measured is worth
-  ≈0.04% over 30 minutes. More capital doesn't fix that — the cost is a percentage.
-* Every day of history used so far is recorded in `research/ledger.json`. New evidence now comes from forward paper
-  and shadow trading; nothing is promoted without ≥100 forward trades over ≥30 days, a multiple-testing-adjusted
-  p < 0.05 after costs, and your explicit approval.
+* Why: a $20 round trip costs ≈0.17% (spread + slippage, plus Alpaca rounding each day's fees up to a cent); the
+  strongest signal measured is worth ≈0.04% over 30 minutes. More capital doesn't fix that — the cost is a percentage.
+
+**Phase 2** (`research/runs/2026-11-07-phase2/REPORT.md`) tested five new, pre-registered ideas:
+
+* holding to the close
+* gap "stocks in play" breakouts
+* passive limit entries
+* index ETFs overnight (research only)
+* a multi-day SPY trend filter (research only)
+
+They were tested on a second untouched holdout: two years, 2023-09 → 2025-08, used once.
+
+* No strategy passed. On the holdout, per trade:
+
+  | idea | result |
+  |---|---:|
+  | momentum held to the close | −0.19% |
+  | gap stocks | −0.18% |
+  | passive entries | −0.16% |
+  | overnight ETFs (per night) | −0.08% |
+
+* The trend filter returned +33% against buy-and-hold's +43%, with less than half the drawdown. After testing five
+  ideas, it can't be told apart from luck. It is also multi-day, which the app does not do.
+* What we learned:
+  * The app's signals have no direction (≈0% before costs).
+  * Gap stocks move a lot but reverse as often as they continue.
+  * Passive limit orders save half the cost but fill mostly on the trades that go on to lose.
+* Every day of history used so far is recorded in `research/ledger.json`. The only untouched history left (2020-07 →
+  2022-10) is reserved for one future test.
+* New evidence now comes from **forward** observation. The app records every eligible setup, taken or not, at the
+  moment it sees it, in an append-only, hash-chained table. It scores each one after the close against prices that
+  came later (Performance → *forward evidence*; `python scripts/forward_report.py`).
+* Nothing is promoted without:
+  * ≥100 forward trades over ≥30 days
+  * a multiple-testing-adjusted p < 0.05 after costs
+  * your explicit approval
 
 ### Is the AI actually helping?
 

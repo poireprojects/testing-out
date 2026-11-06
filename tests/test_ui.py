@@ -112,3 +112,32 @@ def test_app_self_test_entry_point(tmp_path):
     report = rp.read_text()
     assert r.returncode == 0, report + r.stdout[-2000:] + r.stderr[-2000:]
     assert report.startswith("OK")
+
+
+def test_signed_formatters_keep_the_sign_at_every_precision():
+    """-0.0016 shown with 3 decimals is "−0.002%", not an unsigned "0.002%" (the old cutoff assumed 2 decimals)."""
+    from PySide6.QtCore import QUrl
+    from PySide6.QtQml import QQmlComponent, QQmlEngine
+    from PySide6.QtWidgets import QApplication
+
+    from dkapp import paths
+    QApplication.instance() or QApplication([])
+    eng = QQmlEngine()
+    eng.addImportPath(str(paths.qml_dir()))
+    comp = QQmlComponent(eng)
+    comp.setData(b"""import QtQuick
+import Dk 1.0
+QtObject {
+    property string a: Theme.signedPct(-0.0016, 3)
+    property string b: Theme.signedPct(-0.0016, 2)
+    property string c: Theme.signedPct(0.0016, 3)
+    property string d: Theme.signedPct(-0.004, 2)
+    property string e: Theme.signedPct(0.25)
+    property string f: Theme.signedMoney(-0.0016, 3)
+    property string g: Theme.signedMoney(-0.004)
+}""", QUrl("inline.qml"))
+    obj = comp.create()
+    assert obj is not None, comp.errorString()
+    got = {k: obj.property(k) for k in "abcdefg"}
+    assert got == {"a": "−0.002%", "b": "0.00%", "c": "+0.002%", "d": "0.00%", "e": "+0.25%",
+                   "f": "−$0.002", "g": "$0.00"}, got

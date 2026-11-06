@@ -382,13 +382,21 @@ class AppController(QObject):
                           "config": str(paths.config_dir())}}
     staticInfo = Property("QVariantMap", _g_static, constant=True)
 
-    def _g_research(self):
+    @staticmethod
+    def _research_file(name: str) -> dict:
         """Shipped research evidence (dkapp/assets/research): historical, clearly labeled as such."""
         try:
-            return json.loads((paths.assets_dir() / "research" / "round1-summary.json").read_text())
+            return json.loads((paths.assets_dir() / "research" / name).read_text())
         except (OSError, ValueError):
             return {}
+
+    def _g_research(self):
+        return self._research_file("round1-summary.json")
     research = Property("QVariantMap", _g_research, constant=True)
+
+    def _g_research2(self):
+        return self._research_file("phase2-summary.json")
+    research2 = Property("QVariantMap", _g_research2, constant=True)
 
     # ================================================================ slots: trading
     @Slot()
