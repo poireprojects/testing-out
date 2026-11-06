@@ -48,6 +48,7 @@ Rectangle {
 
         // ---- brand (inside the sidebar column)
         RowLayout {
+            objectName: "brand"
             Layout.preferredWidth: bar.sidebarWidth - 16
             Layout.maximumWidth: bar.sidebarWidth - 16
             spacing: 10

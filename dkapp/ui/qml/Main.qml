@@ -82,6 +82,7 @@ ApplicationWindow {
 
     TitleBar {
         id: titleBar
+        objectName: "titleBar"
         Layout.fillWidth: true
         visible: chrome.custom
         pageTitle: root.pageInfo[root.page].title
@@ -98,6 +99,7 @@ ApplicationWindow {
 
         // ================================================================ sidebar
         Rectangle {
+            objectName: "sidebar"
             Layout.fillHeight: true
             Layout.preferredWidth: 252
             color: Theme.sidebar
@@ -241,8 +243,15 @@ ApplicationWindow {
                     ToolTip.text: app.explain("emergency stop")
                 }
                 Txt {
-                    text: (chrome.custom ? "an app created entirely by Riley Lantzy · " : "") + "v" + app.version
-                    color: Theme.textMuted; font.pixelSize: 11; Layout.alignment: Qt.AlignHCenter; Layout.topMargin: 6
+                    // wraps inside the sidebar column (a long single line used to widen every row above it)
+                    text: (chrome.custom ? "an app created entirely by Riley Lantzy\n" : "") + "v" + app.version
+                    color: Theme.textMuted; font.pixelSize: 11
+                    Layout.fillWidth: true
+                    Layout.preferredWidth: 0
+                    Layout.topMargin: 6
+                    horizontalAlignment: Text.AlignHCenter
+                    wrapMode: Text.WordWrap
+                    elide: Text.ElideNone
                 }
             }
         }
