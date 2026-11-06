@@ -288,7 +288,7 @@ DkScroll {
                 subtitle: "checked on every trade. the AI can't override them."
                 Repeater {
                     model: [
-                        { k: "max per trade", v: Theme.money(page.lim.maxPosition || 0) + (page.lim.compounding === "reinvest" ? " (grows with the account)" : " (fixed)") },
+                        { k: "max per trade", v: Theme.money(page.lim.maxPosition || 0) + (page.lim.compounding === "reinvest" ? " (grows with its own profits)" : " (fixed)") },
                         { k: "positions at once", v: String(page.lim.maxPositions || 0) },
                         { k: "daily loss limit", v: Theme.money(page.lim.dailyLossLimit || 0) },
                         { k: "risk per trade", v: Theme.money(page.lim.riskPerTrade || 0) + " if the stop hits" },

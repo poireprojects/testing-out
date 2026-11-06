@@ -1,7 +1,9 @@
 """Account-based position sizing with automatic compounding.
 
-* reinvest mode: limits scale with current equity. $100 → $105 means a $20 cap becomes
-  $21; $100 → $95 means it becomes $19.
+* reinvest mode: limits scale with the app's OWN capital — the starting capital plus everything the
+  app itself has realized (after fees) — and never more than the account actually holds. $100 that
+  grows to $105 means a $20 cap becomes $21; $95 means $19. Other money in the account (a paper
+  account's $100,000, a bigger deposit) is never put to work without you raising the starting capital.
 * fixed mode: the trading allocation stays at the configured amount (and shrinks if the
   account falls below it). Profits are not put back to work.
 
@@ -24,6 +26,7 @@ class SizingInputs:
     broker_buying_power: float
     pending_buy_notional: float = 0.0
     consecutive_losses: int = 0
+    app_capital: float | None = None  # starting capital + the app's own realized P/L
 
 
 @dataclass
@@ -42,26 +45,31 @@ class SizeResult:
                 f"(position cap ${self.cap_position:.2f}, risk cap ${self.cap_risk:.2f}, cash ${self.cap_cash:.2f})")
 
 
-def capital_base(settings: AppSettings, equity: float) -> float:
+def capital_base(settings: AppSettings, equity: float, app_capital: float | None = None) -> float:
+    """The money the app trades with. Never the broker's whole equity: in reinvest mode it is the app's
+    own capital (starting capital + its realized P/L; the starting capital when unknown), capped by
+    what the account really holds."""
     equity = max(0.0, equity)
     if settings.compounding.mode == "fixed":
         return min(settings.compounding.fixed_allocation_usd, equity)
-    return equity
+    own = settings.risk.starting_capital if app_capital is None else app_capital
+    return max(0.0, min(own, equity))
 
 
-def scale_factor(settings: AppSettings, equity: float) -> float:
-    return capital_base(settings, equity) / settings.risk.starting_capital
+def scale_factor(settings: AppSettings, equity: float, app_capital: float | None = None) -> float:
+    return capital_base(settings, equity, app_capital) / settings.risk.starting_capital
 
 
-def scaled_limits(settings: AppSettings, equity: float) -> dict[str, float]:
-    s = scale_factor(settings, equity)
+def scaled_limits(settings: AppSettings, equity: float, app_capital: float | None = None) -> dict[str, float]:
+    base = capital_base(settings, equity, app_capital)
+    s = base / settings.risk.starting_capital
     r = settings.risk
     return {
         "scale": s,
-        "capital_base": capital_base(settings, equity),
+        "capital_base": base,
         "max_position_usd": r.max_position_usd * s,
         "daily_loss_limit_usd": r.daily_loss_limit_usd * s,
-        "risk_per_trade_usd": capital_base(settings, equity) * r.max_risk_per_trade_pct / 100,
+        "risk_per_trade_usd": base * r.max_risk_per_trade_pct / 100,
     }
 
 
@@ -80,7 +88,7 @@ def spendable_cash(settings: AppSettings, inp: SizingInputs) -> float:
 
 
 def position_size(settings: AppSettings, inp: SizingInputs, stop_pct: float) -> SizeResult:
-    lim = scaled_limits(settings, inp.equity)
+    lim = scaled_limits(settings, inp.equity, inp.app_capital)
     damp = 1.0
     if settings.risk.reduce_size_after_losses and inp.consecutive_losses > 0:
         damp = max(0.5, 0.75 ** inp.consecutive_losses)

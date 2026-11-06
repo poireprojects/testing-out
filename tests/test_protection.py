@@ -272,3 +272,22 @@ def test_unconfirmed_stop_blocks_live_entries_via_risk_context(rig):
     ctx.live_authorized = True
     d = RiskEngine(eng.settings).check_entry(ctx, proposal(symbol="MSFT"))
     assert any("no broker-confirmed stop order" in r for r in d.reasons)
+
+
+def test_another_copys_orders_on_the_same_account_are_never_touched(rig, tmp_path):
+    """Two databases (main copy + test copy, or another computer) trading one account: each has its own
+    tag in the order ids, so neither ever cancels or adopts the other's orders."""
+    from dkapp.execution.order_manager import OrderManager
+    from dkapp.storage.db import Database
+    other = OrderManager(Database(tmp_path / "other.db", "demo"), rig.broker, rig.clock.now, "demo")
+    assert other.prefix != rig.engine.orders.prefix
+    t = enter(rig, "AAPL")
+    qty = rig.db.trade(t["id"])["entry_qty"]
+    mine = stops_at_broker(rig, "AAPL")
+    assert len(mine) == 1
+    # the other copy holds its own AAPL shares with its own stop
+    rig.broker.state.positions["AAPL"].qty += qty
+    theirs = other.place(1, "stop", dict(symbol="AAPL", side="sell", type="stop", qty=qty, stop_price=1.0))
+    assert theirs["client_order_id"] != mine[0]["client_order_id"]
+    rig.engine._sweep_stray_orders(rig.clock.now())
+    assert rig.broker.state.orders[theirs["broker_order_id"]]["status"] == "new", "never cancel another copy's order"

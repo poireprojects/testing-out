@@ -63,7 +63,22 @@ def pct(x, nd=3):
     return "—" if x is None else f"{x:+.{nd}f}%"
 
 
-def markdown(res: dict, cmp: dict | None, meta: dict) -> str:
+def gross_stats(days, cfg, strategies) -> dict:
+    """Average return per trade BEFORE costs (from the same simulated fills) — shows whether a strategy
+    has any signal at all, separately from what trading costs take."""
+    rng = random.Random(cfg.seed)
+    trades = [t for d in sorted(days, key=lambda d: d.day) for t in run_day(d, strategies, cfg, rng)]
+    out = {}
+    for sid in strategies + ["random"]:
+        ts = [t for t in trades if (t.random_baseline if sid == "random" else t.strategy == sid and not t.random_baseline)]
+        if ts:
+            out[sid] = {"n": len(ts), "grossAvgPct": sum((t.ref_exit / t.ref_entry - 1) * 100 for t in ts) / len(ts),
+                        "netAvgPct": sum(t.ret_pct for t in ts) / len(ts),
+                        "strategyExitShare": sum(1 for t in ts if t.reason.startswith("strategy")) / len(ts)}
+    return out
+
+
+def markdown(res: dict, cmp: dict | None, meta: dict, gross: dict | None = None) -> str:
     L = [f"# Real-history backtest — {meta['first']} → {meta['last']}", "",
          f"{res['days']} trading days · {meta['symbols']} symbols · Alpaca IEX 1-minute bars · "
          f"${res['config']['notional']:.0f} positions · spread {res['config']['spreadBps']} bps + slippage "
@@ -81,6 +96,18 @@ def markdown(res: dict, cmp: dict | None, meta: dict) -> str:
         L.append(f"| {r['name']} | {r['test']['trades']} | {pct(r['train']['avgRetPct'])} | {pct(r['validation']['avgRetPct'])} | "
                  f"{pct(r['test']['avgRetPct'])} | {pct(r['randomBaseline']['avgRetPct'])} | {pct(r['stressAvgRetPct'])} | "
                  f"{len(good)}/{len(used)} | {r['pAdjusted']:.2f} | **{r['verdict']}** |")
+    if gross:
+        c = BTConfig().costs
+        rt = c.round_trip_cost_pct(res["config"]["notional"], 100.0, res["config"]["spreadBps"])
+        L += ["", "### Before vs after costs (all 40 days)", "",
+              f"A ${res['config']['notional']:.0f} round trip costs about **{rt:.2f}%**: half the spread each side, "
+              f"{c.slippage_bps:.0f} bps slippage each side, and SEC/FINRA fees rounded up to the cent "
+              f"(${c.sell_fees(res['config']['notional'], res['config']['notional'] / 100):.2f} per sale — a big share of a small trade).", "",
+              "| strategy | trades | before costs | after costs | closed by its own exit rule |", "|---|---|---|---|---|"]
+        for sid, g in gross.items():
+            name = res["strategies"][sid]["name"] if sid in res["strategies"] else "random entries (same stops/targets)"
+            L.append(f"| {name} | {g['n']} | {pct(g['grossAvgPct'])} | {pct(g['netAvgPct'])} | "
+                     f"{g['strategyExitShare']:.0%} |")
     L += ["", "Why:", ""]
     for sid, r in res["strategies"].items():
         L.append(f"* **{r['name']}** — {r['explanation']}")
@@ -127,6 +154,7 @@ def main() -> int:
     ap.add_argument("--model", default="")
     ap.add_argument("--ai-sample", type=int, default=100)
     ap.add_argument("--threads", type=int, default=4)
+    ap.add_argument("--render-only", action="store_true", help="rebuild REPORT.md from saved results + cached bars")
     a = ap.parse_args()
     logging.basicConfig(level=logging.INFO, format="%(asctime)s %(message)s")
     out = Path(a.out)
@@ -144,6 +172,21 @@ def main() -> int:
         if cal.session(end) is not None:
             break
     symbols = DEFAULT_BACKTEST_SYMBOLS[: a.symbols]
+    if a.render_only:
+        res = json.loads((out / "backtest.json").read_text())
+        cmp = json.loads((out / "ai_modes.json").read_text()) if (out / "ai_modes.json").exists() else None
+
+        class CacheOnly:
+            def get_intraday_bars(self, *args, **kw):
+                raise RuntimeError("render-only uses cached bars")
+        from datetime import date as _date
+        days = historical_days(CacheOnly(), cal, symbols, _date.fromisoformat(res["lastDay"]), res["days"],
+                               cache=HistoryCache(out / "cache"))
+        meta = {"first": res["firstDay"], "last": res["lastDay"], "symbols": len(symbols),
+                "generated": datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")}
+        (out / "REPORT.md").write_text(markdown(res, cmp, meta, gross_stats(days, BTConfig(), list(ALL_STRATEGIES))))
+        log.info("wrote %s", out / "REPORT.md")
+        return 0
     days = historical_days(data, cal, symbols, end, a.days, cache=HistoryCache(out / "cache"),
                            progress=lambda f, m: log.info("%3.0f%% %s", f * 100, m))
     cfg = BTConfig()
@@ -167,7 +210,7 @@ def main() -> int:
         trades = [t for d in sorted(days, key=lambda d: d.day) for t in run_day(d, strategies, cfg, rng)]
         cmp = compare_modes(days, trades, cfg, ai, sample_for_filter=a.ai_sample, progress=log.info)
         (out / "ai_modes.json").write_text(json.dumps(cmp, indent=1, default=float))
-    (out / "REPORT.md").write_text(markdown(res, cmp, meta))
+    (out / "REPORT.md").write_text(markdown(res, cmp, meta, gross_stats(days, cfg, strategies)))
     log.info("wrote %s", out / "REPORT.md")
     return 0
 

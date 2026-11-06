@@ -61,12 +61,29 @@ class OrderManager:
         self.mode = mode
         self.retry_delays = retry_delays
         self.sleep = sleep
+        self.tag = self._install_tag()
+
+    def _install_tag(self) -> str:
+        """A short random id for this database, inside every client_order_id. Two copies of the app (or a
+        test) on the same brokerage account can then never collide on an order id, and each copy only
+        ever cleans up its own leftover orders."""
+        row = self.db.query_one("SELECT value FROM meta WHERE key='order_tag'")
+        if row and row["value"]:
+            return row["value"]
+        import secrets
+        tag = secrets.token_hex(2)
+        self.db.execute("INSERT OR REPLACE INTO meta(key, value) VALUES('order_tag', ?)", (tag,))
+        return tag
+
+    @property
+    def prefix(self) -> str:
+        return f"dk{self.mode[0]}{self.tag}-"
 
     # ------------------------------------------------------------ ids
     def client_order_id(self, trade_id: int, purpose: str) -> str:
         attempt = int(self.db.scalar("SELECT COUNT(*) FROM orders WHERE trade_id=? AND purpose=?", (trade_id, purpose), 0)) + 1
         day = self.now().astimezone(ET).strftime("%y%m%d")
-        return f"dk{self.mode[0]}-{day}-t{trade_id}-{purpose}-{attempt}"
+        return f"{self.prefix}{day}-t{trade_id}-{purpose}-{attempt}"
 
     # ------------------------------------------------------------ submit
     def place(self, trade_id: int, purpose: str, req_kwargs: dict) -> dict:

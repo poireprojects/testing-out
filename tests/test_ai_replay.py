@@ -72,3 +72,14 @@ def test_prompt_shows_only_bars_up_to_the_signal(history, tmp_path):
     assert ctx["recent_bars"][-1]["c"] == pytest.approx(100.0, rel=1e-6), "last bar shown is the signal bar"
     assert sig.price == 100.0 and sig.symbol.startswith("STOCK_")
     json.dumps(ctx)
+
+
+def test_prices_inside_explanations_are_rescaled_too(history):
+    from dkapp.backtest.ai_replay import PromptBuilder, _rescale_text
+    assert _rescale_text("broke above $60.33 on 2x volume", 100 / 50.0) == "broke above $120.66 on 2x volume"
+    days, trades, cfg = history
+    pb = PromptBuilder(days, cfg)
+    for t in [t for t in trades if not t.random_baseline][:40]:
+        sig, _ = pb.build(t)
+        raw_prices = [float(x) for r in sig.reasons for x in __import__("re").findall(r"\$(\d+(?:\.\d+)?)", r)]
+        assert all(40 <= x <= 250 for x in raw_prices), (sig.reasons, "dollar amounts must be on the rescaled ~100 scale")

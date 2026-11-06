@@ -366,6 +366,13 @@ class TradingEngine:
         was sent but never acknowledged, is being canceled, was rejected, canceled or expired does not count."""
         return [t["symbol"] for t in self.db.open_trades() if self._is_unprotected(t)]
 
+    def app_capital(self) -> float:
+        """Compounding base: the starting capital plus what the app itself has realized (after fees) on
+        the trades it managed in this mode. Other money in the account is never counted."""
+        realized = float(self.db.scalar("SELECT SUM(realized_pnl) FROM trades WHERE status='closed' AND managed=1",
+                                        (), 0.0) or 0.0)
+        return max(0.0, self.settings.risk.starting_capital + realized)
+
     def stop_refused_today(self, now: datetime) -> list[str]:
         return sorted(self._stop_refusals.get(now.astimezone(ET).date().isoformat(), set()))
 
@@ -664,7 +671,7 @@ class TradingEngine:
             open_orders = self.broker.get_open_orders()
         except BrokerError:
             return
-        prefix = f"dk{self.mode[0]}-"
+        prefix = self.orders.prefix  # only orders this copy of the app placed (its own database tag)
         for bo in open_orders:
             cid = bo.client_order_id or ""
             if not cid.startswith(prefix):
@@ -933,7 +940,7 @@ class TradingEngine:
     def _rank(self, sigs: list[Signal], now: datetime) -> Decision:
         open_n = len(self.db.open_trades()) + len(self.pending_ai) + (1 if self.pending_select else 0)
         free = max(0, self.settings.risk.max_positions - open_n)
-        notional = scaled_limits(self.settings, self.account.equity if self.account else 100)["max_position_usd"]
+        notional = scaled_limits(self.settings, self.account.equity if self.account else 100, self.app_capital())["max_position_usd"]
         rows = [r for r in self.scanner.rows.values() if r.eligible]
         dv = sorted(r.day_volume * r.price for r in rows) or [0.0]
         cands = []
@@ -1085,7 +1092,7 @@ class TradingEngine:
         spy = self.scanner.rows.get("SPY")
         row = self.scanner.rows.get(sig.symbol)
         spread = row.spread_bps if row and math.isfinite(row.spread_bps) else 3.0
-        notional = scaled_limits(self.settings, self.account.equity if self.account else 100)["max_position_usd"]
+        notional = scaled_limits(self.settings, self.account.equity if self.account else 100, self.app_capital())["max_position_usd"]
         return {
             "signal_id": sid,
             "spread_bps": spread,
@@ -1227,6 +1234,7 @@ class TradingEngine:
             held_symbols={p.symbol for p in self.external_positions},
             unprotected_symbols=[t["symbol"] for t in open_trades if self._is_unprotected(t)],
             stop_refused_symbols=self.stop_refused_today(now),
+            app_capital=self.app_capital(),
             recovering=self.recovering(now))
 
     def _risk_check(self, sig: Signal, now: datetime, sess: SessionState):
@@ -1409,7 +1417,7 @@ class TradingEngine:
         if self._daily_limit_day == day:
             return
         self._daily_limit_day = day
-        limit = self.risk.daily_limit(self.account.equity if self.account else 100)
+        limit = self.risk.daily_limit(self.account.equity if self.account else 100, self.app_capital())
         self.emit("warning", "risk", "daily loss limit reached",
                   f"down ${-ctx.pnl_today:.2f} today (limit ${limit:.2f}). No new trades until tomorrow. "
                   "Losses can exceed the limit if prices gap past stops.", notify=True)
@@ -1564,7 +1572,7 @@ class TradingEngine:
             start_eq = (acct.last_equity if acct and acct.last_equity > 0 else equity)
         realized, unreal = self._pnl_today(now) if self.initialized else (0.0, 0.0)
         day_pnl = equity - start_eq if acct and start_eq else realized + unreal
-        lim = scaled_limits(self.settings, equity or self.settings.risk.starting_capital)
+        lim = scaled_limits(self.settings, equity or self.settings.risk.starting_capital, self.app_capital())
         positions = []
         for t in self.db.open_trades():
             rem = t["entry_qty"] - t["exit_qty"]

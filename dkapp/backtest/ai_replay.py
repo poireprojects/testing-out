@@ -14,6 +14,7 @@ from __future__ import annotations
 
 import logging
 import random
+import re
 import time
 from dataclasses import dataclass, field
 from datetime import date, datetime, timedelta, timezone
@@ -100,7 +101,8 @@ class PromptBuilder:
                 spy_chg = round((float(upto["close"].iat[-1]) / float(spy["open"].iat[0]) - 1) * 100, 2)
         when = datetime(FAKE_DAY.year, FAKE_DAY.month, FAKE_DAY.day, 14, 30, tzinfo=timezone.utc) + timedelta(minutes=minute)
         sig = Signal(self.alias(t.symbol), t.strategy, when, 100.0, 100.0 * (1 - t.stop_pct / 100),
-                     100.0 * (1 + t.target_pct / 100), float(t.score), list(idea.reasons) if idea else [],
+                     100.0 * (1 + t.target_pct / 100), float(t.score),
+                     [_rescale_text(r, k) for r in idea.reasons] if idea else [],
                      int(idea.max_hold_minutes) if idea else 60, feats, [t.strategy] * max(1, t.agreeing))
         cost = self.cfg.costs.round_trip_cost_pct(self.cfg.notional, ref, self.cfg.spread_bps)
         ctx = {"signal_id": None, "spread_bps": self.cfg.spread_bps, "recent_bars": bars,
@@ -110,6 +112,14 @@ class PromptBuilder:
                "account": {"open_positions": 0, "today_pnl_usd": 0.0},
                "data_note": "IEX feed only (a few % of all U.S. volume); prices rescaled so the signal price is 100"}
         return sig, ctx
+
+
+_DOLLARS = re.compile(r"\$(\d+(?:\.\d+)?)")
+
+
+def _rescale_text(text: str, k: float) -> str:
+    """Dollar amounts inside a strategy's explanation get the same rescaling as every other price."""
+    return _DOLLARS.sub(lambda m: f"${float(m.group(1)) * k:.2f}", text)
 
 
 def _key(t: BTTrade) -> tuple:

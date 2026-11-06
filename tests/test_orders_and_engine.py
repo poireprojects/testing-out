@@ -37,7 +37,8 @@ def test_write_ahead_then_submit(rig):
     tid = rig.db.insert("trades", symbol="SPY", strategy="orb", mode="demo", status="pending_entry",
                         session_date=DAY.isoformat(), created_at=rig.clock.now().isoformat())
     row = om.place(tid, "entry", dict(symbol="SPY", side="buy", type="market", qty=0.01))
-    assert row["client_order_id"] == f"dkd-261104-t{tid}-entry-1"
+    assert row["client_order_id"] == f"{rig.engine.orders.prefix}261104-t{tid}-entry-1"
+    assert rig.engine.orders.prefix.startswith("dkd") and len(rig.engine.orders.tag) == 4
     assert row["broker_order_id"] and row["status"] == "filled"
     assert len(broker_orders(rig)) == 1
 
@@ -272,7 +273,7 @@ def test_crash_between_write_ahead_and_reply_is_recovered(rig):
                         session_date=DAY.isoformat(), created_at=rig.clock.now().isoformat(), stop_price=1.0,
                         initial_stop=1.0, target_price=9999.0,
                         max_hold_until=(rig.clock.now() + timedelta(hours=1)).isoformat())
-    cid = f"dkd-261104-t{tid}-entry-1"
+    cid = f"{rig.engine.orders.prefix}261104-t{tid}-entry-1"
     rig.db.insert("orders", trade_id=tid, purpose="entry", client_order_id=cid, symbol="SPY", side="buy",
                   type="market", qty=0.02, status="pending_submit", created_at=rig.clock.now().isoformat())
     rig.broker.submit_order(OrderRequest("SPY", "buy", "market", cid, qty=0.02))  # it DID reach the broker

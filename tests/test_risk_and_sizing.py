@@ -42,12 +42,29 @@ def engine():
 
 
 # ---------------------------------------------------------------- sizing & compounding
-def test_compounding_scales_up_and_down():
+def test_compounding_follows_the_apps_own_results():
     s = AppSettings()
+    # $100 that the app grew to $105 / shrank to $95 (its own realized P/L)
+    assert scaled_limits(s, 105, app_capital=105)["max_position_usd"] == pytest.approx(21)
+    assert scaled_limits(s, 95, app_capital=95)["max_position_usd"] == pytest.approx(19)
+    assert scaled_limits(s, 95, app_capital=95)["daily_loss_limit_usd"] == pytest.approx(1.9)
     assert scaled_limits(s, 100)["max_position_usd"] == pytest.approx(20)
-    assert scaled_limits(s, 105)["max_position_usd"] == pytest.approx(21)
-    assert scaled_limits(s, 95)["max_position_usd"] == pytest.approx(19)
-    assert scaled_limits(s, 95)["daily_loss_limit_usd"] == pytest.approx(1.9)
+
+
+def test_other_money_in_the_account_is_never_put_to_work():
+    """Found on a real Alpaca paper account ($100,000): limits must stay at the $100 plan, not 1,000x."""
+    s = AppSettings()
+    lim = scaled_limits(s, 100_000)                       # no app history yet
+    assert lim["max_position_usd"] == pytest.approx(20)
+    assert lim["daily_loss_limit_usd"] == pytest.approx(2)
+    assert lim["risk_per_trade_usd"] == pytest.approx(1)
+    assert scaled_limits(s, 100_000, app_capital=107)["max_position_usd"] == pytest.approx(21.4)  # its own profit
+    assert scaled_limits(s, 1_000, app_capital=100)["max_position_usd"] == pytest.approx(20)     # bigger deposit
+    # but never more than the account really holds
+    assert scaled_limits(s, 60, app_capital=100)["max_position_usd"] == pytest.approx(12)
+    r = position_size(s, SizingInputs(equity=100_000, settled_cash=100_000, broker_cash=100_000,
+                                      broker_buying_power=400_000), 1.0)
+    assert r.notional <= 20.0
 
 
 def test_fixed_allocation_never_grows_but_shrinks():
@@ -253,3 +270,16 @@ def test_fill_prices_are_pessimistic():
 def test_price_and_qty_rounding():
     assert round_price(12.3456) == 12.35 and round_price(0.123456) == 0.1235
     assert floor_qty(0.1234567891) == 0.123456
+
+
+def test_engine_on_a_100k_account_still_trades_the_100_dollar_plan(tmp_path):
+    from tests.harness import enter, make_rig
+    rig = make_rig(tmp_path, start_offset_min=90, universe_size=80, starting_cash=100_000.0)
+    rig.engine.step()
+    t = enter(rig, "AAPL")
+    assert t is not None
+    t = rig.db.trade(t["id"])
+    assert t["entry_qty"] * t["entry_price"] <= 20.0 * 1.01 + 0.01
+    rig.engine._publish_snapshot(rig.clock.now())
+    lim = rig.engine.snapshot()["limits"]
+    assert lim["maxPosition"] == pytest.approx(20, abs=0.5) and lim["dailyLossLimit"] == pytest.approx(2, abs=0.1)

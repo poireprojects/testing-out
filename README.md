@@ -126,7 +126,9 @@ Stop orders and loss limits **reduce** risk but cannot guarantee a maximum loss:
 
 ### Growing the account (compounding)
 
-* **Reinvest** (default): limits follow your account. At $105 the max position becomes $21; at $95 it becomes $19.
+* **Reinvest** (default): limits follow the app's **own** results — the starting capital plus what it has made
+  or lost. At $105 the max position becomes $21; at $95 it becomes $19. Other money in the account (a paper
+  account's $100,000, a bigger deposit) is never used unless you raise the starting capital in settings.
 * **Fixed allocation**: the app trades with a set amount and leaves profits alone.
 
 Sizes use the **cash actually in the account** (capped by Alpaca's own buying-power figure), not the displayed

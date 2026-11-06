@@ -243,7 +243,7 @@ def test_engine_order_paths_against_the_real_paper_broker(broker, market_open, t
                    db.query("SELECT * FROM orders WHERE trade_id=?", (tid,)))
     finally:
         for o in broker.get_open_orders():
-            if o.client_order_id.startswith("dkp-") and o.symbol == SYMBOL:
+            if o.client_order_id.startswith(eng.orders.prefix) and o.symbol == SYMBOL:
                 broker.cancel_order(o.id)
         time.sleep(1.0)
         extra = position_qty(broker, SYMBOL) - before

@@ -56,6 +56,7 @@ class RiskContext:
     unprotected_symbols: list[str] = field(default_factory=list)  # held with no broker-confirmed stop order
     stop_refused_symbols: list[str] = field(default_factory=list)  # broker refused a stop for these today
     recovering: str = ""  # non-empty right after the laptop slept / the app froze
+    app_capital: Optional[float] = None  # starting capital + the app's own realized P/L (compounding base)
 
     @property
     def pnl_today(self) -> float:
@@ -111,12 +112,12 @@ class RiskEngine:
         self.costs = cost_model or CostModel()
 
     # ------------------------------------------------------------- daily limit
-    def daily_limit(self, equity: float) -> float:
-        return scaled_limits(self.settings, equity)["daily_loss_limit_usd"]
+    def daily_limit(self, equity: float, app_capital: Optional[float] = None) -> float:
+        return scaled_limits(self.settings, equity, app_capital)["daily_loss_limit_usd"]
 
     def daily_limit_breached(self, ctx: RiskContext) -> bool:
         equity = ctx.account.equity if ctx.account else self.settings.risk.starting_capital
-        return ctx.pnl_today <= -self.daily_limit(equity) + 1e-9
+        return ctx.pnl_today <= -self.daily_limit(equity, ctx.app_capital) + 1e-9
 
     # ------------------------------------------------------------- entries
     def check_entry(self, ctx: RiskContext, p: EntryProposal) -> RiskDecision:
@@ -205,7 +206,7 @@ class RiskEngine:
 
         # account-level limits
         equity = acct.equity if acct else r.starting_capital
-        limit = self.daily_limit(equity)
+        limit = self.daily_limit(equity, ctx.app_capital)
         if ctx.pnl_today <= -limit + 1e-9:
             reasons.append(f"daily loss limit reached (${-ctx.pnl_today:.2f} of ${limit:.2f})")
         if ctx.consecutive_losses >= r.max_consecutive_losses:
@@ -233,6 +234,7 @@ class RiskEngine:
             broker_buying_power=min(acct.buying_power, acct.non_marginable_buying_power or acct.buying_power) if acct else 0.0,
             pending_buy_notional=ctx.pending_buy_notional,
             consecutive_losses=ctx.consecutive_losses,
+            app_capital=ctx.app_capital,
         )
         size = position_size(self.settings, inp, stop_pct)
         notional = size.notional
