@@ -69,11 +69,11 @@ def _lock_free(timeout: float) -> bool:
 
 def shutdown_running(timeout: float = 45.0) -> int:
     """Ask a running copy (e.g. hidden in the tray) to quit gracefully, then wait for it to exit."""
+    if _lock_free(0.5):
+        return OK  # nothing running
     from PySide6.QtCore import QCoreApplication
     from PySide6.QtNetwork import QLocalSocket
     QCoreApplication.instance() or QCoreApplication([])
-    if _lock_free(0.5):
-        return OK  # nothing running
     sock = QLocalSocket()
     sock.connectToServer(APP_ID)
     if not sock.waitForConnected(3000):
