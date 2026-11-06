@@ -394,6 +394,7 @@ DkScroll {
                 color: Theme.textMuted; font.pixelSize: 12; wrapMode: Text.WordWrap; Layout.fillWidth: true
             }
             RowLayout {
+                DkButton { compact: true; kind: "primary"; iconName: "bolt"; text: "run guided setup"; onClicked: app.openSetup() }
                 DkButton { compact: true; kind: "secondary"; iconName: "folder"; text: "open data folder"; onClicked: app.openDataFolder() }
                 DkButton { compact: true; kind: "secondary"; iconName: "folder"; text: "open logs"; onClicked: app.openLogsFolder() }
             }

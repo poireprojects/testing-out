@@ -89,6 +89,28 @@ jobs:
           path: dist/dontknowwhatimdoing-macos.dmg
           if-no-files-found: error
 
+  latest:
+    # Rolling "latest" release: permanent one-click download links for the newest build.
+    if: github.event_name != 'pull_request' && !startsWith(github.ref, 'refs/tags/')
+    needs: [windows, macos]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+      - name: Publish the latest build
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          mkdir out
+          cp artifacts/dontknowwhatimdoing-windows-installer/*.exe out/dontknowwhatimdoing-windows-setup.exe
+          cp artifacts/dontknowwhatimdoing-macos-dmg/*.dmg out/dontknowwhatimdoing-macos.dmg
+          gh release delete latest --cleanup-tag --yes || true
+          gh release create latest out/* --prerelease --target "$GITHUB_SHA" \
+            --title "latest build" \
+            --notes "Newest build of don’t know what im doing (commit ${GITHUB_SHA::7}). Windows: run the setup file. Mac: open the .dmg and drag the app to Applications."
+
   release:
     if: startsWith(github.ref, 'refs/tags/v')
     needs: [windows, macos]

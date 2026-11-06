@@ -16,19 +16,30 @@ Alpaca. Real-money trading stays locked until you explicitly authorize it.
 
 ## 1. Install it (no terminal needed)
 
-The installers are built automatically on GitHub for each update.
+Download the file for your computer and open it:
 
-1. Open this repository on GitHub → **Actions** → the latest **"test & build desktop app"** run → **Artifacts**.
-   (Tagged versions also appear under **Releases**.)
-2. Download the one for your computer:
+* **Windows 10/11:** [dontknowwhatimdoing-windows-setup.exe](https://github.com/poireprojects/testing-out/releases/download/latest/dontknowwhatimdoing-windows-setup.exe)
+  Double-click it. It installs for your user only (no admin needed), adds a Start menu entry and an optional
+  desktop shortcut, then opens the app. If Windows SmartScreen says "unknown publisher", click
+  **More info → Run anyway** (the app isn't code-signed; signing certificates cost money).
+* **Mac (Apple Silicon):** [dontknowwhatimdoing-macos.dmg](https://github.com/poireprojects/testing-out/releases/download/latest/dontknowwhatimdoing-macos.dmg)
+  Open it and drag the app into **Applications**. The first time only: **right-click the app → Open → Open**
+  (it isn't notarized by Apple).
 
-| Your computer | Download | Then |
-|---|---|---|
-| **Windows 10/11** | `dontknowwhatimdoing-windows-installer` | Unzip, double-click `dontknowwhatimdoing-setup-1.0.0.exe`. It installs for your user only (no admin needed) and adds a **Start menu** entry plus an optional **desktop shortcut**. If Windows SmartScreen warns about an unknown publisher, click **More info → Run anyway** (the app isn't code-signed; signing costs money). |
-| **Mac (Apple Silicon)** | `dontknowwhatimdoing-macos-dmg` | Open the `.dmg` and drag **don’t know what im doing** into **Applications**. The first time, **right-click the app → Open → Open** (it isn't notarized by Apple, which needs a paid developer account). Keep it in the **Dock**: right-click its Dock icon → Options → Keep in Dock. |
+These links always point to the newest build (the **latest** release on GitHub). If the repository is private,
+sign in to GitHub first.
 
-After that, launch it like any other app. Closing the window keeps it running in the **system tray / menu bar**
-(trading continues); use the tray icon → **quit** to exit completely.
+When the app opens, a **guided setup** walks you through the rest:
+
+1. **AI:** click **set it up for me**. The app downloads and installs the free Ollama AI runtime, starts it, and
+   downloads a model sized to your computer's memory, with a progress bar. On Windows, Ollama's own installer
+   window appears once; click through it. Prefer the cloud? Paste a Claude API key instead.
+2. **Brokerage (optional):** buttons open Alpaca's free sign-up and the page where you create paper-trading keys;
+   paste the two keys and click **connect**.
+3. **Done:** switch to paper trading with one click, or stay in demo mode.
+
+Closing the window keeps it running in the **system tray / menu bar**; use the tray icon → **quit** to exit.
+Run the guided setup again any time from **settings → about & diagnostics**.
 
 <details><summary>Prefer to build it yourself?</summary>
 
@@ -37,8 +48,6 @@ Install Python 3.12 from python.org, then double-click:
 * Windows: `packaging\windows\BUILD-INSTALLER.bat` → installer appears in `dist\installer`.
 * macOS: `packaging/macos/BUILD-APP.command` → `dist/dontknowwhatimdoing-macos.dmg`.
 * Linux: `packaging/linux/build_linux.sh` → adds the app to your applications menu.
-
-Or run from source: `python -m dkapp` (after `pip install -r requirements.txt`).
 </details>
 
 ## 2. First launch: demo mode
@@ -47,29 +56,11 @@ You start in **demo mode**. A built-in simulator generates fake prices, so you c
 activity log, trades and the reports actually work. An amber banner says *demo* everywhere, and demo results live in
 their own database. They are never shown as real performance.
 
-## 3. Connect Alpaca paper trading (free)
+## 3. Doing it by hand instead
 
-1. Create a free account at **alpaca.markets** and open the **paper trading** dashboard.
-2. Generate an **API key** (you get a *key ID* and a *secret*).
-3. In the app, go to **settings → brokerage — Alpaca**, paste both into **paper trading keys**, and click
-   **test & save**. The app checks the keys really belong to a *paper* account, then stores them in your computer's
-   secure credential store (Windows Credential Manager / macOS Keychain) — never in a file.
-4. In **settings → trading mode**, choose **paper (practice)**.
-
-## 4. Set up the AI (free, local)
-
-By default every entry needs the AI's approval. The free option runs on your own computer:
-
-1. Install **Ollama** from ollama.com and open it.
-2. In a terminal, run once: `ollama pull llama3.1:8b` (≈ 5 GB download).
-3. In **settings → ai**, click **test ai connection**.
-
-No AI yet? Switch **who decides entries** to **rules only**. If the AI is offline, times out, or gives an invalid
-answer, **no AI-dependent trade happens** — the app never guesses.
-
-**Optional cloud AI (Claude):** choose **cloud (paid)**, add an Anthropic API key, pick a model, and set a monthly
-budget (default $5). When the budget is reached, cloud calls stop. Every call's actual cost is recorded and shown on
-the *ai activity* and *performance* pages.
+Everything the guided setup does is also in **settings**: brokerage keys under *brokerage — Alpaca*, and AI under
+*ai* (local Ollama or a Claude key, model choice, monthly budget). If the AI is offline, times out or gives an
+invalid answer, **no AI-dependent trade happens** — or switch *who decides entries* to **rules only**.
 
 ---
 
@@ -184,7 +175,7 @@ pip install -r requirements-dev.txt
 python -m pytest -q
 ```
 
-158 automated tests (156 run anywhere; 2 need your Alpaca paper keys) cover market-data ingestion and batching, indicators (including look-ahead checks), every
+164 automated tests (162 run anywhere; 2 need your Alpaca paper keys) cover market-data ingestion and batching, indicators (including look-ahead checks), every
 strategy, AI response validation (malformed, out-of-range and missing fields → no trade), Ollama/Anthropic providers,
 position sizing and compounding, settled cash (T+1 across weekends and holidays), fees, every risk rule, idempotent
 order submission, duplicate prevention, lost responses, partial fills, network failures, crash/restart recovery,

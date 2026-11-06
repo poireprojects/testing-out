@@ -195,6 +195,7 @@ def main(argv: list[str] | None = None) -> int:
             ok = bool(controller.state.get("mode")) and window.property("visible") is not None
             for p in range(6):
                 window.setProperty("page", p)
+            controller.openSetup()
             real = [w for w in qml_warnings if "of null" not in w]
             result = "OK" if ok and not real else "FAIL"
             text = f"{result}\nmode={controller.state.get('mode')}\n" + "\n".join(real)

@@ -348,43 +348,8 @@ ApplicationWindow {
         }
     }
 
-    // ---- first-run welcome
-    DkDialog {
-        id: welcome
-        width: Math.min(620, root.width - 80)
-        title: "hi. i’m dk — a careful little trading robot."
-        message: "i scan a few hundred U.S. stocks during market hours, look for setups with my rule-based strategies, ask an AI for a second opinion, and only trade when a separate set of safety rules says yes."
-        closePolicy: Popup.NoAutoClose
-        ColumnLayout {
-            Layout.fillWidth: true
-            spacing: 10
-            Repeater {
-                model: [
-                    { icon: "flask", text: "you're in demo mode: simulated prices and fake money. nothing here is real performance." },
-                    { icon: "plug", text: "connect a free Alpaca paper account in settings to trade with real prices and fake money." },
-                    { icon: "ai", text: "for AI reviews, install the free Ollama app (local, no subscription) — or add a cloud key. without AI you can use rules-only mode." },
-                    { icon: "shield", text: "defaults: $20 max per trade, 2 positions at once, $2 daily loss limit, no margin, no shorting, no options, no crypto." },
-                    { icon: "lock", text: "real-money trading is off until you explicitly authorize it after reviewing paper results. profits are never guaranteed." }
-                ]
-                delegate: RowLayout {
-                    Layout.fillWidth: true
-                    spacing: 12
-                    Rectangle {
-                        width: 32; height: 32; radius: 10; color: Theme.surface2
-                        Layout.alignment: Qt.AlignTop
-                        Icon { anchors.centerIn: parent; name: modelData.icon; size: 16; color: Theme.lime }
-                    }
-                    Txt { text: modelData.text; wrapMode: Text.WordWrap; elide: Text.ElideNone; color: Theme.textDim; font.pixelSize: 13; Layout.fillWidth: true }
-                }
-            }
-            RowLayout {
-                Layout.fillWidth: true
-                Layout.topMargin: 8
-                Item { Layout.fillWidth: true }
-                DkButton { text: "take me to settings"; kind: "secondary"; onClicked: { app.markFirstRunDone(); welcome.close(); root.page = 5 } }
-                DkButton { text: "let’s go"; kind: "primary"; iconName: "arrowRight"; onClicked: { app.markFirstRunDone(); welcome.close() } }
-            }
-        }
-    }
+    // ---- guided first-run setup (also reachable from settings)
+    SetupWizard { id: welcome }
+    Connections { target: app; function onSetupRequested() { root.show(); welcome.open() } }
     Timer { interval: 600; running: cfg.first_run_done === false; onTriggered: welcome.open() }
 }

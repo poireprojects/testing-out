@@ -90,6 +90,8 @@ class AppController(QObject):
     aiTestFinished = Signal(bool, str)
     connectionTestFinished = Signal(str, bool, str)
     anthropicKeyFinished = Signal(bool, str)
+    setupChanged = Signal()
+    setupRequested = Signal()
 
     def __init__(self, settings: AppSettings, notifier: Optional[Callable[[str, str, str], None]] = None,
                  start_engine: bool = True):
@@ -98,6 +100,9 @@ class AppController(QObject):
         self._notifier = notifier
         self.runtime: Optional[Runtime] = None
         self._state: dict = {"booting": True}
+        self._setup: dict = {"busy": False, "progress": 0.0, "message": "", "error": "", "checked": False,
+                             "installed": False, "running": False, "hasModel": False, "models": [],
+                             "canAutoInstall": False, "model": "", "modelNote": "", "done": False}
         self._seq = 0
         self._last_snap_at: Optional[str] = None
         self._performance: dict = {}
@@ -697,6 +702,96 @@ class AppController(QObject):
         self.stop_runtime()
         save_settings(self._settings)
         QApplication.quit()
+
+    # ================================================================ guided setup
+    def _g_setup(self): return dict(self._setup)
+    setupState = Property("QVariantMap", _g_setup, notify=setupChanged)
+
+    def _setup_update(self, **kw) -> None:
+        """Thread-safe: background work queues the change for the UI thread."""
+        with self._pending_lock:
+            self._pending_ui.append(lambda: (self._setup.update(kw), self.setupChanged.emit()))
+
+    @Slot()
+    def openSetup(self) -> None:
+        self.setupRequested.emit()
+
+    @Slot(str)
+    def openUrl(self, url: str) -> None:
+        from PySide6.QtCore import QUrl
+        from PySide6.QtGui import QDesktopServices
+        QDesktopServices.openUrl(QUrl(url))
+
+    @Slot()
+    def checkSetup(self) -> None:
+        from .. import setup_assistant as sa
+        url = self._settings.ai.ollama_url
+
+        def work():
+            st = sa.status(url)
+            model, note = sa.recommended_model()
+            return st, model, note
+
+        def done(res):
+            if isinstance(res, Exception):
+                self._setup.update(error=str(res))
+            else:
+                st, model, note = res
+                self._setup.update(checked=True, installed=st.installed, running=st.running, models=st.models,
+                                   hasModel=st.has(model) or st.has(self._settings.ai.ollama_model),
+                                   canAutoInstall=st.can_auto_install, model=model, modelNote=note)
+            self.setupChanged.emit()
+        self._run_bg(work, done)
+
+    @Slot()
+    def setupLocalAI(self) -> None:
+        """One click: install Ollama if needed, start it, download the recommended model, switch the app to it."""
+        if self._setup.get("busy"):
+            return
+        from .. import setup_assistant as sa
+        url = self._settings.ai.ollama_url
+        self._setup.update(busy=True, error="", progress=0.0, message="checking this computer…")
+        self.setupChanged.emit()
+
+        def prog(f: float, msg: str) -> None:
+            self._setup_update(progress=f, message=msg)
+
+        def work():
+            st = sa.status(url)
+            model = sa.recommended_model()[0]
+            if st.has(self._settings.ai.ollama_model):
+                model = self._settings.ai.ollama_model
+            if not st.installed:
+                msg = sa.install(prog)
+                prog(-1.0, msg)
+                if not sa.wait_until_running(url, seconds=600):
+                    return False, "Ollama isn't running yet. finish its installer, then click “set up for me” again."
+            elif not st.running:
+                prog(-1.0, "starting Ollama…")
+                sa.start()
+                if not sa.wait_until_running(url, seconds=45):
+                    return False, "couldn't start Ollama. open the Ollama app once, then try again."
+            if not sa.status(url).has(model):
+                sa.pull_model(url, model, prog)
+            return True, model
+
+        def done(res):
+            if isinstance(res, Exception):
+                self._setup.update(busy=False, error=f"{res}")
+            elif not res[0]:
+                self._setup.update(busy=False, error=res[1])
+            else:
+                model = res[1]
+                self.setSetting("ai.provider", "ollama")
+                self.setSetting("ai.ollama_model", model)
+                self.setSetting("ai.decision_mode", "ai_confirm")
+                self._setup.update(busy=False, progress=1.0, done=True, installed=True, running=True, hasModel=True,
+                                   message=f"local AI is ready ({model}). it costs nothing to run.")
+                if self.engine:
+                    self.engine.command("check_ai")
+            self.setupChanged.emit()
+            self.refreshOllamaModels()
+        self._run_bg(work, done)
 
     @Slot()
     def markFirstRunDone(self) -> None:
