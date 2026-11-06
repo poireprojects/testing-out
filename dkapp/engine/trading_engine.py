@@ -43,7 +43,9 @@ from ..risk.settlement import SettlementLedger
 from ..risk.sizing import scaled_limits
 from ..scanner import Scanner, load_baselines
 from ..analysis.features import Baseline, latest_features
+from .. import __version__ as APP_VERSION
 from ..quant.gate import NO_EDGE_TEXT, QuantGate
+from ..research.forward import Bars, ForwardLedger
 from ..quant.registry import ModelRegistry
 from ..storage.db import Database, from_iso, to_iso, utcnow_iso
 from ..broker.explain import explain_rejection, with_raw
@@ -82,6 +84,7 @@ class Timers:
     ai_health: float = 0.0
     persist: float = 0.0
     stray_sweep: float = 0.0
+    forward_outcomes: float = 0.0
 
 
 @dataclass
@@ -134,6 +137,14 @@ class TradingEngine:
         self.latency: deque = deque(maxlen=200)   # {"signalToOrderS", "aiSeconds"} per entry
         self.last_comparison: Optional[tuple] = None
         self._overnight_warned: Optional[date] = None
+        try:
+            self.forward: Optional[ForwardLedger] = ForwardLedger(db)
+        except Exception:
+            log.exception("forward research ledger unavailable")
+            self.forward = None
+        self._fwd_seen: dict[tuple, datetime] = {}
+        self._gap_scan_day: Optional[date] = None
+        self._fwd_summary: tuple = (None, None)
 
         self.universe: list[str] = list(universe or [])
         self.assets: dict[str, AssetInfo] = {}
@@ -388,6 +399,127 @@ class TradingEngine:
     def stop_refused_today(self, now: datetime) -> list[str]:
         return sorted(self._stop_refusals.get(now.astimezone(ET).date().isoformat(), set()))
 
+    # ================================================================ forward research ledger
+    def _record_forward(self, d: Decision, now: datetime, sess: SessionState) -> None:
+        """Every ranked candidate — taken or not — with everything known now (research/forward.py)."""
+        if self.forward is None or not self.settings.quant.forward_ledger or sess.session is None or self.data.is_demo:
+            return
+        card = self.quant.card
+        for c in d.candidates:
+            s = c.signal
+            key = (s.symbol, s.strategy)
+            last = self._fwd_seen.get(key)
+            if last and now - last < timedelta(minutes=self.settings.ai.recheck_cooldown_minutes):
+                continue
+            self._fwd_seen[key] = now
+            row = self.scanner.rows.get(s.symbol)
+            spread = row.spread_bps if row and math.isfinite(row.spread_bps) else 3.0
+            try:
+                self.forward.record(time=now, session_date=sess.session.day, symbol=s.symbol, hypothesis=s.strategy,
+                                    decision="taken" if c.take else "rejected", payload={
+                    "reason": "picked by the ranker" if c.take else "; ".join(c.blockers[:3]),
+                    "decisionMode": self.decision_mode, "mode": self.mode, "appVersion": APP_VERSION,
+                    "market": d.regime.to_dict(), "features": s.features, "signalPrice": s.price, "score": c.score,
+                    "plan": {"kind": "marketable", "stopPrice": s.stop_price, "targetPrice": s.target_price,
+                             "maxHoldMin": s.max_hold_minutes, "spreadBps": max(spread, 1.0)},
+                    "predicted": c.quant, "estCostPct": c.cost_pct,
+                    "model": {"id": card.id, "fingerprint": card.fingerprint, "stage": card.stage} if card else None})
+            except Exception:
+                log.exception("forward ledger: could not record %s", s.symbol)
+            self._fwd_summary = (None, None)   # summary is stale now
+
+    def _record_gap_candidates(self, now: datetime, sess: SessionState) -> None:
+        """Phase-2 H2 (stocks in play), observed only: gap ≥ +3% at the open, rvol ≥ 2 and green at 9:35.
+        Records the opening range so both the breakout plan and a 9:35 entry can be scored after the close."""
+        if (self.forward is None or not self.settings.quant.forward_ledger or self.data.is_demo
+                or sess.session is None or self._gap_scan_day == sess.session.day):
+            return
+        minute = (now - sess.session.open).total_seconds() / 60
+        if minute < 5.5 or minute > 15:
+            return
+        self._gap_scan_day = sess.session.day
+        base = self.scanner.baselines
+        dv = sorted(b.avg_daily_volume * b.prev_close for b in base.values() if b.prev_close > 0) or [0.0]
+        med = dv[len(dv) // 2]
+        picks = []
+        for r in self.scanner.rows.values():
+            b = base.get(r.symbol)
+            if b is None or b.prev_close < 5 or r.price <= 0:
+                continue
+            opened = r.price / (1 + r.change_open_pct / 100) if r.change_open_pct > -100 else 0.0
+            gap = opened / b.prev_close - 1 if opened > 0 else 0.0
+            if gap >= 0.03 and r.rvol >= 2.0 and r.price > opened and b.avg_daily_volume * b.prev_close >= med:
+                picks.append((r.rvol, r.symbol, gap))
+        if not picks:
+            return
+        picks.sort(reverse=True)
+        try:
+            got = self.data.get_intraday_bars([s for _, s, _ in picks], sess.session.open, now)
+        except DataUnavailable:
+            return
+        for rank, (rv, sym, gap) in enumerate(picks, 1):
+            df = got.get(sym)
+            if df is None or df.empty:
+                continue
+            first5 = df[df.index < sess.session.open + timedelta(minutes=5)]
+            if len(first5) < 3:
+                continue
+            orh, orl = float(first5["high"].max()), float(first5["low"].min())
+            if orh <= 0 or (orh - orl) / orh > 0.04:
+                continue
+            common = {"reason": "top 2 by relative volume" if rank <= 2 else f"rank {rank} (only 2 slots)",
+                      "mode": self.mode, "appVersion": APP_VERSION, "features": {"gapPct": gap * 100, "rvol5": rv,
+                      "orRangePct": (orh - orl) / orh * 100, "rank": rank}, "observedOnly": True,
+                      "preregistration": "research/PREREGISTRATION-2026-11-07-phase2.md"}
+            dec = "would-take" if rank <= 2 else "would-pass"
+            try:
+                self.forward.record(time=sess.session.open + timedelta(minutes=5), session_date=sess.session.day,
+                                    symbol=sym, hypothesis="P2-H2 gap stocks in play (ORB)", decision=dec, payload=common | {
+                    "plan": {"kind": "orb", "triggerPrice": orh, "stopPrice": orl, "deadlineMin": 90, "spreadBps": 10.0}})
+                self.forward.record(time=sess.session.open + timedelta(minutes=5), session_date=sess.session.day,
+                                    symbol=sym, hypothesis="P2-H2b gap stocks in play (9:35)", decision=dec, payload=common | {
+                    "plan": {"kind": "marketable", "stopPrice": orl, "spreadBps": 10.0}})
+            except Exception:
+                log.exception("forward ledger: gap candidate %s", sym)
+            self._fwd_summary = (None, None)
+
+    def _forward_outcomes(self, now: datetime, include_today: bool = False) -> None:
+        """Score observations from finished sessions with the bars that came after each decision."""
+        if self.forward is None or self.data.is_demo:
+            return
+        today = now.astimezone(ET).date()
+        days = self.forward.days_needing_outcomes(today + timedelta(days=1) if include_today else today)
+        for day in days[-10:]:
+            sess = self.calendar.session(day)
+            if sess is None or (day == today and now < sess.close):
+                continue
+            syms = sorted({r["symbol"] for r in self.forward.observations_without_outcomes(day)})
+            if not syms:
+                continue
+            try:
+                got = self.data.get_intraday_bars(syms, sess.open, sess.close)
+            except DataUnavailable as exc:
+                log.info("forward outcomes for %s postponed: %s", day, exc)
+                return
+            bars = {s: Bars.from_df(df, sess.open) for s, df in got.items() if df is not None and not df.empty}
+            n = self.forward.compute_outcomes(day, bars, sess.open, self.costs, now)
+            self._fwd_summary = (None, None)
+            log.info("forward ledger: scored %d observations from %s", n, day)
+
+    def _forward_status(self) -> dict:
+        if self.forward is None:
+            return {"available": False}
+        at, cached = self._fwd_summary
+        mono = self._mono()
+        if cached is None or at is None or mono - at > 120:
+            try:
+                cached = self.forward.summary()
+            except Exception:
+                log.exception("forward summary failed")
+                cached = {"groups": [], "chainIntact": None}
+            self._fwd_summary = (mono, cached)
+        return {"available": True, **cached}
+
     def _warn_overnight(self, now: datetime) -> None:
         """Fractional-share stops are DAY orders: once the market closes, nothing at the broker protects a
         position left open. Say so plainly (once a day) — the app can't prevent overnight gaps."""
@@ -425,6 +557,8 @@ class TradingEngine:
 
         if not sess.is_open:
             self._warn_overnight(now)
+            if self._due("forward_outcomes", 1800.0):
+                self._forward_outcomes(now)
         if sess.is_open and sess.session is not None:
             if self._session_day != sess.session.day:
                 self._on_new_session(now, sess)
@@ -847,6 +981,7 @@ class TradingEngine:
     def _on_session_end(self, now: datetime, sess: SessionState) -> None:
         day = sess.session.day
         self._summarized_day = day
+        self._forward_outcomes(now, include_today=True)
         self.shadow.update({}, now, force_close=True)
         # the per-cycle decision journal is detailed; keep 30 days of it (trades, AI decisions and
         # shadow results — what the reports are built from — are kept forever)
@@ -914,6 +1049,7 @@ class TradingEngine:
         self.health["data"].good(f"{len(rows)} symbols scanned · {len(fresh)} with fresh prices", now)
         self._last_full_scan_at = now
         self.shadow.update({r.symbol: r.price for r in rows}, now)
+        self._record_gap_candidates(now, sess)
 
     def _hot_scan_and_signals(self, now: datetime, sess: SessionState) -> None:
         if not self.scanner.hotlist:
@@ -932,6 +1068,7 @@ class TradingEngine:
         min_score = self.settings.strategies.min_signal_score
         sigs = [s for s in sigs if s.score >= min_score][:12]
         decision = self._rank(sigs, now, frames, sess)
+        self._record_forward(decision, now, sess)
         self.last_decision = decision
         if decision.candidates:  # keep the last real comparison on screen (with its time) between scans
             self.last_comparison = (decision, now)
@@ -1706,6 +1843,7 @@ class TradingEngine:
                    "busy": self.ai.busy, "isPaid": bool(getattr(self.ai.provider, "is_paid", False))},
             "regime": self.regime.to_dict(),
             "quant": self._quant_status(),
+            "forward": self._forward_status(),
             "latency": self._latency_status(),
             "alerts": self._alerts(now),
             "lastDecision": self.last_decision.to_dict() if self.last_decision else None,

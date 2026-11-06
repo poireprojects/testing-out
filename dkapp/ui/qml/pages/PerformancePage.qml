@@ -30,6 +30,59 @@ DkScroll {
             }
         }
 
+        // ---------------- forward evidence: only market data that arrived after the research (never mixed with history)
+        Card {
+            id: fwdCard
+            Layout.fillWidth: true
+            readonly property var f: (app.state && app.state.forward) ? app.state.forward : ({})
+            title: "forward evidence — new market data only"
+            icon: "eye"
+            subtitle: "every setup the app sees, taken or not, is recorded when it's seen and scored after the close against what "
+                      + "actually happened (hypothetical fills, costs included). records can't be edited: each one is chained to the last."
+            headerRight: [ Pill { text: fwdCard.f.chainIntact === false ? "record altered!" : "forward · shadow"; kind: fwdCard.f.chainIntact === false ? "sell" : "info" } ]
+            Txt {
+                visible: !(fwdCard.f.groups && fwdCard.f.groups.length > 0)
+                Layout.fillWidth: true; wrapMode: Text.WordWrap
+                text: page.demo ? "not collected in demo mode — it needs real market prices (paper or live)."
+                                : "nothing yet. it starts on the next market day the app runs with real prices."
+                color: Theme.textMuted; font.pixelSize: 13
+            }
+            ColumnLayout {
+                visible: fwdCard.f.groups !== undefined && fwdCard.f.groups.length > 0
+                Layout.fillWidth: true
+                spacing: 0
+                Txt {
+                    text: (fwdCard.f.observations || 0) + " observations · " + (fwdCard.f.from || "") + " → " + (fwdCard.f.to || "")
+                          + " · per trade = % of the $20 position, after costs, under each setup's own plan"
+                    color: Theme.textDim; font.pixelSize: 12; Layout.bottomMargin: 6; Layout.fillWidth: true; wrapMode: Text.WordWrap
+                }
+                RowLayout {
+                    Layout.fillWidth: true; spacing: 8
+                    SectionLabel { text: "setup type"; font.pixelSize: 10; Layout.fillWidth: true }
+                    SectionLabel { text: "decision"; font.pixelSize: 10; Layout.preferredWidth: 90 }
+                    SectionLabel { text: "scored"; font.pixelSize: 10; Layout.preferredWidth: 60; horizontalAlignment: Text.AlignRight }
+                    SectionLabel { text: "per trade"; font.pixelSize: 10; Layout.preferredWidth: 80; horizontalAlignment: Text.AlignRight }
+                    SectionLabel { text: "90% range"; font.pixelSize: 10; Layout.preferredWidth: 140; horizontalAlignment: Text.AlignRight }
+                }
+                Repeater {
+                    model: fwdCard.f.groups || []
+                    delegate: RowLayout {
+                        Layout.fillWidth: true; spacing: 8
+                        Layout.preferredHeight: 28
+                        Txt { text: modelData.hypothesis; font.pixelSize: 13; Layout.fillWidth: true; elide: Text.ElideRight }
+                        Txt { text: modelData.decision; font.pixelSize: 12; color: Theme.textDim; Layout.preferredWidth: 90 }
+                        Txt { text: modelData.withOutcome + "/" + modelData.observations; font.pixelSize: 12; color: Theme.textDim
+                              Layout.preferredWidth: 60; horizontalAlignment: Text.AlignRight }
+                        Txt { text: modelData.netPct === null ? "—" : Theme.signedPct(modelData.netPct, 3); font.pixelSize: 13
+                              color: modelData.netPct === null ? Theme.textMuted : modelData.netPct > 0 ? Theme.lime : Theme.coral
+                              Layout.preferredWidth: 80; horizontalAlignment: Text.AlignRight }
+                        Txt { text: modelData.ci90 ? Theme.signedPct(modelData.ci90[0], 2) + " … " + Theme.signedPct(modelData.ci90[1], 2) : "—"
+                              font.pixelSize: 12; color: Theme.textMuted; Layout.preferredWidth: 140; horizontalAlignment: Text.AlignRight }
+                    }
+                }
+            }
+        }
+
         // ---------------- research evidence (historical, clearly separated from this account's own results)
         Card {
             id: evidence

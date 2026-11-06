@@ -118,6 +118,8 @@ def cmd_gapdays(out: Path, start: date, end: date, cache_dir: Path) -> None:
         if not need or sess is None:
             continue
         df = bars(c, need, sess.open, sess.close, minute=True)
+        if df is None or df.empty or not isinstance(df.index, pd.MultiIndex):
+            continue  # none of these symbols traded on IEX that day: left missing, never filled in
         for s in need:
             try:
                 d = df.xs(s, level=0)[["open", "high", "low", "close", "volume", "vwap"]].astype(float)

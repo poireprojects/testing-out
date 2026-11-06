@@ -94,6 +94,7 @@ class QuantSettings(BaseModel):
     """The statistical model (dkapp/quant). It records a prediction for every candidate (shadow). It can
     only ever BLOCK paper entries, and only when its model card passed the pre-registered checks."""
     shadow: bool = True
+    forward_ledger: bool = True      # record every candidate + its later outcome (research/forward.py)
     gate_paper_entries: bool = False
     min_expected_net_pct: float = Field(0.0, ge=-1, le=5)
     min_win_probability: float = Field(0.5, ge=0, le=1)
