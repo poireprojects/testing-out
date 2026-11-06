@@ -64,7 +64,10 @@ Install Python 3.12 from python.org, then double-click:
   — **Yes** (the default) keeps them so a reinstall picks up where you left off; **No** deletes all of it, including
   the keys saved in Windows Credential Manager, for a completely fresh install. Nothing is deleted without that
   answer. If the app is holding **real-money** positions, the uninstall (and any update) refuses to run until you
-  close them in the app, so live trades are never abandoned mid-way.
+  close them in the app, so live trades are never abandoned mid-way. Any safety check that can't run or fails
+  (including a broken program folder) also stops the uninstall/update before anything is removed, and a copy that
+  won't close is only force-closed after a fresh check shows no real-money positions and you agree — never during a
+  silent install.
 
 ## 2. First launch: demo mode
 
@@ -126,8 +129,9 @@ Stop orders and loss limits **reduce** risk but cannot guarantee a maximum loss:
 * **Reinvest** (default): limits follow your account. At $105 the max position becomes $21; at $95 it becomes $19.
 * **Fixed allocation**: the app trades with a set amount and leaves profits alone.
 
-Sizes use **settled cash** and actual buying power, not the displayed portfolio value, and they only ever shrink
-after losses. Risk is never increased to win money back.
+Sizes use the **cash actually in the account** (capped by Alpaca's own buying-power figure), not the displayed
+portfolio value, and they only ever shrink after losses. The app never borrows, even on accounts where Alpaca offers
+2×–4× buying power. Risk is never increased to win money back.
 
 ### Is the AI actually helping?
 
@@ -145,12 +149,16 @@ backtested honestly, so this comparison is made going forward.
 * **The $25,000 pattern-day-trader rule is gone.** FINRA's Rule 4210 amendments took effect **June 4, 2026**, and
   Alpaca moved to an intraday-margin framework that day. A legacy guard is still in settings (off by default) in case
   a broker keeps enforcing day-trade counts.
-* **A $100 account has no margin** (margin needs $2,000+). Sale proceeds settle **T+1**. To avoid good-faith
-  violations entirely, the app spends **only settled cash** by default. Example: with $100 settled and $20 positions,
-  about five round trips per day are possible before the morning's sale proceeds are tied up until tomorrow.
-* **Fractional shares**: market, limit, stop and stop-limit orders, all **DAY only**. Bracket orders with fractional
-  quantities aren't clearly supported, so the app places a separate stop order. If Alpaca rejects it, the app watches
-  the stop itself, labels the position **app-watched stop** and warns you that it's unprotected while the app is off.
+* **Every Alpaca account is a margin account.** Under $2,000 of equity it's a *limited margin* account: 1× buying
+  power (= cash), no borrowing, no shorting, but proceeds from a sale can buy again the **same day** — Alpaca covers
+  the T+1 settlement float, so there are no good-faith violations. The app follows that by default (settings →
+  *using money from today's sales* → **follow alpaca**) and is still capped by the cash in the account. **Settled
+  only** remains available; it limits a $100 account to about five $20 round trips a day. (Sources: Alpaca docs
+  "Account plans", "Margin and short selling", support "Can I have a cash account with Alpaca?".)
+* **Fractional shares**: market, limit, stop and stop-limit orders, all **DAY only** (Alpaca docs, "Fractional
+  trading"; verified against a real paper account). The app places a separate stop order after each buy. A stop only
+  counts as protection once Alpaca has acknowledged it and it can still execute — an order that was sent without an
+  answer, is being canceled, or was rejected, canceled or expired doesn't count.
 * **Free market data is IEX-only.** Real-time prices come from one exchange (IEX, roughly 2–3% of U.S. volume), and
   full-market SIP data is 15 minutes delayed on the free plan. IEX prices track liquid stocks closely, but volumes are
   a small slice of the market and quotes are IEX's, not the national best bid/offer. The scanner says so, and volume is
@@ -168,7 +176,7 @@ backtested honestly, so this comparison is made going forward.
 | **Loses internet** | No new entries. Retries automatically. Broker-side stops still protect positions. On reconnect it reconciles every order and position. |
 | **Alpaca is down** | Same as no internet. Unconfirmed orders are looked up by their unique ID before anything is retried, so duplicates aren't created. |
 | **App crashes / restarts** | Orders are saved *before* they're sent, and everything is reconciled on startup. Tested: no duplicate orders or stops. |
-| **Broker refuses a stop order** | The app watches the stop itself, shows a banner that the position isn't protected at the broker, and retries the broker stop every 2 minutes. In **live** mode no new real-money trade is opened while any position is unprotected. |
+| **Broker refuses a stop order, or never confirms it** (timeout, lost reply) | The app watches the stop price itself, shows a banner that the position isn't protected at the broker, looks the order up by its unique id (it is never written off until Alpaca confirms it doesn't exist, so no second sell order is stacked on top), and retries. In **live** mode no new real-money trade is opened while any position is unprotected, the position is **sold if no stop is confirmed within 10 minutes**, and two refusals in a day pause live entries until tomorrow. Leftover orders of the app that Alpaca still holds after a trade ended are canceled. |
 | **Something goes wrong** | Settings → about & diagnostics → **save diagnostics file** puts a .zip with logs and a status summary on your desktop (never your API keys). Rejected orders are explained in plain English. |
 
 Launch-at-login is in **settings → app behavior** (or choose it in the Windows installer).
