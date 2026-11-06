@@ -72,7 +72,7 @@ Popup {
             // ---------------------------------------------------------- 0 hello
             ColumnLayout {
                 spacing: 14
-                Txt { text: "hi. i’m dk — a careful little trading robot."; font.family: Theme.display; font.pixelSize: 24; font.weight: Font.Medium; wrapMode: Text.WordWrap; Layout.fillWidth: true }
+                Txt { text: "hi — welcome to don’t know what im doing."; font.family: Theme.display; font.pixelSize: 24; font.weight: Font.Medium; wrapMode: Text.WordWrap; Layout.fillWidth: true }
                 Txt {
                     text: "two quick steps and you’re set: give me an AI to think with, and (optionally) a free practice brokerage account. you can skip either and do it later."
                     color: Theme.textDim; font.pixelSize: 14; wrapMode: Text.WordWrap; elide: Text.ElideNone; Layout.fillWidth: true; lineHeight: 1.3
