@@ -1,0 +1,115 @@
+{
+ "platform": "win32",
+ "dpr": 1.0,
+ "checks": [
+  {
+   "name": "max button -> Snap Layouts target",
+   "ok": true,
+   "detail": "got max, want max",
+   "required": true
+  },
+  {
+   "name": "empty title bar -> drag/double-click",
+   "ok": true,
+   "detail": "got caption, want caption",
+   "required": true
+  },
+  {
+   "name": "left edge -> resize",
+   "ok": true,
+   "detail": "got left, want left",
+   "required": true
+  },
+  {
+   "name": "right edge -> resize",
+   "ok": true,
+   "detail": "got right, want right",
+   "required": true
+  },
+  {
+   "name": "bottom edge -> resize",
+   "ok": true,
+   "detail": "got bottom, want bottom",
+   "required": true
+  },
+  {
+   "name": "bottom-right corner",
+   "ok": true,
+   "detail": "got bottom-right, want bottom-right",
+   "required": true
+  },
+  {
+   "name": "top-left corner",
+   "ok": true,
+   "detail": "got top-left, want top-left",
+   "required": true
+  },
+  {
+   "name": "page content -> client",
+   "ok": true,
+   "detail": "got client, want client",
+   "required": true
+  },
+  {
+   "name": "title-bar control at 1142,0 -> client",
+   "ok": true,
+   "detail": "got client, want client",
+   "required": true
+  },
+  {
+   "name": "title-bar control at 1234,0 -> client",
+   "ok": true,
+   "detail": "got client, want client",
+   "required": true
+  },
+  {
+   "name": "maximize from our button",
+   "ok": true,
+   "detail": "visibility=Visibility.Maximized",
+   "required": true
+  },
+  {
+   "name": "maximized client area == monitor work area (no overflow, taskbar visible)",
+   "ok": true,
+   "detail": "client (0, 0, 1920, 1032) vs work area (0, 0, 1920, 1032)",
+   "required": true
+  },
+  {
+   "name": "maximized: no resize border at the top edge",
+   "ok": true,
+   "detail": "caption",
+   "required": true
+  },
+  {
+   "name": "restore from maximized",
+   "ok": true,
+   "detail": "",
+   "required": true
+  },
+  {
+   "name": "minimize from our button",
+   "ok": true,
+   "detail": "visibility=Visibility.Minimized",
+   "required": true
+  },
+  {
+   "name": "Win+Up keyboard snap maximizes (synthetic input; informational)",
+   "ok": true,
+   "detail": "visibility=Visibility.Maximized",
+   "required": false
+  }
+ ],
+ "native": true,
+ "screen": {
+  "dpr": 1.0,
+  "logicalSize": [
+   1920,
+   1080
+  ]
+ },
+ "ok": true,
+ "shots": [
+  "normal-desktop.png",
+  "maximized-desktop.png"
+ ]
+}

@@ -295,7 +295,7 @@ DkScroll {
                 subtitle: "checked on every trade. the AI can't override them."
                 Repeater {
                     model: [
-                        { k: "max per trade", v: Theme.money(page.lim.maxPosition || 0) + (page.lim.compounding === "reinvest" ? " · grows with its own profits" : " · fixed") },
+                        { k: "max per trade", v: Theme.money(page.lim.maxPosition || 0) + (page.lim.compounding === "reinvest" ? " · grows with profits" : " · fixed") },
                         { k: "positions at once", v: String(page.lim.maxPositions || 0) },
                         { k: "daily loss limit", v: Theme.money(page.lim.dailyLossLimit || 0) },
                         { k: "risk per trade", v: Theme.money(page.lim.riskPerTrade || 0) + " if the stop hits" },
@@ -305,9 +305,9 @@ DkScroll {
                         Layout.fillWidth: true
                         spacing: 10
                         Icon { name: "check"; size: 14; color: Theme.lime; stroke: 2.2 }
-                        Txt { text: modelData.k; color: Theme.textDim; font.pixelSize: 13; Layout.fillWidth: true; Layout.minimumWidth: 96 }
+                        Txt { text: modelData.k; color: Theme.textDim; font.pixelSize: 13; Layout.fillWidth: true; Layout.minimumWidth: 80 }
                         Txt { text: modelData.v; font.pixelSize: 13; horizontalAlignment: Text.AlignRight; wrapMode: Text.WordWrap; elide: Text.ElideNone
-                              Layout.maximumWidth: 190 }
+                              Layout.maximumWidth: 130 }
                     }
                 }
                 DkButton { compact: true; kind: "ghost"; text: "change safety rules →"; onClicked: page.navigate(5) }

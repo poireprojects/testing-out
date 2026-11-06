@@ -169,16 +169,22 @@ The window keeps Windows' native window behaviour but draws its own title bar.
 * **On other platforms:** Linux uses Qt's system move and resize. macOS keeps its native frame.
 * **Screenshots:** `screenshots/`. They are taken from the real running app at 1366×768 (100%), 1536×864 (125%) and 1280×720 (150%), plus a live paper session with real market data. Windows CI screenshots are uploaded as the `windows-ui-screenshots` artifact.
 
-**Verified automatically on Windows CI** at 100/125/150% via `--chrome-selftest`:
-* every hit-test region: maximize → Snap target, caption, all edges and corners, title-bar buttons, page content
-* the maximized client area equals the monitor work area (no overflow, taskbar visible)
+**Verified on a real Windows desktop (CI build 30, commit `89f58f5`), at 100%, 125% and 150% scaling, with native hit-testing active.** Log: `windows-frame-selftest-ci-run30.log`; screenshots: `screenshots/win-*-real-desktop.png`. Every check passed at every scale:
+* maximize button → `HTMAXBUTTON`, the Snap Layouts requirement
+* empty title bar → caption (drag, double-click maximize, drag-to-snap)
+* left, right and bottom edges and the corners → resize
+* minimize and close buttons, and page content → normal clicks
+* maximize from our button: client area exactly equals the monitor work area, 1920×1032, so nothing overflows and the taskbar stays visible
+* no resize border at the top while maximized
 * restore and minimize from our buttons
-* a synthetic Win+Up (informational only)
+* a synthetic Win+Up keyboard snap maximized the window
+* the strict install/uninstall test ran the real app with the new frame through every scenario and passed
 
-**Not verified:**
-* the Snap Layouts flyout as a person sees it (it needs a real mouse on Windows 11)
+**Not verified by a person:**
+* the Snap Layouts flyout itself (it appears only for a real mouse hover on Windows 11; the CI machine runs Windows Server)
+* Windows 11 rounded corners (the server desktop draws square ones)
 * dragging between monitors with different scaling
-* the high-DPI look on a physical screen
+* touch input
 
 ## G. Execution safety
 
@@ -190,9 +196,15 @@ Remaining operational risks:
 
 ## H. Tests and release
 
-* Local: **273 passed**, 0 failed. 8 paper-integration tests are skipped in the normal run and were **run separately on the real paper account: 8 passed**.
-* Reproductions: the build 20 backtest and its AI-mode comparison reproduce exactly (`scripts/reproduce_baseline.py`).
-* CI and release: see the final message (filled in after GitHub confirms them).
+* **Local:** **273 passed**, 0 failed. The 8 paper-account tests are skipped in the normal run and were **run separately on the real paper account: 8 passed**.
+* **Reproductions:** the build 20 backtest and its AI-mode comparison reproduce exactly (`scripts/reproduce_baseline.py`).
+* **CI build 30** (`89f58f5`) passed every job required for a release:
+  * `test`
+  * `windows`: build, package self-test, the frame self-test at 3 scales, installer
+  * `windows-uninstall-test`
+  * `latest` published release **build-30** with `dontknowwhatimdoing-windows-setup.exe` (sha256 `225b4370…022f`).
+* **Not running:** `macos` is still stuck in GitHub's queue, so there is no .dmg. `uninstall-repro-previous` (reproducing an old build's failure, evidence only) hits its 12-minute cap.
+* **Later commits** (a small layout fix and this report) build as build 31 and later. Check the GitHub release page for the newest tested installer: a release is published only when the same required jobs pass.
 
 ## Limitations
 
