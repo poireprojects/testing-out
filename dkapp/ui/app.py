@@ -257,6 +257,9 @@ def main(argv: list[str] | None = None) -> int:
                 return
             c.write(b"ok:%d" % os.getpid())  # the uninstaller waits for this process to fully exit
             c.flush()
+            if os.environ.get("DK_TEST_IGNORE_QUIT") == "1":
+                log.warning("test hook: ignoring the quit request (simulates a hung app)")
+                return
             c.waitForBytesWritten(1000)
             log.info("quit requested by installer/uninstaller")
             controller.quitApp(False)

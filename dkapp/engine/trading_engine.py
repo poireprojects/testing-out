@@ -35,7 +35,7 @@ from ..clock import ET, Clock, MarketCalendar, SessionState, session_state
 from ..config import AppSettings, live_authorization_status
 from ..data.base import DataUnavailable, MarketData
 from ..data.universe import CONTEXT_SYMBOLS, build_universe
-from ..execution.order_manager import FillDelta, OrderManager, TERMINAL
+from ..execution.order_manager import FillDelta, OrderManager, TERMINAL, is_working
 from ..models import AccountInfo, AssetInfo, BrokerPosition, Quote, Signal
 from ..risk.engine import EntryProposal, OpenRisk, RiskContext, RiskEngine, floor_qty, round_price
 from ..risk.fees import CostModel
@@ -79,6 +79,7 @@ class Timers:
     equity: float = 0.0
     ai_health: float = 0.0
     persist: float = 0.0
+    stray_sweep: float = 0.0
 
 
 @dataclass
@@ -141,6 +142,8 @@ class TradingEngine:
         self._daily_limit_day: Optional[date] = None
         self._software_stop_warned: set[int] = set()
         self._stop_retry_at: dict[int, datetime] = {}
+        self._unprotected_since: dict[int, datetime] = {}
+        self._stop_refusals: dict[str, set[str]] = {}   # ET day -> symbols whose stop the broker refused
         self._wall = time.time            # real elapsed time keeps counting while the laptop sleeps
         self._last_step_end: Optional[float] = None
         self.resumed_at: Optional[datetime] = None
@@ -342,10 +345,29 @@ class TradingEngine:
             return "just woke up from a pause — re-checking everything before new trades"
         return ""
 
+    def stop_coverage(self, t: dict) -> tuple[float, list[dict], list[dict]]:
+        """(shares covered by broker-CONFIRMED working stops, those stops, stops whose state isn't confirmed)."""
+        working = self.orders.working(t["id"], "stop")
+        in_flight = self.orders.in_flight(t["id"], "stop")
+        covered = sum(max(0.0, (o["qty"] or 0.0) - (o["filled_qty"] or 0.0)) for o in working)
+        return covered, working, in_flight
+
+    def _is_unprotected(self, t: dict) -> bool:
+        if t["status"] not in ("open", "closing"):
+            return False  # pending entries have no shares yet (they time out quickly)
+        remaining = t["entry_qty"] - t["exit_qty"]
+        if remaining <= EPS:
+            return False
+        covered, _, _ = self.stop_coverage(t)
+        return bool(t["software_stop"]) or covered + 1e-6 < remaining
+
     def unprotected(self) -> list[str]:
-        """Symbols the app holds without a working broker-side stop order (only the app is watching)."""
-        return [t["symbol"] for t in self.db.open_trades() if t["software_stop"] and t["status"] in ("open", "closing")
-                and t["entry_qty"] - t["exit_qty"] > EPS]
+        """Symbols held without a broker-CONFIRMED working stop order for the whole position. An order that
+        was sent but never acknowledged, is being canceled, was rejected, canceled or expired does not count."""
+        return [t["symbol"] for t in self.db.open_trades() if self._is_unprotected(t)]
+
+    def stop_refused_today(self, now: datetime) -> list[str]:
+        return sorted(self._stop_refusals.get(now.astimezone(ET).date().isoformat(), set()))
 
     def _step(self, now: datetime) -> None:
         r = self.settings.risk
@@ -365,6 +387,8 @@ class TradingEngine:
                 self._on_new_session(now, sess)
             if self._due("quotes", 5.0):
                 self._refresh_quotes(now)
+            if self._due("stray_sweep", 60.0):
+                self._sweep_stray_orders(now)
             if self._due("full_scan", self.settings.data.full_scan_seconds):
                 self._full_scan(now, sess)
             if self._due("hot_scan", self.settings.data.hot_scan_seconds):
@@ -544,46 +568,126 @@ class TradingEngine:
             self._advance_closing(t, now)
 
     def _ensure_protection(self, t: dict, now: datetime) -> None:
+        """Make sure the whole position has a broker-confirmed stop order. Only an order the broker has
+        acknowledged and that can still execute counts (see order_manager.WORKING_STATES)."""
         if t["status"] != "open":
             return
-        if t["software_stop"]:
-            # the broker refused a stop earlier; keep trying, since the app can't protect a position
-            # while it (or the laptop) is off
-            due = self._stop_retry_at.get(t["id"])
-            if due is not None and now < due:
-                return
-            self._stop_retry_at[t["id"]] = now + timedelta(seconds=self.STOP_RETRY_SECONDS)
-            if due is None:
-                return  # first retry after a pause, not in the same tick as the refusal
         remaining = t["entry_qty"] - t["exit_qty"]
         if remaining <= EPS:
             return
-        if self.orders.active(trade_id=t["id"], purpose="stop"):
+        covered, working, in_flight = self.stop_coverage(t)
+        want_px = round_price(t["stop_price"])
+        stale = [o for o in working if (o["stop_price"] or 0) < want_px - 0.005]
+        if stale and not in_flight:
+            # the stop was raised (trailing / break-even) while the broker still holds an older, lower one
+            for o in stale:
+                try:
+                    self.orders.cancel(o)
+                    _, delta = self.orders.sync(o)
+                    if delta:
+                        self._on_fill(delta, now)
+                except BrokerError:
+                    return
+            return  # the replacement is placed once the cancel is confirmed
+        if working and covered + 1e-6 >= remaining:
+            self._mark_protected(t)
+            return
+        if in_flight:
+            # a stop was sent without an answer yet, or is being canceled: never stack a second sell order on
+            # top of it (that could sell more than we own). Until the broker confirms, the app watches the
+            # stop price itself and the position counts as unprotected.
+            if not t["software_stop"]:
+                self.db.update("trades", t["id"], software_stop=1)
             return
         if not (self.session and self.session.is_open):
             return
+        due = self._stop_retry_at.get(t["id"])
+        if due is not None and now < due:
+            return
         bp = self.broker_positions.get(t["symbol"])
-        qty = floor_qty(min(remaining, bp.qty_available if bp else remaining), 9)
+        want = remaining - covered
+        qty = floor_qty(min(want, bp.qty_available if bp else want), 9)
         if qty <= EPS:
             return
         row = self.orders.place(t["id"], "stop", dict(symbol=t["symbol"], side="sell", type="stop", qty=qty,
                                                       stop_price=round_price(t["stop_price"])))
-        if t["software_stop"]:
-            if row["status"] != "rejected":
-                self.db.update("trades", t["id"], software_stop=0)
-                self._stop_retry_at.pop(t["id"], None)
-                self.emit("success", "risk", f"{t['symbol']} is protected by a broker stop again",
-                          f"stop order at ${t['stop_price']:.2f} accepted by the brokerage", t["symbol"], ref_id=t["id"])
+        if is_working(row):
+            if covered + qty + 1e-6 >= remaining:
+                self._mark_protected(self.db.trade(t["id"]))
             return
+        self.db.update("trades", t["id"], software_stop=1)
         if row["status"] == "rejected":
             self._stop_retry_at[t["id"]] = now + timedelta(seconds=self.STOP_RETRY_SECONDS)
-            self.db.update("trades", t["id"], software_stop=1)
-            if t["id"] not in self._software_stop_warned:
-                self._software_stop_warned.add(t["id"])
-                self.emit("warning", "risk", f"{t['symbol']}: broker stop order not accepted",
-                          f"the app will watch the stop at ${t['stop_price']:.2f} itself. If the app or computer "
-                          f"stops, this position is not protected. {with_raw(row.get('reject_reason'))}"[:500],
-                          t["symbol"], notify=True, ref_id=t["id"])
+            self._stop_refusals.setdefault(now.astimezone(ET).date().isoformat(), set()).add(t["symbol"])
+            title = f"{t['symbol']}: broker stop order not accepted"
+            detail = with_raw(row.get("reject_reason"))
+        else:
+            # sent, but the broker never confirmed it (timeout / lost response / unknown state). It may or may
+            # not exist; reconciliation looks it up by its unique id. Never assumed to be protecting anything.
+            title = f"{t['symbol']}: couldn't confirm the stop-loss order"
+            detail = f"the brokerage didn't confirm it (status: {row['status']}). checking again shortly."
+        if t["id"] not in self._software_stop_warned:
+            self._software_stop_warned.add(t["id"])
+            self.emit("warning", "risk", title,
+                      f"until the broker confirms a stop, the app watches ${t['stop_price']:.2f} itself — if the app "
+                      f"or computer stops, this position is not protected. {detail}"[:500],
+                      t["symbol"], notify=True, ref_id=t["id"])
+
+    def _mark_protected(self, t: dict) -> None:
+        self._unprotected_since.pop(t["id"], None)
+        if t["software_stop"]:
+            self.db.update("trades", t["id"], software_stop=0)
+            self._stop_retry_at.pop(t["id"], None)
+            self._software_stop_warned.discard(t["id"])
+            self.emit("success", "risk", f"{t['symbol']} is protected by a broker stop again",
+                      f"the brokerage confirmed a stop order at ${t['stop_price']:.2f}", t["symbol"], ref_id=t["id"])
+
+    def _guard_unprotected(self, t: dict, now: datetime, sess: SessionState) -> bool:
+        """Real money must not sit unprotected while nobody is watching: in live mode, a position that has had
+        no broker-confirmed stop for `unprotected_live_exit_minutes` is sold. Returns True if an exit began."""
+        if not self._is_unprotected(t):
+            self._unprotected_since.pop(t["id"], None)
+            return False
+        since = self._unprotected_since.setdefault(t["id"], now)
+        limit = self.settings.risk.unprotected_live_exit_minutes
+        if self.mode != "live" or not sess.is_open or now - since < timedelta(minutes=limit):
+            return False
+        self._begin_exit(t, f"no stop-loss order could be confirmed at the brokerage for {limit:.0f} minutes — "
+                            "selling rather than holding real money unprotected")
+        return True
+
+    def _sweep_stray_orders(self, now: datetime) -> None:
+        """Find orders of ours that are live at the broker but that we lost track of (e.g. sent during an outage
+        and later written off). A stop for a position we still hold is adopted again; anything else is
+        canceled so it can't open an unintended position (a sell with no shares behind it would be a short)."""
+        try:
+            open_orders = self.broker.get_open_orders()
+        except BrokerError:
+            return
+        prefix = f"dk{self.mode[0]}-"
+        for bo in open_orders:
+            cid = bo.client_order_id or ""
+            if not cid.startswith(prefix):
+                continue  # not placed by this app: never touched
+            row = self.db.query_one("SELECT * FROM orders WHERE client_order_id=?", (cid,))
+            if row is not None and row["status"] not in TERMINAL:
+                continue  # known and tracked
+            trade = self.db.trade(row["trade_id"]) if row is not None and row.get("trade_id") else None
+            if row is not None:
+                self.db.update("orders", row["id"], broker_order_id=bo.id, status=bo.status,
+                               updated_at=to_iso(now), reject_reason=(row.get("reject_reason") or "") + " | found live at the broker")
+            if row is not None and row["purpose"] == "stop" and trade is not None and trade["status"] == "open":
+                self.emit("info", "risk", f"{bo.symbol}: found its stop order at the broker",
+                          "an earlier stop that was never confirmed turned out to be in place; using it.", bo.symbol)
+                continue
+            try:
+                self.broker.cancel_order(bo.id)
+            except BrokerError as exc:
+                log.warning("could not cancel stray order %s: %s", cid, exc)
+                continue
+            self.emit("warning", "risk", f"canceled a leftover {bo.side} order for {bo.symbol}",
+                      "it was still open at the brokerage although the app had nothing left for it to do.",
+                      bo.symbol, notify=True)
 
     def _begin_exit(self, t: dict, reason: str) -> None:
         if t["status"] == "pending_entry":
@@ -656,7 +760,10 @@ class TradingEngine:
                       t["symbol"], ref_id=t["id"])
             self.timers.reconcile = 0.0
         else:
-            _, delta = self.orders.sync(row)
+            try:
+                _, delta = self.orders.sync(row)
+            except BrokerUnavailable:
+                return  # resolved on the next tick
             if delta:
                 self._on_fill(delta, now)
 
@@ -665,9 +772,9 @@ class TradingEngine:
         if new_stop <= (t["stop_price"] or 0) * 1.0015:
             return  # only meaningful raises; stops never move down
         self.db.update("trades", t["id"], stop_price=new_stop)
-        if t["software_stop"]:
-            return
-        for o in self.orders.active(trade_id=t["id"], purpose="stop"):
+        # cancel the confirmed broker stop(s); one still in flight is corrected by _ensure_protection
+        # as soon as the broker confirms it (a working stop below the trade's stop gets replaced)
+        for o in self.orders.working(t["id"], "stop"):
             try:
                 self.orders.cancel(o)
                 _, delta = self.orders.sync(o)
@@ -1079,9 +1186,6 @@ class TradingEngine:
         return realized, unreal
 
     def risk_context(self, now: datetime, sess: SessionState) -> RiskContext:
-        def rem_ok(t):
-            return t["status"] in ("open", "closing") and t["entry_qty"] - t["exit_qty"] > EPS
-
         day = now.astimezone(ET).date().isoformat()
         open_trades = self.db.open_trades()
         opens: list[OpenRisk] = []
@@ -1121,7 +1225,8 @@ class TradingEngine:
             pending_entry_symbols=pending_syms, pending_buy_notional=pending_notional, realized_today=realized,
             unrealized_today=unreal, trades_today=trades_today, consecutive_losses=consec, last_exit_time=last_exit,
             held_symbols={p.symbol for p in self.external_positions},
-            unprotected_symbols=[t["symbol"] for t in open_trades if t["software_stop"] and rem_ok(t)],
+            unprotected_symbols=[t["symbol"] for t in open_trades if self._is_unprotected(t)],
+            stop_refused_symbols=self.stop_refused_today(now),
             recovering=self.recovering(now))
 
     def _risk_check(self, sig: Signal, now: datetime, sess: SessionState):
@@ -1172,7 +1277,10 @@ class TradingEngine:
                   f"{ALL_STRATEGIES[sig.strategy].name} · stop ${decision.stop_price:.2f} · target "
                   f"${decision.target_price:.2f}" + (f" · {'; '.join(decision.notes)}" if decision.notes else ""),
                   sig.symbol, ref_id=tid)
-        _, delta = self.orders.sync(row) if row["status"] not in ("rejected",) else (row, None)
+        try:
+            _, delta = self.orders.sync(row) if row["status"] not in ("rejected",) else (row, None)
+        except BrokerUnavailable:
+            delta = None  # the write-ahead row is resolved by reconciliation
         if delta:
             self._on_fill(delta, now)
         self._advance_trade(self.db.trade(tid), now)
@@ -1207,7 +1315,7 @@ class TradingEngine:
                 if self.settings.risk.close_leftover_positions_at_open and sess.phase != "opening":
                     reason = "left over from a previous session"
             elif bid <= t["stop_price"]:
-                if t["software_stop"] or not self.orders.active(trade_id=t["id"], purpose="stop"):
+                if t["software_stop"] or not self.orders.working(t["id"], "stop"):
                     reason = f"stop-loss hit at ${bid:.2f}"
                 elif bid <= t["stop_price"] * 0.995:
                     reason = "price fell through the stop and the stop order hasn't filled — selling at market"
@@ -1219,6 +1327,8 @@ class TradingEngine:
                 reason = self._strategy_exit(t)
             if reason:
                 self._begin_exit(t, reason)
+                continue
+            if self._guard_unprotected(t, now, sess):
                 continue
             # trailing protection: breakeven after +1R, then trail 1R below the high after +1.5R
             risk_r = max(entry - (t["initial_stop"] or t["stop_price"]), entry * 0.002)
@@ -1367,9 +1477,10 @@ class TradingEngine:
         unprotected = self.unprotected()
         if unprotected and self.mode == "live":
             return {"kind": "error", "headline": f"{', '.join(unprotected)} isn't protected at the brokerage.",
-                    "detail": "the broker refused the stop-loss order, so only this app is watching it — if the app "
-                              "or computer stops, nothing will sell it. no new real-money trades until it's protected "
-                              "or closed. retrying every 2 minutes."}
+                    "detail": "no stop-loss order is confirmed by the broker, so only this app is watching it — if the "
+                              "app or computer stops, nothing will sell it. no new real-money trades until it's "
+                              f"protected or closed; it is sold if that takes over "
+                              f"{self.settings.risk.unprotected_live_exit_minutes:.0f} minutes."}
         if self.recovering(now):
             return {"kind": "waiting", "headline": "back after a pause — re-checking.", "detail": self.resume_note}
         if self.health["broker"].ok is False:
@@ -1413,10 +1524,12 @@ class TradingEngine:
         if unprotected:
             live = self.mode == "live"
             out.append({"level": "critical" if live else "warning",
-                        "title": f"{', '.join(unprotected)}: no stop-loss order at the brokerage",
+                        "title": f"{', '.join(unprotected)}: no confirmed stop-loss order at the brokerage",
                         "detail": ("only this app is watching the stop — if the app or computer stops, nothing will "
-                                   "sell it. " + ("new real-money trades are paused until it's protected or closed. "
-                                                  if live else "") + "retrying the broker stop every 2 minutes."),
+                                   "sell it. " + (f"new real-money trades are paused, and it will be sold if no stop is "
+                                                  f"confirmed within {self.settings.risk.unprotected_live_exit_minutes:.0f} "
+                                                  "minutes. " if live else "") +
+                                   "the app keeps checking with the broker and retrying."),
                         "action": "trades"})
         if self.health["broker"].ok is False and self.db.open_trades():
             out.append({"level": "critical" if self.mode == "live" else "warning",

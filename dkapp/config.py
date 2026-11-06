@@ -43,8 +43,15 @@ class RiskSettings(BaseModel):
     max_price: float = Field(1500.0, gt=0)
     min_order_usd: float = Field(1.0, gt=0)
     close_positions_on_daily_limit: bool = False
-    # conservative = only spend settled cash (never risks a good-faith violation)
-    settlement_mode: Literal["conservative", "broker"] = "conservative"
+    # auto (default) = follow the broker. Every Alpaca account is a margin account; under $2,000 equity it is
+    #   a "limited margin" account with 1x buying power (= cash), in which proceeds of a sale can be reused
+    #   the same day before they settle (Alpaca covers the T+1 float; no good-faith violations). Spending is
+    #   still capped by the cash actually in the account AND the broker's buying power, so it never borrows.
+    # conservative = only spend settled cash (for a true cash account elsewhere; limits re-entries per day).
+    # "broker" is the old name for auto.
+    settlement_mode: Literal["auto", "conservative", "broker"] = "auto"
+    # live only: a position with no broker-confirmed stop for this long is sold (always on in live mode)
+    unprotected_live_exit_minutes: float = Field(10.0, ge=1, le=60)
     # Legacy FINRA pattern-day-trader guard. The PDT rule was retired on 2026-06-04
     # (Alpaca moved to the intraday-margin framework), so this is off by default.
     pdt_guard: bool = False
@@ -137,7 +144,7 @@ class DemoSettings(BaseModel):
 
 
 class AppSettings(BaseModel):
-    schema_version: int = 1
+    schema_version: int = 2
     risk: RiskSettings = Field(default_factory=RiskSettings)
     compounding: CompoundingSettings = Field(default_factory=CompoundingSettings)
     ai: AISettings = Field(default_factory=AISettings)
@@ -160,7 +167,16 @@ def load_settings(path: Path | None = None) -> AppSettings:
     if not path.exists():
         return AppSettings()
     try:
-        return AppSettings.model_validate(json.loads(path.read_text(encoding="utf-8")))
+        data = json.loads(path.read_text(encoding="utf-8"))
+        if isinstance(data, dict) and int(data.get("schema_version", 1)) < 2:
+            # v1 defaulted to settled-cash-only sizing, which needlessly blocked re-using same-day sale
+            # proceeds on Alpaca's limited-margin accounts; nobody chose it deliberately, so move to auto.
+            risk = data.get("risk") or {}
+            if risk.get("settlement_mode", "conservative") == "conservative":
+                risk["settlement_mode"] = "auto"
+                data["risk"] = risk
+            data["schema_version"] = 2
+        return AppSettings.model_validate(data)
     except (ValidationError, json.JSONDecodeError, OSError) as exc:
         backup = path.with_suffix(f".broken-{datetime.now():%Y%m%d%H%M%S}.json")
         try:
@@ -211,7 +227,7 @@ LIVE_ACKS = (
 
 def limits_snapshot(risk: RiskSettings) -> dict[str, float]:
     snap = {k: float(getattr(risk, k)) for k in _RISKIER_IF_LARGER}
-    snap["settlement_broker"] = 1.0 if risk.settlement_mode == "broker" else 0.0
+    snap["settlement_broker"] = 0.0 if risk.settlement_mode == "conservative" else 1.0
     return snap
 
 

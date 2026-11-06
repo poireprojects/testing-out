@@ -66,7 +66,11 @@ def test_live_authorization_flow():
     ok, msg = live_authorization_status(s)
     assert not ok and "re-authorize" in msg
     s.risk.max_position_usd = 20
-    s.risk.settlement_mode = "broker"
+    assert live_authorization_status(s)[0]
+    s.risk.settlement_mode = "conservative"   # tighter: still authorized
+    assert live_authorization_status(s)[0]
+    ok, _ = authorize_live(s, LIVE_PHRASE, list(LIVE_ACKS))
+    s.risk.settlement_mode = "auto"           # looser than what was authorized: revoked
     assert not live_authorization_status(s)[0]
 
 
@@ -208,8 +212,43 @@ def test_t_plus_one_settlement_skips_weekends_and_holidays(tmp_path):
     assert led.settled_cash(100.0, date(2026, 11, 30)) == pytest.approx(100.0)
 
 
-def test_sales_proceeds_cannot_be_reused_same_day(tmp_path):
-    """A small cash account must not recycle unsettled proceeds (good-faith violation)."""
+def _two_round_trips(tmp_path, mode):
+    from tests.harness import enter, make_rig, override_price
+    rig = make_rig(tmp_path, start_offset_min=90, universe_size=80, starting_cash=40.0)
+    rig.settings.risk.settlement_mode = mode
+    rig.settings.risk.starting_capital = 40.0  # two full $20 positions use all of the cash
+    rig.engine.step()
+    t1 = enter(rig, "AAPL", target_pct=0.6)
+    t2 = enter(rig, "MSFT", target_pct=0.6)
+    for t in (t1, t2):
+        override_price(rig, t["symbol"], t["target_price"] * 1.003)
+    rig.run_until(rig.clock.now() + timedelta(seconds=20), step_seconds=5)
+    assert all(rig.db.trade(t["id"])["status"] == "closed" for t in (t1, t2))
+    rig.engine.reconcile(rig.clock.now(), force=True)
+    rig.engine.settings.risk.symbol_cooldown_minutes = 0
+    return rig, enter
+
+
+def test_limited_margin_account_reuses_same_day_proceeds_without_leverage(tmp_path):
+    """Alpaca accounts under $2,000 are limited-margin (1x): today's sale proceeds can buy again today."""
+    rig, enter = _two_round_trips(tmp_path, "auto")
+    assert rig.engine._settled_cash(rig.clock.now()) < 1.0  # all of it is still unsettled...
+    t3 = enter(rig, "NVDA")                                  # ...and it may be reused
+    assert t3 is not None and t3["entry_qty"] > 0
+    acct = rig.broker.get_account()
+    assert acct.cash >= -1e-9, "never borrowed"
+    assert t3["entry_qty"] * t3["entry_price"] <= 20.0 * 1.01 + 0.01
+
+
+def test_conservative_mode_still_refuses_unsettled_proceeds(tmp_path):
+    rig, enter = _two_round_trips(tmp_path, "conservative")
+    assert rig.broker.get_account().cash > 39
+    assert rig.engine._settled_cash(rig.clock.now()) < 1.0
+    assert enter(rig, "NVDA") is None
+
+
+def _legacy_sales_proceeds_cannot_be_reused_same_day(tmp_path):
+    """(old conservative-default behaviour, kept for reference; see the two tests above)"""
     from tests.harness import enter, make_rig, override_price
     rig = make_rig(tmp_path, start_offset_min=90, universe_size=80, starting_cash=40.0)
     rig.settings.risk.starting_capital = 40.0  # two full $20 positions use all of the cash

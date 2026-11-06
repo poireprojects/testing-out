@@ -90,3 +90,38 @@ def test_gives_up_if_the_process_never_exits():
     finally:
         p.kill()
         p.wait()
+
+
+def test_test_copy_live_positions_block_too():
+    from dkapp import paths
+    from dkapp.storage.db import Database
+    prof = paths.data_dir() / "profiles" / "test"
+    prof.mkdir(parents=True)
+    db = Database(prof / "trading_live.db", "live")
+    db.insert("trades", symbol="QQQ", strategy="orb", mode="live", status="open", managed=1,
+              session_date="2026-01-02", created_at="2026-01-02T15:00:00+00:00", entry_qty=0.02, entry_price=400)
+    db.close()
+    assert maintenance.open_live_positions() == ["QQQ"]
+    assert maintenance.run(["app", "--check-live"]) == maintenance.BLOCKED_LIVE
+
+
+def test_unreadable_live_database_counts_as_open():
+    from dkapp import paths
+    paths.data_dir().mkdir(parents=True, exist_ok=True)
+    (paths.data_dir() / "trading_live.db").write_bytes(b"this is not a database")
+    assert maintenance.open_live_positions(), "uncertain must mean blocked"
+    assert maintenance.run(["app", "--uninstall-prepare", "--delete-data"]) == maintenance.BLOCKED_LIVE
+    assert (paths.data_dir() / "trading_live.db").exists(), "nothing deleted"
+
+
+def test_failure_hook_reports_error_not_success(monkeypatch):
+    monkeypatch.setenv("DK_TEST_MAINTENANCE_FAIL", "1")
+    for cmd in ("--check-live", "--shutdown-running", "--uninstall-prepare"):
+        assert maintenance.run(["app", cmd]) == maintenance.ERROR
+
+
+def test_crash_inside_a_command_is_an_error(monkeypatch):
+    def boom(*a, **k):
+        raise RuntimeError("disk on fire")
+    monkeypatch.setattr(maintenance, "open_live_positions", boom)
+    assert maintenance.run(["app", "--check-live"]) == maintenance.ERROR

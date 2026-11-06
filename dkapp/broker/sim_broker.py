@@ -58,6 +58,9 @@ class SimBroker:
         self.reject_next: Optional[str] = None
         self.partial_fill_ratio: Optional[float] = None
         self.reject_stop_orders = False
+        self.stop_submit_timeouts = 0    # next N stop orders never reach the broker (timeout)
+        self.stop_responses_lost = 0     # next N stop orders reach the broker but the reply is lost
+        self.lookup_failures = 0         # next N lookups by client_order_id fail (used to resolve unconfirmed orders)
         self.calls = 0
 
     # ------------------------------------------------------------ persistence
@@ -143,6 +146,11 @@ class SimBroker:
         with self._lock:
             return [self._order_obj(o) for o in self.state.orders.values() if _dt(o["submitted_at"]) >= after]
 
+    def _maybe_fail_lookup(self) -> None:
+        if self.lookup_failures > 0:
+            self.lookup_failures -= 1
+            raise BrokerUnavailable("simulated timeout looking up an order")
+
     def get_order(self, order_id: str) -> Optional[BrokerOrder]:
         self._maybe_fail()
         with self._lock:
@@ -151,6 +159,7 @@ class SimBroker:
 
     def get_order_by_client_id(self, client_order_id: str) -> Optional[BrokerOrder]:
         self._maybe_fail()
+        self._maybe_fail_lookup()
         with self._lock:
             for o in self.state.orders.values():
                 if o["client_order_id"] == client_order_id:
@@ -161,6 +170,9 @@ class SimBroker:
         self._maybe_fail()
         with self._lock:
             now = self.clock.now()
+            if req.type == "stop" and self.stop_submit_timeouts > 0:
+                self.stop_submit_timeouts -= 1
+                raise BrokerUnavailable("simulated timeout: the stop order never reached the broker")
             if any(o["client_order_id"] == req.client_order_id for o in self.state.orders.values()):
                 raise DuplicateOrder("client_order_id must be unique")
             if self.reject_next:
@@ -200,6 +212,9 @@ class SimBroker:
             if self.fail_after_submit:
                 self.fail_after_submit = False
                 raise BrokerUnavailable("simulated timeout after the order reached the broker")
+            if req.type == "stop" and self.stop_responses_lost > 0:
+                self.stop_responses_lost -= 1
+                raise BrokerUnavailable("simulated lost response: the stop order reached the broker")
             return self._order_obj(o)
 
     def cancel_order(self, order_id: str) -> None:

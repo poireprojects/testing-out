@@ -286,8 +286,8 @@ DkScroll {
                 DkNumber { value: page.cfg.risk.max_consecutive_losses; step: 1; from: 1; to: 20; onCommitted: (v) => page.set("risk.max_consecutive_losses", v) } }
             SettingRow { label: "shrink size after losses"; help: "each consecutive loss cuts the next position by 25% (never below half). risk is never increased to win money back."
                 DkSwitch { checked: page.cfg.risk.reduce_size_after_losses; onToggled: page.set("risk.reduce_size_after_losses", checked) } }
-            SettingRow { label: "spend only settled cash"; tip: "settled cash"; help: "recommended for small accounts: avoids good-faith violations entirely."
-                Segmented { small: true; options: [{ value: "conservative", label: "settled only" }, { value: "broker", label: "trust broker" }]; current: page.cfg.risk.settlement_mode; onPicked: (v) => page.set("risk.settlement_mode", v) } }
+            SettingRow { label: "using money from today's sales"; tip: "settled cash"; help: page.cfg.risk.settlement_mode === "conservative" ? "only settled cash is spent, so money from a sale waits a business day (T+1) before it can buy again — fewer trades per day." : "alpaca accounts under $2,000 are limited-margin: money from a sale can buy again the same day. never more than the cash in the account — no borrowing."
+                Segmented { small: true; options: [{ value: "auto", label: "follow alpaca" }, { value: "conservative", label: "settled only" }]; current: page.cfg.risk.settlement_mode === "broker" ? "auto" : page.cfg.risk.settlement_mode; onPicked: (v) => page.set("risk.settlement_mode", v) } }
             SettingRow { label: "price range"; help: "skip stocks priced outside this range."
                 DkNumber { value: page.cfg.risk.min_price; prefix: "$"; decimals: 0; step: 1; from: 0; to: 1000; implicitWidth: 130; onCommitted: (v) => page.set("risk.min_price", v) }
                 DkNumber { value: page.cfg.risk.max_price; prefix: "$"; decimals: 0; step: 50; from: 1; to: 100000; implicitWidth: 150; onCommitted: (v) => page.set("risk.max_price", v) } }

@@ -29,6 +29,13 @@ function ShowLeftovers([string]$Label) {
     $log = Join-Path $env:RUNNER_TEMP "uninstall-$Label.log"
     if (Test-Path $log) { Write-Host "   uninstall log (problems):"; Select-String -Path $log -Pattern "fail|error|delete|in use|exit code|still" | Select-Object -Last 25 | ForEach-Object { Write-Host "     $($_.Line)" } }
 }
+function QuitApp {
+    # the normal way a person (or Windows sign-out) closes it: ask the running copy to quit
+    if (Test-Path $Exe) { Start-Process $Exe "--shutdown-running" -Wait | Out-Null }
+    for ($i = 0; $i -lt 20 -and (AppRunning); $i++) { Start-Sleep 1 }
+}
+function AppPid { (Get-Process -Name "dontknowwhatimdoing" -ErrorAction SilentlyContinue | Select-Object -First 1).Id }
+function StillInstalled { (Test-Path $Exe) -and (Test-Path $UninstKey) }
 function PyKey { python -c "import keyring; print(keyring.get_password('dontknowwhatimdoing','alpaca-paper-key-id') or 'NONE')" }
 
 function Install([string]$Label) {
@@ -74,6 +81,11 @@ python -c "import keyring; keyring.set_password('dontknowwhatimdoing','alpaca-pa
 Check "[first] test credential saved" ((PyKey) -eq "PKCITEST")
 Check "[first] launch-at-login entry present" ([bool](Get-ItemProperty $RunKey -Name "dontknowwhatimdoing" -ErrorAction SilentlyContinue))
 
+Write-Host "`n== upgrade while the app is running in the tray"
+Install "upgrade"
+Check "[upgrade] running copy was closed gracefully first" (-not (AppRunning))
+Launch "upgrade"
+
 Uninstall "keep-data" ""
 Check "[keep-data] running app was shut down" (-not (AppRunning))
 Check "[keep-data] program files removed" (-not (Test-Path $App))
@@ -98,6 +110,49 @@ if (-not $SkipLiveCheck) {
     Remove-Item (Join-Path $Data "trading_live.db*") -Force
 }
 
+# ---- every failed safety check must block (never be read as success)
+Write-Host "`n== a safety check that fails must block the uninstall"
+$pidBefore = AppPid
+$env:DK_TEST_MAINTENANCE_FAIL = "1"    # the app's maintenance commands behave as if they crashed
+Uninstall "check-fails" "/DELETEDATA"
+Remove-Item Env:\DK_TEST_MAINTENANCE_FAIL
+Check "[check-fails] uninstall refused" (StillInstalled)
+Check "[check-fails] nothing deleted" ((Test-Path (Join-Path $Data "trading_demo.db")) -and ((PyKey) -eq "PKCITEST"))
+Check "[check-fails] app left running (same process)" ((AppPid) -eq $pidBefore)
+
+Write-Host "`n== a safety check that fails must block an upgrade"
+$env:DK_TEST_MAINTENANCE_FAIL = "1"
+$p = Start-Process $Installer "/VERYSILENT /SUPPRESSMSGBOXES /NORESTART /SP- /LOG=`"$env:RUNNER_TEMP\install-upgrade-blocked.log`"" -Wait -PassThru
+Remove-Item Env:\DK_TEST_MAINTENANCE_FAIL
+Check "[upgrade-blocked] setup refused (exit code $($p.ExitCode))" ($p.ExitCode -ne 0)
+Check "[upgrade-blocked] app left running (same process)" ((AppPid) -eq $pidBefore)
+Check "[upgrade-blocked] installed copy untouched" (StillInstalled)
+
+Write-Host "`n== an app that won't close is never force-closed in silent mode"
+QuitApp
+$env:DK_TEST_IGNORE_QUIT = "1"          # the app answers the quit request but keeps running (hung)
+Launch "hung"
+Remove-Item Env:\DK_TEST_IGNORE_QUIT
+$hungPid = AppPid
+$env:DK_SHUTDOWN_TIMEOUT = "8"
+Uninstall "hung" "/DELETEDATA"
+Remove-Item Env:\DK_SHUTDOWN_TIMEOUT
+Check "[hung] uninstall refused" (StillInstalled)
+Check "[hung] app NOT force-closed (same process still running)" ((AppPid) -eq $hungPid)
+Check "[hung] nothing deleted" ((Test-Path (Join-Path $Data "trading_demo.db")) -and ((PyKey) -eq "PKCITEST"))
+Stop-Process -Id $hungPid -Force -ErrorAction SilentlyContinue   # test cleanup only
+for ($i = 0; $i -lt 10 -and (AppRunning); $i++) { Start-Sleep 1 }
+
+Write-Host "`n== the app's program can't run and there is real-money history: refuse"
+python -c "from dkapp.storage.db import Database; from dkapp import paths; Database(paths.database_file('live'),'live')"
+Rename-Item $Exe "$Exe.bak"
+Uninstall "exe-missing-live" "/DELETEDATA"
+Rename-Item "$Exe.bak" $Exe
+Check "[exe-missing-live] uninstall refused (positions can't be verified)" (StillInstalled)
+Check "[exe-missing-live] nothing deleted" ((Test-Path (Join-Path $Data "trading_live.db")) -and ((PyKey) -eq "PKCITEST"))
+Remove-Item (Join-Path $Data "trading_live.db*") -Force
+Launch "before-clean"
+
 Set-Content (Join-Path $Data "ci-marker.txt") "written before the clean uninstall"
 Uninstall "clean" "/DELETEDATA"
 Check "[clean] running app was shut down" (-not (AppRunning))
@@ -111,6 +166,9 @@ ShowLeftovers "clean"
 Install "after-clean"
 Launch "after-clean"
 Check "[after-clean] starts fresh (nothing from before)" (-not (Test-Path (Join-Path $Data "ci-marker.txt")))
+Write-Host "`n== the program is missing but nothing is running and there is no real-money history: proceed"
+QuitApp
+Rename-Item $Exe "$Exe.bak"
 Uninstall "final" "/DELETEDATA"
 Check "[final] fully removed" ((-not (Test-Path $App)) -and (-not (Test-Path $UninstKey)) -and (-not (AppRunning)) -and (-not (Test-Path $Data)))
 ShowLeftovers "final"

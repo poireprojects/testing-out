@@ -38,20 +38,33 @@ def _log(msg: str) -> None:
         pass
 
 
+def live_databases(data_dir: Path | None = None) -> list[Path]:
+    """Every real-money database: the main copy's and any test copy's (profiles)."""
+    root = data_dir or paths.data_dir()
+    found = [root / "trading_live.db"]
+    prof = root / "profiles"
+    if prof.is_dir():
+        found += [d / "trading_live.db" for d in sorted(prof.iterdir()) if d.is_dir()]
+    return [f for f in found if f.exists()]
+
+
 def open_live_positions(data_dir: Path | None = None) -> list[str]:
-    """Symbols the app is managing with REAL money (read straight from the live database, read-only)."""
-    db = (data_dir or paths.data_dir()) / "trading_live.db"
-    if not db.exists():
-        return []
-    try:
-        con = sqlite3.connect(f"file:{db}?mode=ro", uri=True, timeout=5)
-        rows = con.execute("SELECT symbol FROM trades WHERE managed=1 AND status IN ('pending_entry','open','closing')"
-                           ).fetchall()
-        con.close()
-        return [r[0] for r in rows]
-    except sqlite3.Error as exc:
-        _log(f"could not read live database: {exc}")
-        return ["(unreadable live database)"]  # be safe: treat as open
+    """Symbols the app is managing with REAL money (read straight from the live databases, read-only).
+    A database that can't be read counts as having open positions: uncertain means blocked."""
+    out: list[str] = []
+    for db in live_databases(data_dir):
+        try:
+            con = sqlite3.connect(f"file:{db}?mode=ro", uri=True, timeout=5)
+            try:
+                rows = con.execute("SELECT symbol FROM trades WHERE managed=1 AND status IN "
+                                   "('pending_entry','open','closing')").fetchall()
+            finally:
+                con.close()
+            out += [r[0] for r in rows]
+        except sqlite3.Error as exc:
+            _log(f"could not read live database {db}: {exc}")
+            out.append(f"(unreadable live database {db.parent.name})")
+    return out
 
 
 def _lock_free(timeout: float) -> bool:
@@ -123,6 +136,7 @@ def _wait_exited(pids: list[int], timeout: float) -> bool:
 
 def shutdown_running(timeout: float = 45.0) -> int:
     """Ask a running copy (e.g. hidden in the tray) to quit gracefully, then wait for it to exit."""
+    timeout = float(os.environ.get("DK_SHUTDOWN_TIMEOUT", timeout))  # shortened by the Windows CI test
     if _lock_free(0.5):
         return OK if _wait_exited([], 10) else STILL_RUNNING  # nothing holds the lock; make sure none is exiting
     from PySide6.QtCore import QCoreApplication
@@ -212,6 +226,10 @@ def run(argv: list[str]) -> int | None:
     """Returns an exit code if argv is a maintenance command, else None (normal app start)."""
     if not any(c in argv for c in COMMANDS):
         return None
+    if os.environ.get("DK_TEST_MAINTENANCE_FAIL") == "1":
+        # regression-test hook (Windows CI): behave like a crashed safety check; the installer must refuse
+        _log("test hook: simulating a failed safety check")
+        return ERROR
     try:
         if "--check-live" in argv:  # read-only: used before the uninstall is confirmed
             return BLOCKED_LIVE if open_live_positions() else OK

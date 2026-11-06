@@ -27,6 +27,19 @@ log = logging.getLogger(__name__)
 
 TERMINAL = FINAL_ORDER_STATES | {"abandoned"}
 
+# Alpaca has acknowledged the order (it has a broker id) and it can still execute. Only an order in one
+# of these states counts as a protective stop. "pending_submit" (our own write-ahead state: sent, no
+# answer yet), "pending_cancel", "rejected", "canceled", "expired" and any unknown status do not.
+WORKING_STATES = frozenset({"new", "accepted", "pending_new", "partially_filled", "accepted_for_bidding",
+                            "pending_replace"})
+# We don't know yet whether the order exists / is still live at the broker: never place a second
+# protective order on top of one of these, and never treat them as protection either.
+IN_FLIGHT_STATES = frozenset({"pending_submit", "pending_cancel"})
+
+
+def is_working(row: dict) -> bool:
+    return bool(row.get("broker_order_id")) and row.get("status") in WORKING_STATES
+
 
 @dataclass
 class FillDelta:
@@ -98,6 +111,8 @@ class OrderManager:
         return self.db.query_one("SELECT * FROM orders WHERE id=?", (row_id,))
 
     def _lookup(self, cid: str) -> Optional[BrokerOrder]:
+        """Best-effort lookup used while submitting: None means "not found OR couldn't ask" — safe
+        there, because any retry reuses the same client_order_id (the broker refuses duplicates)."""
         try:
             return self.broker.get_order_by_client_id(cid)
         except BrokerUnavailable:
@@ -119,13 +134,15 @@ class OrderManager:
         if row.get("broker_order_id"):
             bo = self.broker.get_order(row["broker_order_id"])
         if bo is None:
-            bo = self._lookup(row["client_order_id"])
+            # BrokerUnavailable propagates: "couldn't ask" must never be mistaken for "not there"
+            bo = self.broker.get_order_by_client_id(row["client_order_id"])
         if bo is None:
             if row["status"] == "pending_submit":
                 created = from_iso(row["created_at"]) or self.now()
                 if self.now() - created > timedelta(seconds=90):
+                    # the broker answered and confirmed it has no order with this id
                     self.db.update("orders", row["id"], status="abandoned", updated_at=to_iso(self.now()),
-                                   reject_reason=(row.get("reject_reason") or "") + " | never reached the broker")
+                                   reject_reason=(row.get("reject_reason") or "") + " | broker confirmed it never arrived")
             return self.db.query_one("SELECT * FROM orders WHERE id=?", (row["id"],)), None
         old_qty = float(row.get("filled_qty") or 0.0)
         old_px = float(row.get("filled_avg_price") or 0.0)
@@ -146,6 +163,14 @@ class OrderManager:
     def cancel(self, row: dict) -> None:
         if row.get("broker_order_id") and row["status"] not in TERMINAL:
             self.broker.cancel_order(row["broker_order_id"])
+
+    def working(self, trade_id: int, purpose: str) -> list[dict]:
+        """Orders the broker has confirmed and that can still execute."""
+        return [r for r in self.active(trade_id=trade_id, purpose=purpose) if is_working(r)]
+
+    def in_flight(self, trade_id: int, purpose: str) -> list[dict]:
+        """Orders whose existence/state at the broker isn't confirmed yet."""
+        return [r for r in self.active(trade_id=trade_id, purpose=purpose) if not is_working(r)]
 
     def active(self, trade_id: Optional[int] = None, purpose: Optional[str] = None) -> list[dict]:
         rows = self.db.active_orders()

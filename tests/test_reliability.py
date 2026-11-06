@@ -75,7 +75,7 @@ def test_refused_stop_is_highly_visible_and_retried(rig):
     assert rig.db.trade(t["id"])["software_stop"] == 1
     eng._publish_snapshot(rig.clock.now())
     alerts = eng.snapshot()["alerts"]
-    assert alerts and "no stop-loss order at the brokerage" in alerts[0]["title"]
+    assert alerts and "no confirmed stop-loss order at the brokerage" in alerts[0]["title"]
     assert alerts[0]["level"] == "warning"  # paper: warn, keep trading
     assert eng.unprotected() == ["NVDA"]
     # the broker starts accepting stops again -> the app retries and is protected again
@@ -96,10 +96,10 @@ def test_unprotected_real_money_position_blocks_new_live_entries():
     c = ctx(mode="live", live_authorized=True, unprotected_symbols=["NVDA"])
     d = RiskEngine(s).check_entry(c, proposal())
     assert not d.approved
-    assert any("no broker-side stop order" in r for r in d.reasons)
+    assert any("no broker-confirmed stop order" in r for r in d.reasons)
     # in paper the same situation is a warning, not a block
     d2 = RiskEngine(s).check_entry(ctx(mode="paper", unprotected_symbols=["NVDA"]), proposal())
-    assert not any("no broker-side stop order" in r for r in d2.reasons)
+    assert not any("no broker-confirmed stop order" in r for r in d2.reasons)
 
 
 # ---------------------------------------------------------------- plain-English rejections

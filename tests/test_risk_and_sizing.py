@@ -60,8 +60,36 @@ def test_fixed_allocation_never_grows_but_shrinks():
 
 def test_size_limited_by_settled_cash_not_portfolio_value():
     s = AppSettings()
+    s.risk.settlement_mode = "conservative"
     r = position_size(s, SizingInputs(equity=100, settled_cash=12.0, broker_cash=60, broker_buying_power=60), 1.0)
     assert r.notional <= 12.0 and r.binding == "available settled cash"
+
+
+def test_auto_mode_uses_unsettled_proceeds_but_never_more_than_cash_or_buying_power():
+    s = AppSettings()
+    assert s.risk.settlement_mode == "auto"
+    # limited-margin account (< $2,000, 1x): $12 settled + $48 from a sale this morning
+    assert spendable_cash(s, SizingInputs(equity=100, settled_cash=12, broker_cash=60, broker_buying_power=60)) == 60
+    # margin account (>= $2,000) offering 4x: still only the cash
+    assert spendable_cash(s, SizingInputs(equity=5000, settled_cash=0, broker_cash=5000, broker_buying_power=20000)) == 5000
+    # broker buying power lower than cash (open orders, fees, restrictions): the broker's number wins
+    assert spendable_cash(s, SizingInputs(equity=100, settled_cash=100, broker_cash=100, broker_buying_power=30)) == 30
+    # negative cash (a debit) never turns into spending power
+    assert spendable_cash(s, SizingInputs(equity=100, settled_cash=0, broker_cash=-5, broker_buying_power=50)) == 0
+    # app's own unfilled buy orders are reserved too
+    assert spendable_cash(s, SizingInputs(equity=100, settled_cash=0, broker_cash=60, broker_buying_power=60,
+                                          pending_buy_notional=25)) == 35
+
+
+def test_old_settings_files_move_off_the_settled_only_default(tmp_path):
+    import json
+    from dkapp.config import load_settings
+    f = tmp_path / "settings.json"
+    f.write_text(json.dumps({"schema_version": 1, "risk": {"settlement_mode": "conservative", "max_positions": 2}}))
+    s = load_settings(f)
+    assert s.risk.settlement_mode == "auto" and s.schema_version == 2
+    f.write_text(json.dumps({"schema_version": 2, "risk": {"settlement_mode": "conservative"}}))
+    assert load_settings(f).risk.settlement_mode == "conservative"  # a deliberate v2 choice is kept
 
 
 def test_no_margin_even_if_broker_offers_buying_power():
@@ -85,6 +113,7 @@ def test_losses_only_shrink_size():
 
 def test_pending_orders_reserve_cash():
     s = AppSettings()
+    s.risk.settlement_mode = "conservative"
     r = position_size(s, SizingInputs(100, 25, 100, 100, pending_buy_notional=20), 1.0)
     assert r.notional <= 5.0
 

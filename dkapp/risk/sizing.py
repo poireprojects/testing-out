@@ -66,7 +66,11 @@ def scaled_limits(settings: AppSettings, equity: float) -> dict[str, float]:
 
 
 def spendable_cash(settings: AppSettings, inp: SizingInputs) -> float:
-    # Never use margin: cap by cash even if the broker reports more buying power.
+    """What the next buy may spend. Never margin: capped by the cash actually in the account even when
+    the broker reports more buying power (accounts over $2,000 get 2x-4x), and by the broker's own
+    buying power (which already subtracts open orders). In auto mode, proceeds of today's sales count
+    (Alpaca limited-margin accounts may reuse them before T+1 settlement); in conservative mode only
+    settled cash does."""
     no_margin = min(inp.broker_buying_power, inp.broker_cash)
     if settings.risk.settlement_mode == "conservative":
         avail = min(no_margin, inp.settled_cash)
@@ -83,7 +87,8 @@ def position_size(settings: AppSettings, inp: SizingInputs, stop_pct: float) -> 
     cap_position = lim["max_position_usd"] * damp
     cap_risk = lim["risk_per_trade_usd"] / (stop_pct / 100) if stop_pct > 0 else 0.0
     cap_cash = spendable_cash(settings, inp) * 0.995  # small buffer for limit-price slippage
-    caps = {"position limit": cap_position, "risk per trade": cap_risk, "available settled cash": cap_cash}
+    cash_label = "available settled cash" if settings.risk.settlement_mode == "conservative" else "available cash"
+    caps = {"position limit": cap_position, "risk per trade": cap_risk, cash_label: cap_cash}
     binding = min(caps, key=caps.get)
     notional = math.floor(max(0.0, caps[binding]) * 100) / 100
     return SizeResult(notional, lim["capital_base"], lim["scale"], cap_position, cap_risk, cap_cash, damp, binding)
