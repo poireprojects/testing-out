@@ -201,7 +201,7 @@ separation, the backtester's realism rules, and loading the real interface (`--s
 
 ## Where things live
 
-* Settings: `%APPDATA%\dontknowwhatimdoing` (Windows) · `~/Library/Application Support/dontknowwhatimdoing` (macOS)
+* Settings and data: `%LOCALAPPDATA%\dontknowwhatimdoing` (Windows) · `~/Library/Application Support/dontknowwhatimdoing` (macOS)
 * Databases (one per mode: `trading_demo.db`, `trading_paper.db`, `trading_live.db`) and logs: open them from
   **settings → about & diagnostics**.
 * Secrets: only in the OS credential store.

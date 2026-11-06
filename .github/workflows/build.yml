@@ -9,6 +9,11 @@ on:
 permissions:
   contents: write
 
+# A newer push cancels older builds, so the "latest" downloads are always the newest build.
+concurrency:
+  group: build-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   test:
     runs-on: ubuntu-latest
