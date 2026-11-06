@@ -67,10 +67,64 @@ def _lock_free(timeout: float) -> bool:
     return False
 
 
+def pid_alive(pid: int) -> bool:
+    if pid <= 0:
+        return False
+    if sys.platform == "win32":
+        import ctypes
+        k32 = ctypes.windll.kernel32
+        h = k32.OpenProcess(0x00100000 | 0x1000, False, pid)  # SYNCHRONIZE | QUERY_LIMITED_INFORMATION
+        if not h:
+            return False
+        try:
+            return k32.WaitForSingleObject(h, 0) == 0x102  # WAIT_TIMEOUT -> still running
+        finally:
+            k32.CloseHandle(h)
+    try:
+        os.kill(pid, 0)
+    except ProcessLookupError:
+        return False
+    except PermissionError:
+        return True
+    return True
+
+
+def other_copies() -> list[int]:
+    """PIDs of other running copies of this program (Windows, packaged app only)."""
+    if sys.platform != "win32" or not getattr(sys, "frozen", False):
+        return []
+    import csv
+    import subprocess
+    image = Path(sys.executable).name
+    try:
+        out = subprocess.run(["tasklist", "/FI", f"IMAGENAME eq {image}", "/FO", "CSV", "/NH"], capture_output=True,
+                             text=True, timeout=15, creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0)).stdout
+    except (OSError, subprocess.SubprocessError):
+        return []
+    pids = []
+    for row in csv.reader(out.splitlines()):
+        if len(row) >= 2 and row[0].lower() == image.lower() and row[1].isdigit() and int(row[1]) != os.getpid():
+            pids.append(int(row[1]))
+    return pids
+
+
+def _wait_exited(pids: list[int], timeout: float) -> bool:
+    """The lock is released a moment before the process finishes tearing down and lets go of
+    its DLLs; deleting program files in that window leaves them behind. Wait for real exit."""
+    end = time.monotonic() + timeout
+    while time.monotonic() < end:
+        alive = [p for p in set(pids) | set(other_copies()) if pid_alive(p)]
+        if not alive:
+            return True
+        time.sleep(0.25)
+    _log(f"still running after {timeout:.0f}s: {alive}")
+    return False
+
+
 def shutdown_running(timeout: float = 45.0) -> int:
     """Ask a running copy (e.g. hidden in the tray) to quit gracefully, then wait for it to exit."""
     if _lock_free(0.5):
-        return OK  # nothing running
+        return OK if _wait_exited([], 10) else STILL_RUNNING  # nothing holds the lock; make sure none is exiting
     from PySide6.QtCore import QCoreApplication
     from PySide6.QtNetwork import QLocalSocket
     QCoreApplication.instance() or QCoreApplication([])
@@ -78,7 +132,7 @@ def shutdown_running(timeout: float = 45.0) -> int:
     sock.connectToServer(APP_ID)
     if not sock.waitForConnected(3000):
         _log("app lock is held but the app didn't answer")
-        return OK if _lock_free(timeout) else STILL_RUNNING
+        return OK if _lock_free(timeout) and _wait_exited([], 15) else STILL_RUNNING
     sock.write(b"quit")
     sock.flush()
     sock.waitForBytesWritten(2000)
@@ -88,7 +142,19 @@ def shutdown_running(timeout: float = 45.0) -> int:
     _log(f"running app replied: {reply!r}")
     if reply.startswith(b"busy"):
         return BLOCKED_LIVE
-    return OK if _lock_free(timeout) else STILL_RUNNING
+    pid = 0
+    if reply.startswith(b"ok:"):
+        try:
+            pid = int(reply[3:].split(b"\n")[0])
+        except ValueError:
+            pid = 0
+    t0 = time.monotonic()
+    if not _lock_free(timeout):
+        return STILL_RUNNING
+    if not _wait_exited([pid] if pid else [], max(5.0, timeout - (time.monotonic() - t0))):
+        return STILL_RUNNING
+    _log(f"running copy (pid {pid or '?'}) exited")
+    return OK
 
 
 def _all_credential_services() -> list[str]:

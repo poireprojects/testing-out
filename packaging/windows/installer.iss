@@ -21,7 +21,10 @@ UninstallDisplayName={#MyAppName}
 Compression=lzma2/max
 SolidCompression=yes
 WizardStyle=modern
-CloseApplications=yes
+; Windows Restart Manager would close a running copy abruptly, skipping the open-position check,
+; so the app is shut down by our own code (PrepareToInstall / CurUninstallStepChanged) instead.
+CloseApplications=no
+RestartApplications=no
 
 [Tasks]
 Name: "desktopicon"; Description: "Create a desktop shortcut"; GroupDescription: "Shortcuts:"
@@ -138,6 +141,15 @@ begin
       ForceClose();   // live positions were already ruled out, so this can't strand real money
     RegDeleteValue(HKEY_CURRENT_USER, RUN_KEY, 'dontknowwhatimdoing');
   end;
-  if (CurUninstallStep = usPostUninstall) and DeleteUserData then
-    DelTree(ExpandConstant('{localappdata}\dontknowwhatimdoing'), True, True, True);
+  if CurUninstallStep = usPostUninstall then begin
+    // safety net: if anything in the program folder was still locked a moment ago, try once more
+    if DirExists(ExpandConstant('{app}\_internal')) then begin
+      Log('program files still present after uninstall; retrying');
+      Sleep(2000);
+      DelTree(ExpandConstant('{app}\_internal'), True, True, True);
+      DeleteFile(ExpandConstant('{app}\{#MyAppExe}'));
+    end;
+    if DeleteUserData then
+      DelTree(ExpandConstant('{localappdata}\dontknowwhatimdoing'), True, True, True);
+  end;
 end;

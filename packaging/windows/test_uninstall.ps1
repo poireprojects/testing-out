@@ -21,16 +21,23 @@ function Check([string]$Name, [bool]$Ok) {
     Write-Host ("{0}  {1}" -f $(if ($Ok) { "PASS" } else { "FAIL" }), $Name)
 }
 function AppRunning { [bool](Get-Process -Name "dontknowwhatimdoing" -ErrorAction SilentlyContinue) }
-function Shortcuts { @(Get-ChildItem $StartMenu, $Desktop -Filter "don*know what im doing*.lnk" -ErrorAction SilentlyContinue) }
+function Shortcuts { @(Get-ChildItem $StartMenu, $Desktop -Recurse -Filter "don*know what im doing*.lnk" -ErrorAction SilentlyContinue) }
+function ShowLeftovers([string]$Label) {
+    # evidence for a failed check: what is still there and what the uninstaller logged
+    if (Test-Path $App) { Write-Host "   left in $App :"; Get-ChildItem $App -Recurse -ErrorAction SilentlyContinue | Select-Object -First 15 | ForEach-Object { Write-Host "     $($_.FullName)" } }
+    Get-Process -Name "dontknowwhatimdoing" -ErrorAction SilentlyContinue | ForEach-Object { Write-Host "   still running: pid $($_.Id)" }
+    $log = Join-Path $env:RUNNER_TEMP "uninstall-$Label.log"
+    if (Test-Path $log) { Write-Host "   uninstall log (problems):"; Select-String -Path $log -Pattern "fail|error|delete|in use|exit code|still" | Select-Object -Last 25 | ForEach-Object { Write-Host "     $($_.Line)" } }
+}
 function PyKey { python -c "import keyring; print(keyring.get_password('dontknowwhatimdoing','alpaca-paper-key-id') or 'NONE')" }
 
 function Install([string]$Label) {
     Write-Host "`n== install ($Label)"
-    $p = Start-Process $Installer "/VERYSILENT /SUPPRESSMSGBOXES /NORESTART /SP- /TASKS=desktopicon /LOG=`"$env:RUNNER_TEMP\install-$Label.log`"" -Wait -PassThru
+    $p = Start-Process $Installer "/VERYSILENT /SUPPRESSMSGBOXES /NORESTART /SP- /TASKS="desktopicon,startup" /LOG=`"$env:RUNNER_TEMP\install-$Label.log`"" -Wait -PassThru
     Check "[$Label] installer exit code 0 (got $($p.ExitCode))" ($p.ExitCode -eq 0)
     Check "[$Label] app installed" (Test-Path $Exe)
     Check "[$Label] registered in Installed Apps" (Test-Path $UninstKey)
-    Check "[$Label] Start menu + desktop shortcuts created" ((Shortcuts).Count -ge 2)
+    Check "[$Label] Start menu, desktop and log-in shortcuts created" ((Shortcuts).Count -ge 4)
 }
 
 function Launch([string]$Label) {
@@ -43,6 +50,7 @@ function Launch([string]$Label) {
 
 function Uninstall([string]$Label, [string]$Extra) {
     Write-Host "`n== uninstall ($Label)"
+    if (-not (Test-Path $UninstKey)) { Check "[$Label] registered uninstall command exists" $false; return }
     $cmd = (Get-ItemProperty $UninstKey).UninstallString.Trim('"')   # the registered uninstall command
     Start-Process $cmd "/VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG=`"$env:RUNNER_TEMP\uninstall-$Label.log`" $Extra" | Out-Null
     # Inno's uninstaller re-launches itself from %TEMP%; wait for the real work to finish.
@@ -59,10 +67,12 @@ Remove-Item $Data -Recurse -Force -ErrorAction SilentlyContinue
 
 Install "first"
 Launch "first"
-# what the app writes when "launch when i log in" is on
+# what the app writes when "launch when i log in" is on (the Run key doesn't exist on a fresh runner)
+if (-not (Test-Path $RunKey)) { New-Item -Path $RunKey -Force | Out-Null }
 New-ItemProperty -Path $RunKey -Name "dontknowwhatimdoing" -Value "`"$Exe`" --minimized" -PropertyType String -Force | Out-Null
 python -c "import keyring; keyring.set_password('dontknowwhatimdoing','alpaca-paper-key-id','PKCITEST')"
 Check "[first] test credential saved" ((PyKey) -eq "PKCITEST")
+Check "[first] launch-at-login entry present" ([bool](Get-ItemProperty $RunKey -Name "dontknowwhatimdoing" -ErrorAction SilentlyContinue))
 
 Uninstall "keep-data" ""
 Check "[keep-data] running app was shut down" (-not (AppRunning))
@@ -72,6 +82,7 @@ Check "[keep-data] launch-at-login entry removed" (-not (Get-ItemProperty $RunKe
 Check "[keep-data] shortcuts removed" ((Shortcuts).Count -eq 0)
 Check "[keep-data] settings/history kept (user chose keep)" ((Test-Path (Join-Path $Data "settings.json")) -or (Test-Path (Join-Path $Data "trading_demo.db")))
 Check "[keep-data] saved keys kept" ((PyKey) -eq "PKCITEST")
+ShowLeftovers "keep-data"
 
 Install "reinstall"
 Check "[reinstall] previous data still there" (Test-Path (Join-Path $Data "trading_demo.db"))
@@ -87,6 +98,7 @@ if (-not $SkipLiveCheck) {
     Remove-Item (Join-Path $Data "trading_live.db*") -Force
 }
 
+Set-Content (Join-Path $Data "ci-marker.txt") "written before the clean uninstall"
 Uninstall "clean" "/DELETEDATA"
 Check "[clean] running app was shut down" (-not (AppRunning))
 Check "[clean] program files removed" (-not (Test-Path $App))
@@ -94,12 +106,14 @@ Check "[clean] removed from Installed Apps" (-not (Test-Path $UninstKey))
 Check "[clean] settings, databases and logs deleted" (-not (Test-Path $Data))
 Check "[clean] saved keys deleted" ((PyKey) -eq "NONE")
 Check "[clean] shortcuts removed" ((Shortcuts).Count -eq 0)
+ShowLeftovers "clean"
 
 Install "after-clean"
 Launch "after-clean"
-Check "[after-clean] starts fresh (no old history)" (-not (Test-Path (Join-Path $Data "trading_paper.db")))
+Check "[after-clean] starts fresh (nothing from before)" (-not (Test-Path (Join-Path $Data "ci-marker.txt")))
 Uninstall "final" "/DELETEDATA"
-Check "[final] fully removed" ((-not (Test-Path $App)) -and (-not (Test-Path $UninstKey)) -and (-not (AppRunning)))
+Check "[final] fully removed" ((-not (Test-Path $App)) -and (-not (Test-Path $UninstKey)) -and (-not (AppRunning)) -and (-not (Test-Path $Data)))
+ShowLeftovers "final"
 
 Write-Host "`n== summary"
 $Results | Format-Table -AutoSize | Out-String -Width 200 | Write-Host

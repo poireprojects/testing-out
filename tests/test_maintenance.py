@@ -60,3 +60,33 @@ def test_clean_uninstall_deletes_data_and_all_keys(monkeypatch):
 
 def test_shutdown_running_when_nothing_runs():
     assert maintenance.run(["app", "--shutdown-running"]) == maintenance.OK
+
+
+def test_waits_for_the_process_to_really_exit(monkeypatch):
+    """The app releases its lock a moment before it finishes exiting; program files must not be
+    removed until the process is gone (that window left files behind on Windows)."""
+    import subprocess
+    import sys as _sys
+    import threading
+    p = subprocess.Popen([_sys.executable, "-c", "import time; time.sleep(1.5)"])
+    threading.Thread(target=p.wait, daemon=True).start()  # reap it (a zombie would still look alive)
+    try:
+        assert maintenance.pid_alive(p.pid)
+        t0 = __import__("time").monotonic()
+        assert maintenance._wait_exited([p.pid], 10)
+        assert __import__("time").monotonic() - t0 >= 1.0
+    finally:
+        p.kill()
+        p.wait()
+    assert not maintenance.pid_alive(0)
+
+
+def test_gives_up_if_the_process_never_exits():
+    import subprocess
+    import sys as _sys
+    p = subprocess.Popen([_sys.executable, "-c", "import time; time.sleep(30)"])
+    try:
+        assert maintenance._wait_exited([p.pid], 0.6) is False
+    finally:
+        p.kill()
+        p.wait()

@@ -249,7 +249,7 @@ def main(argv: list[str] | None = None) -> int:
                 controller.toast.emit("warning", "can't close yet",
                                       "you have open real-money positions. close them before uninstalling or updating.")
                 return
-            c.write(b"ok")
+            c.write(b"ok:%d" % os.getpid())  # the uninstaller waits for this process to fully exit
             c.flush()
             c.waitForBytesWritten(1000)
             log.info("quit requested by installer/uninstaller")
