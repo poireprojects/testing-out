@@ -44,6 +44,8 @@ class FeeRates:
 
 # Dated schedule (oldest first). Dates before the first entry use the first entry.
 FEE_SCHEDULE: tuple[FeeRates, ...] = (
+    FeeRates(date(2025, 5, 14), 0.0, 0.000166, 8.30, 0.000003,
+             "SEC $0.00/M from 2025-05-14 (FY2025 mid-year order); FINRA TAF 2025 schedule"),
     FeeRates(date(2026, 1, 1), 0.0, 0.000195, 9.79, 0.000003,
              "SEC $0.00/M since 2025-05-14; FINRA TAF 2026 schedule; CAT per Alpaca fee schedule"),
     FeeRates(date(2026, 4, 4), 20.60 / 1_000_000, 0.000195, 9.79, 0.000003,

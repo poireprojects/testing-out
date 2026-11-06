@@ -81,3 +81,18 @@ Passing on examined data makes a candidate **eligible for forward shadow/paper t
 Live eligibility needs forward evidence (≥ 100 forward trades over ≥ 30 forward trading days,
 positive after costs with Holm-adjusted p < 0.05), operational checks, and the owner's explicit
 approval. Nothing is promoted automatically.
+
+## Amendment A (2026-11-06, before any download of the new history)
+
+The owner allowed the old paper keys for read-only market data, so more history is downloaded:
+40 symbols, IEX 1-minute bars, 2025-09-02 → 2026-08-26. Registered in `ledger.json` **before**
+downloading:
+
+* **Development**: 2025-09-02 → 2026-04-30 (first 10 sessions are baseline warm-up) plus the already
+  examined 2026-09-11 → 2026-11-05. Walk-forward evaluation and the go/no-go criteria above run here.
+* **Reserved holdout**: 2026-05-01 → 2026-08-26. Evaluated exactly once, after all rules, models
+  and thresholds are frozen and committed, for **every** pre-registered hypothesis (not only the ones
+  that pass development). Models for the holdout are trained only on development days before
+  2026-05-01 (1-day embargo). The holdout verdict is the one reported; development numbers are
+  supporting evidence.
+* Fee schedule for 2025 days: SEC $0.00/M (since 2025-05-14), TAF $0.000166/share (max $8.30).
