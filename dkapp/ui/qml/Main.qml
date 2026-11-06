@@ -110,7 +110,10 @@ ApplicationWindow {
                     }
                 }
                 Txt {
-                    text: "a cautious little trading robot"
+                    text: "an app created entirely by\nRiley Lantzy"
+                    Layout.fillWidth: true
+                    wrapMode: Text.WordWrap
+                    elide: Text.ElideNone
                     color: Theme.textMuted
                     font.pixelSize: 12
                     Layout.bottomMargin: 12
