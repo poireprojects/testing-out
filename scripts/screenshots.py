@@ -15,7 +15,9 @@ from PySide6.QtQml import QQmlApplicationEngine  # noqa: E402
 from PySide6.QtQuickControls2 import QQuickStyle  # noqa: E402
 from PySide6.QtWidgets import QApplication  # noqa: E402
 
-from dkapp import paths  # noqa: E402
+from dkapp import paths, preload  # noqa: E402
+
+preload.preload()
 from dkapp.config import load_settings, save_settings  # noqa: E402
 from dkapp.log import setup_logging  # noqa: E402
 

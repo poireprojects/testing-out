@@ -21,6 +21,9 @@ hiddenimports = (
     + collect_submodules("keyring.backends")
     + collect_submodules("alpaca")
     + collect_submodules("dkapp")
+    # imported dynamically (by anyio / by dkapp.preload), so PyInstaller can't see them statically
+    + ["anyio._backends._asyncio", "asyncio.windows_events", "asyncio.proactor_events", "asyncio.windows_utils",
+       "sniffio", "msgpack", "websockets"]
 )
 excludes = [
     "tkinter", "matplotlib", "IPython", "pytest", "PyInstaller", "PIL", "jinja2",

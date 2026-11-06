@@ -10,6 +10,10 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
 
+from dkapp import preload  # noqa: E402
+
+preload.preload()  # same as the app does at startup: import asyncio-based libraries before threads start
+
 
 class MemoryKeyring(KeyringBackend):
     """In-memory stand-in for the OS credential store (tests only)."""

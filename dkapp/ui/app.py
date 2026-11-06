@@ -105,6 +105,10 @@ def main(argv: list[str] | None = None) -> int:
     code = maintenance.run(argv)  # installer/uninstaller commands: no window
     if code is not None:
         return code
+    # Load asyncio-based libraries on this (main) thread before any background thread can race to
+    # import them — that race is what produced "name 'base_events' is not defined".
+    from .. import preload
+    preload_missing = preload.preload()
     self_test = "--self-test" in argv
     if self_test:
         # Packaging smoke test: isolated data folder, offscreen rendering, quit after loading the UI.
@@ -214,8 +218,10 @@ def main(argv: list[str] | None = None) -> int:
                 window.setProperty("page", p)
             controller.openSetup()
             real = [w for w in qml_warnings if "of null" not in w]
+            # every library the app loads in background threads must be in the package
+            real += [f"missing from the package: {m}" for m in preload_missing]
             result = "OK" if ok and not real else "FAIL"
-            text = f"{result}\nmode={controller.state.get('mode')}\n" + "\n".join(real)
+            text = f"{result}\nmode={controller.state.get('mode')}\npreloaded={len(preload.MODULES)}\n" + "\n".join(real)
             (paths.log_dir() / "self-test.txt").write_text(text, encoding="utf-8")
             print("SELF-TEST", text)
             app.exit(0 if result == "OK" else 2)
