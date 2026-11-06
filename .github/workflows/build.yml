@@ -143,38 +143,46 @@ jobs:
           if-no-files-found: error
 
   latest:
-    # Rolling "latest" release: permanent one-click download links for the newest build.
-    # The Windows installer is published once its own build, the test suite and the real install/
-    # uninstall test pass. The Mac disk image is added when its build succeeded (a missing macOS
-    # runner must not hold back a tested Windows installer).
-    if: >-
-      always() && github.event_name != 'pull_request' && !startsWith(github.ref, 'refs/tags/') &&
-      needs.test.result == 'success' && needs.windows.result == 'success' &&
-      needs.windows-uninstall-test.result == 'success'
-    needs: [test, windows, windows-uninstall-test, macos]
+    # Rolling "latest" release: published as soon as the test suite, the Windows build and the real Windows
+    # install/uninstall test pass. The Mac disk image is attached by `latest-mac` when its build finishes,
+    # so a slow or unavailable macOS runner never holds back a tested Windows installer.
+    if: github.event_name != 'pull_request' && !startsWith(github.ref, 'refs/tags/')
+    needs: [test, windows, windows-uninstall-test]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/download-artifact@v4
         with:
-          path: artifacts
+          name: dontknowwhatimdoing-windows-installer
+          path: artifacts/windows
       - name: Publish the latest build
         env:
           GH_TOKEN: ${{ github.token }}
           GH_REPO: ${{ github.repository }}
         run: |
           mkdir out
-          cp artifacts/dontknowwhatimdoing-windows-installer/*.exe out/dontknowwhatimdoing-windows-setup.exe
-          if ls artifacts/dontknowwhatimdoing-macos-dmg/*.dmg >/dev/null 2>&1; then
-            cp artifacts/dontknowwhatimdoing-macos-dmg/*.dmg out/dontknowwhatimdoing-macos.dmg
-            MAC_NOTE="Mac: open the .dmg and drag the app to Applications."
-          else
-            MAC_NOTE="(The Mac build didn't finish for this build; use an earlier release for macOS.)"
-          fi
+          cp artifacts/windows/*.exe out/dontknowwhatimdoing-windows-setup.exe
           # One release per build (deleted release tags can't be reused here), marked "latest" so
           # https://github.com/<repo>/releases/latest/download/<file> always serves the newest build.
           gh release create "build-${GITHUB_RUN_NUMBER}" out/* --target "$GITHUB_SHA" --latest \
             --title "build ${GITHUB_RUN_NUMBER}" \
-            --notes "Newest build of don’t know what im doing (commit ${GITHUB_SHA::7}). Windows: run the setup file. ${MAC_NOTE}"
+            --notes "Newest build of don’t know what im doing (commit ${GITHUB_SHA::7}). Windows: run the setup file (tested: install, launch, uninstall, reinstall, clean uninstall). Mac: the .dmg is attached here once the Mac build finishes."
+
+  latest-mac:
+    if: github.event_name != 'pull_request' && !startsWith(github.ref, 'refs/tags/')
+    needs: [latest, macos]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: dontknowwhatimdoing-macos-dmg
+          path: artifacts/mac
+      - name: Attach the Mac disk image
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          cp artifacts/mac/*.dmg dontknowwhatimdoing-macos.dmg
+          gh release upload "build-${GITHUB_RUN_NUMBER}" dontknowwhatimdoing-macos.dmg --clobber
 
   release:
     if: startsWith(github.ref, 'refs/tags/v')
