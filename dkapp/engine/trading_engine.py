@@ -698,6 +698,9 @@ class TradingEngine:
         day = sess.session.day
         self._summarized_day = day
         self.shadow.update({}, now, force_close=True)
+        # the per-cycle decision journal is detailed; keep 30 days of it (trades, AI decisions and
+        # shadow results — what the reports are built from — are kept forever)
+        self.db.execute("DELETE FROM decision_cycles WHERE time < ?", (to_iso(now - timedelta(days=30)),))
         rows = self.db.query("SELECT * FROM trades WHERE session_date=? AND status='closed'", (day.isoformat(),))
         realized = sum(r["realized_pnl"] or 0 for r in rows)
         fees = sum(r["fees"] or 0 for r in rows)

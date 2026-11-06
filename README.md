@@ -58,8 +58,13 @@ Install Python 3.12 from python.org, then double-click:
   at a time, so two copies never trade the same account.) On a Mac, run the app with `--profile test --fresh`.
 * **Start over:** settings → **start over** erases the main copy's settings, trade history and saved keys, then
   reopens the guided setup. Your Alpaca account itself isn't changed.
-* **Clean uninstall:** Windows Settings → Apps → *don’t know what im doing* → Uninstall. Answer **Yes** when asked
-  whether to delete your settings and history, then reinstall from the link above for a completely fresh install.
+* **Uninstall:** Windows Settings → Apps → *don’t know what im doing* → Uninstall. It works even while the app is
+  hidden in the tray: the uninstaller asks the app to quit, waits until it has fully exited, and removes the program,
+  shortcuts and launch-at-login entry. It then asks **"Keep your settings, trade history, logs and saved API keys?"**
+  — **Yes** (the default) keeps them so a reinstall picks up where you left off; **No** deletes all of it, including
+  the keys saved in Windows Credential Manager, for a completely fresh install. Nothing is deleted without that
+  answer. If the app is holding **real-money** positions, the uninstall (and any update) refuses to run until you
+  close them in the app, so live trades are never abandoned mid-way.
 
 ## 2. First launch: demo mode
 
@@ -71,7 +76,7 @@ their own database. They are never shown as real performance.
 
 Everything the guided setup does is also in **settings**: brokerage keys under *brokerage — Alpaca*, and AI under
 *ai* (local Ollama or a Claude key, model choice, monthly budget). If the AI is offline, times out or gives an
-invalid answer, **no AI-dependent trade happens** — or switch *who decides entries* to **rules only**.
+invalid answer, **no AI-dependent trade happens** — or switch *who decides entries* to **rules + ranker** (no AI).
 
 ---
 
@@ -83,11 +88,19 @@ invalid answer, **no AI-dependent trade happens** — or switch *who decides ent
 2. **Spot a setup.** Five simple strategies look for: **intraday momentum**, **trend-following pullbacks**,
    **opening-range breakouts**, **VWAP reclaims** and **volume-confirmed breakouts**. Every indicator is computed
    only from bars that already happened (tested for look-ahead bias).
-3. **Second opinion.** The AI gets the numbers (indicators, recent bars, market context, costs) and must answer in a
-   strict JSON format: buy/skip, confidence, evidence quality, stop, target, reasoning. Answers are validated in code.
-4. **Final say: the risk engine.** Deterministic rules the AI cannot override (defaults below). It can shrink a
+3. **Compare before spending.** Every setup found in the same moment is scored side by side: strength, reward vs.
+   risk **after** spread, slippage and fees, how well the strategy suits today's market (*trending up*, *choppy*,
+   *risk-off*, *volatile* — read from SPY, breadth and how hard the market is swinging), how many strategies agree,
+   liquidity, and measured results from real history (never synthetic). Setups whose costs would eat the target,
+   whose stop would have to be too wide, or that don't suit the market are passed over, and **not trading at all is
+   a normal outcome** when nothing clears the bar. The AI Activity page shows every comparison and why each setup
+   won or lost.
+4. **Optional AI.** Settings → *who decides entries*: **rules + ranker** (no AI, no cost), **ai confirms** (each
+   pick needs the AI's approval), or **ai picks** (the AI chooses one of the top three, or none). Answers must be
+   strict JSON and are validated in code. An AI's confidence number is never treated as evidence of profit.
+5. **Final say: the risk engine.** Deterministic rules the AI cannot override (defaults below). It can shrink a
    trade, tighten its stop, or block it, and says why in plain English.
-5. **Execution.** A limit order slightly above the ask (avoids bad fills in fast markets), then a **broker-side stop
+6. **Execution.** A limit order slightly above the ask (avoids bad fills in fast markets), then a **broker-side stop
    order** so the position stays protected even if your computer turns off. Targets, trailing stops (to break-even
    after +1R, then trailing), time limits and strategy exits are handled by the app. **Everything is sold before the
    market closes.**
@@ -118,8 +131,12 @@ after losses. Risk is never increased to win money back.
 
 ### Is the AI actually helping?
 
-For every setup the AI reviews, the app follows a *shadow trade* with identical exit rules. The **performance** page
-compares setups the AI approved with those it skipped. If the AI's picks don't beat its skips, use rules-only mode.
+Every candidate is followed as a *shadow trade* with identical exit rules, traded or not: all rules signals, the
+ranker's picks, the AI's yeses and the AI's noes. **Performance → decision approaches compared** puts them side by
+side after costs and says plainly whether the AI helps, adds nothing, costs more than it earns, or hurts — and,
+until there are at least 30 of each, that it's still unproven. It also checks whether the AI's confidence has meant
+anything (higher confidence → better outcomes?) and shows the AI cost per decision. AI decisions can't be
+backtested honestly, so this comparison is made going forward.
 
 ---
 
@@ -147,10 +164,12 @@ compares setups the AI approved with those it skipped. If the AI's picks don't b
 |---|---|
 | **Is open & online** | Fully autonomous: starts scanning at 9:30 ET, trades, flattens before 4:00 ET, writes the daily summary. Optional "keep awake during market hours" prevents *idle* sleep. |
 | **Window closed** | Keeps running in the tray/menu bar. |
-| **Sleeps, lid closed, or shuts down** | **No trading happens.** Open positions keep their broker-side stop orders, but those expire at the close, so a position could be held overnight unprotected. When the app starts again it reconciles with Alpaca first, then sells leftover positions after the next open (default). |
+| **Sleeps, lid closed, or shuts down** | **No trading happens.** Open positions keep their broker-side stop orders, but those expire at the close, so a position could be held overnight unprotected. When it wakes, the app notices the gap, throws away stale prices, re-syncs every order and position with Alpaca, and makes no new trade until a fresh scan has run. After a restart it reconciles first, then sells leftover positions after the next open (default). A banner warns when the laptop is on battery or "keep awake" is off while holding positions. |
 | **Loses internet** | No new entries. Retries automatically. Broker-side stops still protect positions. On reconnect it reconciles every order and position. |
 | **Alpaca is down** | Same as no internet. Unconfirmed orders are looked up by their unique ID before anything is retried, so duplicates aren't created. |
 | **App crashes / restarts** | Orders are saved *before* they're sent, and everything is reconciled on startup. Tested: no duplicate orders or stops. |
+| **Broker refuses a stop order** | The app watches the stop itself, shows a banner that the position isn't protected at the broker, and retries the broker stop every 2 minutes. In **live** mode no new real-money trade is opened while any position is unprotected. |
+| **Something goes wrong** | Settings → about & diagnostics → **save diagnostics file** puts a .zip with logs and a status summary on your desktop (never your API keys). Rejected orders are explained in plain English. |
 
 Launch-at-login is in **settings → app behavior** (or choose it in the Windows installer).
 
@@ -171,8 +190,14 @@ The **performance → operating costs** card shows the real numbers as they happ
 
 1. Paper-trade first. We suggest at least **20 trading days**.
 2. Run a **backtest** (performance → strategy lab) on real Alpaca history. Only strategies marked **EVIDENCE ✓** can
-   trade real money. That requires: profitable after costs on the held-out 40% of days, a profit factor of 1.15 or
-   more, beating random entries that use the same stops and targets, and a p-value below 0.10.
+   trade real money. Days are split in time order — first half to train, next quarter to validate, last quarter
+   held out as an unseen test — and a strategy must pass **all** of: profitable after costs in all three periods,
+   profit factor ≥ 1.15 on the test period, at least 30 test trades, beating random entries with the same stops and
+   targets, an adjusted p-value below 0.10 (corrected for testing several strategies at once), profitable in at
+   least 60% of walk-forward periods, still profitable with doubled slippage, and no collapse from training to
+   testing (a sign of overfitting). The lab also replays the whole app with its 2-position limit and compares it
+   with SPY buy-and-hold, SPY open-to-close and doing nothing. Missing history is reported and skipped, never filled
+   in. Synthetic (demo) backtests can never count as evidence.
 3. Add your **live** Alpaca keys (checked to be a live account), confirm the four statements, type
    `i authorize real-money trading`, then switch the mode to **live**.
 4. Raising any risk limit later automatically pauses live trading until you re-authorize. Tightening limits doesn't.
@@ -186,7 +211,11 @@ pip install -r requirements-dev.txt
 python -m pytest -q
 ```
 
-167 automated tests (165 run anywhere; 2 need your Alpaca paper keys) cover market-data ingestion and batching, indicators (including look-ahead checks), every
+217 automated tests (215 run anywhere; 2 need your Alpaca paper keys) cover the uninstall/shutdown handshake
+(open live positions block it; keep vs. delete data and saved keys), opportunity ranking and market regimes, the AI
+picking mode, approach comparison and confidence calibration, walk-forward/train-validation-test evaluation, cost
+stress, sleep/wake recovery, refused protective stops (retry + live block), plain-English rejections, the
+diagnostics bundle (no secrets), market-data ingestion and batching, indicators (including look-ahead checks), every
 strategy, AI response validation (malformed, out-of-range and missing fields → no trade), Ollama/Anthropic providers,
 position sizing and compounding, settled cash (T+1 across weekends and holidays), fees, every risk rule, idempotent
 order submission, duplicate prevention, lost responses, partial fills, network failures, crash/restart recovery,
@@ -205,9 +234,10 @@ separation, the backtester's realism rules, and loading the real interface (`--s
   random data the evidence gate correctly found *no edge* in any strategy.
 * **A real AI model.** Ollama and Claude responses are tested with recorded and fake responses. No real model was
   called, because Ollama isn't installed here and a cloud call would have cost money without your approval.
-* **Native notifications, tray menus and installers on your actual machine.** CI builds and self-tests the Windows
-  installer and the macOS app, and a Linux build was verified here. Visual behavior of tray and notifications on
-  Windows/macOS hasn't been observed by a person.
+* **Native notifications and tray menus on your actual machine.** CI builds and self-tests the Windows installer
+  and the macOS app, and every build runs a real install → launch (hidden in the tray) → uninstall → reinstall →
+  clean uninstall → reinstall test on a Windows machine, including the live-position block. Visual behavior of the
+  tray, notifications and the uninstall question dialog hasn't been observed by a person.
 * **Profitability.** Unknown, and possibly negative. That's what paper trading and the evidence gate are for.
 
 ## Where things live
