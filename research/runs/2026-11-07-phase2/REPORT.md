@@ -209,7 +209,7 @@ The two missing sessions (2025-01-09 and 2025-03-10) are 2 of 501 holdout days.
 
 ## 10. What happens next
 
-* **Forward evidence, not more history.** From build 33 the app records every eligible candidate, taken or
+* **Forward evidence, not more history.** From this release on, the app records every eligible candidate, taken or
   rejected, at the moment it is seen. It also records the gap-stock (H2) candidates each morning as a shadow
   observer. Each record is in an append-only, hash-chained table, and is scored after the close against bars that
   started after the decision (`dkapp/research/forward.py`, Performance → *forward evidence*). Outcomes never feed
