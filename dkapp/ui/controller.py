@@ -382,6 +382,14 @@ class AppController(QObject):
                           "config": str(paths.config_dir())}}
     staticInfo = Property("QVariantMap", _g_static, constant=True)
 
+    def _g_research(self):
+        """Shipped research evidence (dkapp/assets/research): historical, clearly labeled as such."""
+        try:
+            return json.loads((paths.assets_dir() / "research" / "round1-summary.json").read_text())
+        except (OSError, ValueError):
+            return {}
+    research = Property("QVariantMap", _g_research, constant=True)
+
     # ================================================================ slots: trading
     @Slot()
     def emergencyStop(self) -> None:

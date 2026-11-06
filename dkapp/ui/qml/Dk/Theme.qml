@@ -62,8 +62,16 @@ QtObject {
         "sparkle": "M12 4l1.6 6.4L20 12l-6.4 1.6L12 20l-1.6-6.4L4 12l6.4-1.6z",
         "moon": "M19.5 14.5A8 8 0 0 1 9.5 4.5a8 8 0 1 0 10 10z",
         "arrowRight": "M5 12h14 M13.5 6.5L19 12l-5.5 5.5",
-        "lock": "M6.5 11h11v9h-11z M8.5 11V8a3.5 3.5 0 0 1 7 0v3"
+        "lock": "M6.5 11h11v9h-11z M8.5 11V8a3.5 3.5 0 0 1 7 0v3",
+        "winMin": "M6.5 12.5h11",
+        "winMax": "M7 7h10v10H7z",
+        "winRestore": "M9.5 7h7.5v7.5 M7 9.5h7.5V17H7z",
+        "winClose": "M7 7l10 10 M17 7L7 17",
+        "brain": "M9 4.5a3 3 0 0 0-3 3 3 3 0 0 0-1.5 5.5A3 3 0 0 0 7.5 18a2.5 2.5 0 0 0 4.5 1.5V6a2.5 2.5 0 0 0-3-1.5z M15 4.5a3 3 0 0 1 3 3 3 3 0 0 1 1.5 5.5A3 3 0 0 1 16.5 18a2.5 2.5 0 0 1-4.5 1.5"
     })
+    readonly property int titleBarHeight: 50
+    readonly property color titleBar: "#0D0F11"
+    readonly property color closeHover: "#D9403A"
 
     // ---------------------------------------------------------- formatting
     function fixed(v, d) {

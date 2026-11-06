@@ -34,11 +34,15 @@ def test_qml_loads_all_pages_without_errors(qapp=None):
     ctx.setContextProperty("initialGeometry", {"x": 0, "y": 0, "width": 1300, "height": 820, "maximized": False, "page": 0})
     ctx.setContextProperty("trayAvailable", False)
     ctx.setContextProperty("profileName", "")
+    from dkapp.ui.chrome import WindowChrome  # noqa: E402
+    _chrome = WindowChrome()
+    ctx.setContextProperty("chrome", _chrome)
     ctx.setContextProperty("startMinimized", False)
     ctx.setContextProperty("iconUrl", QUrl.fromLocalFile(str(paths.assets_dir() / "icons" / "dk.png")))
     eng.load(QUrl.fromLocalFile(str(paths.qml_dir() / "Main.qml")))
     assert eng.rootObjects(), "\n".join(warnings)
     win = eng.rootObjects()[0]
+    _chrome.attach(win)
 
     def spin(ms):
         loop = QEventLoop()

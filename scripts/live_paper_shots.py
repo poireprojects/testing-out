@@ -99,10 +99,14 @@ ctx.setContextProperty("app", ctl)
 ctx.setContextProperty("initialGeometry", {"x": 0, "y": 0, "width": 1440, "height": a.height, "maximized": False, "page": 0})
 ctx.setContextProperty("trayAvailable", False)
 ctx.setContextProperty("profileName", "")
+from dkapp.ui.chrome import WindowChrome  # noqa: E402
+_chrome = WindowChrome()
+ctx.setContextProperty("chrome", _chrome)
 ctx.setContextProperty("startMinimized", False)
 ctx.setContextProperty("iconUrl", QUrl.fromLocalFile(str(paths.assets_dir() / "icons" / "dk.png")))
 eng.load(QUrl.fromLocalFile(str(paths.qml_dir() / "Main.qml")))
 win = eng.rootObjects()[0]
+_chrome.attach(win)
 all_pages = ["overview", "scanner", "activity", "trades", "performance", "settings"]
 pages = [p for p in all_pages if p in a.pages.split(",")]
 start = time.monotonic()

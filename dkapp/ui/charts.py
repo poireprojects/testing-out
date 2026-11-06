@@ -235,8 +235,12 @@ class LineChart(_ChartBase):
             if self._labels:
                 n = len(self._labels)
                 step = max(1, n // 5)
+                fm = p.fontMetrics()
                 for i in range(0, n, step):
-                    p.drawText(QPointF(X(i, n) - 12, h - 4), self._labels[i])
+                    t = self._labels[i]
+                    tw = fm.horizontalAdvance(t)
+                    tx = min(max(plot.left(), X(i, n) - tw / 2), plot.right() - tw)   # never clipped at the edges
+                    p.drawText(QPointF(tx, h - 4), t)
 
         if not math.isnan(self._baseline):
             pen = QPen(QColor(255, 255, 255, 60), 1, Qt.PenStyle.DashLine)
@@ -380,8 +384,11 @@ class CandleChart(_ChartBase):
             p.setPen(self._text)
             p.drawText(QPointF(price_r.right() + 8, y + 4), f"{v:,.2f}")
         tstep = max(1, n // 6)
+        fm = p.fontMetrics()
         for i in range(0, n, tstep):
-            p.drawText(QPointF(X(i) - 14, h - 6), str(bars[i].get("t", "")))
+            t = str(bars[i].get("t", ""))
+            tw = fm.horizontalAdvance(t)
+            p.drawText(QPointF(min(max(price_r.left(), X(i) - tw / 2), price_r.right() - tw), h - 6), t)
 
         shown = max(2, int(math.ceil(n * self._reveal)))
         for i in range(shown):

@@ -110,6 +110,10 @@ def main(argv: list[str] | None = None) -> int:
     from .. import preload
     preload_missing = preload.preload()
     self_test = "--self-test" in argv
+    chrome_test_dir = argv[argv.index("--chrome-selftest") + 1] if "--chrome-selftest" in argv else None
+    if chrome_test_dir:  # real window on the real desktop (not offscreen): checks the integrated frame
+        import tempfile
+        os.environ.setdefault("DK_HOME", tempfile.mkdtemp(prefix="dk-chrometest-"))
     if self_test:
         # Packaging smoke test: isolated data folder, offscreen rendering, quit after loading the UI.
         import tempfile
@@ -150,7 +154,7 @@ def main(argv: list[str] | None = None) -> int:
     # ---- single instance: a second launch just brings the first window forward
     lock = QLockFile(str(lock_dir / "app.lock"))
     lock.setStaleLockTime(0)
-    if not lock.tryLock(200) and not self_test:
+    if not lock.tryLock(200) and not self_test and not chrome_test_dir:
         if profile:
             from PySide6.QtWidgets import QMessageBox
             QMessageBox.information(None, APP_NAME, "the app is already running. quit it first (tray icon → quit), "
@@ -173,7 +177,7 @@ def main(argv: list[str] | None = None) -> int:
     app.setWindowIcon(icon)
 
     settings = load_settings()
-    if self_test:
+    if self_test or chrome_test_dir:
         settings.first_run_done = True
     from .charts import LineChart  # noqa: F401  (registers DkCharts QML types)
     from .controller import AppController
@@ -189,10 +193,13 @@ def main(argv: list[str] | None = None) -> int:
     tray = _Tray(app, controller, icon)
     tray_holder["tray"] = tray
 
+    from .chrome import WindowChrome
+    chrome = WindowChrome(app)  # parented: outlives the QML engine at shutdown
     engine = QQmlApplicationEngine()
     engine.addImportPath(str(paths.qml_dir()))
     ctx = engine.rootContext()
     ctx.setContextProperty("app", controller)
+    ctx.setContextProperty("chrome", chrome)
     ctx.setContextProperty("initialGeometry", _valid_geometry(settings.window))
     ctx.setContextProperty("trayAvailable", tray.available)
     ctx.setContextProperty("profileName", profile or "")
@@ -209,6 +216,16 @@ def main(argv: list[str] | None = None) -> int:
         controller.shutdown()
         return 1
     window = engine.rootObjects()[0]
+    chrome.attach(window)
+    if chrome_test_dir:
+        from pathlib import Path as _P
+        from .chrome import self_test as chrome_self_test
+        if os.environ.get("DK_CHROME_TEST_SIZE"):
+            cw, ch = (int(v) for v in os.environ["DK_CHROME_TEST_SIZE"].split("x"))
+            window.setProperty("width", cw)
+            window.setProperty("height", ch)
+        window.show()
+        chrome_self_test(chrome, window, _P(chrome_test_dir), lambda code: app.exit(code))
     if self_test:
         from PySide6.QtCore import QTimer
 

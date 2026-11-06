@@ -1,0 +1,136 @@
+{
+ "round": "research round 1",
+ "holdout": "2026-05-01 \u2192 2026-08-26 (81 trading days, used once)",
+ "development": "2025-09-16 \u2192 2026-04-30 + 2026-09-11 \u2192 2026-11-05 (197 days)",
+ "source": "Alpaca IEX 1-minute bars, 40 symbols, $20 positions, 2 slots, after spread, slippage and fees",
+ "breakEvenPct": 0.16976,
+ "bestSignalPct": 0.04,
+ "rows": [
+  {
+   "key": "no_trade",
+   "label": "doing nothing",
+   "trades": 0,
+   "netPct": 0.0,
+   "lo": 0.0,
+   "hi": 0.0,
+   "pnl": 0.0,
+   "verdict": "baseline"
+  },
+  {
+   "key": "rules_ranker",
+   "label": "rules + ranker (the app's logic)",
+   "trades": 230,
+   "netPct": -0.13288753929475972,
+   "grossPct": 0.042082687551615795,
+   "lo": -0.22498297704559928,
+   "hi": -0.03679341585918169,
+   "pnl": -6.112826807558946,
+   "devTrades": 434,
+   "devNetPct": -0.13640979640932624,
+   "verdict": "baseline"
+  },
+  {
+   "key": "h1",
+   "label": "H1 mean reversion",
+   "trades": 699,
+   "netPct": -0.15306131307572174,
+   "grossPct": -0.00612940077362137,
+   "lo": -0.18753145334069157,
+   "hi": -0.11736984176638228,
+   "pnl": -21.397971567985916,
+   "devTrades": 1477,
+   "devNetPct": -0.15362156454881254,
+   "verdict": "rejected"
+  },
+  {
+   "key": "h2",
+   "label": "H2 relative strength",
+   "trades": 157,
+   "netPct": -0.1338505025435308,
+   "grossPct": 0.07259248229108374,
+   "lo": -0.41293036860863025,
+   "hi": 0.16206932389661677,
+   "pnl": -4.202905779866868,
+   "devTrades": 379,
+   "devNetPct": -0.1418196898524561,
+   "verdict": "rejected"
+  },
+  {
+   "key": "h3",
+   "label": "H3 market intraday momentum",
+   "trades": 49,
+   "netPct": -0.26809264180045217,
+   "grossPct": 0.01183829287275197,
+   "lo": -0.2874069545394976,
+   "hi": -0.2476315613828329,
+   "pnl": -2.6273078896444306,
+   "devTrades": 108,
+   "devNetPct": -0.2285858601246711,
+   "verdict": "insufficient"
+  },
+  {
+   "key": "dense_random",
+   "label": "random pick (same slots)",
+   "trades": 1572,
+   "netPct": -0.1288020376870969,
+   "grossPct": 0.008854027594900738,
+   "lo": -0.14649186524916494,
+   "hi": -0.1103520985815457,
+   "pnl": -40.495360648823294,
+   "devTrades": 3785,
+   "devNetPct": -0.1270429799816716,
+   "verdict": "baseline"
+  },
+  {
+   "key": "h4",
+   "label": "H4 statistical model",
+   "trades": 0,
+   "netPct": 0.0,
+   "grossPct": 0.0,
+   "lo": 0.0,
+   "hi": 0.0,
+   "pnl": 0.0,
+   "devTrades": 21,
+   "devNetPct": -0.07108750946507553,
+   "verdict": "insufficient"
+  },
+  {
+   "key": "h5",
+   "label": "H5 rules + model filter",
+   "trades": 0,
+   "netPct": 0.0,
+   "grossPct": 0.0,
+   "lo": 0.0,
+   "hi": 0.0,
+   "pnl": 0.0,
+   "devTrades": 4,
+   "devNetPct": -0.5189783392435839,
+   "verdict": "insufficient"
+  }
+ ],
+ "model": {
+  "auc": 0.612047740317525,
+  "brier": 0.17351413626096937,
+  "brierBase": 0.1783730533919278,
+  "ece": 0.005975803602475684,
+  "expNetAuc": 0.48721840705366254,
+  "n": 5850
+ },
+ "llm": {
+  "answers": 72,
+  "inconsistent": 10,
+  "inconsistentShare": 0.1388888888888889,
+  "approved": 72,
+  "avgConfidence": 0.9465277777777779,
+  "medianSeconds": 43.004,
+  "problemKinds": {
+   "says the stop is 1": 7,
+   "says the stop is 9": 2,
+   "says the target is": 2,
+   "calls it oversold": 1,
+   "says the stop is 2": 1
+  }
+ },
+ "capitalFor100PerMonth": 11904.761904761903,
+ "conclusion": "No approach made money after costs on the unseen holdout; not trading was best."
+}

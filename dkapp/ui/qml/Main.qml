@@ -17,6 +17,8 @@ ApplicationWindow {
     y: initialGeometry.y
     visible: false
     font.family: Theme.body
+    // integrated title bar (Windows/Linux); macOS keeps its native frame
+    flags: chrome.custom ? (Qt.Window | Qt.FramelessWindowHint | Qt.WindowMinMaxButtonsHint) : Qt.Window
 
     property int page: Math.max(0, Math.min(5, initialGeometry.page))
     readonly property var st: app.state
@@ -27,7 +29,7 @@ ApplicationWindow {
     readonly property var pageInfo: [
         { title: "overview", icon: "overview", sub: "how the account is doing and what the robot is up to." },
         { title: "live scanner", icon: "scanner", sub: "stocks being watched right now, ranked by how interesting they look." },
-        { title: "ai activity", icon: "ai", sub: "what the AI is thinking, and why it said yes or no." },
+        { title: "ai activity", icon: "ai", sub: "how every setup was judged — rules, ranker, the statistical model and (if on) the AI — and why." },
         { title: "trades", icon: "trades", sub: "positions, orders and every completed trade." },
         { title: "performance", icon: "performance", sub: "profits, losses and whether any of this is actually working." },
         { title: "settings", icon: "settings", sub: "brokerage, AI, safety rules and how the app behaves." }
@@ -74,8 +76,24 @@ ApplicationWindow {
     Shortcut { sequences: ["Ctrl+5"]; onActivated: root.page = 4 }
     Shortcut { sequences: ["Ctrl+,"]; onActivated: root.page = 5 }
 
-    RowLayout {
+    ColumnLayout {
         anchors.fill: parent
+        spacing: 0
+
+    TitleBar {
+        id: titleBar
+        Layout.fillWidth: true
+        visible: chrome.custom
+        pageTitle: root.pageInfo[root.page].title
+        session: root.st.session || ({})
+        mode: app.mode
+        quant: root.st.quant || ({})
+        isTestCopy: profileName !== ""
+    }
+
+    RowLayout {
+        Layout.fillWidth: true
+        Layout.fillHeight: true
         spacing: 0
 
         // ================================================================ sidebar
@@ -91,8 +109,9 @@ ApplicationWindow {
                 anchors.topMargin: 22
                 spacing: 6
 
-                // brand
+                // brand (in the title bar when the app draws its own frame)
                 RowLayout {
+                    visible: !chrome.custom
                     spacing: 12
                     Layout.bottomMargin: 10
                     Image {
@@ -110,6 +129,7 @@ ApplicationWindow {
                     }
                 }
                 Txt {
+                    visible: !chrome.custom
                     text: "an app created entirely by\nRiley Lantzy"
                     Layout.fillWidth: true
                     wrapMode: Text.WordWrap
@@ -220,7 +240,10 @@ ApplicationWindow {
                     ToolTip.delay: 400
                     ToolTip.text: app.explain("emergency stop")
                 }
-                Txt { text: "v" + app.version; color: Theme.textMuted; font.pixelSize: 11; Layout.alignment: Qt.AlignHCenter; Layout.topMargin: 6 }
+                Txt {
+                    text: (chrome.custom ? "an app created entirely by Riley Lantzy · " : "") + "v" + app.version
+                    color: Theme.textMuted; font.pixelSize: 11; Layout.alignment: Qt.AlignHCenter; Layout.topMargin: 6
+                }
             }
         }
 
@@ -332,6 +355,7 @@ ApplicationWindow {
                         Txt { text: root.pageInfo[root.page].sub; color: Theme.textMuted; font.pixelSize: 13 }
                     }
                     Rectangle {
+                        visible: !chrome.custom   // shown in the title bar otherwise
                         implicitHeight: 38
                         implicitWidth: sessRow.implicitWidth + 26
                         radius: 19
@@ -384,6 +408,38 @@ ApplicationWindow {
         }
     }
 
+    }  // ColumnLayout (title bar + body)
+
+    // ---- Linux: resize from the edges (Windows resizes natively through hit-testing)
+    Repeater {
+        model: chrome.custom && !chrome.nativeHitTest && !chrome.maximized ? [
+            { e: Qt.LeftEdge, x: 0, y: 6, w: 5, h: -12, c: Qt.SizeHorCursor },
+            { e: Qt.RightEdge, x: -5, y: 6, w: 5, h: -12, c: Qt.SizeHorCursor },
+            { e: Qt.BottomEdge, x: 6, y: -5, w: -12, h: 5, c: Qt.SizeVerCursor },
+            { e: Qt.TopEdge, x: 6, y: 0, w: -150, h: 4, c: Qt.SizeVerCursor },
+            { e: Qt.BottomEdge | Qt.RightEdge, x: -8, y: -8, w: 8, h: 8, c: Qt.SizeFDiagCursor },
+            { e: Qt.BottomEdge | Qt.LeftEdge, x: 0, y: -8, w: 8, h: 8, c: Qt.SizeBDiagCursor }
+        ] : []
+        delegate: MouseArea {
+            x: modelData.x < 0 ? root.width + modelData.x : modelData.x
+            y: modelData.y < 0 ? root.height + modelData.y : modelData.y
+            width: modelData.w <= 0 ? root.width + modelData.w : modelData.w
+            height: modelData.h <= 0 ? root.height + modelData.h : modelData.h
+            z: 200
+            cursorShape: modelData.c
+            onPressed: chrome.startResize(modelData.e)
+        }
+    }
+    // a hairline frame where the OS doesn't draw one (Windows draws its own border)
+    Rectangle {
+        anchors.fill: parent
+        visible: chrome.custom && !chrome.nativeHitTest && !chrome.maximized
+        color: "transparent"
+        border.color: Theme.borderStrong
+        border.width: 1
+        z: 150
+    }
+
     component PageSlot: Item {
         property int index: 0
         readonly property bool current: root.page === index
@@ -399,7 +455,7 @@ ApplicationWindow {
         id: toasts
         anchors.top: parent.top
         anchors.right: parent.right
-        anchors.topMargin: 132
+        anchors.topMargin: 132 + (chrome.custom ? Theme.titleBarHeight : 0)
         anchors.rightMargin: 28
         height: 520
         z: 100

@@ -253,7 +253,37 @@ def main(run: Path) -> int:
         print("wrote", p)
     (run / "REPORT.md").write_text(markdown(run, dev, hold, llm, econ))
     print("wrote", run / "REPORT.md")
+    write_app_summary(dev, hold, llm, econ)
     return 0
+
+
+def write_app_summary(dev: dict, hold: dict, llm: dict, econ: dict) -> None:
+    """The compact evidence the app's Performance page shows (shipped in dkapp/assets/research)."""
+    rows = []
+    for k, lab in ROWS:
+        if k == "no_trade":
+            rows.append({"key": k, "label": lab, "trades": 0, "netPct": 0.0, "lo": 0.0, "hi": 0.0, "pnl": 0.0,
+                         "verdict": "baseline"})
+            continue
+        e = hold["evals"][k]
+        rows.append({"key": k, "label": lab, "trades": e["trades"], "netPct": e["avgRetPct"], "grossPct": e["grossAvgRetPct"],
+                     "lo": e["ci90"][0], "hi": e["ci90"][1], "pnl": e["totalPnl"],
+                     "devTrades": dev["evals"][k]["trades"], "devNetPct": dev["evals"][k]["avgRetPct"],
+                     "verdict": hold.get("verdicts", {}).get(k, {}).get("verdict", "baseline")})
+    m5 = hold["models"]["h5"]
+    out = {"round": "research round 1", "holdout": "2026-05-01 → 2026-08-26 (81 trading days, used once)",
+           "development": "2025-09-16 → 2026-04-30 + 2026-09-11 → 2026-11-05 (197 days)",
+           "source": "Alpaca IEX 1-minute bars, 40 symbols, $20 positions, 2 slots, after spread, slippage and fees",
+           "breakEvenPct": econ["breakEvenBySize"]["$20"]["totalPct"], "bestSignalPct": 0.04, "rows": rows,
+           "model": {"auc": m5["auc"], "brier": m5["brier"], "brierBase": m5["brierClimatology"],
+                     "ece": m5["calibration"]["ece"], "expNetAuc": m5["aucExpNet"], "n": m5["n"]},
+           "llm": llm["summary"],
+           "capitalFor100PerMonth": econ["capitalNeeded"]["+0.05%"]["$100/mo"],
+           "conclusion": "No approach made money after costs on the unseen holdout; not trading was best."}
+    dst = ROOT / "dkapp" / "assets" / "research"
+    dst.mkdir(parents=True, exist_ok=True)
+    (dst / "round1-summary.json").write_text(json.dumps(out, indent=1))
+    print("wrote", dst / "round1-summary.json")
 
 
 if __name__ == "__main__":

@@ -197,6 +197,30 @@ Item {
                                 }
                                 Txt { text: modelData.strategy + (modelData.agreeing > 1 ? " · " + modelData.agreeing + " agree" : ""); color: Theme.textMuted; font.pixelSize: 11 }
                                 Txt { text: "+" + modelData.targetPct.toFixed(2) + "% / −" + modelData.stopPct.toFixed(2) + "% · costs " + modelData.costPct.toFixed(2) + "% · " + modelData.rrAfterCost.toFixed(1) + "× after costs"; color: Theme.textDim; font.pixelSize: 11; Layout.fillWidth: true; wrapMode: Text.WordWrap }
+                                RowLayout {
+                                    visible: modelData.quant !== null && modelData.quant !== undefined
+                                    Layout.fillWidth: true
+                                    spacing: 6
+                                    Icon { name: "brain"; size: 12; color: Theme.textMuted }
+                                    Txt {
+                                        Layout.fillWidth: true
+                                        readonly property var q: modelData.quant || ({})
+                                        text: "model: " + (q.expNetPct >= 0 ? "+" : "") + Number(q.expNetPct || 0).toFixed(2) + "%"
+                                              + (q.expNetSd !== null && q.expNetSd !== undefined ? " ± " + Number(q.expNetSd).toFixed(2) : "")
+                                              + " expected · win " + Math.round((q.pWin || 0) * 100) + "%"
+                                              + (q.blocks ? " · blocked" : " · shadow")
+                                        color: (q.expNetPct || 0) > 0 ? Theme.lime : Theme.textMuted
+                                        font.pixelSize: 11
+                                        wrapMode: Text.WordWrap
+                                        elide: Text.ElideNone
+                                        maximumLineCount: 2
+                                    }
+                                    HoverHandler { id: qh }
+                                    ToolTip.visible: qh.hovered
+                                    ToolTip.delay: 300
+                                    ToolTip.text: "the statistical model's estimate after costs, as % of this position (not of the account). "
+                                                  + "± is the spread of its estimate across resampled training days. in shadow it only records; it can never add a trade."
+                                }
                                 Txt { visible: !modelData.take && modelData.blockers.length > 0; text: modelData.blockers.length > 0 ? modelData.blockers[0] : ""; color: Theme.amber; font.pixelSize: 11; Layout.fillWidth: true; wrapMode: Text.WordWrap; elide: Text.ElideNone; maximumLineCount: 3 }
                             }
                         }

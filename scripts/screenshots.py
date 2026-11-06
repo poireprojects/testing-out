@@ -44,6 +44,9 @@ ctx.setContextProperty("initialGeometry", {"x": 0, "y": 0, "width": int(os.envir
                                          "height": int(os.environ.get("DK_SHOT_HEIGHT", "900")), "maximized": False, "page": 0})
 ctx.setContextProperty("trayAvailable", False)
 ctx.setContextProperty("profileName", "")
+from dkapp.ui.chrome import WindowChrome  # noqa: E402
+_chrome = WindowChrome()
+ctx.setContextProperty("chrome", _chrome)
 ctx.setContextProperty("startMinimized", False)
 ctx.setContextProperty("iconUrl", QUrl.fromLocalFile(str(paths.assets_dir() / "icons" / "dk.png")))
 errors = []
@@ -52,6 +55,7 @@ eng.load(QUrl.fromLocalFile(str(paths.qml_dir() / "Main.qml")))
 if not eng.rootObjects():
     print("QML LOAD FAILED"); print("\n".join(errors)); sys.exit(1)
 win = eng.rootObjects()[0]
+_chrome.attach(win)
 pages = ["overview", "scanner", "activity", "trades", "performance", "settings"]
 only = os.environ.get("DK_PAGES")
 order = [i for i, p in enumerate(pages) if not only or p in only.split(",")]

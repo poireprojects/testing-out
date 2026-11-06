@@ -26,7 +26,147 @@ DkScroll {
             RowLayout {
                 anchors.fill: parent; anchors.margins: 14; spacing: 10
                 Icon { name: "flask"; size: 16; color: Theme.amber }
-                Txt { text: "everything on this page comes from the demo simulator. it shows how the reports work — it is not evidence of real performance."; color: Theme.amber; font.pixelSize: 13; Layout.fillWidth: true }
+                Txt { text: "account results on this page come from the demo simulator — they show how the reports work, not real performance. the research card is real market history and is labeled as such."; wrapMode: Text.WordWrap; color: Theme.amber; font.pixelSize: 13; Layout.fillWidth: true }
+            }
+        }
+
+        // ---------------- research evidence (historical, clearly separated from this account's own results)
+        Card {
+            id: evidence
+            Layout.fillWidth: true
+            readonly property var r: app.research || ({})
+            visible: r.rows !== undefined
+            title: "what the evidence says"
+            icon: "shield"
+            subtitle: "HISTORICAL RESEARCH — not this account. unseen holdout " + (r.holdout || "") + " · " + (r.source || "")
+            headerRight: [ Pill { text: "historical · holdout"; kind: "info" } ]
+
+            Txt {
+                Layout.fillWidth: true
+                text: evidence.r.conclusion || ""
+                font.pixelSize: 15; font.weight: Font.DemiBold
+                wrapMode: Text.WordWrap
+            }
+            Txt {
+                Layout.fillWidth: true
+                text: "a $20 round trip costs about " + Number(evidence.r.breakEvenPct || 0).toFixed(2) + "% (spread, slippage, fees). "
+                      + "the strongest signal measured is worth about " + Number(evidence.r.bestSignalPct || 0).toFixed(2) + "% — a quarter of that. "
+                      + "percentages below are per trade (P/L ÷ the $20 position); dollars are on the $100 account."
+                color: Theme.textDim; font.pixelSize: 12; wrapMode: Text.WordWrap
+            }
+            // table
+            ColumnLayout {
+                Layout.fillWidth: true
+                Layout.topMargin: 4
+                spacing: 0
+                RowLayout {
+                    Layout.fillWidth: true
+                    spacing: 8
+                    SectionLabel { text: "approach"; font.pixelSize: 10; Layout.fillWidth: true }
+                    SectionLabel { text: "trades"; font.pixelSize: 10; Layout.preferredWidth: 64; horizontalAlignment: Text.AlignRight }
+                    SectionLabel { text: "per trade"; font.pixelSize: 10; Layout.preferredWidth: 84; horizontalAlignment: Text.AlignRight }
+                    SectionLabel { text: "90% range"; font.pixelSize: 10; Layout.preferredWidth: 150; horizontalAlignment: Text.AlignRight }
+                    SectionLabel { text: "$ on $100"; font.pixelSize: 10; Layout.preferredWidth: 80; horizontalAlignment: Text.AlignRight }
+                    SectionLabel { text: "verdict"; font.pixelSize: 10; Layout.preferredWidth: 110; horizontalAlignment: Text.AlignRight }
+                }
+                Repeater {
+                    model: evidence.r.rows || []
+                    delegate: Rectangle {
+                        Layout.fillWidth: true
+                        implicitHeight: 34
+                        color: index % 2 === 0 ? "transparent" : Qt.rgba(1, 1, 1, 0.018)
+                        radius: 6
+                        RowLayout {
+                            anchors.fill: parent
+                            anchors.leftMargin: 4; anchors.rightMargin: 4
+                            spacing: 8
+                            Txt { text: modelData.label; font.pixelSize: 13; Layout.fillWidth: true; elide: Text.ElideRight
+                                  font.weight: modelData.key === "no_trade" ? Font.DemiBold : Font.Normal }
+                            Txt { text: modelData.trades.toLocaleString(Qt.locale("en_US"), 'f', 0); font.pixelSize: 13; color: Theme.textDim
+                                  Layout.preferredWidth: 64; horizontalAlignment: Text.AlignRight }
+                            Txt { text: modelData.trades > 0 ? Theme.signedPct(modelData.netPct, 3) : "—"; font.pixelSize: 13; font.weight: Font.DemiBold
+                                  color: modelData.trades === 0 ? Theme.textMuted : modelData.netPct > 0 ? Theme.lime : Theme.coral
+                                  Layout.preferredWidth: 84; horizontalAlignment: Text.AlignRight }
+                            Txt { text: modelData.trades > 0 ? Theme.signedPct(modelData.lo, 2) + " … " + Theme.signedPct(modelData.hi, 2) : (modelData.key === "no_trade" ? "no risk" : "took no trades")
+                                  font.pixelSize: 12; color: Theme.textMuted; Layout.preferredWidth: 150; horizontalAlignment: Text.AlignRight }
+                            Txt { text: Theme.signedMoney(modelData.pnl); font.pixelSize: 13
+                                  color: modelData.pnl < -0.005 ? Theme.coral : Theme.textDim
+                                  Layout.preferredWidth: 80; horizontalAlignment: Text.AlignRight }
+                            Item {
+                                Layout.preferredWidth: 110; implicitHeight: 22
+                                Pill {
+                                    anchors.right: parent.right; anchors.verticalCenter: parent.verticalCenter
+                                    text: modelData.verdict === "eligible_for_forward_test" ? "forward test" : modelData.verdict
+                                    kind: modelData.verdict === "rejected" ? "sell" : modelData.verdict === "insufficient" ? "warn" : "neutral"
+                                    fontSize: 10
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            // model + language model, side by side
+            RowLayout {
+                Layout.fillWidth: true
+                Layout.topMargin: 8
+                spacing: Theme.gap
+                Rectangle {
+                    Layout.fillWidth: true
+                    Layout.fillHeight: true
+                    Layout.preferredWidth: 1
+                    implicitHeight: modelCol.implicitHeight + 28
+                    radius: Theme.radiusSm
+                    color: Theme.surface2
+                    ColumnLayout {
+                        id: modelCol
+                        anchors.left: parent.left; anchors.right: parent.right; anchors.top: parent.top; anchors.margins: 14
+                        spacing: 4
+                        RowLayout {
+                            spacing: 8
+                            Icon { name: "brain"; size: 15; color: Theme.textDim }
+                            Txt { text: "statistical model"; font.pixelSize: 13; font.weight: Font.DemiBold }
+                            Pill { text: (app.state.quant && app.state.quant.stage) ? app.state.quant.stage : "shadow"; kind: "neutral"; fontSize: 10 }
+                        }
+                        Txt {
+                            Layout.fillWidth: true; wrapMode: Text.WordWrap
+                            readonly property var m: evidence.r.model || ({})
+                            text: "on " + (m.n || 0).toLocaleString(Qt.locale("en_US"), 'f', 0) + " unseen signals its win chances were calibrated (error "
+                                  + Number(m.ece || 0).toFixed(3) + ") and better than the base rate (Brier " + Number(m.brier || 0).toFixed(3) + " vs "
+                                  + Number(m.brierBase || 0).toFixed(3) + ", AUC " + Number(m.auc || 0).toFixed(2) + "). it can't predict the SIZE of results "
+                                  + "(AUC " + Number(m.expNetAuc || 0).toFixed(2) + "), found nothing with a positive expected result and took no trades."
+                            color: Theme.textDim; font.pixelSize: 12
+                        }
+                        Txt { text: "shadow = shows its estimate on every setup, never trades."; color: Theme.textMuted; font.pixelSize: 11 }
+                    }
+                }
+                Rectangle {
+                    Layout.fillWidth: true
+                    Layout.fillHeight: true
+                    Layout.preferredWidth: 1
+                    implicitHeight: llmCol.implicitHeight + 28
+                    radius: Theme.radiusSm
+                    color: Theme.surface2
+                    ColumnLayout {
+                        id: llmCol
+                        anchors.left: parent.left; anchors.right: parent.right; anchors.top: parent.top; anchors.margins: 14
+                        spacing: 4
+                        RowLayout {
+                            spacing: 8
+                            Icon { name: "ai"; size: 15; color: Theme.textDim }
+                            Txt { text: "language model (local 3B)"; font.pixelSize: 13; font.weight: Font.DemiBold }
+                            Pill { text: "no trade authority"; kind: "warn"; fontSize: 10 }
+                        }
+                        Txt {
+                            Layout.fillWidth: true; wrapMode: Text.WordWrap
+                            readonly property var l: evidence.r.llm || ({})
+                            text: "approved " + (l.approved || 0) + " of " + (l.answers || 0) + " picks at ~" + Math.round((l.avgConfidence || 0) * 100)
+                                  + "% confidence — the same trades as the rules alone. " + Math.round((l.inconsistentShare || 0) * 100)
+                                  + "% of its explanations contradicted the app's own numbers; median " + Math.round(l.medianSeconds || 0) + " s per answer."
+                            color: Theme.textDim; font.pixelSize: 12
+                        }
+                        Txt { text: "it still explains and reviews; with real money it never decides."; color: Theme.textMuted; font.pixelSize: 11 }
+                    }
+                }
             }
         }
 

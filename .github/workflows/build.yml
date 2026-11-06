@@ -52,6 +52,33 @@ jobs:
           $p = Start-Process -FilePath "dist\dontknowwhatimdoing\dontknowwhatimdoing.exe" -ArgumentList "--self-test" -Wait -PassThru
           Get-Content (Join-Path $env:DK_HOME "logs\self-test.txt")
           if ($p.ExitCode -ne 0) { throw "self-test failed with exit code $($p.ExitCode)" }
+      - name: Larger desktop for the window tests (best effort)
+        shell: pwsh
+        continue-on-error: true
+        run: Set-DisplayResolution -Width 1920 -Height 1080 -Force
+      - name: Window frame self-test at 100 / 125 / 150 % (native hit-testing, Snap Layouts target, maximize bounds)
+        shell: pwsh
+        run: |
+          $out = Join-Path $env:RUNNER_TEMP "ui-shots"
+          $fail = 0
+          foreach ($s in @("1", "1.25", "1.5")) {
+            $env:QT_SCALE_FACTOR = $s
+            $env:DK_CHROME_TEST_SIZE = "1280x800"
+            $env:DK_HOME = Join-Path $env:RUNNER_TEMP "dk-chrome-$s"
+            $dir = Join-Path $out "scale-$s"
+            $p = Start-Process -FilePath "dist\dontknowwhatimdoing\dontknowwhatimdoing.exe" -ArgumentList "--chrome-selftest", "`"$dir`"" -PassThru
+            if (-not $p.WaitForExit(150000)) { Stop-Process -Id $p.Id -Force; Write-Host "timed out at scale $s"; $fail = 1 }
+            elseif ($p.ExitCode -ne 0) { Write-Host "exit code $($p.ExitCode) at scale $s"; $fail = 1 }
+            Get-Content (Join-Path $dir "chrome-selftest.json") -ErrorAction SilentlyContinue
+          }
+          Remove-Item Env:QT_SCALE_FACTOR, Env:DK_CHROME_TEST_SIZE
+          if ($fail) { throw "window frame self-test failed" }
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: windows-ui-screenshots
+          path: ${{ runner.temp }}/ui-shots
+          if-no-files-found: warn
       - name: Build installer
         shell: pwsh
         run: |
