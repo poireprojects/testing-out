@@ -111,9 +111,10 @@ jobs:
           mkdir out
           cp artifacts/dontknowwhatimdoing-windows-installer/*.exe out/dontknowwhatimdoing-windows-setup.exe
           cp artifacts/dontknowwhatimdoing-macos-dmg/*.dmg out/dontknowwhatimdoing-macos.dmg
-          gh release delete latest --cleanup-tag --yes || true
-          gh release create latest out/* --prerelease --target "$GITHUB_SHA" \
-            --title "latest build" \
+          # One release per build (deleted release tags can't be reused here), marked "latest" so
+          # https://github.com/<repo>/releases/latest/download/<file> always serves the newest build.
+          gh release create "build-${GITHUB_RUN_NUMBER}" out/* --target "$GITHUB_SHA" --latest \
+            --title "build ${GITHUB_RUN_NUMBER}" \
             --notes "Newest build of don’t know what im doing (commit ${GITHUB_SHA::7}). Windows: run the setup file. Mac: open the .dmg and drag the app to Applications."
 
   release:

@@ -18,11 +18,11 @@ Alpaca. Real-money trading stays locked until you explicitly authorize it.
 
 Download the file for your computer and open it:
 
-* **Windows 10/11:** [dontknowwhatimdoing-windows-setup.exe](https://github.com/poireprojects/testing-out/releases/download/latest/dontknowwhatimdoing-windows-setup.exe)
+* **Windows 10/11:** [dontknowwhatimdoing-windows-setup.exe](https://github.com/poireprojects/testing-out/releases/latest/download/dontknowwhatimdoing-windows-setup.exe)
   Double-click it. It installs for your user only (no admin needed), adds a Start menu entry and an optional
   desktop shortcut, then opens the app. If Windows SmartScreen says "unknown publisher", click
   **More info → Run anyway** (the app isn't code-signed; signing certificates cost money).
-* **Mac (Apple Silicon):** [dontknowwhatimdoing-macos.dmg](https://github.com/poireprojects/testing-out/releases/download/latest/dontknowwhatimdoing-macos.dmg)
+* **Mac (Apple Silicon):** [dontknowwhatimdoing-macos.dmg](https://github.com/poireprojects/testing-out/releases/latest/download/dontknowwhatimdoing-macos.dmg)
   Open it and drag the app into **Applications**. The first time only: **right-click the app → Open → Open**
   (it isn't notarized by Apple).
 
