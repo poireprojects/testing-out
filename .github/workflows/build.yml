@@ -58,6 +58,7 @@ jobs:
         run: Set-DisplayResolution -Width 1920 -Height 1080 -Force
       - name: Window frame self-test at 100 / 125 / 150 % (native hit-testing, Snap Layouts target, maximize bounds)
         shell: pwsh
+        timeout-minutes: 12
         run: |
           $out = Join-Path $env:RUNNER_TEMP "ui-shots"
           $fail = 0
@@ -70,6 +71,9 @@ jobs:
             if (-not $p.WaitForExit(150000)) { Stop-Process -Id $p.Id -Force; Write-Host "timed out at scale $s"; $fail = 1 }
             elseif ($p.ExitCode -ne 0) { Write-Host "exit code $($p.ExitCode) at scale $s"; $fail = 1 }
             Get-Content (Join-Path $dir "chrome-selftest.json") -ErrorAction SilentlyContinue
+            Write-Host "--- progress ($s)"; Get-Content (Join-Path $dir "progress.txt") -ErrorAction SilentlyContinue
+            Write-Host "--- stack if it hung ($s)"; Get-Content (Join-Path $dir "stack.txt") -ErrorAction SilentlyContinue
+            Write-Host "--- app log ($s)"; Get-ChildItem (Join-Path $env:DK_HOME "logs") -Filter *.log -ErrorAction SilentlyContinue | ForEach-Object { Get-Content $_.FullName -Tail 40 }
           }
           Remove-Item Env:QT_SCALE_FACTOR, Env:DK_CHROME_TEST_SIZE
           if ($fail) { throw "window frame self-test failed" }

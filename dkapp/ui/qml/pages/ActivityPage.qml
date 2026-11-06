@@ -10,6 +10,8 @@ Item {
     readonly property var ai: st.ai || ({})
     readonly property var regime: st.regime || ({})
     readonly property var decision: st.lastDecision || null
+    // the last time setups were actually compared (stays visible while later scans find nothing)
+    readonly property var comparison: st.lastComparison || null
     readonly property var calib: (app.performance && app.performance.calibration) || ({})
     property string filter: "all"
 
@@ -170,12 +172,19 @@ Item {
                     color: page.decision && page.decision.chosen.length > 0 ? Theme.lime : Theme.text
                     font.pixelSize: 13; wrapMode: Text.WordWrap; elide: Text.ElideNone
                 }
+                Txt {
+                    Layout.fillWidth: true
+                    visible: page.comparison !== null && (page.decision === null || page.decision.candidates.length === 0)
+                    text: page.comparison ? "last comparison at " + page.comparison.at + ": " + page.comparison.summary : ""
+                    color: Theme.textMuted; font.pixelSize: 12; wrapMode: Text.WordWrap
+                }
                 Flow {
                     Layout.fillWidth: true
                     spacing: 10
-                    visible: page.decision !== null && page.decision.candidates.length > 0
+                    readonly property var shown: page.decision && page.decision.candidates.length > 0 ? page.decision : page.comparison
+                    visible: shown !== null && shown !== undefined && shown.candidates.length > 0
                     Repeater {
-                        model: page.decision ? page.decision.candidates.slice(0, 6) : []
+                        model: parent.shown ? parent.shown.candidates.slice(0, 6) : []
                         delegate: Rectangle {
                             width: 228
                             height: candCol.implicitHeight + 20

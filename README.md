@@ -75,6 +75,11 @@ You start in **demo mode**. A built-in simulator generates fake prices, so you c
 activity log, trades and the reports actually work. An amber banner says *demo* everywhere, and demo results live in
 their own database. They are never shown as real performance.
 
+The window draws its own graphite title bar (app name, current page, market status, model stage, account mode,
+and minimize / maximize / close) but behaves like any Windows window: drag it by empty title-bar space, double-click
+to maximize, drag to a screen edge or press Win+arrow keys to snap, hover the maximize button for Windows 11 snap
+layouts, and resize from any edge. Closing still goes to the tray (or asks first if positions are open).
+
 ## 3. Doing it by hand instead
 
 Everything the guided setup does is also in **settings**: brokerage keys under *brokerage — Alpaca*, and AI under
@@ -98,12 +103,19 @@ invalid answer, **no AI-dependent trade happens** — or switch *who decides ent
    whose stop would have to be too wide, or that don't suit the market are passed over, and **not trading at all is
    a normal outcome** when nothing clears the bar. The AI Activity page shows every comparison and why each setup
    won or lost.
-4. **Optional AI.** Settings → *who decides entries*: **rules + ranker** (no AI, no cost), **ai confirms** (each
-   pick needs the AI's approval), or **ai picks** (the AI chooses one of the top three, or none). Answers must be
-   strict JSON and are validated in code. An AI's confidence number is never treated as evidence of profit.
-5. **Final say: the risk engine.** Deterministic rules the AI cannot override (defaults below). It can shrink a
+4. **Statistical model (shadow).** A small, calibrated model (`dkapp/quant`) estimates every candidate's chance of
+   making money and its expected result after costs, with an uncertainty band, from the same point-in-time
+   features used in research. It ships at **shadow** stage: it shows its estimate on every setup (AI Activity) and
+   never changes a trade. It could only ever *block* paper trades, and only if a pre-registered test said it
+   adds value — it didn't (see *Research* below). Models are versioned with a fingerprint and can be rolled back.
+5. **Optional language model.** Settings → *who decides entries*: **rules + ranker** (default; no AI, no cost),
+   **ai confirms**, or **ai picks**. The app hands the model the numbers it computed (stop and target distance,
+   reward/risk after costs, RSI and what its level means) and **rejects any answer whose explanation contradicts
+   them**. In testing, the local 3B model approved 72 of 72 picks and added nothing, so in **live** mode a language
+   model never authorizes a trade; in paper the AI modes remain available as experiments.
+6. **Final say: the risk engine.** Deterministic rules the AI cannot override (defaults below). It can shrink a
    trade, tighten its stop, or block it, and says why in plain English.
-6. **Execution.** A limit order slightly above the ask (avoids bad fills in fast markets), then a **broker-side stop
+7. **Execution.** A limit order slightly above the ask (avoids bad fills in fast markets), then a **broker-side stop
    order** so the position stays protected even if your computer turns off. Targets, trailing stops (to break-even
    after +1R, then trailing), time limits and strategy exits are handled by the app. **Everything is sold before the
    market closes.**
@@ -134,6 +146,21 @@ Stop orders and loss limits **reduce** risk but cannot guarantee a maximum loss:
 Sizes use the **cash actually in the account** (capped by Alpaca's own buying-power figure), not the displayed
 portfolio value, and they only ever shrink after losses. The app never borrows, even on accounts where Alpaca offers
 2×–4× buying power. Risk is never increased to win money back.
+
+### Research: is there an edge? (November 2026)
+
+No — not yet. `research/runs/2026-11-06-round1/REPORT.md` has the details; in short:
+
+* One year of real 1-minute history (40 symbols). Hypotheses and pass/fail rules were **committed before** any
+  result was computed, and a reserved holdout (81 days) was evaluated **once**.
+* On that unseen holdout, every approach that trades lost money after costs: the app's rules + ranker −0.13% per
+  trade (−$6.11 on $100 over 81 days), intraday mean reversion −0.15%, relative strength −0.13%, market intraday
+  momentum −0.27%. The statistical models declined every trade. Doing nothing was best.
+* Why: a $20 round trip costs ≈0.17% (spread + slippage; fees are tiny); the strongest signal measured is worth
+  ≈0.04% over 30 minutes. More capital doesn't fix that — the cost is a percentage.
+* Every day of history used so far is recorded in `research/ledger.json`. New evidence now comes from forward paper
+  and shadow trading; nothing is promoted without ≥100 forward trades over ≥30 days, a multiple-testing-adjusted
+  p < 0.05 after costs, and your explicit approval.
 
 ### Is the AI actually helping?
 
@@ -167,6 +194,10 @@ backtested honestly, so this comparison is made going forward.
   always compared with IEX's own history. The full SIP feed costs about $99/month, which isn't sensible for a $100
   account.
 * ~200 data requests/minute on the free plan (the app throttles itself to 180).
+* **Fees (checked 2026-11-06 against Alpaca's brokerage fee schedule and FINRA notices):** no commission; SEC fee
+  $20.60 per $1M sold (since 2026-04-04); FINRA TAF **$0** for Oct–Dec 2026, back to $0.000195/share sold on
+  2027-01-01; FINRA CAT $0.000003/share bought or sold. Alpaca adds up each fee type per **day** and rounds that
+  total up to a cent — on $20 trades that's about $0.02–0.03 a day, not per trade. (Build 20 assumed $0.02 per sale.)
 
 ## What happens when your laptop…
 
@@ -179,6 +210,7 @@ backtested honestly, so this comparison is made going forward.
 | **Alpaca is down** | Same as no internet. Unconfirmed orders are looked up by their unique ID before anything is retried, so duplicates aren't created. |
 | **App crashes / restarts** | Orders are saved *before* they're sent, and everything is reconciled on startup. Tested: no duplicate orders or stops. |
 | **Broker refuses a stop order, or never confirms it** (timeout, lost reply) | The app watches the stop price itself, shows a banner that the position isn't protected at the broker, looks the order up by its unique id (it is never written off until Alpaca confirms it doesn't exist, so no second sell order is stacked on top), and retries. In **live** mode no new real-money trade is opened while any position is unprotected, the position is **sold if no stop is confirmed within 10 minutes**, and two refusals in a day pause live entries until tomorrow. Leftover orders of the app that Alpaca still holds after a trade ended are canceled. |
+| **Holds a position after the close** (app off at the close, or a sale didn't go through) | Fractional-share stops are day orders, so **nothing at the broker protects it overnight** and a gap at the next open can't be prevented. The app says so (notification + activity log) as soon as it sees it, places a new stop at the open and sells after the opening minutes (default). This can't be prevented while the laptop is off. |
 | **Something goes wrong** | Settings → about & diagnostics → **save diagnostics file** puts a .zip with logs and a status summary on your desktop (never your API keys). Rejected orders are explained in plain English. |
 
 Launch-at-login is in **settings → app behavior** (or choose it in the Windows installer).
@@ -190,9 +222,9 @@ Launch-at-login is in **settings → app behavior** (or choose it in the Windows
 | Alpaca paper trading, commissions | $0 |
 | Market data (IEX) | $0 |
 | Local AI (Ollama) | $0 (uses your computer) |
-| Regulatory fees on sales (~$0.02 per sale on $20 trades) | ≈ $0.40–$4 depending on trade count |
+| Regulatory fees (SEC + TAF + CAT, rounded once a day per fee type) | ≈ $0.40–$0.65 |
 | Optional cloud AI, ~10–20 decisions/day | Haiku 5.5 ≈ $0.15–0.30 · Sonnet 5.5 ≈ $2.50–5 · Opus 5.5 ≈ $5–11 (hard-capped by your budget) |
-| **Typical total with local AI** | **≈ $1–4 / month**, nearly all regulatory fees |
+| **Typical total with local AI** | **≈ $0.50 / month** — spread and slippage (≈0.13% per round trip) cost far more than any fee |
 
 The **performance → operating costs** card shows the real numbers as they happen.
 
@@ -233,22 +265,19 @@ external closes, protective-stop fallback, trailing stops, emergency stop, daily
 complete simulated trading day (P/L reconciled to the cent against the simulated broker's cash), paper/live
 separation, the backtester's realism rules, and loading the real interface (`--self-test`).
 
-### What is **not** verified yet
+### What is verified and what isn't
 
-* **Real Alpaca calls.** The build environment couldn't reach Alpaca and had no keys. The adapters are tested
-  against fakes that mirror alpaca-py's models. `tests/test_alpaca_integration.py` runs against your paper account
-  when you set `ALPACA_PAPER_KEY` / `ALPACA_PAPER_SECRET`, and `ALPACA_PAPER_ORDER_TEST=1` adds a tiny
-  far-from-market order that is cancelled immediately.
-* **Whether Alpaca accepts fractional stop orders** for your account. If it doesn't, the fallback above kicks in.
-* **Real historical backtests.** They need Alpaca keys. Only synthetic demo backtests have been run, and on that
-  random data the evidence gate correctly found *no edge* in any strategy.
-* **A real AI model.** Ollama and Claude responses are tested with recorded and fake responses. No real model was
-  called, because Ollama isn't installed here and a cloud call would have cost money without your approval.
-* **Native notifications and tray menus on your actual machine.** CI builds and self-tests the Windows installer
-  and the macOS app, and every build runs a real install → launch (hidden in the tray) → uninstall → reinstall →
-  clean uninstall → reinstall test on a Windows machine, including the live-position block. Visual behavior of the
-  tray, notifications and the uninstall question dialog hasn't been observed by a person.
-* **Profitability.** Unknown, and possibly negative. That's what paper trading and the evidence gate are for.
+* **Verified:** real Alpaca paper calls (8 integration tests: account, assets, fractional limit orders, a
+  fractional buy with a broker DAY stop, a raised stop and a safe exit, the engine's own order paths; account left
+  clean); real historical backtests with a frozen, reproducible baseline (`research/baselines/build20`); a real local
+  language model (Llama 3.2 3B) on recorded decisions; the Windows installer, upgrade-over-a-running-copy and
+  every blocked-uninstall scenario on a real Windows CI machine; the window frame's hit-testing, maximize bounds,
+  restore and minimize via `--chrome-selftest` at 100/125/150% on Windows CI.
+* **Not verified by a person:** the Windows 11 **Snap Layouts flyout** itself (CI checks the documented
+  requirement — the maximize button answers `HTMAXBUTTON` — but the flyout only appears for a real mouse on
+  Windows 11), multi-monitor dragging between screens with different scaling, the tray, notifications and the
+  uninstall question dialogs.
+* **Profitability:** not demonstrated — see *Research* above.
 
 ## Where things live
 

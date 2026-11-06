@@ -98,6 +98,13 @@ DkScroll {
                         }
                         Txt { text: "today"; color: Theme.textMuted; font.pixelSize: 13 }
                         InfoTip { term: "today's p/l" }
+                        Item { Layout.fillWidth: true }
+                        // the brokerage account can be far bigger than what the app is allowed to trade
+                        Txt {
+                            visible: (page.lim.appCapital || 0) > 0 && (acct.equity || 0) > (page.lim.appCapital || 0) * 1.5
+                            text: "the app trades " + Theme.money(page.lim.appCapital || 0) + " of this account"
+                            color: Theme.textDim; font.pixelSize: 12
+                        }
                     }
                     LineChart {
                         Layout.fillWidth: true

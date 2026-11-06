@@ -86,7 +86,7 @@ class AISettings(BaseModel):
     review_interval_minutes: int = Field(10, ge=1)
     recheck_cooldown_minutes: int = Field(10, ge=1)
     max_calls_per_hour: int = Field(60, ge=1)
-    max_signal_age_seconds: int = Field(90, ge=10)
+    max_signal_age_seconds: int = Field(30, ge=10)   # research: answers slower than 30 s are acted on too late
     max_price_drift_pct: float = Field(0.5, gt=0)
 
 

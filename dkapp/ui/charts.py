@@ -214,7 +214,12 @@ class LineChart(_ChartBase):
             hi, lo = hi + 1, lo - 1
         pad = (hi - lo) * 0.12
         lo, hi = lo - pad, hi + pad
-        right_pad = 58 if self._axis else 6
+        right_pad = 6
+        if self._axis:  # room for the widest price label (six-figure paper accounts too)
+            p.setFont(self._font(10.5))
+            fm0 = p.fontMetrics()
+            widest = max(fm0.horizontalAdvance(_fmt(v, self._prefix, self._decimals)) for v in (lo, hi))
+            right_pad = max(58, widest + 14)
         plot = QRectF(4, 10, w - right_pad - 4, h - (24 if self._axis and self._labels else 14))
 
         def X(i, n):

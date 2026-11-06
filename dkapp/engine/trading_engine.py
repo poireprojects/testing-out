@@ -132,6 +132,7 @@ class TradingEngine:
                 log.exception("statistical model registry unavailable")
         self.quant = QuantGate(quant_registry)
         self.latency: deque = deque(maxlen=200)   # {"signalToOrderS", "aiSeconds"} per entry
+        self.last_comparison: Optional[tuple] = None
         self._overnight_warned: Optional[date] = None
 
         self.universe: list[str] = list(universe or [])
@@ -932,6 +933,8 @@ class TradingEngine:
         sigs = [s for s in sigs if s.score >= min_score][:12]
         decision = self._rank(sigs, now, frames, sess)
         self.last_decision = decision
+        if decision.candidates:  # keep the last real comparison on screen (with its time) between scans
+            self.last_comparison = (decision, now)
         self._journal(decision, now)
         for c in decision.candidates:  # what every candidate would have done, for fair comparisons
             self._shadow_once(c.signal, "rules", now)
@@ -1678,7 +1681,7 @@ class TradingEngine:
             "limits": {"maxPosition": lim["max_position_usd"], "dailyLossLimit": lim["daily_loss_limit_usd"],
                        "dailyLossUsed": max(0.0, -(realized + unreal)), "maxPositions": self.settings.risk.max_positions,
                        "scale": lim["scale"], "riskPerTrade": lim["risk_per_trade_usd"],
-                       "compounding": self.settings.compounding.mode},
+                       "compounding": self.settings.compounding.mode, "appCapital": lim["capital_base"]},
             "positions": positions,
             "externalPositions": [{"symbol": p.symbol, "qty": p.qty, "value": p.market_value,
                                    "pnl": p.unrealized_pl} for p in self.external_positions],
@@ -1706,6 +1709,8 @@ class TradingEngine:
             "latency": self._latency_status(),
             "alerts": self._alerts(now),
             "lastDecision": self.last_decision.to_dict() if self.last_decision else None,
+            "lastComparison": (self.last_comparison[0].to_dict() | {
+                "at": self.last_comparison[1].astimezone(ET).strftime("%H:%M:%S ET")}) if self.last_comparison else None,
             "equityToday": [{"t": from_iso(r["time"]).astimezone(ET).strftime("%H:%M"), "v": r["equity"]} for r in eq_rows],
         }
 

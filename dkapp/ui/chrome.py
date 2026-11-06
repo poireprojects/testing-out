@@ -34,6 +34,18 @@ def _inside(r, x: float, y: float) -> bool:
     return r is not None and r[2] > 0 and r[0] <= x < r[0] + r[2] and r[1] <= y < r[1] + r[3]
 
 
+PROGRESS: Optional[Path] = None   # set by the --chrome-selftest run: where it got to, for CI logs
+
+
+def mark(step: str) -> None:
+    if PROGRESS is not None:
+        try:
+            with open(PROGRESS, "a", encoding="utf-8") as f:
+                f.write(step + "\n")
+        except OSError:
+            pass
+
+
 def hit_test(x: float, y: float, w: float, h: float, *, title_height: float, max_rect=None, client_rects=(),
              maximized: bool = False, border: float = RESIZE_BORDER) -> int:
     """Which part of the window is at (x, y)? Logical pixels relative to the window's top-left."""
@@ -101,6 +113,18 @@ if sys.platform == "win32":
     user32.SendMessageW.argtypes = [wintypes.HWND, wintypes.UINT, wintypes.WPARAM, wintypes.LPARAM]
     user32.MonitorFromWindow.restype = wintypes.HMONITOR
     user32.MonitorFromWindow.argtypes = [wintypes.HWND, wintypes.DWORD]
+    user32.GetMonitorInfoW.argtypes = [wintypes.HMONITOR, ctypes.c_void_p]
+    user32.SetWindowPos.argtypes = [wintypes.HWND, wintypes.HWND, ctypes.c_int, ctypes.c_int, ctypes.c_int,
+                                    ctypes.c_int, wintypes.UINT]
+    user32.IsZoomed.argtypes = [wintypes.HWND]
+    user32.IsIconic.argtypes = [wintypes.HWND]
+    user32.GetWindowRect.argtypes = [wintypes.HWND, ctypes.c_void_p]
+    user32.GetClientRect.argtypes = [wintypes.HWND, ctypes.c_void_p]
+    user32.ClientToScreen.argtypes = [wintypes.HWND, ctypes.c_void_p]
+    user32.TrackMouseEvent.argtypes = [ctypes.c_void_p]
+    user32.SetForegroundWindow.argtypes = [wintypes.HWND]
+    dwmapi.DwmExtendFrameIntoClientArea.argtypes = [wintypes.HWND, ctypes.c_void_p]
+    dwmapi.DwmSetWindowAttribute.argtypes = [wintypes.HWND, wintypes.DWORD, ctypes.c_void_p, wintypes.DWORD]
 
     def _signed16(v: int) -> int:
         v &= 0xFFFF
@@ -120,6 +144,15 @@ if sys.platform == "win32":
             self.chrome = chrome
 
         def nativeEventFilter(self, event_type, message):
+            try:
+                return self._filter(event_type, message)
+            except Exception:  # never let a Python error break the window's message handling
+                if not getattr(self, "_logged", False):
+                    self._logged = True
+                    log.exception("window frame filter failed; falling back to default handling")
+                return False, 0
+
+        def _filter(self, event_type, message):
             c = self.chrome
             if c.hwnd is None or bytes(event_type) != b"windows_generic_MSG":
                 return False, 0
@@ -269,7 +302,9 @@ class WindowChrome(QObject):
             return
         try:
             from PySide6.QtWidgets import QApplication
+            mark("attach: winId")
             self.hwnd = int(window.winId())
+            mark(f"attach: hwnd={self.hwnd}")
             style = user32.GetWindowLongPtrW(self.hwnd, GWL_STYLE)
             user32.SetWindowLongPtrW(self.hwnd, GWL_STYLE,
                                      style | WS_CAPTION | WS_THICKFRAME | WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_SYSMENU)
@@ -280,9 +315,12 @@ class WindowChrome(QObject):
                               (34, 0x002B2622)):  # DWMWA_BORDER_COLOR = graphite #22262B (COLORREF is BGR)
                 v = ctypes.c_int(val)
                 dwmapi.DwmSetWindowAttribute(self.hwnd, attr, ctypes.byref(v), ctypes.sizeof(v))
+            mark("attach: styles + dwm set")
             self._filter = _WinFilter(self)
             QApplication.instance().installNativeEventFilter(self._filter)
-            user32.SetWindowPos(self.hwnd, 0, 0, 0, 0, 0, SWP_FLAGS)
+            mark("attach: filter installed")
+            user32.SetWindowPos(self.hwnd, None, 0, 0, 0, 0, SWP_FLAGS)
+            mark("attach: frame changed")
         except Exception:
             log.exception("native window integration failed; using Qt's frameless behaviour")
             self._native = False
@@ -331,6 +369,7 @@ def self_test(chrome: WindowChrome, window, out_dir: Path, done) -> None:
         return p.name
 
     def step1():
+        mark("selftest: step1")
         w, h = window.width(), window.height()
         mx = chrome.max_rect
         pts = [("max button -> Snap Layouts target", (mx[0] + mx[2] / 2, mx[1] + mx[3] / 2) if mx else None, HTMAXBUTTON),
@@ -359,6 +398,7 @@ def self_test(chrome: WindowChrome, window, out_dir: Path, done) -> None:
         QTimer.singleShot(1500, step2)
 
     def step2():
+        mark("selftest: step2 (maximized)")
         check("maximize from our button", chrome.maximized, f"visibility={window.visibility()}")
         if chrome.nativeHitTest and chrome.hwnd:
             l, t, r_, b = work_area(chrome.hwnd)
@@ -396,6 +436,7 @@ def self_test(chrome: WindowChrome, window, out_dir: Path, done) -> None:
         QTimer.singleShot(1500, step5)
 
     def step5():
+        mark("selftest: step5")
         if chrome.nativeHitTest:
             check("Win+Up keyboard snap maximizes (synthetic input; informational)", chrome.maximized,
                   f"visibility={window.visibility()}", required=False)

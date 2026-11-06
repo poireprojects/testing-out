@@ -112,8 +112,16 @@ def main(argv: list[str] | None = None) -> int:
     self_test = "--self-test" in argv
     chrome_test_dir = argv[argv.index("--chrome-selftest") + 1] if "--chrome-selftest" in argv else None
     if chrome_test_dir:  # real window on the real desktop (not offscreen): checks the integrated frame
+        import faulthandler
         import tempfile
+        from pathlib import Path as _P
+        from . import chrome as _chrome_mod
         os.environ.setdefault("DK_HOME", tempfile.mkdtemp(prefix="dk-chrometest-"))
+        _P(chrome_test_dir).mkdir(parents=True, exist_ok=True)
+        _chrome_mod.PROGRESS = _P(chrome_test_dir) / "progress.txt"
+        _chrome_mod.mark("started")
+        _stack_file = open(_P(chrome_test_dir) / "stack.txt", "w")  # noqa: SIM115 (kept open for faulthandler)
+        faulthandler.dump_traceback_later(70, repeat=False, file=_stack_file)  # where it hangs, if it hangs
     if self_test:
         # Packaging smoke test: isolated data folder, offscreen rendering, quit after loading the UI.
         import tempfile
@@ -216,8 +224,12 @@ def main(argv: list[str] | None = None) -> int:
         controller.shutdown()
         return 1
     window = engine.rootObjects()[0]
+    if chrome_test_dir:
+        from .chrome import mark
+        mark("qml loaded")
     chrome.attach(window)
     if chrome_test_dir:
+        mark("attached")
         from pathlib import Path as _P
         from .chrome import self_test as chrome_self_test
         if os.environ.get("DK_CHROME_TEST_SIZE"):
@@ -225,6 +237,7 @@ def main(argv: list[str] | None = None) -> int:
             window.setProperty("width", cw)
             window.setProperty("height", ch)
         window.show()
+        mark("shown")
         chrome_self_test(chrome, window, _P(chrome_test_dir), lambda code: app.exit(code))
     if self_test:
         from PySide6.QtCore import QTimer

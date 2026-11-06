@@ -1,0 +1,97 @@
+{
+ "platform": "linux",
+ "dpr": 1.0,
+ "checks": [
+  {
+   "name": "max button -> Snap Layouts target",
+   "ok": true,
+   "detail": "got max, want max",
+   "required": true
+  },
+  {
+   "name": "empty title bar -> drag/double-click",
+   "ok": true,
+   "detail": "got caption, want caption",
+   "required": true
+  },
+  {
+   "name": "left edge -> resize",
+   "ok": true,
+   "detail": "got left, want left",
+   "required": true
+  },
+  {
+   "name": "right edge -> resize",
+   "ok": true,
+   "detail": "got right, want right",
+   "required": true
+  },
+  {
+   "name": "bottom edge -> resize",
+   "ok": true,
+   "detail": "got bottom, want bottom",
+   "required": true
+  },
+  {
+   "name": "bottom-right corner",
+   "ok": true,
+   "detail": "got bottom-right, want bottom-right",
+   "required": true
+  },
+  {
+   "name": "top-left corner",
+   "ok": true,
+   "detail": "got top-left, want top-left",
+   "required": true
+  },
+  {
+   "name": "page content -> client",
+   "ok": true,
+   "detail": "got client, want client",
+   "required": true
+  },
+  {
+   "name": "title-bar control at 1142,0 -> client",
+   "ok": true,
+   "detail": "got client, want client",
+   "required": true
+  },
+  {
+   "name": "title-bar control at 1234,0 -> client",
+   "ok": true,
+   "detail": "got client, want client",
+   "required": true
+  },
+  {
+   "name": "maximize from our button",
+   "ok": true,
+   "detail": "visibility=Visibility.Maximized",
+   "required": true
+  },
+  {
+   "name": "restore from maximized",
+   "ok": true,
+   "detail": "",
+   "required": true
+  },
+  {
+   "name": "minimize from our button",
+   "ok": true,
+   "detail": "visibility=Visibility.Minimized",
+   "required": true
+  }
+ ],
+ "native": false,
+ "screen": {
+  "dpr": 1.0,
+  "logicalSize": [
+   800,
+   800
+  ]
+ },
+ "shots": [
+  "normal.png",
+  "maximized.png"
+ ],
+ "ok": true
+}
