@@ -825,7 +825,7 @@ class AppController(QObject):
                 model = res[1]
                 self.setSetting("ai.provider", "ollama")
                 self.setSetting("ai.ollama_model", model)
-                self.setSetting("ai.decision_mode", "ai_confirm")
+                # the AI explains and reviews; it doesn't approve trades unless the owner turns that on
                 self._setup.update(busy=False, progress=1.0, done=True, installed=True, running=True, hasModel=True,
                                    message=f"local AI is ready ({model}). it costs nothing to run.")
                 if self.engine:

@@ -28,6 +28,8 @@ from .schema import (ENTRY_SCHEMA, EXIT_SCHEMA, EntryDecision, ExitReview, Selec
 
 log = logging.getLogger(__name__)
 
+from .consistency import Facts, check_explanation, derived_facts  # noqa: E402
+
 ENTRY_SYSTEM = """You are the trade-review step inside a personal, automated day-trading app.
 A rules-based strategy has flagged a possible LONG (buy) day trade. Decide whether the evidence justifies taking it.
 
@@ -40,6 +42,9 @@ Rules you must follow:
 - You do not control position size or risk limits; a separate deterministic risk engine enforces them and may
   still block the trade.
 - stop_loss_pct and take_profit_pct are percentages from the entry price (for example 1.2 means 1.2%).
+- "computed_by_app" holds numbers the app calculated (stop and target distance, reward/risk after costs, costs,
+  RSI and what its level means). Quote those exactly; never recalculate them. An explanation that contradicts
+  them is rejected and the trade is skipped.
 - Write "reasoning" for a beginner: 2-4 short sentences, no jargon without a brief explanation.
 Return only the JSON object described by the schema."""
 
@@ -167,8 +172,14 @@ class AIEngine:
             if decision is None:
                 res.error = err
             else:
-                res.ok, res.decision = True, decision
                 self.healthy, self.health_msg = True, f"{pr.model} responding"
+                chk = check_explanation(decision.reasoning, Facts.from_signal(signal, context.get("round_trip_cost_pct")))
+                if chk.ok:
+                    res.ok, res.decision = True, decision
+                else:  # numbers the app computed are facts; an answer that contradicts them is unusable
+                    res.decision = None
+                    res.error = "explanation contradicts the app's numbers: " + "; ".join(chk.problems)
+                    res.extra["rejected_reasoning"] = decision.reasoning
         except AIUnavailable as exc:
             res.error = str(exc)
             if "budget" not in str(exc):
@@ -302,6 +313,7 @@ def build_entry_prompt(signal: Signal, context: dict) -> dict:
             "max_hold_minutes": signal.max_hold_minutes,
             "estimated_round_trip_cost_pct": context.get("round_trip_cost_pct"),
         },
+        "computed_by_app": derived_facts(signal, context.get("round_trip_cost_pct")),
         "indicators": signal.features,
         "recent_1min_bars": context.get("recent_bars", []),
         "market": context.get("market", {}),

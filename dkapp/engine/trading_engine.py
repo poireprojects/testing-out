@@ -32,7 +32,7 @@ from typing import Callable, Optional
 from ..ai.engine import AIEngine, AIResult
 from ..broker.base import Broker, BrokerError, BrokerUnavailable
 from ..clock import ET, Clock, MarketCalendar, SessionState, session_state
-from ..config import AppSettings, live_authorization_status
+from ..config import AppSettings, effective_decision_mode, live_authorization_status
 from ..data.base import DataUnavailable, MarketData
 from ..data.universe import CONTEXT_SYMBOLS, build_universe
 from ..execution.order_manager import FillDelta, OrderManager, TERMINAL, is_working
@@ -42,7 +42,9 @@ from ..risk.fees import CostModel
 from ..risk.settlement import SettlementLedger
 from ..risk.sizing import scaled_limits
 from ..scanner import Scanner, load_baselines
-from ..analysis.features import Baseline
+from ..analysis.features import Baseline, latest_features
+from ..quant.gate import NO_EDGE_TEXT, QuantGate
+from ..quant.registry import ModelRegistry
 from ..storage.db import Database, from_iso, to_iso, utcnow_iso
 from ..broker.explain import explain_rejection, with_raw
 from ..decision import Candidate, Decision, Evidence, OpportunityRanker, Regime, breadth_pct, classify_regime
@@ -99,7 +101,7 @@ class TradingEngine:
     def __init__(self, settings: AppSettings, mode: str, broker: Broker, data: MarketData, db: Database,
                  calendar: MarketCalendar, clock: Clock, ai: AIEngine, *, cost_model: Optional[CostModel] = None,
                  universe: Optional[list[str]] = None, after_step: Optional[Callable[["TradingEngine", SessionState], None]] = None,
-                 monotonic: Callable[[], float] = time.monotonic):
+                 monotonic: Callable[[], float] = time.monotonic, quant_registry: Optional[ModelRegistry] = None):
         self.settings = settings
         self.mode = mode
         self.broker = broker
@@ -122,6 +124,15 @@ class TradingEngine:
         self.pending_select: Optional[tuple[Future, dict[str, Candidate], datetime]] = None
         self.after_step = after_step
         self._mono = monotonic
+        if quant_registry is None:
+            try:
+                from .. import paths
+                quant_registry = ModelRegistry(paths.data_dir() / "models")
+            except Exception:
+                log.exception("statistical model registry unavailable")
+        self.quant = QuantGate(quant_registry)
+        self.latency: deque = deque(maxlen=200)   # {"signalToOrderS", "aiSeconds"} per entry
+        self._overnight_warned: Optional[date] = None
 
         self.universe: list[str] = list(universe or [])
         self.assets: dict[str, AssetInfo] = {}
@@ -376,6 +387,28 @@ class TradingEngine:
     def stop_refused_today(self, now: datetime) -> list[str]:
         return sorted(self._stop_refusals.get(now.astimezone(ET).date().isoformat(), set()))
 
+    def _warn_overnight(self, now: datetime) -> None:
+        """Fractional-share stops are DAY orders: once the market closes, nothing at the broker protects a
+        position left open. Say so plainly (once a day) — the app can't prevent overnight gaps."""
+        today = now.astimezone(ET).date()
+        if self._overnight_warned == today:
+            return
+        held = [t for t in self.db.open_trades() if t["status"] in ("open", "closing")]
+        if not held:
+            return
+        self._overnight_warned = today
+        syms = ", ".join(sorted({t["symbol"] for t in held}))
+        self.emit("warning", "risk", f"held while the market is closed: {syms}",
+                  "broker stop orders for fractional shares are day orders, so no stop is active overnight and a "
+                  "price gap at the next open can't be prevented. at the open the app places a new stop and "
+                  + ("sells the position after the opening minutes." if self.settings.risk.close_leftover_positions_at_open
+                     else "keeps managing it."), syms, notify=True)
+
+    @property
+    def decision_mode(self) -> str:
+        """In live mode a language model never authorizes a trade (no measured benefit yet)."""
+        return effective_decision_mode(self.settings.ai.decision_mode, self.mode)
+
     def _step(self, now: datetime) -> None:
         r = self.settings.risk
         sess = session_state(self.calendar, now, no_entries_first_minutes=r.no_entries_first_minutes,
@@ -389,6 +422,8 @@ class TradingEngine:
             self.reconcile(now)
         self.process_orders(now)
 
+        if not sess.is_open:
+            self._warn_overnight(now)
         if sess.is_open and sess.session is not None:
             if self._session_day != sess.session.day:
                 self._on_new_session(now, sess)
@@ -895,14 +930,14 @@ class TradingEngine:
             return
         min_score = self.settings.strategies.min_signal_score
         sigs = [s for s in sigs if s.score >= min_score][:12]
-        decision = self._rank(sigs, now)
+        decision = self._rank(sigs, now, frames, sess)
         self.last_decision = decision
         self._journal(decision, now)
         for c in decision.candidates:  # what every candidate would have done, for fair comparisons
             self._shadow_once(c.signal, "rules", now)
             if c.take:
                 self._shadow_once(c.signal, "ranked", now)
-        if self.settings.ai.decision_mode == "ai_select":
+        if self.decision_mode == "ai_select":
             self._ask_ai_to_choose(decision, now, sess)
             return
         for c in decision.chosen:
@@ -937,7 +972,8 @@ class TradingEngine:
                 ev.trades, ev.avg_return_pct, ev.source = len(rets), sum(rets) / len(rets), "paper forward test"
         return ev
 
-    def _rank(self, sigs: list[Signal], now: datetime) -> Decision:
+    def _rank(self, sigs: list[Signal], now: datetime, frames: Optional[dict] = None,
+              sess: Optional[SessionState] = None) -> Decision:
         open_n = len(self.db.open_trades()) + len(self.pending_ai) + (1 if self.pending_select else 0)
         free = max(0, self.settings.risk.max_positions - open_n)
         notional = scaled_limits(self.settings, self.account.equity if self.account else 100, self.app_capital())["max_position_usd"]
@@ -953,7 +989,38 @@ class TradingEngine:
             rank = (sum(1 for x in dv if x <= row.day_volume * row.price) / len(dv)) if row else 0.5
             ev = evidence.setdefault(s.strategy, self._evidence(s.strategy))
             cands.append(self.ranker.score(s, self.regime, ev, notional, spread, rank))
-        return self.ranker.decide(cands, self.regime, free)
+        self._assess_quant(cands, now, frames, sess)
+        d = self.ranker.decide(cands, self.regime, free)
+        if cands and not d.chosen and free > 0 and any(c.quant and c.quant["blocks"] for c in cands):
+            d.summary = NO_EDGE_TEXT + " " + d.summary
+        return d
+
+    def _assess_quant(self, cands: list[Candidate], now: datetime, frames: Optional[dict],
+                      sess: Optional[SessionState]) -> None:
+        """Statistical model on every candidate: recorded always (shadow); blocks only in gated paper mode."""
+        q = self.settings.quant
+        if not self.quant.available or not (q.shadow or q.gate_paper_entries) or not cands:
+            return
+        gating = self.quant.may_gate(self.mode, q.gate_paper_entries)
+        spy = frames.get("SPY") if frames else None
+        spy_latest = latest_features(spy) if spy is not None and not getattr(spy, "empty", True) else {}
+        b = breadth_pct(self.scanner.rows.values())
+        session = sess.session if sess is not None and sess.session is not None else None
+        minute = (now - session.open).total_seconds() / 60 if session else 0.0
+        smin = int((session.close - session.open).total_seconds() // 60) if session else 390
+        for c in cands:
+            try:
+                a = self.quant.assess(c.signal, spy_latest, b / 100 if b is not None else None, minute, smin, gating,
+                                      q.min_expected_net_pct, q.min_win_probability)
+            except Exception:
+                log.exception("statistical model failed on %s", c.signal.symbol)
+                continue
+            if a is None:
+                continue
+            c.quant = a.to_dict()
+            if a.blocks:
+                c.blockers.append(f"the statistical model expects {a.exp_net_pct:+.2f}% after costs "
+                                  f"(P(win) {a.p_win:.0%}) — not enough edge")
 
     def _journal(self, d: Decision, now: datetime) -> None:
         key = (tuple(sorted(c.signal.symbol for c in d.candidates)), tuple(c.signal.symbol for c in d.chosen),
@@ -962,7 +1029,7 @@ class TradingEngine:
             return
         self._last_journal = key
         self.db.insert("decision_cycles", time=to_iso(now), regime=d.regime.label, summary=d.summary,
-                       mode=self.settings.ai.decision_mode, data=json.dumps(d.to_dict()))
+                       mode=self.decision_mode, data=json.dumps(d.to_dict()))
         # the full journal is in decision_cycles; the activity log only gets picks, plus a
         # "still not trading" note at most every few minutes so it doesn't drown everything else
         if d.chosen or self._last_pass_note is None or now - self._last_pass_note >= timedelta(minutes=5):
@@ -1060,7 +1127,7 @@ class TradingEngine:
             self.db.update("signals", sid, outcome="risk_blocked", outcome_detail="; ".join(pre.reasons)[:500])
             self._set_row_verdict(sig.symbol, "blocked")
             return
-        if self.settings.ai.decision_mode == "rules":
+        if self.decision_mode == "rules":
             self.db.update("signals", sid, outcome="rules_entry")
             self._enter(sig, sid, None, now, sess)
             return
@@ -1253,6 +1320,9 @@ class TradingEngine:
         return self.risk.check_entry(self.risk_context(now, sess), proposal)
 
     def _enter(self, sig: Signal, signal_id: int, ai_res: Optional[AIResult], now: datetime, sess: SessionState) -> None:
+        if sig.time is not None:
+            self.latency.append({"signalToOrderS": max(0.0, (now - sig.time).total_seconds()),
+                                 "aiSeconds": (ai_res.latency_ms / 1000) if ai_res else 0.0})
         self._latest_price(sig.symbol)  # fresh quote for the final check
         decision = self._risk_check(sig, now, sess)
         if not decision.approved:
@@ -1271,7 +1341,7 @@ class TradingEngine:
             session_date=now.astimezone(ET).date().isoformat(), created_at=to_iso(now), stop_price=decision.stop_price,
             initial_stop=decision.stop_price, target_price=decision.target_price,
             max_hold_until=to_iso(now + timedelta(minutes=sig.max_hold_minutes)),
-            decision_mode=self.settings.ai.decision_mode, ai_decision_id=ai_res.decision_id if ai_res else None,
+            decision_mode=self.decision_mode, ai_decision_id=ai_res.decision_id if ai_res else None,
             signal_id=signal_id, reasoning=reasoning,
             signal_json=json.dumps({"reasons": sig.reasons, "features": sig.features, "score": sig.score,
                                     "risk_notes": decision.notes, "sizing": decision.size.explain() if decision.size else ""}))
@@ -1388,7 +1458,7 @@ class TradingEngine:
 
     def _maybe_review(self, t: dict, px: float, now: datetime) -> None:
         ai = self.settings.ai
-        if ai.decision_mode != "ai_confirm" or not ai.review_open_positions or t["id"] in self.pending_reviews:
+        if self.decision_mode != "ai_confirm" or not ai.review_open_positions or t["id"] in self.pending_reviews:
             return
         last = from_iso(t["last_review_at"]) or from_iso(t["entry_time"]) or now
         if now - last < timedelta(minutes=ai.review_interval_minutes):
@@ -1444,7 +1514,7 @@ class TradingEngine:
 
     # ================================================================ health & snapshots
     def _check_ai_health(self, now: datetime) -> None:
-        if self.settings.ai.decision_mode == "rules":
+        if self.decision_mode == "rules":
             self.health["ai"].good("rules-only mode — AI not used for entries", now)
             return
         ok, msg = self.ai.check_health()
@@ -1507,7 +1577,7 @@ class TradingEngine:
         if self.mode == "live" and not live_authorization_status(self.settings)[0]:
             return {"kind": "paused", "headline": "live trading needs your ok.",
                     "detail": live_authorization_status(self.settings)[1]}
-        if self.settings.ai.decision_mode != "rules" and self.health["ai"].ok is False:
+        if self.decision_mode != "rules" and self.health["ai"].ok is False:
             return {"kind": "paused", "headline": "the AI is offline, so i'm not buying.",
                     "detail": f"{self.health['ai'].message}. start Ollama, or switch to rules-only in settings."}
         if sess.phase == "opening":
@@ -1625,15 +1695,37 @@ class TradingEngine:
                         "hotlist": list(self.scanner.hotlist),
                         "marketTrendUp": self.scanner.market_trend_up},
             "ai": {"provider": self.ai.provider.name, "model": self.ai.provider.model,
-                   "decisionMode": self.settings.ai.decision_mode, "canCall": ai_ok, "why": ai_why,
+                   "decisionMode": self.decision_mode, "chosenMode": self.settings.ai.decision_mode,
+                   "liveNoAuthority": self.mode == "live" and self.settings.ai.decision_mode != "rules",
+                   "canCall": ai_ok, "why": ai_why,
                    "healthy": self.ai.healthy, "message": self.ai.health_msg, "monthCost": spent_ai,
                    "budget": self.settings.ai.monthly_budget_usd, "pending": list(self.pending_ai),
                    "busy": self.ai.busy, "isPaid": bool(getattr(self.ai.provider, "is_paid", False))},
             "regime": self.regime.to_dict(),
+            "quant": self._quant_status(),
+            "latency": self._latency_status(),
             "alerts": self._alerts(now),
             "lastDecision": self.last_decision.to_dict() if self.last_decision else None,
             "equityToday": [{"t": from_iso(r["time"]).astimezone(ET).strftime("%H:%M"), "v": r["equity"]} for r in eq_rows],
         }
+
+    def _quant_status(self) -> dict:
+        c = self.quant.card
+        return {"available": self.quant.available, "error": self.quant.error,
+                "model": c.id if c else None, "stage": c.stage if c else None,
+                "paperEligible": bool(c and c.paper_eligible), "trainedOn": c.trained_on if c else [],
+                "evidence": c.evidence if c else {}, "rule": c.decision_rule if c else "",
+                "gating": self.quant.may_gate(self.mode, self.settings.quant.gate_paper_entries),
+                "shadow": self.settings.quant.shadow}
+
+    def _latency_status(self) -> dict:
+        xs = list(self.latency)
+        if not xs:
+            return {"n": 0}
+        so = sorted(x["signalToOrderS"] for x in xs)
+        ai = sorted(x["aiSeconds"] for x in xs if x["aiSeconds"] > 0)
+        return {"n": len(xs), "signalToOrderMedianS": so[len(so) // 2], "signalToOrderMaxS": so[-1],
+                "aiMedianS": ai[len(ai) // 2] if ai else 0.0}
 
     # ================================================================ chart data for the UI
     def chart(self, symbol: str) -> dict:

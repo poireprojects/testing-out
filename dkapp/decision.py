@@ -101,6 +101,7 @@ class Candidate:
     reward_after_cost_pct: float = 0.0
     cost_pct: float = 0.0
     rr_after_cost: float = 0.0
+    quant: Optional[dict] = None   # the statistical model's assessment (shadow unless gating is on)
 
     def to_dict(self) -> dict:
         s = self.signal
@@ -108,7 +109,8 @@ class Candidate:
                 "strategyId": s.strategy, "score": round(self.score, 3), "take": self.take,
                 "reasons": self.reasons, "blockers": self.blockers, "costPct": round(self.cost_pct, 3),
                 "rewardAfterCostPct": round(self.reward_after_cost_pct, 3), "rrAfterCost": round(self.rr_after_cost, 2),
-                "agreeing": len(s.agreeing) or 1, "stopPct": round(s.stop_pct, 2), "targetPct": round(s.target_pct, 2)}
+                "agreeing": len(s.agreeing) or 1, "stopPct": round(s.stop_pct, 2), "targetPct": round(s.target_pct, 2),
+                "quant": self.quant}
 
 
 @dataclass

@@ -69,8 +69,11 @@ class CompoundingSettings(BaseModel):
 
 class AISettings(BaseModel):
     # rules = ranked quantitative strategies decide alone; ai_confirm = AI must approve each ranked pick;
-    # ai_select = AI chooses one (or none) from the ranked shortlist
-    decision_mode: Literal["rules", "ai_confirm", "ai_select"] = "ai_confirm"
+    # ai_select = AI chooses one (or none) from the ranked shortlist.
+    # Default is "rules": in testing the language model approved every pick and added nothing measurable
+    # (research/runs/2026-11-06-round1). AI modes stay available as PAPER experiments; in live mode a
+    # language model never authorizes a trade (see effective_decision_mode).
+    decision_mode: Literal["rules", "ai_confirm", "ai_select"] = "rules"
     provider: Literal["ollama", "anthropic"] = "ollama"
     ollama_url: str = "http://localhost:11434"
     ollama_model: str = "llama3.1:8b"
@@ -85,6 +88,20 @@ class AISettings(BaseModel):
     max_calls_per_hour: int = Field(60, ge=1)
     max_signal_age_seconds: int = Field(90, ge=10)
     max_price_drift_pct: float = Field(0.5, gt=0)
+
+
+class QuantSettings(BaseModel):
+    """The statistical model (dkapp/quant). It records a prediction for every candidate (shadow). It can
+    only ever BLOCK paper entries, and only when its model card passed the pre-registered checks."""
+    shadow: bool = True
+    gate_paper_entries: bool = False
+    min_expected_net_pct: float = Field(0.0, ge=-1, le=5)
+    min_win_probability: float = Field(0.5, ge=0, le=1)
+
+
+def effective_decision_mode(mode: str, broker_mode: str) -> str:
+    """A language model gets no trade authority with real money until it has shown measurable value."""
+    return "rules" if broker_mode == "live" else mode
 
 
 class StrategySettings(BaseModel):
@@ -144,8 +161,9 @@ class DemoSettings(BaseModel):
 
 
 class AppSettings(BaseModel):
-    schema_version: int = 2
+    schema_version: int = 3
     risk: RiskSettings = Field(default_factory=RiskSettings)
+    quant: QuantSettings = Field(default_factory=QuantSettings)
     compounding: CompoundingSettings = Field(default_factory=CompoundingSettings)
     ai: AISettings = Field(default_factory=AISettings)
     strategies: StrategySettings = Field(default_factory=StrategySettings)
@@ -176,6 +194,14 @@ def load_settings(path: Path | None = None) -> AppSettings:
                 risk["settlement_mode"] = "auto"
                 data["risk"] = risk
             data["schema_version"] = 2
+        if isinstance(data, dict) and int(data.get("schema_version", 1)) < 3:
+            # v2 defaulted to "AI confirms each pick". The 3B model approved 72 of 72 picks and added
+            # nothing, so the untouched default moves to rules + ranker (AI still explains/reviews).
+            ai = data.get("ai") or {}
+            if ai.get("decision_mode", "ai_confirm") == "ai_confirm":
+                ai["decision_mode"] = "rules"
+                data["ai"] = ai
+            data["schema_version"] = 3
         return AppSettings.model_validate(data)
     except (ValidationError, json.JSONDecodeError, OSError) as exc:
         backup = path.with_suffix(f".broken-{datetime.now():%Y%m%d%H%M%S}.json")

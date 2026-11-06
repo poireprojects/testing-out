@@ -35,7 +35,7 @@ Popup {
         target: app
         function onAnthropicKeyFinished(ok, message) {
             wiz.keyOk = ok; wiz.keyMsg = message
-            if (ok) { app.setSetting("ai.provider", "anthropic"); app.setSetting("ai.anthropic_model", "claude-haiku-5-5"); app.setSetting("ai.decision_mode", "ai_confirm") }
+            if (ok) { app.setSetting("ai.provider", "anthropic"); app.setSetting("ai.anthropic_model", "claude-haiku-5-5") }
         }
         function onConnectionTestFinished(env, ok, message) {
             if (env !== "paper") return

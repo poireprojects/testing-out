@@ -104,9 +104,25 @@ def test_old_settings_files_move_off_the_settled_only_default(tmp_path):
     f = tmp_path / "settings.json"
     f.write_text(json.dumps({"schema_version": 1, "risk": {"settlement_mode": "conservative", "max_positions": 2}}))
     s = load_settings(f)
-    assert s.risk.settlement_mode == "auto" and s.schema_version == 2
+    assert s.risk.settlement_mode == "auto" and s.schema_version == 3
     f.write_text(json.dumps({"schema_version": 2, "risk": {"settlement_mode": "conservative"}}))
     assert load_settings(f).risk.settlement_mode == "conservative"  # a deliberate v2 choice is kept
+
+
+def test_untouched_ai_confirm_default_moves_to_rules_but_a_choice_is_kept(tmp_path):
+    import json
+    from dkapp.config import effective_decision_mode, load_settings
+    f = tmp_path / "settings.json"
+    f.write_text(json.dumps({"schema_version": 2, "ai": {"decision_mode": "ai_confirm"}}))
+    assert load_settings(f).ai.decision_mode == "rules"      # v2's default: the 3B model added nothing
+    f.write_text(json.dumps({"schema_version": 2, "ai": {"decision_mode": "ai_select"}}))
+    assert load_settings(f).ai.decision_mode == "ai_select"  # an explicit choice stays
+    f.write_text(json.dumps({"schema_version": 3, "ai": {"decision_mode": "ai_confirm"}}))
+    assert load_settings(f).ai.decision_mode == "ai_confirm"  # chosen again after the migration: kept
+    assert AppSettings().ai.decision_mode == "rules"
+    # with real money a language model never authorizes a trade
+    assert effective_decision_mode("ai_confirm", "live") == "rules"
+    assert effective_decision_mode("ai_select", "paper") == "ai_select"
 
 
 def test_no_margin_even_if_broker_offers_buying_power():
