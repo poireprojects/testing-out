@@ -240,10 +240,16 @@ def run_day(day: DayInput, strategies: list[str], cfg: BTConfig, rng: random.Ran
     return out
 
 
-def replay_portfolio(trades: list[BTTrade], cfg: BTConfig, use_ranker: bool, spy_by_day: dict) -> list[BTTrade]:
+def replay_portfolio(trades: list[BTTrade], cfg: BTConfig, use_ranker: bool, spy_by_day: dict,
+                     gate: Optional[Callable[[BTTrade], bool]] = None,
+                     chooser: Optional[Callable[[date, int, list, int], list[BTTrade]]] = None) -> list[BTTrade]:
     """Replay a day the way the live engine trades it: limited slots, one position per symbol,
     cooldown after exits. With use_ranker, candidates are compared by the live OpportunityRanker
-    (and refused when nothing clears its bar); without it, first come first served."""
+    (and refused when nothing clears its bar); without it, first come first served.
+
+    gate(trade) -> bool is asked about every pick before it is taken (the "ai confirms" mode);
+    chooser(day, minute, [(candidate, trade), ...], free_slots) replaces the ranker's own choice with
+    a pick among its shortlist (the "ai picks" mode). Both see only what was known at that minute."""
     from ..decision import Evidence, OpportunityRanker, classify_regime
     from ..models import Signal
     ranker = OpportunityRanker(cfg.costs, max_stop_pct=cfg.max_stop_pct)
@@ -284,11 +290,19 @@ def replay_portfolio(trades: list[BTTrade], cfg: BTConfig, use_ranker: bool, spy
                                  agreeing=[t.strategy] * t.agreeing)
                     scored.append((ranker.score(sig, regime, Evidence(), cfg.notional, cfg.spread_bps), t))
                 decision = ranker.decide([c for c, _ in scored], regime, free)
-                chosen_syms = {c.signal.symbol for c in decision.chosen}
-                picks = [t for c, t in scored if c.signal.symbol in chosen_syms]
+                if chooser is not None:
+                    slot_only = ["a better opportunity took the last free slot"]
+                    shortlist = sorted([(c, t) for c, t in scored if not c.blockers or c.blockers == slot_only],
+                                       key=lambda ct: ct[0].score, reverse=True)[:3]
+                    picks = chooser(day, mi, shortlist, free)[:free] if shortlist else []
+                else:
+                    chosen_syms = {c.signal.symbol for c in decision.chosen}
+                    picks = [t for c, t in scored if c.signal.symbol in chosen_syms]
             else:
                 picks = sorted(cands, key=lambda t: t.score, reverse=True)[:free]
             for t in picks:
+                if gate is not None and not gate(t):
+                    continue
                 taken.append(t)
                 open_until[t.symbol] = max(t.exit_minute, mi + 1)
     return taken

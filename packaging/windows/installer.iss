@@ -99,16 +99,16 @@ function AppProcessRunning(var Known: Boolean): Boolean;
 var
   tmp: String;
   rc: Integer;
-  output: AnsiString;
+  txt: AnsiString;
 begin
   Result := False;
   Known := False;
   tmp := AddBackslash(GetTempDir()) + 'dk-tasklist.txt';
   DeleteFile(tmp);
   if Exec(ExpandConstant('{cmd}'), '/C tasklist /FI "IMAGENAME eq {#MyAppExe}" /FO CSV /NH > "' + tmp + '"',
-          '', SW_HIDE, ewWaitUntilTerminated, rc) and (rc = 0) and LoadStringFromFile(tmp, output) then begin
+          '', SW_HIDE, ewWaitUntilTerminated, rc) and (rc = 0) and LoadStringFromFile(tmp, txt) then begin
     Known := True;
-    Result := Pos(Lowercase('"{#MyAppExe}"'), Lowercase(String(output))) > 0;
+    Result := Pos(Lowercase('"{#MyAppExe}"'), Lowercase(String(txt))) > 0;
   end;
   DeleteFile(tmp);
   Log(Format('process check: known=%d running=%d', [Ord(Known), Ord(Result)]));
@@ -187,8 +187,8 @@ begin
     exit;
   end;
   Result := MsgBox('don''t know what im doing didn''t close on its own.' + #13#10 + #13#10 +
-                   'No real-money positions are open (just checked). Force it closed so ' + What + ' can continue?' +
-                   #13#10 + #13#10 + 'Choose No to cancel and close it yourself from the tray icon.',
+                   'No real-money positions are open (just checked). Force it closed so ' + What + ' can continue?' + #13#10 + #13#10 +
+                   'Choose No to cancel and close it yourself from the tray icon.',
                    mbConfirmation, MB_YESNO or MB_DEFBUTTON2) = IDYES;
 end;
 

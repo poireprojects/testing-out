@@ -70,3 +70,9 @@ def test_uninstall_verifies_nothing_is_running_before_files_go():
 
 def test_live_check_covers_test_copies_too():
     assert "profiles" in body("AnyLiveDatabase")
+
+
+def test_no_code_line_starts_with_a_preprocessor_hash():
+    """ISPP reads any line starting with '#' as a directive (that broke the build once)."""
+    for n, line in enumerate(CODE.splitlines(), 1):
+        assert not line.lstrip().startswith("#"), f"[Code] line {n} starts with '#': {line.strip()[:60]}"
