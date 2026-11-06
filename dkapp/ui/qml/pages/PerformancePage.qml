@@ -140,29 +140,40 @@ DkScroll {
                 spacing: Theme.gap
                 Card {
                     Layout.fillWidth: true
-                    title: "is the ai helping?"
+                    title: "decision approaches compared"
                     tip: "shadow trades"
-                    subtitle: "hypothetical results of setups the AI approved vs. skipped, using identical exit rules."
+                    subtitle: "every setup is followed with identical exit rules whether or not it was traded, so these compare like with like. after costs."
+                    readonly property var ap: page.perf.approaches || ({ rows: [] })
                     Repeater {
-                        model: [
-                            { k: "approved", d: (page.perf.shadow || {}).approved || {} },
-                            { k: "skipped", d: (page.perf.shadow || {}).skipped || {} }
-                        ]
+                        model: (page.perf.approaches || {}).rows || []
                         delegate: RowLayout {
                             Layout.fillWidth: true
                             spacing: 10
-                            ActionChip { action: modelData.k === "approved" ? "buy" : "skip"; Layout.preferredWidth: 70; Layout.minimumWidth: 70; Layout.maximumWidth: 70 }
-                            Txt { text: (modelData.d.count || 0) + " setups"; color: Theme.textDim; font.pixelSize: 13; Layout.preferredWidth: 80; Layout.minimumWidth: 80; Layout.maximumWidth: 80 }
-                            Txt { text: (modelData.d.count || 0) > 0 ? "avg " + Theme.signedPct(modelData.d.avgReturnPct, 3) : "—"; color: Theme.pnlColor(modelData.d.avgReturnPct); font.pixelSize: 13; Layout.fillWidth: true }
-                            Txt { text: (modelData.d.count || 0) > 0 ? Theme.pct((modelData.d.winRate || 0) * 100, 0) + " win" : ""; color: Theme.textDim; font.pixelSize: 13 }
+                            Txt { text: modelData.label; font.pixelSize: 13; font.weight: Font.Medium; Layout.preferredWidth: 130; Layout.minimumWidth: 130; Layout.maximumWidth: 130 }
+                            Txt { text: (modelData.count || 0) + " setups"; color: (modelData.count || 0) >= ((page.perf.approaches || {}).minSample || 30) ? Theme.textDim : Theme.textMuted; font.pixelSize: 12; Layout.preferredWidth: 74; Layout.minimumWidth: 74; Layout.maximumWidth: 74 }
+                            Txt { text: (modelData.count || 0) > 0 ? Theme.signedPct(modelData.avgReturnPct, 3) : "—"; color: Theme.pnlColor(modelData.avgReturnPct); font.pixelSize: 13; Layout.fillWidth: true }
+                            Txt { text: (modelData.count || 0) > 0 ? Theme.pct((modelData.winRate || 0) * 100, 0) + " win" : ""; color: Theme.textDim; font.pixelSize: 12 }
+                        }
+                    }
+                    Rectangle {
+                        Layout.fillWidth: true
+                        implicitHeight: verdictTxt.implicitHeight + 16
+                        radius: 10
+                        readonly property string v: (page.perf.approaches || {}).verdict || "not_enough_data"
+                        color: v === "ai_helps" ? Theme.limeSoft : v === "not_enough_data" ? Theme.surface2 : Theme.amberSoft
+                        Txt {
+                            id: verdictTxt
+                            anchors.left: parent.left; anchors.right: parent.right; anchors.verticalCenter: parent.verticalCenter; anchors.margins: 10
+                            text: (page.perf.approaches || {}).text || ""
+                            color: parent.v === "ai_helps" ? Theme.lime : parent.v === "not_enough_data" ? Theme.textDim : Theme.amber
+                            font.pixelSize: 12; wrapMode: Text.WordWrap; elide: Text.ElideNone
                         }
                     }
                     Txt {
-                        readonly property var a: (page.perf.shadow || {}).approved || {}
-                        readonly property var k: (page.perf.shadow || {}).skipped || {}
-                        text: (a.count || 0) < 20 || (k.count || 0) < 20 ? "needs at least 20 of each before drawing any conclusion."
-                            : (a.avgReturnPct > k.avgReturnPct ? "so far, approved setups did better than skipped ones." : "so far the AI's picks are NOT beating the ones it skipped — consider rules-only mode.")
-                        color: Theme.textMuted; font.pixelSize: 12; wrapMode: Text.WordWrap; Layout.fillWidth: true
+                        Layout.fillWidth: true
+                        text: "AI cost per decision: " + Theme.money((page.perf.approaches || {}).aiCostPerDecision || 0, 4)
+                              + " · confidence check: " + ((page.perf.calibration || {}).text || "not measured yet")
+                        color: Theme.textMuted; font.pixelSize: 11; wrapMode: Text.WordWrap; elide: Text.ElideNone
                     }
                 }
                 Card {
@@ -184,6 +195,19 @@ DkScroll {
                             Txt { text: modelData.v; font.pixelSize: 13; font.weight: index === 3 ? Font.DemiBold : Font.Normal }
                         }
                     }
+                    Rectangle { Layout.fillWidth: true; height: 1; color: Theme.border }
+                    RowLayout {
+                        Layout.fillWidth: true
+                        Txt { text: "net result after running costs"; font.pixelSize: 13; font.weight: Font.Medium }
+                        InfoTip { term: "realized" }
+                        Item { Layout.fillWidth: true }
+                        Txt { text: Theme.signedMoney((page.perf.costs || {}).netAfterOperating || 0); color: Theme.pnlColor((page.perf.costs || {}).netAfterOperating); font.pixelSize: 14; font.weight: Font.DemiBold }
+                    }
+                    Txt {
+                        Layout.fillWidth: true
+                        text: "trading profit/loss (fees already taken out) minus everything spent on cloud AI (" + Theme.money((page.perf.costs || {}).aiAllTime || 0, 3) + ") and market data (" + Theme.money((page.perf.costs || {}).dataSoFar || 0) + ") so far."
+                        color: Theme.textMuted; font.pixelSize: 11; wrapMode: Text.WordWrap; elide: Text.ElideNone
+                    }
                 }
             }
         }
@@ -195,7 +219,7 @@ DkScroll {
             icon: "flask"
             tip: "backtest"
             subtitle: page.demo ? "in demo mode this uses synthetic prices. it tests the machinery, but can never count as evidence. connect Alpaca to test on real history."
-                                : "replays each strategy on real 1-minute history with spread, slippage and fees. the last 40% of days are held out as an unseen test."
+                                : "replays each strategy on real 1-minute history with spread, slippage and fees: first half to train, next quarter to validate, last quarter held out as an unseen test."
             headerRight: [
                 Segmented { small: true; options: [{ value: 20, label: "20 days" }, { value: 40, label: "40 days" }, { value: 60, label: "60 days" }]; current: page.btDays; onPicked: (v) => page.btDays = v },
                 DkButton { compact: true; kind: "primary"; iconName: "flask"; text: page.bt.running ? "running…" : "run backtest"; enabled: !page.bt.running; onClicked: app.runBacktest(page.btDays, 30) }
@@ -224,41 +248,98 @@ DkScroll {
                 RowLayout {
                     Layout.fillWidth: true
                     spacing: 0
-                    SectionLabel { text: "strategy"; font.pixelSize: 10; Layout.preferredWidth: 190; Layout.minimumWidth: 190; Layout.maximumWidth: 190 }
-                    SectionLabel { text: "trades (test)"; font.pixelSize: 10; Layout.preferredWidth: 100; Layout.minimumWidth: 100; Layout.maximumWidth: 100 }
-                    SectionLabel { text: "avg/trade (train)"; font.pixelSize: 10; Layout.preferredWidth: 120; Layout.minimumWidth: 120; Layout.maximumWidth: 120 }
-                    SectionLabel { text: "avg/trade (test)"; font.pixelSize: 10; Layout.preferredWidth: 120; Layout.minimumWidth: 120; Layout.maximumWidth: 120 }
-                    SectionLabel { text: "random entries"; font.pixelSize: 10; Layout.preferredWidth: 110; Layout.minimumWidth: 110; Layout.maximumWidth: 110 }
-                    SectionLabel { text: "p-value"; font.pixelSize: 10; Layout.preferredWidth: 70; Layout.minimumWidth: 70; Layout.maximumWidth: 70 }
+                    SectionLabel { text: "strategy"; font.pixelSize: 10; Layout.preferredWidth: 196; Layout.minimumWidth: 196; Layout.maximumWidth: 196 }
+                    SectionLabel { text: "trades"; font.pixelSize: 10; Layout.preferredWidth: 60; Layout.minimumWidth: 60; Layout.maximumWidth: 60 }
+                    SectionLabel { text: "train"; font.pixelSize: 10; Layout.preferredWidth: 82; Layout.minimumWidth: 82; Layout.maximumWidth: 82 }
+                    SectionLabel { text: "validate"; font.pixelSize: 10; Layout.preferredWidth: 82; Layout.minimumWidth: 82; Layout.maximumWidth: 82 }
+                    SectionLabel { text: "test"; font.pixelSize: 10; Layout.preferredWidth: 82; Layout.minimumWidth: 82; Layout.maximumWidth: 82 }
+                    SectionLabel { text: "random"; font.pixelSize: 10; Layout.preferredWidth: 78; Layout.minimumWidth: 78; Layout.maximumWidth: 78 }
+                    SectionLabel { text: "2× slip"; font.pixelSize: 10; Layout.preferredWidth: 82; Layout.minimumWidth: 82; Layout.maximumWidth: 82 }
+                    SectionLabel { text: "stable"; font.pixelSize: 10; Layout.preferredWidth: 56; Layout.minimumWidth: 56; Layout.maximumWidth: 56 }
+                    SectionLabel { text: "adj. p"; font.pixelSize: 10; Layout.preferredWidth: 52; Layout.minimumWidth: 52; Layout.maximumWidth: 52 }
                     SectionLabel { text: "verdict"; font.pixelSize: 10; Layout.fillWidth: true }
                 }
                 Repeater {
                     model: page.btr ? Object.keys(page.btr.strategies) : []
                     delegate: ColumnLayout {
                         readonly property var r: page.btr.strategies[modelData]
+                        readonly property var tr: r.train || r.inSample || ({})
+                        readonly property var va: r.validation || ({})
+                        readonly property var te: r.test || r.outOfSample || ({})
+                        readonly property var folds: r.walkForward || []
+                        readonly property int usedFolds: folds.filter(function(f) { return f.trades > 0 }).length
+                        readonly property int goodFolds: folds.filter(function(f) { return f.trades > 0 && f.avgRetPct > 0 }).length
+                        readonly property var ra: r.riskAdjusted || ({})
                         Layout.fillWidth: true
                         spacing: 3
                         RowLayout {
                             Layout.fillWidth: true
                             spacing: 0
-                            Txt { text: r.name; font.pixelSize: 14; font.weight: Font.Medium; Layout.preferredWidth: 190; Layout.minimumWidth: 190; Layout.maximumWidth: 190 }
-                            Txt { text: r.outOfSample.trades; font.pixelSize: 13; Layout.preferredWidth: 100; Layout.minimumWidth: 100; Layout.maximumWidth: 100 }
-                            Txt { text: Theme.signedPct(r.inSample.avgRetPct, 3); color: Theme.pnlColor(r.inSample.avgRetPct); font.pixelSize: 13; Layout.preferredWidth: 120; Layout.minimumWidth: 120; Layout.maximumWidth: 120 }
-                            Txt { text: Theme.signedPct(r.outOfSample.avgRetPct, 3); color: Theme.pnlColor(r.outOfSample.avgRetPct); font.pixelSize: 13; Layout.preferredWidth: 120; Layout.minimumWidth: 120; Layout.maximumWidth: 120 }
-                            Txt { text: Theme.signedPct(r.randomBaseline.avgRetPct, 3); color: Theme.textDim; font.pixelSize: 13; Layout.preferredWidth: 110; Layout.minimumWidth: 110; Layout.maximumWidth: 110 }
-                            Txt { text: Theme.fixed(r.outOfSample.pValue, 2); font.pixelSize: 13; Layout.preferredWidth: 70; Layout.minimumWidth: 70; Layout.maximumWidth: 70 }
+                            Txt { text: r.name; font.pixelSize: 14; font.weight: Font.Medium; Layout.preferredWidth: 196; Layout.minimumWidth: 196; Layout.maximumWidth: 196 }
+                            Txt { text: te.trades === undefined ? "—" : te.trades; font.pixelSize: 13; Layout.preferredWidth: 60; Layout.minimumWidth: 60; Layout.maximumWidth: 60 }
+                            Txt { text: tr.trades ? Theme.signedPct(tr.avgRetPct, 3) : "—"; color: Theme.pnlColor(tr.avgRetPct); font.pixelSize: 13; Layout.preferredWidth: 82; Layout.minimumWidth: 82; Layout.maximumWidth: 82 }
+                            Txt { text: va.trades ? Theme.signedPct(va.avgRetPct, 3) : "—"; color: Theme.pnlColor(va.avgRetPct); font.pixelSize: 13; Layout.preferredWidth: 82; Layout.minimumWidth: 82; Layout.maximumWidth: 82 }
+                            Txt { text: te.trades ? Theme.signedPct(te.avgRetPct, 3) : "—"; color: Theme.pnlColor(te.avgRetPct); font.pixelSize: 13; font.weight: Font.DemiBold; Layout.preferredWidth: 82; Layout.minimumWidth: 82; Layout.maximumWidth: 82 }
+                            Txt { text: r.randomBaseline && r.randomBaseline.trades ? Theme.signedPct(r.randomBaseline.avgRetPct, 3) : "—"; color: Theme.textDim; font.pixelSize: 13; Layout.preferredWidth: 78; Layout.minimumWidth: 78; Layout.maximumWidth: 78 }
+                            Txt { text: r.stressAvgRetPct === undefined || !te.trades ? "—" : Theme.signedPct(r.stressAvgRetPct, 3); color: Theme.pnlColor(r.stressAvgRetPct); font.pixelSize: 13; Layout.preferredWidth: 82; Layout.minimumWidth: 82; Layout.maximumWidth: 82 }
+                            Txt { text: usedFolds > 0 ? goodFolds + "/" + usedFolds : "—"; color: usedFolds > 0 && goodFolds / usedFolds >= 0.6 ? Theme.text : Theme.textDim; font.pixelSize: 13; Layout.preferredWidth: 56; Layout.minimumWidth: 56; Layout.maximumWidth: 56 }
+                            Txt { text: r.pAdjusted === undefined ? Theme.fixed(te.pValue || 1, 2) : Theme.fixed(r.pAdjusted, 2); font.pixelSize: 13; Layout.preferredWidth: 52; Layout.minimumWidth: 52; Layout.maximumWidth: 52 }
                             Pill {
-                                text: r.verdict === "evidence" ? (page.btr.source.indexOf("synthetic") >= 0 ? "SYNTHETIC ONLY" : "EVIDENCE ✓") : r.verdict === "no_edge" ? "NO EDGE" : "TOO FEW TRADES"
-                                kind: r.verdict === "evidence" ? "lime" : r.verdict === "no_edge" ? "sell" : "warn"
+                                text: r.verdict === "evidence" ? (page.btr.source.indexOf("synthetic") >= 0 ? "SYNTHETIC ONLY" : "EVIDENCE ✓") : r.verdict === "synthetic_only" ? "SYNTHETIC ONLY" : r.verdict === "no_edge" ? "NO EDGE" : "TOO FEW TRADES"
+                                kind: r.verdict === "evidence" && page.btr.source.indexOf("synthetic") < 0 ? "lime" : r.verdict === "no_edge" ? "sell" : "warn"
                             }
                             Item { Layout.fillWidth: true }
                         }
-                        Txt { text: r.explanation; color: Theme.textMuted; font.pixelSize: 12; wrapMode: Text.WordWrap; elide: Text.ElideNone; Layout.fillWidth: true; Layout.bottomMargin: 6 }
+                        Txt { text: r.explanation; color: Theme.textMuted; font.pixelSize: 12; wrapMode: Text.WordWrap; elide: Text.ElideNone; Layout.fillWidth: true }
+                        Txt {
+                            visible: te.trades > 0
+                            Layout.fillWidth: true; Layout.bottomMargin: 6
+                            text: "test period on $100: " + Theme.signedPct(ra.totalReturnPct || 0) + " · worst drop " + Theme.pct(ra.maxDrawdownPct || 0) + " · sharpe " + Theme.fixed(ra.sharpe || 0, 2)
+                                  + (r.widenedShare > 0 ? " · stops widened for costs on " + Math.round(r.widenedShare * 100) + "% of trades" : "")
+                                  + (r.regimes ? " · " + Object.keys(r.regimes).filter(function(k) { return r.regimes[k].trades > 0 }).map(function(k) { return k + ": " + Theme.signedPct(r.regimes[k].avgRetPct, 2) }).join(" · ") : "")
+                            color: Theme.textMuted; font.pixelSize: 11; wrapMode: Text.WordWrap; elide: Text.ElideNone
+                        }
+                    }
+                }
+
+                // ---- how would the whole app have done, and against what
+                SectionLabel { visible: page.btr && page.btr.approaches !== undefined; text: "the whole app on the unseen test period"; Layout.topMargin: 6 }
+                Repeater {
+                    model: page.btr && page.btr.approaches ? ["every_signal", "first_come", "ranked", "random"] : []
+                    delegate: RowLayout {
+                        readonly property var a: page.btr.approaches[modelData] || ({})
+                        Layout.fillWidth: true
+                        spacing: 0
+                        Rectangle { width: 8; height: 8; radius: 4; color: modelData === "ranked" ? Theme.lime : Theme.textMuted; Layout.rightMargin: 10 }
+                        Txt { text: a.label || modelData; font.pixelSize: 13; font.weight: modelData === "ranked" ? Font.DemiBold : Font.Normal; Layout.preferredWidth: 300; Layout.minimumWidth: 300; Layout.maximumWidth: 300 }
+                        Txt { text: (a.trades || 0) + " trades"; color: Theme.textDim; font.pixelSize: 13; Layout.preferredWidth: 90; Layout.minimumWidth: 90; Layout.maximumWidth: 90 }
+                        Txt { text: a.trades ? Theme.signedPct(a.avgRetPct, 3) + " / trade" : "—"; color: Theme.pnlColor(a.avgRetPct); font.pixelSize: 13; Layout.preferredWidth: 130; Layout.minimumWidth: 130; Layout.maximumWidth: 130 }
+                        Txt { text: a.trades ? Theme.signedMoney(a.totalPnl) : ""; color: Theme.pnlColor(a.totalPnl); font.pixelSize: 13; Layout.preferredWidth: 90; Layout.minimumWidth: 90; Layout.maximumWidth: 90 }
+                        Txt { text: a.trades ? "worst drop " + Theme.money(a.maxDrawdown) : ""; color: Theme.textMuted; font.pixelSize: 12; Layout.fillWidth: true }
                     }
                 }
                 Txt {
-                    text: "\"avg/trade\" is the average result per trade after costs. \"random entries\" uses the same stops, targets and holding times but random entry times — a strategy has to beat that to matter. past results don't guarantee future ones."
-                    color: Theme.textMuted; font.pixelSize: 12; wrapMode: Text.WordWrap; elide: Text.ElideNone; Layout.fillWidth: true
+                    visible: page.btr && page.btr.benchmarks !== undefined
+                    Layout.fillWidth: true
+                    readonly property var bm: (page.btr && page.btr.benchmarks) || ({})
+                    text: "benchmarks over the same days: buying SPY and holding " + (bm.spyBuyHoldPct === null || bm.spyBuyHoldPct === undefined ? "—" : Theme.signedPct(bm.spyBuyHoldPct))
+                          + " · SPY open→close each day " + (bm.spyOpenToCloseAvgPct === null || bm.spyOpenToCloseAvgPct === undefined ? "—" : Theme.signedPct(bm.spyOpenToCloseAvgPct, 3) + " avg")
+                          + " · doing nothing $0.00. the app only earns its keep if it beats these after costs."
+                    color: Theme.textDim; font.pixelSize: 12; wrapMode: Text.WordWrap; elide: Text.ElideNone
+                }
+                Txt {
+                    visible: page.btr && page.btr.coverage !== undefined
+                    Layout.fillWidth: true
+                    readonly property var cv: (page.btr && page.btr.coverage) || ({})
+                    text: "data: " + (cv.symbolDaysWithData || 0) + " of " + (cv.symbolDaysExpected || 0) + " stock-days available"
+                          + ((cv.missing || []).length > 0 ? " — missing ones (e.g. " + cv.missing.slice(0, 3).join(", ") + ") were skipped, never filled in." : " — nothing missing.")
+                          + (page.btr && page.btr.splits && page.btr.splits.train ? " train " + page.btr.splits.train.join("→") + " · validation " + (page.btr.splits.validation || []).join("→") + " · test " + (page.btr.splits.test || []).join("→") : "")
+                    color: Theme.textMuted; font.pixelSize: 11; wrapMode: Text.WordWrap; elide: Text.ElideNone
+                }
+                Txt {
+                    Layout.fillWidth: true
+                    text: (page.btr && page.btr.aiNote ? page.btr.aiNote + " " : "") + "all results are after spread, slippage and fees. \"random\" uses the same stops, targets and holding times with random entry times — a strategy has to beat that to matter. \"stable\" = profitable walk-forward periods. \"adj. p\" accounts for testing several strategies at once. past results don't guarantee future ones."
+                    color: Theme.textMuted; font.pixelSize: 12; wrapMode: Text.WordWrap; elide: Text.ElideNone
                 }
             }
             Txt {

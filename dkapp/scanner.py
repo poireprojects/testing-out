@@ -204,16 +204,19 @@ class Scanner:
             i = len(f) - 1
             ctx = Context(sym, self.market_trend_up)
             best: Optional[Signal] = None
+            fired: list[str] = []
             for sid in enabled:
                 idea = ALL_STRATEGIES[sid].entry(f, i, ctx)
                 if idea is None:
                     continue
+                fired.append(sid)
                 price = float(f["close"].iat[i])
                 sig = Signal(sym, sid, now, price, idea.stop_price, idea.target_price, idea.score,
                              idea.reasons, idea.max_hold_minutes, latest_features(f))
                 if best is None or sig.score > best.score:
                     best = sig
             if best is not None:
+                best.agreeing = fired
                 out.append(best)
                 if row is not None:
                     row.signal, row.strategy = "buy", best.strategy

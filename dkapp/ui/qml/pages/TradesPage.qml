@@ -182,7 +182,7 @@ Item {
                             anchors.topMargin: 10
                             x: 12
                             width: parent.width - 24
-                            text: "why it was bought: " + model.reasoning + "\nfees: " + Theme.money(model.fees) + " · decided by: " + (model.decisionMode === "rules" ? "rules only" : "rules + AI") + " · " + Theme.fixed(model.qty, 6) + " shares"
+                            text: "why it was bought: " + model.reasoning + "\nfees: " + Theme.money(model.fees) + " · decided by: " + (model.decisionMode === "rules" ? "rules + ranker" : model.decisionMode === "ai_select" ? "AI picked it from the ranker's shortlist" : "rules + ranker, AI confirmed") + " · " + Theme.fixed(model.qty, 6) + " shares"
                             color: Theme.textDim
                             font.pixelSize: 13
                             wrapMode: Text.WordWrap

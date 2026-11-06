@@ -23,19 +23,29 @@ class ScriptedAI:
     model = "test-double"
     is_paid = False
 
-    def __init__(self, action="buy", confidence=0.8, quality="moderate", fail: Optional[str] = None, raw: Optional[str] = None):
+    def __init__(self, action="buy", confidence=0.8, quality="moderate", fail: Optional[str] = None, raw: Optional[str] = None,
+                 select: str = "first"):
         self.action, self.confidence, self.quality, self.fail, self.raw = action, confidence, quality, fail, raw
+        self.select = select  # for "choose one of these" questions: "first", "none", or a symbol
         self.calls = 0
+        self.prompts: list[str] = []
 
     def health(self):
         return (self.fail is None), (self.fail or "ok")
 
     def complete_json(self, system, user, schema, max_tokens=1200):
         self.calls += 1
+        self.prompts.append(user)
         if self.fail:
             raise AIUnavailable(self.fail)
         if self.raw is not None:
             text = self.raw
+        elif "choice" in schema.get("properties", {}):
+            opts = [o for o in schema["properties"]["choice"]["enum"] if o != "none"]
+            pick = opts[0] if self.select == "first" else self.select
+            text = json.dumps({"choice": pick, "confidence": self.confidence,
+                               "reasoning": "compared the options; this one has the cleanest setup after costs.",
+                               "key_risks": ["could fade"]})
         elif "evidence_quality" not in schema.get("properties", {}):
             text = json.dumps({"action": "hold", "confidence": 0.5, "reasoning": "still trending"})
         else:
@@ -66,6 +76,8 @@ class Rig:
                 p.future.result(timeout=10)
             for f in list(self.engine.pending_reviews.values()):
                 f.result(timeout=10)
+            if self.engine.pending_select is not None:
+                self.engine.pending_select[0].result(timeout=10)
 
 
 def make_rig(tmp_path, *, day: date = date(2026, 11, 4), start_offset_min: float = -5, universe_size: int = 80,

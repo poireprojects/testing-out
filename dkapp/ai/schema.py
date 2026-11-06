@@ -40,6 +40,44 @@ class ExitReview(BaseModel):
     reasoning: str = Field(min_length=5, max_length=1000)
 
 
+class SelectDecision(BaseModel):
+    """The AI chooses at most one of the ranked candidates, or none."""
+    model_config = ConfigDict(extra="forbid")
+
+    choice: str = Field(min_length=1, max_length=12)
+    confidence: float = Field(ge=0.0, le=1.0)
+    reasoning: str = Field(min_length=10, max_length=1500)
+    key_risks: list[str] = Field(default_factory=list, max_length=6)
+
+
+def select_schema(symbols: list[str]) -> dict:
+    return {
+        "type": "object",
+        "properties": {
+            "choice": {"type": "string", "enum": [*symbols, "none"]},
+            "confidence": {"type": "number", "description": "0 to 1"},
+            "reasoning": {"type": "string", "description": "2-4 plain-English sentences comparing the options"},
+            "key_risks": {"type": "array", "items": {"type": "string"}},
+        },
+        "required": ["choice", "confidence", "reasoning", "key_risks"],
+        "additionalProperties": False,
+    }
+
+
+def parse_select(text: str, allowed: list[str]) -> tuple[Optional[SelectDecision], Optional[str]]:
+    obj = extract_json(text)
+    if obj is None:
+        return None, "response was not valid JSON"
+    try:
+        d = SelectDecision.model_validate(obj)
+    except ValidationError as exc:
+        return None, "schema validation failed: " + "; ".join(e["msg"] for e in exc.errors()[:5])
+    d.choice = d.choice.strip().upper() if d.choice.strip().lower() != "none" else "none"
+    if d.choice != "none" and d.choice not in allowed:
+        return None, f"the AI picked {d.choice!r}, which wasn't one of the options"
+    return d, None
+
+
 ENTRY_SCHEMA = {
     "type": "object",
     "properties": {

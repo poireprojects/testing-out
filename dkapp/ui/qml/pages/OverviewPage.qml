@@ -183,7 +183,7 @@ DkScroll {
                         }
                     }
                     DkButton {
-                        visible: st.ai && st.ai.decisionMode === "ai_confirm" && st.ai.healthy === false
+                        visible: st.ai && st.ai.decisionMode !== "rules" && st.ai.healthy === false
                         compact: true
                         kind: "secondary"
                         text: "use rules-only for now"

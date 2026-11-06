@@ -61,8 +61,9 @@ class CompoundingSettings(BaseModel):
 
 
 class AISettings(BaseModel):
-    # rules = quantitative strategies decide alone; ai_confirm = AI must approve each entry
-    decision_mode: Literal["rules", "ai_confirm"] = "ai_confirm"
+    # rules = ranked quantitative strategies decide alone; ai_confirm = AI must approve each ranked pick;
+    # ai_select = AI chooses one (or none) from the ranked shortlist
+    decision_mode: Literal["rules", "ai_confirm", "ai_select"] = "ai_confirm"
     provider: Literal["ollama", "anthropic"] = "ollama"
     ollama_url: str = "http://localhost:11434"
     ollama_model: str = "llama3.1:8b"

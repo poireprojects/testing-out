@@ -100,3 +100,112 @@ def test_synthetic_backtest_finds_no_edge_in_random_data():
     days = synthetic_days(DemoMarket(syms, cal, 11), syms, date(2026, 11, 4), 25)
     res = run_backtest(days, list(ALL_STRATEGIES), BTConfig())
     assert all(r["verdict"] != "evidence" for r in res["strategies"].values())
+
+
+# ------------------------------------------------------------------ evaluation upgrade (walk-forward, splits, stress)
+from dkapp.backtest.engine import (judge_full, recost, replay_portfolio, risk_adjusted, split_days,  # noqa: E402
+                                   walk_forward)
+
+
+def _mk(rets, day=date(2026, 1, 1)):
+    return [BTTrade("orb", "X", day, 0, 1, 1, 1, 20, r / 100 * 20, r, "t") for r in rets]
+
+
+def _folds(n_pos, n=4):
+    return [{"fold": k + 1, "days": 5, "trades": 10, "avgRetPct": 0.2 if k < n_pos else -0.2} for k in range(n)]
+
+
+def test_judge_full_needs_every_check_and_never_trusts_synthetic():
+    rng = np.random.default_rng(1)
+    good = summarize(_mk(rng.normal(0.3, 0.4, 120)))
+    noise = summarize(_mk(rng.normal(0.0, 0.4, 120)))
+    assert judge_full(good, good, good, noise, _folds(4), 0.2, 0.01, synthetic=False).verdict == "evidence"
+    assert judge_full(good, good, good, noise, _folds(4), 0.2, 0.01, synthetic=True).verdict == "synthetic_only"
+    v = judge_full(good, good, good, noise, _folds(1), 0.2, 0.01, False)
+    assert v.verdict == "no_edge" and "walk-forward" in v.explanation
+    v = judge_full(good, good, good, noise, _folds(4), -0.05, 0.01, False)
+    assert v.verdict == "no_edge" and "slippage doubles" in v.explanation
+    v = judge_full(good, good, good, noise, _folds(4), 0.2, 0.4, False)
+    assert v.verdict == "no_edge" and "adjusted p" in v.explanation
+    big = summarize(_mk(rng.normal(3.0, 0.4, 120)))
+    small = summarize(_mk(rng.normal(0.4, 0.4, 120)))
+    v = judge_full(big, small, small, noise, _folds(4), 0.2, 0.01, False)
+    assert v.verdict == "no_edge" and "overfitting" in v.explanation
+    few = summarize(_mk(rng.normal(0.3, 0.4, 10)))
+    assert judge_full(good, good, few, noise, _folds(4), 0.2, 0.01, False).verdict == "insufficient"
+
+
+def test_splits_are_chronological_and_disjoint():
+    days = [date(2026, 1, 1) + __import__("datetime").timedelta(days=i) for i in range(40)]
+    tr, va, te = split_days(days)
+    assert tr and va and te
+    assert max(tr) < min(va) and max(va) < min(te), "test period must come strictly after training"
+    assert len(tr) + len(va) + len(te) == 40
+    trades = [t for i, d in enumerate(days) for t in _mk([0.1 if i < 20 else -0.1], d)]
+    folds = walk_forward(trades, days, folds=4)
+    assert [f["trades"] for f in folds] == [10, 10, 10, 10]
+    assert folds[0]["avgRetPct"] > 0 > folds[-1]["avgRetPct"]
+
+
+def test_doubling_slippage_makes_results_worse():
+    t = _fill_trade("orb", "X", date(2026, 11, 4), 1, 2, 100.0, 101.0, "target", BTConfig())
+    assert recost(t, BTConfig(), 2.0) < t.ret_pct
+    assert recost(t, BTConfig(), 1.0) == pytest.approx(t.ret_pct)
+
+
+def test_risk_adjusted_counts_idle_days_and_drawdown():
+    days = [date(2026, 1, d) for d in range(1, 11)]
+    ts = _mk([5.0], days[0]) + _mk([-10.0], days[3])  # +$1 then -$2 on a $100 account
+    ra = risk_adjusted(ts, days)
+    assert ra["totalReturnPct"] == pytest.approx((1.01 * 0.98 - 1) * 100, rel=1e-6)
+    assert ra["maxDrawdownPct"] == pytest.approx(2.0, rel=1e-6)
+    assert ra["sharpe"] < 0 and ra["sortino"] <= 0
+    assert risk_adjusted([], days)["totalReturnPct"] == 0.0
+
+
+def test_portfolio_replay_respects_slots_and_one_position_per_symbol():
+    cfg = BTConfig(max_positions=2, cooldown_minutes=20)
+    d = date(2026, 11, 4)
+    ts = []
+    for k, sym in enumerate(["A", "B", "C", "D"]):
+        t = _fill_trade("orb", sym, d, 10, 40, 100.0, 101.0, "target", cfg)
+        t.minute, t.exit_minute, t.score, t.stop_pct, t.target_pct = 10, 40, 0.9 - k * 0.1, 1.5, 3.0
+        ts.append(t)
+    again = _fill_trade("orb", "A", d, 15, 30, 100.0, 101.0, "target", cfg)
+    again.minute, again.exit_minute, again.score, again.stop_pct, again.target_pct = 15, 30, 0.99, 1.5, 3.0
+    ts.append(again)
+    first = replay_portfolio(ts, cfg, use_ranker=False, spy_by_day={})
+    assert [t.symbol for t in first] == ["A", "B"], "only two slots; strongest first; no second A while A is open"
+    ranked = replay_portfolio(ts, cfg, use_ranker=True, spy_by_day={})
+    assert len(ranked) <= 2
+
+
+def test_missing_history_is_reported_not_fabricated():
+    cal = MarketCalendar()
+    syms = ["SPY", "AAPL", "MSFT"]
+    days = synthetic_days(DemoMarket(syms, cal, 5), syms, date(2026, 11, 4), 8, warmup=5)
+    gone = days[3]
+    del gone.bars["AAPL"]
+    res = run_backtest(days, list(ALL_STRATEGIES), BTConfig(random_baseline_draws=0), expected_symbols=syms)
+    cov = res["coverage"]
+    assert cov["symbolDaysExpected"] == 24 and cov["symbolDaysWithData"] == 23
+    assert f"AAPL {gone.day}" in cov["missing"]
+    from dkapp.backtest.engine import run_day
+    import random
+    assert not [t for t in run_day(gone, list(ALL_STRATEGIES), BTConfig(), random.Random(0)) if t.symbol == "AAPL"]
+    for key in ("approaches", "benchmarks", "splits", "aiNote"):
+        assert key in res
+    assert set(res["approaches"]) == {"every_signal", "first_come", "ranked", "random"}
+    assert res["benchmarks"]["doNothingPct"] == 0.0
+    r = next(iter(res["strategies"].values()))
+    for key in ("train", "validation", "test", "walkForward", "stressAvgRetPct", "pAdjusted", "riskAdjusted", "regimes"):
+        assert key in r
+
+
+def test_synthetic_run_is_labeled_and_never_evidence():
+    cal = MarketCalendar()
+    syms = ["SPY", "QQQ", "AAPL", "MSFT", "NVDA"]
+    days = synthetic_days(DemoMarket(syms, cal, 9), syms, date(2026, 11, 4), 12, warmup=5)
+    res = run_backtest(days, list(ALL_STRATEGIES), BTConfig(), synthetic=True)
+    assert res["synthetic"] is True
+    assert all(r["verdict"] in ("synthetic_only", "no_edge", "insufficient") for r in res["strategies"].values())

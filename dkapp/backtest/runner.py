@@ -186,7 +186,8 @@ def latest_results(db: Database) -> Optional[dict]:
 
 def run_and_record(db: Database, *, source: str, days: list[DayInput], strategies: list[str], cfg: BTConfig,
                    params: dict, progress: Optional[Callable[[float, str], None]] = None) -> dict:
-    res = run_backtest(days, strategies, cfg, progress=(lambda f, m: progress(0.5 + f * 0.5, m)) if progress else None)
+    res = run_backtest(days, strategies, cfg, progress=(lambda f, m: progress(0.5 + f * 0.5, m)) if progress else None,
+                       synthetic=source.startswith("synthetic"), expected_symbols=params.get("symbols"))
     record_results(db, res, source, params)
     res["source"] = source
     return res

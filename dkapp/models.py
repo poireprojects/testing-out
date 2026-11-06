@@ -154,6 +154,7 @@ class Signal:
     reasons: list[str] = field(default_factory=list)
     max_hold_minutes: int = 90
     features: dict = field(default_factory=dict)
+    agreeing: list = field(default_factory=list)  # every strategy that fired on this symbol
 
     @property
     def stop_pct(self) -> float:

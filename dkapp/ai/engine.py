@@ -23,7 +23,8 @@ from ..models import Signal
 from ..storage.db import Database, to_iso
 from ..strategies import ALL_STRATEGIES
 from .providers import AIProvider, AIUnavailable, AnthropicProvider, DisabledProvider, OllamaProvider
-from .schema import ENTRY_SCHEMA, EXIT_SCHEMA, EntryDecision, ExitReview, parse_entry, parse_exit
+from .schema import (ENTRY_SCHEMA, EXIT_SCHEMA, EntryDecision, ExitReview, SelectDecision, parse_entry, parse_exit,
+                     parse_select, select_schema)
 
 log = logging.getLogger(__name__)
 
@@ -42,6 +43,20 @@ Rules you must follow:
 - Write "reasoning" for a beginner: 2-4 short sentences, no jargon without a brief explanation.
 Return only the JSON object described by the schema."""
 
+SELECT_SYSTEM = """You are the decision step inside a personal, automated day-trading app.
+You are shown a short, ranked list of possible LONG (buy) day trades that already passed the app's rule checks,
+plus the current market conditions. Pick the single best one, or "none".
+
+Rules you must follow:
+- "none" is often the right answer. Pick a trade only if it clearly beats doing nothing after costs.
+- Compare the options against each other: strength of evidence, risk vs. reward after costs, liquidity, and how well
+  the setup suits today's market conditions.
+- Positions are closed before today's market close. You do not control size or risk limits; a separate
+  deterministic risk engine enforces them and may still block the trade.
+- Use only the numbers provided. Do not invent news, earnings, or prices.
+- Write "reasoning" for a beginner: 2-4 short sentences that say why the pick beats the others (or why none do).
+Return only the JSON object described by the schema."""
+
 EXIT_SYSTEM = """You review an open intraday LONG position inside an automated day-trading app.
 Decide whether to keep holding or sell now. Selling only reduces risk. Prefer "hold" unless the evidence has
 clearly turned against the position (trend broken, momentum gone, price losing key levels).
@@ -55,6 +70,7 @@ class AIResult:
     ok: bool
     decision: Optional[EntryDecision] = None
     review: Optional[ExitReview] = None
+    selection: Optional[SelectDecision] = None
     error: Optional[str] = None
     provider: str = ""
     model: str = ""
@@ -185,6 +201,52 @@ class AIEngine:
             risks=json.dumps(res.decision.key_risks if res.decision else []),
             valid=int(res.ok), error=res.error, raw=raw[:4000], input_tokens=tin, output_tokens=tout,
             cost_usd=res.cost_usd, latency_ms=res.latency_ms, signal_id=context.get("signal_id"))
+        return res
+
+    # ------------------------------------------------------------ choose among candidates
+    def submit_selection(self, options: list[dict], context: dict) -> Future:
+        for o in options:
+            self._last_asked[(o["symbol"], o["strategyId"])] = self._now()
+        return self._pool.submit(self.evaluate_selection, options, context)
+
+    def evaluate_selection(self, options: list[dict], context: dict) -> AIResult:
+        requested = self._now()
+        symbols = [o["symbol"] for o in options]
+        res = AIResult("select", ",".join(symbols), ok=False, requested_at=requested, provider=self.provider.name,
+                       model=self.provider.model, extra={"options": symbols})
+        raw, tin, tout = "", 0, 0
+        self.busy = True
+        try:
+            pr = self.provider.complete_json(SELECT_SYSTEM, json.dumps({"options": options, **context}, default=str),
+                                             select_schema(symbols))
+            raw, tin, tout = pr.text, pr.input_tokens, pr.output_tokens
+            res.cost_usd, res.latency_ms, res.model = pr.cost_usd, pr.latency_ms, pr.model
+            sel, err = parse_select(pr.text, symbols)
+            res.ok, res.selection, res.error = sel is not None, sel, err
+            if sel is not None:
+                self.healthy, self.health_msg = True, f"{pr.model} responding"
+        except AIUnavailable as exc:
+            res.error = str(exc)
+            if "budget" not in str(exc):
+                self.healthy, self.health_msg = False, str(exc)
+        except Exception as exc:
+            log.exception("AI provider crashed during selection")
+            res.error = f"unexpected AI error: {exc}"
+        finally:
+            self.busy = False
+        sel = res.selection
+        res.approved = bool(res.ok and sel and sel.choice != "none")
+        res.verdict_text = (f"AI picked {sel.choice}" if res.approved else "AI chose not to trade") if res.ok \
+            else f"AI unavailable — no trade ({res.error})"
+        if sel is not None:
+            res.extra["reasoning"] = sel.reasoning
+        res.decision_id = self.db.insert(
+            "ai_decisions", time=to_iso(requested), kind="select", symbol=(sel.choice if sel else ",".join(symbols)),
+            strategy=None, provider=res.provider, model=res.model,
+            action=("buy" if res.approved else ("skip" if res.ok else "error")),
+            confidence=(sel.confidence if sel else None), reasoning=(sel.reasoning if sel else res.error),
+            risks=json.dumps(sel.key_risks if sel else []), valid=int(res.ok), error=res.error, raw=raw[:4000],
+            input_tokens=tin, output_tokens=tout, cost_usd=res.cost_usd, latency_ms=res.latency_ms)
         return res
 
     # ------------------------------------------------------------ exits

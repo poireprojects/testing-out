@@ -44,6 +44,7 @@ from ..risk.sizing import scaled_limits
 from ..scanner import Scanner, load_baselines
 from ..analysis.features import Baseline
 from ..storage.db import Database, from_iso, to_iso, utcnow_iso
+from ..decision import Candidate, Decision, Evidence, OpportunityRanker, Regime, breadth_pct, classify_regime
 from ..strategies import ALL_STRATEGIES
 from .shadow import ShadowTracker
 
@@ -107,6 +108,13 @@ class TradingEngine:
         self.orders = OrderManager(db, broker, clock.now, mode)
         self.ledger = SettlementLedger(db, calendar)
         self.shadow = ShadowTracker(db, self.costs)
+        self.ranker = OpportunityRanker(self.costs)
+        self.regime: Regime = classify_regime(None, None, None, None)
+        self.last_decision: Optional[Decision] = None
+        self._last_journal: tuple = ()
+        self._last_pass_note: Optional[datetime] = None
+        self._shadowed: dict[tuple[str, str, str], datetime] = {}
+        self.pending_select: Optional[tuple[Future, dict[str, Candidate], datetime]] = None
         self.after_step = after_step
         self._mono = monotonic
 
@@ -316,6 +324,7 @@ class TradingEngine:
             if self._due("hot_scan", self.settings.data.hot_scan_seconds):
                 self._hot_scan_and_signals(now, sess)
             self._collect_ai(now, sess)
+            self._collect_selection(now, sess)
             self._manage_positions(now, sess)
             self._check_daily_limit(now)
             if self._due("equity", 60.0):
@@ -692,12 +701,159 @@ class TradingEngine:
         held = {t["symbol"] for t in self.db.open_trades()} | {p.symbol for p in self.external_positions}
         enabled = [k for k, v in self.settings.strategies.enabled.items() if v]
         sigs = self.scanner.signals(now, frames, enabled, exclude=held | set(self.pending_ai) | set(CONTEXT_SYMBOLS))
+        self.regime = self._read_regime(frames)
         if not sess.can_enter or self.emergency_stop:
             return
-        for sig in sigs[:5]:
-            if sig.score < self.settings.strategies.min_signal_score:
-                continue
-            self._consider(sig, now, sess)
+        min_score = self.settings.strategies.min_signal_score
+        sigs = [s for s in sigs if s.score >= min_score][:12]
+        decision = self._rank(sigs, now)
+        self.last_decision = decision
+        self._journal(decision, now)
+        for c in decision.candidates:  # what every candidate would have done, for fair comparisons
+            self._shadow_once(c.signal, "rules", now)
+            if c.take:
+                self._shadow_once(c.signal, "ranked", now)
+        if self.settings.ai.decision_mode == "ai_select":
+            self._ask_ai_to_choose(decision, now, sess)
+            return
+        for c in decision.chosen:
+            self._consider(c.signal, now, sess)
+
+    # ================================================================ comparing opportunities
+    def _read_regime(self, frames) -> Regime:
+        spy = frames.get("SPY") if frames else None
+        above = self.scanner.market_trend_up
+        row = self.scanner.rows.get("SPY")
+        vr = None
+        if spy is not None and not spy.empty:
+            b = self.scanner.baselines.get("SPY")
+            lo = float(spy["low"].min())
+            if b is not None and b.avg_range_pct and lo > 0:
+                vr = ((float(spy["high"].max()) - lo) / lo * 100) / b.avg_range_pct
+        return classify_regime(above, row.change_pct if row else None, breadth_pct(self.scanner.rows.values()), vr)
+
+    def _evidence(self, sid: str) -> Evidence:
+        row = self.db.query_one("SELECT * FROM strategy_evidence WHERE strategy=?", (sid,))
+        ev = Evidence()
+        if row and not row["source"].startswith("synthetic"):
+            ev.verdict, ev.source = row["verdict"], row["source"]
+            try:
+                ev.avg_return_pct = json.loads(row["details"] or "{}").get("oos", {}).get("avgRetPct")
+            except ValueError:
+                pass
+        if ev.verdict == "untested" and not self.data.is_demo:  # paper forward test (real prices only)
+            rets = [r["return_pct"] for r in self.db.query(
+                "SELECT return_pct FROM shadow_trades WHERE status='closed' AND verdict='rules' AND strategy=?", (sid,))]
+            if rets:
+                ev.trades, ev.avg_return_pct, ev.source = len(rets), sum(rets) / len(rets), "paper forward test"
+        return ev
+
+    def _rank(self, sigs: list[Signal], now: datetime) -> Decision:
+        open_n = len(self.db.open_trades()) + len(self.pending_ai) + (1 if self.pending_select else 0)
+        free = max(0, self.settings.risk.max_positions - open_n)
+        notional = scaled_limits(self.settings, self.account.equity if self.account else 100)["max_position_usd"]
+        rows = [r for r in self.scanner.rows.values() if r.eligible]
+        dv = sorted(r.day_volume * r.price for r in rows) or [0.0]
+        cands = []
+        evidence = {}
+        self.ranker.max_stop_pct = self.settings.risk.max_stop_pct
+        self.ranker.max_spread_bps = self.settings.risk.max_spread_bps
+        for s in sigs:
+            row = self.scanner.rows.get(s.symbol)
+            spread = row.spread_bps if row and math.isfinite(row.spread_bps) else 10.0
+            rank = (sum(1 for x in dv if x <= row.day_volume * row.price) / len(dv)) if row else 0.5
+            ev = evidence.setdefault(s.strategy, self._evidence(s.strategy))
+            cands.append(self.ranker.score(s, self.regime, ev, notional, spread, rank))
+        return self.ranker.decide(cands, self.regime, free)
+
+    def _journal(self, d: Decision, now: datetime) -> None:
+        key = (tuple(sorted(c.signal.symbol for c in d.candidates)), tuple(c.signal.symbol for c in d.chosen),
+               d.regime.label)
+        if not d.candidates or key == self._last_journal:
+            return
+        self._last_journal = key
+        self.db.insert("decision_cycles", time=to_iso(now), regime=d.regime.label, summary=d.summary,
+                       mode=self.settings.ai.decision_mode, data=json.dumps(d.to_dict()))
+        # the full journal is in decision_cycles; the activity log only gets picks, plus a
+        # "still not trading" note at most every few minutes so it doesn't drown everything else
+        if d.chosen or self._last_pass_note is None or now - self._last_pass_note >= timedelta(minutes=5):
+            if not d.chosen:
+                self._last_pass_note = now
+            self.emit("info", "decision", d.summary, d.regime.text)
+
+    def _shadow_once(self, sig: Signal, verdict: str, now: datetime, signal_id: Optional[int] = None) -> None:
+        key = (sig.symbol, sig.strategy, verdict)
+        last = self._shadowed.get(key)
+        if last and now - last < timedelta(minutes=self.settings.ai.recheck_cooldown_minutes):
+            return
+        self._shadowed[key] = now
+        row = self.scanner.rows.get(sig.symbol)
+        spread = row.spread_bps if row and math.isfinite(row.spread_bps) else 3.0
+        self.shadow.open(sig, verdict, signal_id, now, spread)
+
+    def _ask_ai_to_choose(self, d: Decision, now: datetime, sess: SessionState) -> None:
+        options = [c for c in d.candidates if not c.blockers or c.blockers == ["a better opportunity took the last free slot"]][:3]
+        if not options or d.free_slots <= 0 or self.pending_select is not None:
+            return  # nothing worth the AI's time (and money): not trading is the decision
+        if all(self.ai.recently_asked(c.signal.symbol, c.signal.strategy) for c in options):
+            return
+        ok, why = self.ai.can_call()
+        if not ok:
+            for c in options:
+                self._set_row_verdict(c.signal.symbol, "ai offline")
+            return
+        payload = []
+        for c in options:
+            o = c.to_dict()
+            o["indicators"] = c.signal.features
+            o["why_it_triggered"] = c.signal.reasons
+            payload.append(o)
+        ctx = {"market": d.regime.to_dict(), "time_et": now.astimezone(ET).strftime("%H:%M"),
+               "minutes_to_close": round(sess.minutes_to_close), "data_note": self.data.coverage_note}
+        fut = self.ai.submit_selection(payload, ctx)
+        self.pending_select = (fut, {c.signal.symbol: c for c in options}, now)
+        for c in options:
+            self._set_row_verdict(c.signal.symbol, "asking ai…")
+        self.emit("info", "decision", f"asking the AI to choose between {', '.join(c.signal.symbol for c in options)}",
+                  d.summary)
+
+    def _collect_selection(self, now: datetime, sess: SessionState) -> None:
+        if self.pending_select is None or not self.pending_select[0].done():
+            return
+        fut, options, asked = self.pending_select
+        self.pending_select = None
+        try:
+            res: AIResult = fut.result()
+        except Exception:
+            log.exception("AI selection failed")
+            return
+        if not res.ok:
+            self.emit("warning", "ai", "no trade: AI answer unusable", res.error or "", ref_id=res.decision_id)
+            for sym in options:
+                self._set_row_verdict(sym, "ai error")
+            return
+        choice = res.selection.choice
+        for sym, c in options.items():
+            self._shadow_once(c.signal, "approved" if sym == choice else "skipped", now)
+            self._set_row_verdict(sym, "ai: buy" if sym == choice else "ai: skip")
+        if choice == "none":
+            self.emit("info", "ai", "AI chose not to trade", res.selection.reasoning, ref_id=res.decision_id)
+            return
+        sig = options[choice].signal
+        sid = self.db.insert("signals", time=to_iso(now), symbol=sig.symbol, strategy=sig.strategy, score=sig.score,
+                             price=sig.price, stop_price=sig.stop_price, target_price=sig.target_price,
+                             reasons=json.dumps(sig.reasons), features=json.dumps(sig.features), outcome="ai_selected")
+        px = self._latest_price(sig.symbol)
+        drift = abs(px / sig.price - 1) * 100 if px else 0.0
+        age = (now - asked).total_seconds()
+        if age > self.settings.ai.max_signal_age_seconds or drift > self.settings.ai.max_price_drift_pct or not sess.can_enter:
+            self.db.update("signals", sid, outcome="stale_after_ai", outcome_detail=f"{age:.0f}s, moved {drift:.2f}%")
+            self.emit("info", "decision", f"skipped {sig.symbol}: the moment passed",
+                      f"the AI picked it, but the answer took {age:.0f}s and the price moved {drift:.2f}%", sig.symbol)
+            return
+        self.emit("success", "ai", f"AI picked {sig.symbol}", res.selection.reasoning, sig.symbol,
+                  notify=self.settings.automation.notify_decisions, ref_id=res.decision_id)
+        self._enter(sig, sid, res, now, sess)
 
     def _consider(self, sig: Signal, now: datetime, sess: SessionState) -> None:
         key = (sig.symbol, sig.strategy)
@@ -911,8 +1067,12 @@ class TradingEngine:
             self.emit("info", "risk", f"risk engine blocked {sig.symbol}", "; ".join(decision.reasons), sig.symbol,
                       ref_id=signal_id)
             return
-        reasoning = ai_res.decision.reasoning if (ai_res and ai_res.decision) else \
-            "rules-only: " + "; ".join(sig.reasons)
+        if ai_res and ai_res.decision:
+            reasoning = ai_res.decision.reasoning
+        elif ai_res and ai_res.extra.get("reasoning"):
+            reasoning = ai_res.extra["reasoning"]
+        else:
+            reasoning = "rules-only: " + "; ".join(sig.reasons)
         tid = self.db.insert(
             "trades", symbol=sig.symbol, strategy=sig.strategy, mode=self.mode, status="pending_entry", managed=1,
             session_date=now.astimezone(ET).date().isoformat(), created_at=to_iso(now), stop_price=decision.stop_price,
@@ -1238,6 +1398,8 @@ class TradingEngine:
                    "healthy": self.ai.healthy, "message": self.ai.health_msg, "monthCost": spent_ai,
                    "budget": self.settings.ai.monthly_budget_usd, "pending": list(self.pending_ai),
                    "busy": self.ai.busy, "isPaid": bool(getattr(self.ai.provider, "is_paid", False))},
+            "regime": self.regime.to_dict(),
+            "lastDecision": self.last_decision.to_dict() if self.last_decision else None,
             "equityToday": [{"t": from_iso(r["time"]).astimezone(ET).strftime("%H:%M"), "v": r["equity"]} for r in eq_rows],
         }
 

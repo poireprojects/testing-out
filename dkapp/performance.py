@@ -107,13 +107,13 @@ def performance_report(db: Database, settings: AppSettings, now: datetime | None
                             "enabled": bool(settings.strategies.enabled.get(sid, False))})
 
     by_mode = []
-    for dm in ("rules", "ai_confirm"):
+    for dm in ("rules", "ai_confirm", "ai_select"):
         rows = [t for t in closed if t["decision_mode"] == dm]
         s = trade_stats(t["realized_pnl"] for t in rows)
         by_mode.append({"mode": dm, "count": s["count"], "winRate": s["winRate"], "total": s["total"]})
 
     shadow = {}
-    for verdict in ("approved", "skipped"):
+    for verdict in ("approved", "skipped", "rules", "ranked"):
         rows = db.query("SELECT return_pct FROM shadow_trades WHERE status='closed' AND verdict=?", (verdict,))
         r = [x["return_pct"] for x in rows if x["return_pct"] is not None]
         shadow[verdict] = {"count": len(r), "avgReturnPct": sum(r) / len(r) if r else 0.0,
@@ -132,6 +132,19 @@ def performance_report(db: Database, settings: AppSettings, now: datetime | None
         "feesMonth": fees_month, "feesAllTime": fees_total, "dataMonthly": settings.data.monthly_data_cost_usd,
         "projectedMonthly": projected_ai + settings.data.monthly_data_cost_usd + fees_month / days_into_month * 30,
     }
+
+    first_day = days[0]["session_date"] if days else None
+    months_running = 0.0
+    if first_day:
+        try:
+            months_running = max(0.0, (now.date() - datetime.fromisoformat(first_day).date()).days / 30.4)
+        except ValueError:
+            months_running = 0.0
+    data_cost_so_far = settings.data.monthly_data_cost_usd * months_running
+    costs["dataSoFar"] = data_cost_so_far
+    # realized P/L already has trading fees taken out; subtract what it cost to run the app too
+    costs["netAfterOperating"] = stats["total"] - ai_all - data_cost_so_far
+    costs["operatingTotal"] = ai_all + data_cost_so_far
 
     daily = [{"date": d["session_date"], "pnl": (d["realized"] or 0.0), "trades": d["trades"] or 0} for d in days
              if d["realized"] is not None]
@@ -157,5 +170,81 @@ def performance_report(db: Database, settings: AppSettings, now: datetime | None
         "hasReturn": total_return_pct is not None, "benchmarkReturnPct": bench_return_pct or 0.0,
         "hasBenchmark": bench_return_pct is not None, "curve": curve, "benchmarkCurve": bench_curve,
         "daily": daily, "byStrategy": by_strategy, "byMode": by_mode, "shadow": shadow, "costs": costs,
+        "approaches": compare_approaches(shadow, ai_all, settings),
+        "calibration": confidence_calibration(db),
         "trades": recent, "tradingDays": len(days),
     }
+
+
+MIN_COMPARE = 30   # shadow trades per group before any comparison is called meaningful
+
+
+def compare_approaches(shadow: dict, ai_cost_total: float, settings: AppSettings) -> dict:
+    """Does the AI add anything over the rules + ranker? Measured from shadow trades only (every
+    candidate is followed with the same stops/targets, whether or not it was traded), so the
+    comparison is like-for-like. Returns a plain-English conclusion; never guesses."""
+    rows = [
+        {"key": "rules", "label": "every rules signal", "what": "what trading every setup would have done"},
+        {"key": "ranked", "label": "rules + ranker", "what": "only the setups the ranker picked"},
+        {"key": "approved", "label": "AI said buy", "what": "setups the AI approved or picked"},
+        {"key": "skipped", "label": "AI said no", "what": "setups the AI turned down"},
+    ]
+    for r in rows:
+        r.update(shadow.get(r["key"], {"count": 0, "avgReturnPct": 0.0, "winRate": 0.0}))
+    g = {r["key"]: r for r in rows}
+    ai_decisions = g["approved"]["count"] + g["skipped"]["count"]
+    cost_per_decision = ai_cost_total / ai_decisions if ai_decisions else 0.0
+    notional = settings.risk.max_position_usd
+    # what the AI's filtering is worth per approved trade, in dollars, at the usual position size
+    edge_pct = g["approved"]["avgReturnPct"] - g["ranked"]["avgReturnPct"]
+    if g["ranked"]["count"] < MIN_COMPARE and g["rules"]["count"] >= MIN_COMPARE:
+        edge_pct = g["approved"]["avgReturnPct"] - g["rules"]["avgReturnPct"]
+    edge_usd = edge_pct / 100 * notional
+    enough = g["approved"]["count"] >= MIN_COMPARE and g["skipped"]["count"] >= MIN_COMPARE and \
+        max(g["ranked"]["count"], g["rules"]["count"]) >= MIN_COMPARE
+    if not enough:
+        need = ", ".join(f"{r['label']} {r['count']}/{MIN_COMPARE}" for r in rows if r["count"] < MIN_COMPARE)
+        verdict, text = "not_enough_data", (f"not enough followed setups yet to tell whether the AI helps ({need}). "
+                                            "until then, treat the AI as unproven.")
+    elif g["approved"]["avgReturnPct"] <= g["skipped"]["avgReturnPct"]:
+        verdict, text = "ai_hurts", ("the setups the AI turned down did as well as or better than the ones it approved — "
+                                     "its filtering isn't helping. consider rules-only mode (saves AI cost too).")
+    elif edge_pct <= 0:
+        verdict, text = "no_gain", ("the AI's picks didn't beat the ranker's picks — it adds cost and delay "
+                                    "without improving results. rules + ranker is the better choice so far.")
+    elif cost_per_decision > 0 and edge_usd < cost_per_decision * (ai_decisions / max(1, g["approved"]["count"])):
+        verdict, text = "costs_more", (f"the AI's picks did slightly better (+{edge_pct:.2f}% per trade) but that is "
+                                       f"worth less than what the AI costs per trade at a ${notional:.0f} position.")
+    else:
+        verdict, text = "ai_helps", (f"so far the AI's picks beat the ranker by {edge_pct:+.2f}% per trade after costs, "
+                                     "and beat the setups it rejected. keep watching — this can change.")
+    return {"rows": rows, "verdict": verdict, "text": text, "aiDecisions": ai_decisions,
+            "aiCostPerDecision": cost_per_decision, "edgePct": edge_pct, "minSample": MIN_COMPARE}
+
+
+def confidence_calibration(db: Database) -> dict:
+    """Does a higher AI confidence actually mean better outcomes? Joins each AI entry decision to
+    the shadow trade that followed the same setup. Confidence is only shown with this check next
+    to it — it is never used as evidence of profit by itself."""
+    rows = db.query("SELECT a.confidence c, s.return_pct r FROM ai_decisions a JOIN shadow_trades s "
+                    "ON s.signal_id = a.signal_id WHERE a.kind='entry' AND a.valid=1 AND a.confidence IS NOT NULL "
+                    "AND s.status='closed' AND s.verdict IN ('approved','skipped') AND s.return_pct IS NOT NULL")
+    edges = [(0.0, 0.5, "under 50%"), (0.5, 0.65, "50–65%"), (0.65, 0.8, "65–80%"), (0.8, 1.01, "80%+")]
+    buckets = []
+    for lo, hi, label in edges:
+        r = [x["r"] for x in rows if lo <= x["c"] < hi]
+        buckets.append({"label": label, "count": len(r), "winRate": sum(1 for v in r if v > 0) / len(r) if r else 0.0,
+                        "avgReturnPct": sum(r) / len(r) if r else 0.0})
+    used = [b for b in buckets if b["count"] >= 20]
+    if len(used) < 2:
+        verdict, text = "unknown", (f"{len(rows)} AI-reviewed setups have finished so far. at least 20 in two different "
+                                    "confidence ranges are needed before saying whether confidence means anything.")
+    else:
+        ups = all(b2["winRate"] >= b1["winRate"] - 0.02 for b1, b2 in zip(used, used[1:]))
+        spread = used[-1]["winRate"] - used[0]["winRate"]
+        if ups and spread >= 0.05:
+            verdict, text = "informative", "higher AI confidence has gone with better outcomes so far."
+        else:
+            verdict, text = "uninformative", ("higher AI confidence has NOT gone with better outcomes — "
+                                              "treat its confidence numbers as meaningless.")
+    return {"buckets": buckets, "samples": len(rows), "verdict": verdict, "text": text}

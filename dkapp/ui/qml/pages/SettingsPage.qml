@@ -176,8 +176,10 @@ DkScroll {
             subtitle: "the AI only reviews setups the strategies already found. if it's offline or answers badly, no AI-dependent trade happens."
             SettingRow {
                 label: "who decides entries"
-                help: page.cfg.ai.decision_mode === "rules" ? "strategies trade on their own (the risk engine still checks everything)." : "every entry needs the AI's approval and enough confidence."
-                Segmented { small: true; options: [{ value: "ai_confirm", label: "rules + ai" }, { value: "rules", label: "rules only" }]; current: page.cfg.ai.decision_mode; onPicked: (v) => page.set("ai.decision_mode", v) }
+                help: page.cfg.ai.decision_mode === "rules" ? "strategies find setups, the ranker compares them and picks the best; no AI cost. the risk engine still checks everything."
+                    : page.cfg.ai.decision_mode === "ai_select" ? "the ranker shortlists the best 3 setups and the AI picks one — or none. one AI call per decision instead of one per setup."
+                    : "the ranker picks the best setups, then each one needs the AI's approval. performance → decision approaches shows whether this actually helps."
+                Segmented { small: true; options: [{ value: "rules", label: "rules + ranker" }, { value: "ai_confirm", label: "ai confirms" }, { value: "ai_select", label: "ai picks" }]; current: page.cfg.ai.decision_mode; onPicked: (v) => page.set("ai.decision_mode", v) }
             }
             SettingRow {
                 label: "ai provider"

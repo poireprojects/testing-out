@@ -194,6 +194,15 @@ CREATE TABLE IF NOT EXISTS shadow_trades(
   return_pct REAL
 );
 
+CREATE TABLE IF NOT EXISTS decision_cycles(
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  time TEXT NOT NULL,
+  regime TEXT,
+  summary TEXT,
+  mode TEXT,
+  data TEXT
+);
+
 CREATE TABLE IF NOT EXISTS backtest_runs(
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   time TEXT NOT NULL,
