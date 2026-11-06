@@ -1,0 +1,2032 @@
+{
+ "days": 40,
+ "candidates": 2995,
+ "modes": {
+  "rules_ranker": {
+   "trades": 72,
+   "winRate": 0.3055555555555556,
+   "avgRetPct": -0.2297470952909165,
+   "totalPnl": -3.308358172189198,
+   "profitFactor": 0.46697753639805917,
+   "maxDrawdown": 3.308358172189198,
+   "riskAdjusted": {
+    "sharpe": -5.231115325252718,
+    "sortino": -6.488825267366496,
+    "maxDrawdownPct": 3.2674672519392516,
+    "totalReturnPct": -3.267467251939249,
+    "calmar": -5.779365887394028
+   }
+  },
+  "ai_confirm": {
+   "trades": 72,
+   "winRate": 0.3055555555555556,
+   "avgRetPct": -0.2297470952909165,
+   "totalPnl": -3.308358172189198,
+   "profitFactor": 0.46697753639805917,
+   "maxDrawdown": 3.308358172189198,
+   "riskAdjusted": {
+    "sharpe": -5.231115325252718,
+    "sortino": -6.488825267366496,
+    "maxDrawdownPct": 3.2674672519392516,
+    "totalReturnPct": -3.267467251939249,
+    "calmar": -5.779365887394028
+   }
+  },
+  "ai_select": {
+   "trades": 69,
+   "winRate": 0.3333333333333333,
+   "avgRetPct": -0.18483755202716326,
+   "totalPnl": -2.5507582179748525,
+   "profitFactor": 0.5372055619340507,
+   "maxDrawdown": 2.5507582179748525,
+   "riskAdjusted": {
+    "sharpe": -4.466007854369594,
+    "sortino": -5.791883988429188,
+    "maxDrawdownPct": 2.5293417942284293,
+    "totalReturnPct": -2.5293417942284346,
+    "calmar": -6.0316619482965175
+   }
+  }
+ },
+ "selectCoverage": {
+  "days": 39,
+  "first": "2026-09-11",
+  "last": "2026-11-04",
+  "rulesRankerSameDays": {
+   "trades": 71,
+   "winRate": 0.30985915492957744,
+   "avgRetPct": -0.2128114990489517,
+   "totalPnl": -3.021923286495114,
+   "profitFactor": 0.48957055124920534,
+   "maxDrawdown": 3.021923286495114,
+   "riskAdjusted": {
+    "sharpe": -4.879950605313458,
+    "sortino": -5.930614948732914,
+    "maxDrawdownPct": 2.9895956110162984,
+    "totalReturnPct": -2.9895956110162936,
+    "calmar": -5.956880870624062
+   }
+  },
+  "aiConfirmSameDays": {
+   "trades": 71,
+   "winRate": 0.30985915492957744,
+   "avgRetPct": -0.2128114990489517,
+   "totalPnl": -3.021923286495114,
+   "profitFactor": 0.48957055124920534,
+   "maxDrawdown": 3.021923286495114,
+   "riskAdjusted": {
+    "sharpe": -4.879950605313458,
+    "sortino": -5.930614948732914,
+    "maxDrawdownPct": 2.9895956110162984,
+    "totalReturnPct": -2.9895956110162936,
+    "calmar": -5.956880870624062
+   }
+  }
+ },
+ "filter": {
+  "asked": 72,
+  "approved": 72,
+  "skipped": 0,
+  "approvedAvgRetPct": -0.2297470952909165,
+  "skippedAvgRetPct": 0.0,
+  "allAvgRetPct": -0.2297470952909165,
+  "everySignalAvgRetPct": -0.2499827698674186
+ },
+ "ai": {
+  "confirm": {
+   "calls": 72,
+   "invalid": 0,
+   "approved": 72,
+   "skipped": 0,
+   "avgSeconds": 52.674708333333335
+  },
+  "select": {
+   "calls": 69,
+   "invalid": 0,
+   "approved": 69,
+   "skipped": 0,
+   "avgSeconds": 20.426565217391303
+  },
+  "provider": "llama.cpp (local)",
+  "model": "Llama-3.2-3B-Instruct-Q4_K_M",
+  "costUsd": 0.0,
+  "note": "rebuilt from recorded answers; the run was stopped before the extra random sample"
+ },
+ "log": [
+  {
+   "mode": "confirm",
+   "trade": [
+    "2026-09-14",
+    "COIN",
+    "trend",
+    38
+   ],
+   "approved": true,
+   "valid": true,
+   "retPct": -0.7693660136822935,
+   "confidence": 0.96,
+   "reasoning": "The stock is in an uptrend, with the 20-minute average above the 50-minute average and rising. The price dipped to the 20-minute average and bounced, and the stock is above the VWAP and has an RSI of 67.7, indicating a strong bullish signal. The potential gain is 1.84% and the risk is 0.92%."
+  },
+  {
+   "mode": "confirm",
+   "trade": [
+    "2026-09-14",
+    "AMD",
+    "volume_breakout",
+    42
+   ],
+   "approved": true,
+   "valid": true,
+   "retPct": -0.37429525833457217,
+   "confidence": 0.96,
+   "reasoning": "Several independent pieces of evidence agree: recent 30-minute high above $99.97, breakout volume 5.9\u00d7 recent average, and relative volume 2.8\u00d7. The potential gain clearly outweighs the risk after costs, and the stop is sensible at 99.08."
+  },
+  {
+   "mode": "confirm",
+   "trade": [
+    "2026-09-14",
+    "AAPL",
+    "vwap",
+    124
+   ],
+   "approved": true,
+   "valid": true,
+   "retPct": -0.00988794202072419,
+   "confidence": 0.97,
+   "reasoning": "Price has reclaimed the VWAP after 10 minutes of decline, volume is above the recent average, and RSI is below 70. The stop loss is set at 1.2% below the entry price, and the target is set at 1.8% above the entry price. This setup has a high signal strength and strong evidence from multiple indicato"
+  },
+  {
+   "mode": "confirm",
+   "trade": [
+    "2026-09-14",
+    "XLF",
+    "vwap",
+    198
+   ],
+   "approved": true,
+   "valid": true,
+   "retPct": -0.43895811783042377,
+   "confidence": 0.85,
+   "reasoning": "Price has reclaimed the day's VWAP after 10 minutes below it, and the RSI is at 66, indicating a possible buy signal. The volume is also above the recent average, supporting the trade. The stop loss is set at 1.2% below the entry price, and the take profit is set at 1.8% above the entry price, indic"
+  },
+  {
+   "mode": "confirm",
+   "trade": [
+    "2026-09-14",
+    "KO",
+    "vwap",
+    302
+   ],
+   "approved": true,
+   "valid": true,
+   "retPct": -0.2746903069382478,
+   "confidence": 0.99,
+   "reasoning": "Price has reclaimed the day's average price (VWAP) after 10 minutes of being below it. The Relative Strength Index (RSI) is also above 60, indicating a strong buying signal. The price is also above the VWAP, and the momentum indicators are showing a strong upward trend. The stop loss is set at 1.2% "
+  },
+  {
+   "mode": "confirm",
+   "trade": [
+    "2026-09-17",
+    "CRM",
+    "vwap",
+    109
+   ],
+   "approved": true,
+   "valid": true,
+   "retPct": -0.6633067059417239,
+   "confidence": 0.98,
+   "reasoning": "Price has reclaimed the VWAP after 7 minutes of decline, volume is above the recent average, and RSI is high. The stop loss is sensible and the potential gain outweighs the risk after costs."
+  },
+  {
+   "mode": "confirm",
+   "trade": [
+    "2026-09-17",
+    "NFLX",
+    "vwap",
+    274
+   ],
+   "approved": true,
+   "valid": true,
+   "retPct": -0.31555612862194293,
+   "confidence": 0.99,
+   "reasoning": "Price has reclaimed the VWAP after 10 minutes of decline, and the RSI is at 74, indicating a strong buying signal. The recent volume is 6.0x the recent average, and the price has moved 1.41% above the open. The momentum indicators are also showing a strong upward trend. The stop loss is set at 99.08"
+  },
+  {
+   "mode": "confirm",
+   "trade": [
+    "2026-09-21",
+    "AMD",
+    "trend",
+    39
+   ],
+   "approved": true,
+   "valid": true,
+   "retPct": 0.3583190946121562,
+   "confidence": 0.97,
+   "reasoning": "The stock is in an uptrend with a 20-minute average above the 50-minute average and rising. The price dipped to the 20-minute average and bounced, indicating a potential buying opportunity. The Relative Strength Index (RSI) is above 65, indicating overbought conditions. The stock is above the VWAP a"
+  },
+  {
+   "mode": "confirm",
+   "trade": [
+    "2026-09-21",
+    "META",
+    "trend",
+    45
+   ],
+   "approved": true,
+   "valid": true,
+   "retPct": -0.7625410543720433,
+   "confidence": 0.99,
+   "reasoning": "The stock is in an uptrend, the price dipped to the 20-minute average and bounced, and the Relative Strength Index (RSI) is above 66, indicating overbought conditions. The stop loss is set at 97% of the entry price, and the target price is set at 101.94% of the entry price, indicating a potential ga"
+  },
+  {
+   "mode": "confirm",
+   "trade": [
+    "2026-09-21",
+    "INTC",
+    "trend",
+    111
+   ],
+   "approved": true,
+   "valid": true,
+   "retPct": 0.37106076638659696,
+   "confidence": 0.99,
+   "reasoning": "The stock is in an uptrend with a 20-minute average above the 50-minute average and rising. The price dipped to the 20-minute average and bounced. The Relative Strength Index (RSI) is above 60, indicating overbought conditions. The stock is above the 20-minute average and the VWAP, and the momentum "
+  },
+  {
+   "mode": "confirm",
+   "trade": [
+    "2026-09-21",
+    "META",
+    "volume_breakout",
+    213
+   ],
+   "approved": true,
+   "valid": true,
+   "retPct": 1.6188391315198312,
+   "confidence": 0.86,
+   "reasoning": "A new 30-minute high was made on a burst of volume (6.0x recent average), and the relative volume was 2.7x. The price is above the Vwap and the RSI is 62.7, indicating a strong bullish signal. The stop loss is set at 99.08, and the take profit is set at 101.84, which is a reasonable risk-reward rati"
+  },
+  {
+   "mode": "confirm",
+   "trade": [
+    "2026-09-21",
+    "F",
+    "vwap",
+    206
+   ],
+   "approved": true,
+   "valid": true,
+   "retPct": -0.26765935097592175,
+   "confidence": 0.99,
+   "reasoning": "Price has reclaimed the VWAP after 10 minutes of decline, volume is high, and RSI is oversold. The price is also close to the opening range high, indicating potential momentum. The stop loss is set at 1.2% below the entry price, and the take profit is set at 1.8% above the entry price, indicating a "
+  },
+  {
+   "mode": "confirm",
+   "trade": [
+    "2026-09-21",
+    "SHOP",
+    "trend",
+    232
+   ],
+   "approved": true,
+   "valid": true,
+   "retPct": 0.26161506206648155,
+   "confidence": 0.99,
+   "reasoning": "The stock is in an established uptrend, with the 20-minute average above the 50-minute average and rising. The price dipped to the 20-minute average and bounced, and the Relative Strength Index (RSI) is 56, indicating overbought conditions. The stock is above the VWAP and has a high momentum, sugges"
+  },
+  {
+   "mode": "confirm",
+   "trade": [
+    "2026-09-22",
+    "XLF",
+    "vwap",
+    263
+   ],
+   "approved": true,
+   "valid": true,
+   "retPct": -0.3298038008336995,
+   "confidence": 0.97,
+   "reasoning": "The VWAP has reclaimed its value after 10 minutes below it, and the RSI is high, indicating a strong trend. The price has also climbed above the opening range high, suggesting a potential breakout. The volume is high, and the distance from the VWAP is small, indicating a strong move. The momentum in"
+  },
+  {
+   "mode": "confirm",
+   "trade": [
+    "2026-09-24",
+    "UNH",
+    "orb",
+    58
+   ],
+   "approved": true,
+   "valid": true,
+   "retPct": -0.6362501151199738,
+   "confidence": 0.9,
+   "reasoning": "The stock broke above its opening-range high, which is a strong signal for a long trade. The recent average volume of the breakout bar is 3.3, which is above the recent average volume of the recent 15 minutes. The opening range was 1.3% wide, indicating a strong move. The RSI14 is 75.0, indicating a"
+  },
+  {
+   "mode": "confirm",
+   "trade": [
+    "2026-09-24",
+    "BA",
+    "vwap",
+    160
+   ],
+   "approved": true,
+   "valid": true,
+   "retPct": -0.49811146467807954,
+   "confidence": 0.97,
+   "reasoning": "Price has reclaimed the VWAP after 10 minutes below it, and the RSI is not overly extended. The recent volume is also above the recent average. The stop loss is sensible, and the potential gain is significant."
+  },
+  {
+   "mode": "confirm",
+   "trade": [
+    "2026-09-24",
+    "F",
+    "vwap",
+    161
+   ],
+   "approved": true,
+   "valid": true,
+   "retPct": 0.08303418093553719,
+   "confidence": 0.95,
+   "reasoning": "The VWAP has reclaimed its previous value after 10 minutes of decline, indicating a potential reversal. The RSI is also at 69, which is above the oversold threshold of 30. The recent 1-minute bars show a steady increase in price, and the momentum indicators are positive. The stop loss is set at 99.0"
+  },
+  {
+   "mode": "confirm",
+   "trade": [
+    "2026-09-24",
+    "JPM",
+    "vwap",
+    279
+   ],
+   "approved": true,
+   "valid": true,
+   "retPct": -0.30241813486162766,
+   "confidence": 0.96,
+   "reasoning": "Price has reclaimed the VWAP after 9 minutes below it, and the RSI is at 61, indicating a strong bullish signal. The volume is also above the recent average, supporting the move. The stop loss is set at 99.08, which is 8% below the entry price, and the take profit is set at 101.84, which is 18% abov"
+  },
+  {
+   "mode": "confirm",
+   "trade": [
+    "2026-09-25",
+    "GM",
+    "orb",
+    83
+   ],
+   "approved": true,
+   "valid": true,
+   "retPct": 0.22625109147993058,
+   "confidence": 0.98,
+   "reasoning": "The price broke above the opening-range high ($99.96), and the breakout bar volume (15.3\u00d7 recent average) supports the signal. The opening range was 1.3% wide, indicating a strong breakout. The RSI14 (62.5) is slightly overbought, but the momentum indicators (momentum_5m_pct = 0.27, momentum_15m_pct"
+  },
+  {
+   "mode": "confirm",
+   "trade": [
+    "2026-09-28",
+    "UBER",
+    "vwap",
+    167
+   ],
+   "approved": true,
+   "valid": true,
+   "retPct": -0.3754987683661612,
+   "confidence": 0.95,
+   "reasoning": "The VWAP has reclaimed its value after 10 minutes of decline, the recent average volume is high, and the RSI is above 60, indicating a strong buying signal. The stop loss is set at 99.08, which is 8% below the entry price, and the take profit is set at 101.84, which is 84% above the entry price. The"
+  },
+  {
+   "mode": "confirm",
+   "trade": [
+    "2026-09-28",
+    "AMD",
+    "vwap",
+    170
+   ],
+   "approved": true,
+   "valid": true,
+   "retPct": -0.17642680223050655,
+   "confidence": 0.98,
+   "reasoning": "The price has reclaimed the VWAP after 10 minutes of being below it, and the RSI is at 74, indicating a potential buy signal. The recent volume is also high, suggesting a strong move. The stop loss is set at 99.08, which is 8% below the entry price, and the take profit is set at 101.84, which is 18%"
+  },
+  {
+   "mode": "confirm",
+   "trade": [
+    "2026-09-28",
+    "BA",
+    "vwap",
+    176
+   ],
+   "approved": true,
+   "valid": true,
+   "retPct": -0.42568737605325313,
+   "confidence": 0.85,
+   "reasoning": "The VWAP has reclaimed its value after 10 minutes of being below it, and the price has climbed back above the day's average price. The RSI is also at 64, indicating a strong bullish signal. The stop loss is set at 99.08, which is 8% below the entry price, and the take profit is set at 101.84, which "
+  },
+  {
+   "mode": "confirm",
+   "trade": [
+    "2026-09-28",
+    "DIS",
+    "vwap",
+    220
+   ],
+   "approved": true,
+   "valid": true,
+   "retPct": -0.5784529180726026,
+   "confidence": 0.99,
+   "reasoning": "The VWAP reclaimed its previous value after 10 minutes below it, and the RSI is at 76, indicating a strong buying signal. The price has also shown a significant increase from the opening range low, and the relative volume is high. The stop loss is set at 99.08, which is 8% below the entry price, and"
+  },
+  {
+   "mode": "confirm",
+   "trade": [
+    "2026-09-28",
+    "SOFI",
+    "vwap",
+    218
+   ],
+   "approved": true,
+   "valid": true,
+   "retPct": -1.0626803109171268,
+   "confidence": 0.98,
+   "reasoning": "Price has reclaimed the VWAP after 8 minutes below it, and the volume is above the recent average. The RSI is also above 70, indicating a strong bullish signal. The stop loss is set at 1.2% below the entry price, and the target is set at 1.8% above the entry price, which is a reasonable risk-reward "
+  },
+  {
+   "mode": "confirm",
+   "trade": [
+    "2026-09-30",
+    "CRM",
+    "orb",
+    31
+   ],
+   "approved": true,
+   "valid": true,
+   "retPct": 0.24219678766424524,
+   "confidence": 0.82,
+   "reasoning": "Price broke above the opening-range high, breakout bar volume was high, and the opening range was wide. These are all signs that the price is likely to continue rising. The stop loss is set at 1.42% below the entry price, and the take profit is set at 2.84% above the entry price, which is a reasonab"
+  },
+  {
+   "mode": "confirm",
+   "trade": [
+    "2026-10-01",
+    "GM",
+    "volume_breakout",
+    236
+   ],
+   "approved": true,
+   "valid": true,
+   "retPct": -0.04408094154905867,
+   "confidence": 0.96,
+   "reasoning": "A new 30-minute high was made on a burst of volume (6.1x recent average) and the relative volume is 2.8x. The price is above the Vwap and the RSI14 is 76.5, indicating a strong bullish signal. The stop loss is set at 99.08, which is 8% below the entry price, and the take profit is set at 101.84, whi"
+  },
+  {
+   "mode": "confirm",
+   "trade": [
+    "2026-10-01",
+    "BA",
+    "vwap",
+    311
+   ],
+   "approved": true,
+   "valid": true,
+   "retPct": 1.6204103039758186,
+   "confidence": 0.84,
+   "reasoning": "Price has reclaimed the day's average price (VWAP) after 9 of the last 10 minutes below it, and the Relative Strength Index (RSI) is 74, indicating a strong bullish signal. The price has also shown a significant increase in volume, and the momentum indicators are also bullish. The stop loss is set a"
+  },
+  {
+   "mode": "confirm",
+   "trade": [
+    "2026-10-02",
+    "NVDA",
+    "trend",
+    32
+   ],
+   "approved": true,
+   "valid": true,
+   "retPct": -0.7969773567100731,
+   "confidence": 0.97,
+   "reasoning": "The stock is in an uptrend with a 20-minute average above the 50-minute average and rising. The price dipped to the 20-minute average and bounced, indicating a potential buy signal. The Relative Strength Index (RSI) is above 60, indicating overbought conditions. The stock is above the VWAP and has a"
+  },
+  {
+   "mode": "confirm",
+   "trade": [
+    "2026-10-02",
+    "TSLA",
+    "orb",
+    65
+   ],
+   "approved": true,
+   "valid": true,
+   "retPct": 0.037440057526954826,
+   "confidence": 0.95,
+   "reasoning": "Price broke above the opening-range high ($99.86), breakout bar volume was 2.6x recent average, and the opening range was 3.3% wide. These are strong indicators of a potential long trade. The stop loss is set at 1.72% below the entry price, and the take profit is set at 3.44% above the entry price. "
+  },
+  {
+   "mode": "confirm",
+   "trade": [
+    "2026-10-05",
+    "UBER",
+    "orb",
+    87
+   ],
+   "approved": true,
+   "valid": true,
+   "retPct": -0.15101790127713632,
+   "confidence": 0.95,
+   "reasoning": "Price broke above the opening-range high ($99.97), breakout bar volume was 3.6x recent average, and the opening range was 1.8% wide. These indicators suggest a strong breakout, increasing the likelihood of a successful trade. The stop loss is set at 1.2% below the entry price ($98.80), and the take "
+  },
+  {
+   "mode": "confirm",
+   "trade": [
+    "2026-10-06",
+    "AMD",
+    "orb",
+    66
+   ],
+   "approved": true,
+   "valid": true,
+   "retPct": 0.4876346687462552,
+   "confidence": 0.93,
+   "reasoning": "The price broke above the opening-range high, which is a key indicator of a potential breakout. The recent 30m high was also close to the opening-range high, suggesting a strong up move. The RSI14 is above 60, indicating overbought conditions, but the momentum indicators are still showing a strong u"
+  },
+  {
+   "mode": "confirm",
+   "trade": [
+    "2026-10-06",
+    "COIN",
+    "orb",
+    84
+   ],
+   "approved": true,
+   "valid": true,
+   "retPct": -1.1065149249539263,
+   "confidence": 0.93,
+   "reasoning": "Price broke above the opening-range high ($99.71), and the breakout bar volume was 8.0\u00d7 recent average. The opening range was 2.1% wide, indicating a strong breakout. The price action since the breakout has been positive, with the RSI14 at 71.8 and the momentum indicators at 0.55 and 0.74. The estim"
+  },
+  {
+   "mode": "confirm",
+   "trade": [
+    "2026-10-08",
+    "PLTR",
+    "momentum",
+    31
+   ],
+   "approved": true,
+   "valid": true,
+   "retPct": -0.6640793799519207,
+   "confidence": 0.97,
+   "reasoning": "Multiple indicators show the stock is rising strongly on heavy volume, including a 1.6% increase in the last 30 minutes, trading 0.32% above VWAP, and an RSI of 68. The momentum indicators also support this trend, with a 5m% momentum of 0.65 and a 15m% momentum of 1.09. The stop loss is set at 99.08"
+  },
+  {
+   "mode": "confirm",
+   "trade": [
+    "2026-10-09",
+    "T",
+    "trend",
+    57
+   ],
+   "approved": true,
+   "valid": true,
+   "retPct": -0.7289405260467324,
+   "confidence": 0.95,
+   "reasoning": "The stock is in an uptrend, the price dipped to the 20-minute average and bounced, and the Relative Strength Index (RSI) is above 60, indicating overbought conditions. The stop loss is set at 99.08, which is 8% below the entry price, and the take profit is set at 101.84, which is 18% above the entry"
+  },
+  {
+   "mode": "confirm",
+   "trade": [
+    "2026-10-09",
+    "PLTR",
+    "orb",
+    112
+   ],
+   "approved": true,
+   "valid": true,
+   "retPct": 0.6005794317881076,
+   "confidence": 0.95,
+   "reasoning": "The price broke above the opening-range high ($99.97), and the breakout bar volume was 5.1\u00d7 recent average. The opening range was 2.1% wide, indicating a strong breakout. The RSI14 (65.5) is above 70, indicating overbought conditions, but the momentum indicators (momentum_5m_pct = 0.17, momentum_15m"
+  },
+  {
+   "mode": "confirm",
+   "trade": [
+    "2026-10-13",
+    "UNH",
+    "vwap",
+    297
+   ],
+   "approved": true,
+   "valid": true,
+   "retPct": -0.528849274018212,
+   "confidence": 0.99,
+   "reasoning": "The VWAP has reclaimed its previous value after 10 minutes of decline, and the RSI is at 75, indicating a strong bullish signal. The price has also shown a significant increase in volume and momentum, suggesting a strong buying opportunity. The stop loss is set at 99.08, which is 8% below the entry "
+  },
+  {
+   "mode": "confirm",
+   "trade": [
+    "2026-10-15",
+    "SOFI",
+    "trend",
+    45
+   ],
+   "approved": true,
+   "valid": true,
+   "retPct": -0.7177666303364807,
+   "confidence": 0.97,
+   "reasoning": "The stock is in an uptrend, the price dipped to the 20-minute average and bounced, and the Relative Strength Index (RSI) is above 50, indicating a buy signal. The stop loss is set at 99.08, which is 92% of the entry price, and the take profit is set at 101.84, which is 84% of the entry price. The po"
+  },
+  {
+   "mode": "confirm",
+   "trade": [
+    "2026-10-15",
+    "MU",
+    "trend",
+    57
+   ],
+   "approved": true,
+   "valid": true,
+   "retPct": 1.6283555623612063,
+   "confidence": 0.99,
+   "reasoning": "The stock is in an uptrend, with the 20-minute average above the 50-minute average and rising. The price dipped to the 20-minute average and bounced, indicating a potential buying opportunity. The Relative Strength Index (RSI) is at 57, which is above the overbought threshold of 70. The stock is abo"
+  },
+  {
+   "mode": "confirm",
+   "trade": [
+    "2026-10-15",
+    "SMH",
+    "volume_breakout",
+    73
+   ],
+   "approved": true,
+   "valid": true,
+   "retPct": -0.3787288950884781,
+   "confidence": 0.9,
+   "reasoning": "A new 30-minute high was made on a burst of volume (6.3x recent average), and the relative volume is 3.9x. The price has also broken above the 30-minute high of $99.82 and the VWA (99.1942). The momentum indicators (momentum_5m_pct and momentum_15m_pct) are also showing a strong upward trend. The st"
+  },
+  {
+   "mode": "confirm",
+   "trade": [
+    "2026-10-15",
+    "INTC",
+    "trend",
+    82
+   ],
+   "approved": true,
+   "valid": true,
+   "retPct": 1.6186197367886357,
+   "confidence": 0.97,
+   "reasoning": "The stock is in an uptrend, with the 20-minute average above the 50-minute average and rising. The price dipped to the 20-minute average and bounced, indicating a potential buying opportunity. The Relative Strength Index (RSI) is above 50, indicating overbought conditions, but the momentum indicator"
+  },
+  {
+   "mode": "confirm",
+   "trade": [
+    "2026-10-15",
+    "AMD",
+    "trend",
+    85
+   ],
+   "approved": true,
+   "valid": true,
+   "retPct": 0.03246589055715621,
+   "confidence": 0.95,
+   "reasoning": "The stock is in an uptrend, with the 50-minute average above the 20-minute average and rising. The price dipped to the 20-minute average and bounced, indicating a potential buying opportunity. The Relative Strength Index (RSI) is at 55, which is above the oversold level of 30. The stock is above its"
+  },
+  {
+   "mode": "confirm",
+   "trade": [
+    "2026-10-15",
+    "NVDA",
+    "volume_breakout",
+    148
+   ],
+   "approved": true,
+   "valid": true,
+   "retPct": -0.2872778696236817,
+   "confidence": 0.97,
+   "reasoning": "A new 30-minute high was confirmed by a burst of volume and a relative volume of 2.2x, indicating a strong breakout. The price has also made a new high above $99.95 and the RSI14 is 64.7, indicating overbought conditions. The potential gain is 1.84% and the risk is 0.92%. The trade will be closed be"
+  },
+  {
+   "mode": "confirm",
+   "trade": [
+    "2026-10-16",
+    "QQQ",
+    "vwap",
+    68
+   ],
+   "approved": true,
+   "valid": true,
+   "retPct": -0.40268442926328685,
+   "confidence": 0.95,
+   "reasoning": "Price has reclaimed the day's VWAP after 10 minutes of decline, and the RSI is at 61, indicating a potential buy signal. The recent volume is also above the recent average, supporting the move. The stop loss is set at 0.92% below the entry price, and the take profit is set at 1.84% above the entry p"
+  },
+  {
+   "mode": "confirm",
+   "trade": [
+    "2026-10-19",
+    "PLTR",
+    "orb",
+    44
+   ],
+   "approved": true,
+   "valid": true,
+   "retPct": 2.1785353591211,
+   "confidence": 0.9,
+   "reasoning": "The price broke above the opening-range high ($99.89) and the opening range was 3.0% wide. The breakout bar volume was 3.4\u00d7 recent average, indicating strong momentum. The RSI14 was 74.2, indicating overbought conditions, but the momentum indicators were still bullish. The estimated gain is 3.13% an"
+  },
+  {
+   "mode": "confirm",
+   "trade": [
+    "2026-10-20",
+    "INTC",
+    "trend",
+    68
+   ],
+   "approved": true,
+   "valid": true,
+   "retPct": -0.10581982597318439,
+   "confidence": 0.96,
+   "reasoning": "The stock is in an uptrend, with the 50-minute average above the 20-minute average and rising. The price dipped to the 20-minute average and bounced, indicating a potential buying opportunity. The Relative Strength Index (RSI) is above 60, indicating overbought conditions. The stock is above the VWA"
+  },
+  {
+   "mode": "confirm",
+   "trade": [
+    "2026-10-20",
+    "MU",
+    "trend",
+    68
+   ],
+   "approved": true,
+   "valid": true,
+   "retPct": -0.8789963776710261,
+   "confidence": 0.98,
+   "reasoning": "The stock is in an uptrend, with the 20-minute average above the 50-minute average and rising. The price dipped to the 20-minute average and bounced, indicating a possible buy signal. The Relative Strength Index (RSI) is above 63, indicating overbought conditions. The stock is above the VWAP and has"
+  },
+  {
+   "mode": "confirm",
+   "trade": [
+    "2026-10-23",
+    "T",
+    "vwap",
+    72
+   ],
+   "approved": true,
+   "valid": true,
+   "retPct": -1.1942151730111163,
+   "confidence": 0.85,
+   "reasoning": "Price has reclaimed the VWAP after 10 minutes of decline, and the RSI is at 70, indicating a strong bullish signal. The distance from VWAP is 0.43%, and the momentum is 0.44% over 5 minutes, indicating a potential upward move. The estimated round-trip cost is 0.23%."
+  },
+  {
+   "mode": "confirm",
+   "trade": [
+    "2026-10-23",
+    "TSLA",
+    "vwap",
+    272
+   ],
+   "approved": true,
+   "valid": true,
+   "retPct": -0.3131585269746902,
+   "confidence": 0.9,
+   "reasoning": "Price has reclaimed the VWAP after 10 minutes below it, and the RSI is at 60, indicating a strong bullish signal. The volume is also above the recent average, supporting the move. The potential gain outweighs the risk after costs, and the stop loss is sensible at 99.08."
+  },
+  {
+   "mode": "confirm",
+   "trade": [
+    "2026-10-26",
+    "TSLA",
+    "trend",
+    31
+   ],
+   "approved": true,
+   "valid": true,
+   "retPct": -0.6363289764595407,
+   "confidence": 0.97,
+   "reasoning": "The stock is in an established uptrend, with the 50-minute average above the 20-minute average and rising. The price dipped to the 20-minute average and bounced, indicating a potential buying opportunity. The Relative Strength Index (RSI) is above 60, indicating overbought conditions. The stock is a"
+  },
+  {
+   "mode": "confirm",
+   "trade": [
+    "2026-10-26",
+    "INTC",
+    "momentum",
+    98
+   ],
+   "approved": true,
+   "valid": true,
+   "retPct": 0.5189436652889536,
+   "confidence": 0.95,
+   "reasoning": "The stock has risen strongly today on heavy volume (up 3.1% in the last 30 minutes), and its Relative Strength Index (RSI) is 74, indicating a strong but not extreme momentum. The stock is trading 2.51% above its Volume-Weighted Average Price (VWAP), and its momentum indicators (momentum_5m_pct and "
+  },
+  {
+   "mode": "confirm",
+   "trade": [
+    "2026-10-26",
+    "UBER",
+    "vwap",
+    353
+   ],
+   "approved": true,
+   "valid": true,
+   "retPct": -0.8909586110134171,
+   "confidence": 0.99,
+   "reasoning": "The VWAP has reclaimed its value after 10 minutes of being below it, and the price has climbed back above the day's average price. The recent volume is 13.5 times the recent average, and the RSI is 76, indicating a strong bullish signal. The stop loss is set at 1.05% below the entry price, and the t"
+  },
+  {
+   "mode": "confirm",
+   "trade": [
+    "2026-10-27",
+    "SOFI",
+    "momentum",
+    65
+   ],
+   "approved": true,
+   "valid": true,
+   "retPct": 0.31932413958423395,
+   "confidence": 0.9,
+   "reasoning": "The stock has risen strongly (2.1%) in the last 30 minutes, has heavy volume (4.3x normal), and is trading above its VWAP (2.19%). The RSI is also in a strong but not extreme range (68). This suggests that the stock is likely to continue rising, making it a good candidate for a long trade."
+  },
+  {
+   "mode": "confirm",
+   "trade": [
+    "2026-10-27",
+    "PYPL",
+    "momentum",
+    70
+   ],
+   "approved": true,
+   "valid": true,
+   "retPct": 0.19406547382716446,
+   "confidence": 0.99,
+   "reasoning": "The stock has risen strongly today on heavy volume (up 0.8% in the last 30 minutes), and the Relative Strength Index (RSI) is 64, indicating a strong but not extreme momentum. The stock is trading 0.29% above the Volume-Weighted Average Price (VWAP), which suggests a bullish trend. The trading volum"
+  },
+  {
+   "mode": "confirm",
+   "trade": [
+    "2026-10-28",
+    "GOOGL",
+    "vwap",
+    211
+   ],
+   "approved": true,
+   "valid": true,
+   "retPct": -0.42513643721240707,
+   "confidence": 0.96,
+   "reasoning": "Price has reclaimed the day's average price (VWAP) after 9 minutes below it, and the recent average volume is 3.9x the recent average. The RSI is at 75, indicating a strong overbought condition. The price is also above the VWAP, and the momentum indicators are showing a strong upward trend. The esti"
+  },
+  {
+   "mode": "confirm",
+   "trade": [
+    "2026-10-29",
+    "F",
+    "trend",
+    59
+   ],
+   "approved": true,
+   "valid": true,
+   "retPct": 0.7544302466230515,
+   "confidence": 0.97,
+   "reasoning": "The stock is in an uptrend, with the 20-minute average above the 50-minute average and rising. The price dipped to the 20-minute average and bounced, indicating a potential buying opportunity. The Relative Strength Index (RSI) is above 60, indicating overbought conditions. The stock is above the VWA"
+  },
+  {
+   "mode": "confirm",
+   "trade": [
+    "2026-10-29",
+    "CRM",
+    "vwap",
+    140
+   ],
+   "approved": true,
+   "valid": true,
+   "retPct": 0.5621170116281761,
+   "confidence": 0.85,
+   "reasoning": "Price has reclaimed the VWAP after 10 minutes of decline, recent volume is above the recent average, and the RSI is in a neutral zone. The stop loss is set at 2.8% below the entry price, and the target is set at 8.4% above the entry price. This setup has a strong signal strength and meets the condit"
+  },
+  {
+   "mode": "confirm",
+   "trade": [
+    "2026-10-30",
+    "INTC",
+    "trend",
+    76
+   ],
+   "approved": true,
+   "valid": true,
+   "retPct": -0.9544778728531035,
+   "confidence": 0.99,
+   "reasoning": "The stock is in an established uptrend, with the 20-minute average above the 50-minute average and rising. The price dipped to the 20-minute average and bounced, indicating a potential buying opportunity. The Relative Strength Index (RSI) is above 50, indicating overbought conditions. The stock is a"
+  },
+  {
+   "mode": "confirm",
+   "trade": [
+    "2026-10-30",
+    "AMZN",
+    "trend",
+    79
+   ],
+   "approved": true,
+   "valid": true,
+   "retPct": -0.13611146805923124,
+   "confidence": 0.95,
+   "reasoning": "The stock is in an uptrend, with the 50-minute average above the 20-minute average and rising. The price dipped to the 20-minute average and bounced, indicating a potential buying opportunity. The Relative Strength Index (RSI) is 64, which is above the overbought threshold of 70. The stock is above "
+  },
+  {
+   "mode": "confirm",
+   "trade": [
+    "2026-11-02",
+    "BA",
+    "orb",
+    34
+   ],
+   "approved": true,
+   "valid": true,
+   "retPct": 0.4948310666281617,
+   "confidence": 0.95,
+   "reasoning": "The price broke above the opening-range high ($99.88), and the breakout bar volume was 2.6x recent average. The opening range was 1.4% wide, indicating a strong breakout. The RSI14 is 78.1, which is above the oversold threshold, and the EMA9 is 99.7465, which is above the recent low. The momentum in"
+  },
+  {
+   "mode": "confirm",
+   "trade": [
+    "2026-11-02",
+    "COIN",
+    "orb",
+    41
+   ],
+   "approved": true,
+   "valid": true,
+   "retPct": -1.574674703153409,
+   "confidence": 0.95,
+   "reasoning": "The price broke above the opening-range high ($99.71), and the breakout bar volume was 4.1\u00d7 recent average. The opening range was 2.4% wide, indicating a strong breakout. The RSI14 was 77.6, indicating overbought conditions, but the momentum indicators were still bullish. The stop loss was set at 98"
+  },
+  {
+   "mode": "confirm",
+   "trade": [
+    "2026-11-02",
+    "NVDA",
+    "orb",
+    52
+   ],
+   "approved": true,
+   "valid": true,
+   "retPct": -0.9360821259024873,
+   "confidence": 0.95,
+   "reasoning": "The price broke above the opening-range high ($99.86), and the breakout bar volume was 4.0x recent average. The opening range was 1.1% wide, indicating a strong breakout. The price is now above the recent high (99.9092) and the 50-day EMA (99.5167). The RSI (63.1) is in overbought territory, but the"
+  },
+  {
+   "mode": "confirm",
+   "trade": [
+    "2026-11-03",
+    "SHOP",
+    "momentum",
+    78
+   ],
+   "approved": true,
+   "valid": true,
+   "retPct": -1.186018213302687,
+   "confidence": 0.95,
+   "reasoning": "The stock has risen strongly today on heavy volume, with a 2.6% increase in the last 30 minutes and trading 2.76% above VWAP. The RSI is 72, indicating a strong but not extreme signal. The volume is 3.3x a normal day so far, supporting the trend. The stop loss is set at 99.08, which is 8% below the "
+  },
+  {
+   "mode": "confirm",
+   "trade": [
+    "2026-11-03",
+    "PLTR",
+    "trend",
+    97
+   ],
+   "approved": true,
+   "valid": true,
+   "retPct": -1.1968062670355017,
+   "confidence": 0.99,
+   "reasoning": "Multiple indicators agree on a strong uptrend, the price dipped to the 20-minute average and bounced, and the RSI is above 50. The stop loss is sensible and the potential gain outweighs the risk after costs."
+  },
+  {
+   "mode": "confirm",
+   "trade": [
+    "2026-11-03",
+    "COIN",
+    "trend",
+    97
+   ],
+   "approved": true,
+   "valid": true,
+   "retPct": -0.8593908420275203,
+   "confidence": 0.99,
+   "reasoning": "Multiple indicators agree on a strong uptrend, the price dipped to the 20-minute average and bounced, and the RSI is above 65. This suggests a potential buy opportunity. The stop loss is set at 98.7132, which is below the recent low, and the take profit is set at 102.5736, which is above the recent "
+  },
+  {
+   "mode": "confirm",
+   "trade": [
+    "2026-11-03",
+    "PLTR",
+    "volume_breakout",
+    209
+   ],
+   "approved": true,
+   "valid": true,
+   "retPct": -0.4489725696243766,
+   "confidence": 0.96,
+   "reasoning": "A new 30-minute high was made above $99.73, with a burst of volume and a relative volume 2.6x recent average. The price has also broken above the 30-minute moving average and the 200-day moving average. The RSI is at 79.9, indicating overbought conditions, but the momentum indicators are still showi"
+  },
+  {
+   "mode": "confirm",
+   "trade": [
+    "2026-11-04",
+    "PYPL",
+    "orb",
+    16
+   ],
+   "approved": true,
+   "valid": true,
+   "retPct": 0.2830873643813162,
+   "confidence": 0.93,
+   "reasoning": "The price broke above the opening-range high ($99.90), and the breakout bar volume (4.8\u00d7 recent average) supports the signal. The opening range was 2.3% wide, indicating a strong breakout. The RSI14 (91.3) is overbought, but the momentum indicators (momentum_5m_pct = 0.82, momentum_15m_pct = 2.01) a"
+  },
+  {
+   "mode": "confirm",
+   "trade": [
+    "2026-11-04",
+    "MSFT",
+    "trend",
+    39
+   ],
+   "approved": true,
+   "valid": true,
+   "retPct": -0.5722819673563242,
+   "confidence": 0.95,
+   "reasoning": "Multiple indicators agree on a strong uptrend, the price dipped to the 20-minute average and bounced, and the Relative Strength Index (RSI) is above 60, indicating overbought conditions. The stop-loss percentage is reasonable, and the potential gain outweighs the risk after costs."
+  },
+  {
+   "mode": "confirm",
+   "trade": [
+    "2026-11-04",
+    "COIN",
+    "trend",
+    67
+   ],
+   "approved": true,
+   "valid": true,
+   "retPct": -1.1715916858433877,
+   "confidence": 0.97,
+   "reasoning": "The stock is in an uptrend, with the 20-minute average above the 50-minute average and rising. The price dipped to the 20-minute average and bounced, indicating a potential buying opportunity. The Relative Strength Index (RSI) is 54, which is below the overbought threshold of 70. The stock is above "
+  },
+  {
+   "mode": "confirm",
+   "trade": [
+    "2026-11-04",
+    "INTC",
+    "vwap",
+    171
+   ],
+   "approved": true,
+   "valid": true,
+   "retPct": -1.2714638325515815,
+   "confidence": 0.85,
+   "reasoning": "Price has reclaimed the day's VWAP after 10 minutes of decline, and the RSI is in overbought territory. The recent volume is also above the recent average, indicating a strong buying signal. The stop loss is set at 2.64% below the entry price, and the take profit is set at 5.29% above the entry pric"
+  },
+  {
+   "mode": "confirm",
+   "trade": [
+    "2026-11-04",
+    "F",
+    "volume_breakout",
+    184
+   ],
+   "approved": true,
+   "valid": true,
+   "retPct": -0.42421533007437984,
+   "confidence": 0.78,
+   "reasoning": "A new 30-minute high was made above $99.88 on a burst of volume (14.2x recent average) and relative volume is 1.6x. This confirms a breakout and the price is above the recent average. The RSI is 73.1, which is above 70, indicating overbought conditions. However, the momentum indicators suggest a str"
+  },
+  {
+   "mode": "confirm",
+   "trade": [
+    "2026-11-04",
+    "GOOGL",
+    "vwap",
+    293
+   ],
+   "approved": true,
+   "valid": true,
+   "retPct": -0.35656302119735594,
+   "confidence": 0.99,
+   "reasoning": "Price has reclaimed the VWAP after 7 minutes of decline, and the RSI is at 63, indicating a strong bullish signal. The volume is also above the recent average, supporting the buy signal. The potential gain is significant, and the stop loss is reasonable, making this a strong buy opportunity."
+  },
+  {
+   "mode": "confirm",
+   "trade": [
+    "2026-11-05",
+    "INTC",
+    "vwap",
+    68
+   ],
+   "approved": true,
+   "valid": true,
+   "retPct": -1.4321744284704196,
+   "confidence": 0.95,
+   "reasoning": "The VWAP reclaimed its value after 10 minutes below it, the volume was 2.8x recent average, and the RSI was 64, indicating a strong buy signal. The stop loss is set at 1.84% below the entry price, and the take profit is set at 3.68% above the entry price, providing a reasonable risk-reward ratio."
+  },
+  {
+   "mode": "select",
+   "day": "2026-09-14",
+   "minute": 38,
+   "options": [
+    "STOCK_001"
+   ],
+   "choice": "STOCK_001",
+   "retPcts": {
+    "STOCK_001": -0.7694
+   },
+   "reasoning": "Beats the others because it has a strong trend following setup with a high strength of evidence (87%), and its reward after costs is 1.61%, which is higher than the other options. The cost is relatively low at 0.23% round trip."
+  },
+  {
+   "mode": "select",
+   "day": "2026-09-14",
+   "minute": 42,
+   "options": [
+    "STOCK_002"
+   ],
+   "choice": "STOCK_002",
+   "retPcts": {
+    "STOCK_002": -0.3743
+   },
+   "reasoning": "Beats the others because it has a strong volume-confirmed breakout setup with a high strength of evidence (87%) and a good risk-reward ratio after costs (1.4:1). The market conditions today also favor this trade, with the S\u00f4P 500 index showing a moderate increase (0.22%) and the stock's relative vol"
+  },
+  {
+   "mode": "select",
+   "day": "2026-09-14",
+   "minute": 124,
+   "options": [
+    "STOCK_003"
+   ],
+   "choice": "STOCK_003",
+   "retPcts": {
+    "STOCK_003": -0.0099
+   },
+   "reasoning": "Beats the others because it has a strong VWAP reclaim setup, a reasonable risk-reward ratio after costs, and aligns well with today's market conditions, which are generally bullish with the S&P 500 index up 0.2%."
+  },
+  {
+   "mode": "select",
+   "day": "2026-09-14",
+   "minute": 198,
+   "options": [
+    "STOCK_004"
+   ],
+   "choice": "STOCK_004",
+   "retPcts": {
+    "STOCK_004": -0.439
+   },
+   "reasoning": "Beats the others because it has a strong VWAP reclaim setup, a reasonable risk-reward ratio after costs, and aligns well with today's market conditions, which include a rising market with a strong RSI and recent volume above average."
+  },
+  {
+   "mode": "select",
+   "day": "2026-09-14",
+   "minute": 304,
+   "options": [
+    "STOCK_005"
+   ],
+   "choice": "STOCK_005",
+   "retPcts": {
+    "STOCK_005": -0.2747
+   },
+   "reasoning": "Beats the others because it has a strong VWAP reclaim setup, a high agreement score from 2 strategies, and a good reward-to-cost ratio. The current market conditions, with the S\u00f4X index above the VWAP, also support this trade."
+  },
+  {
+   "mode": "select",
+   "day": "2026-09-17",
+   "minute": 110,
+   "options": [
+    "STOCK_006"
+   ],
+   "choice": "STOCK_006",
+   "retPcts": {
+    "STOCK_006": -0.6633
+   },
+   "reasoning": "Beats the others because it has a strong VWAP reclaim setup, a high agreeing score, and a good reward-to-cost ratio. The current market conditions, with the S&P 500 index down by 0.23% and above the VWAP, also support this trade."
+  },
+  {
+   "mode": "select",
+   "day": "2026-09-17",
+   "minute": 274,
+   "options": [
+    "STOCK_007"
+   ],
+   "choice": "STOCK_007",
+   "retPcts": {
+    "STOCK_007": -0.3156
+   },
+   "reasoning": "Beats the others because it has a strong VWAP reclaim setup, a high reward-to-risk ratio after costs (1.61), and is in a market where the S&P 500 is above the VWAP, indicating a bullish trend. The stop-loss is relatively low at 0.92% and the target is high at 1.84%, making it a good risk-reward trad"
+  },
+  {
+   "mode": "select",
+   "day": "2026-09-21",
+   "minute": 39,
+   "options": [
+    "STOCK_002"
+   ],
+   "choice": "STOCK_002",
+   "retPcts": {
+    "STOCK_002": 0.3583
+   },
+   "reasoning": "STOCK_002 beats the others because its trend following setup has a strength of 87% and it aims for a +2.70% target with a 1.35% stop, which provides a good balance of risk and reward after costs. The current market conditions, with the S\u00f6x 30-minute average above the 50-minute average and rising, su"
+  },
+  {
+   "mode": "select",
+   "day": "2026-09-21",
+   "minute": 45,
+   "options": [
+    "STOCK_008"
+   ],
+   "choice": "STOCK_008",
+   "retPcts": {
+    "STOCK_008": -0.7625
+   },
+   "reasoning": "Beats the others because it has a strong trend following setup, aims for a significant reward with a reasonable stop, and the current market conditions (uptrend and above VWAP) suit its strategy. The other options either have weaker setups or are not aligned with today's market conditions."
+  },
+  {
+   "mode": "select",
+   "day": "2026-09-21",
+   "minute": 111,
+   "options": [
+    "STOCK_009"
+   ],
+   "choice": "STOCK_009",
+   "retPcts": {
+    "STOCK_009": 0.3711
+   },
+   "reasoning": "Beats the others because it has a strong trend following setup with a high strength of evidence (87%), and its reward after costs is 1.61%, which is higher than the other options. Additionally, its costs are relatively low at 0.23% round trip."
+  },
+  {
+   "mode": "select",
+   "day": "2026-09-21",
+   "minute": 213,
+   "options": [
+    "STOCK_008"
+   ],
+   "choice": "STOCK_008",
+   "retPcts": {
+    "STOCK_008": 1.6188
+   },
+   "reasoning": "This trade beats the others because it has a strong volume-confirmed breakout setup, a reasonable stop loss, and a clear target. The strength of evidence is high, and the risk vs. reward after costs is favorable, making it a good choice for a long day trade."
+  },
+  {
+   "mode": "select",
+   "day": "2026-09-21",
+   "minute": 233,
+   "options": [
+    "STOCK_010"
+   ],
+   "choice": "STOCK_010",
+   "retPcts": {
+    "STOCK_010": -0.2677
+   },
+   "reasoning": "This trade beats the others because it has a strong VWAP reclaim setup, a low risk of trading costs, and a high reward after costs. The stop is also widened to minimize the impact of trading costs, and two strategies agree on the trade. The current market conditions, with the S&P 500 above the VWAP "
+  },
+  {
+   "mode": "select",
+   "day": "2026-09-21",
+   "minute": 273,
+   "options": [
+    "STOCK_011"
+   ],
+   "choice": "STOCK_011",
+   "retPcts": {
+    "STOCK_011": 0.2616
+   },
+   "reasoning": "Beats the others because it has a strong trend following setup, aims for a high reward-to-risk ratio, and the current market conditions (rising market with above VWAP) agree with its triggers. None of the other options have as strong of evidence or as favorable risk-reward ratios."
+  },
+  {
+   "mode": "select",
+   "day": "2026-09-22",
+   "minute": 263,
+   "options": [
+    "STOCK_004"
+   ],
+   "choice": "STOCK_004",
+   "retPcts": {
+    "STOCK_004": -0.3298
+   },
+   "reasoning": "Beats the others because it has a strong VWAP reclaim setup and a high reward-to-risk ratio after costs, with 2 out of 3 strategies agreeing on the trade. The current market conditions, with the S\u00f4X index above the VWAP, also support this trade."
+  },
+  {
+   "mode": "select",
+   "day": "2026-09-24",
+   "minute": 61,
+   "options": [
+    "STOCK_012"
+   ],
+   "choice": "STOCK_012",
+   "retPcts": {
+    "STOCK_012": -0.6363
+   },
+   "reasoning": "This trade beats the others because it has a strong opening-range breakout setup with a high strength rating, a reasonable stop loss that limits trading costs, and a clear target. The market conditions today also support this trade, with the S&P 500 above its VWAP and a moderate level of volatility."
+  },
+  {
+   "mode": "select",
+   "day": "2026-09-24",
+   "minute": 166,
+   "options": [
+    "STOCK_010",
+    "STOCK_013",
+    "STOCK_014"
+   ],
+   "choice": "STOCK_010",
+   "retPcts": {
+    "STOCK_010": 0.083,
+    "STOCK_013": -0.4981,
+    "STOCK_014": -0.3498
+   },
+   "reasoning": "STOCK_010 has the highest score among the options, indicating the strongest evidence for a trade. Its stop is widened to minimize trading costs, and it aims for a +1.84% return with a 0.92% stop, which is a favorable risk-reward ratio. The indicators also suggest a strong VWAP reclaim setup, with tw"
+  },
+  {
+   "mode": "select",
+   "day": "2026-09-24",
+   "minute": 219,
+   "options": [
+    "STOCK_012"
+   ],
+   "choice": "STOCK_012",
+   "retPcts": {
+    "STOCK_012": 0.3123
+   },
+   "reasoning": "This trade beats the others because it has a strong VWAP reclaim setup, a reasonable risk-reward ratio after costs, and a high agreement level among the app's strategies. Its stop loss is also relatively wide, which helps to limit trading costs and ensures that the trade doesn't get swamped by marke"
+  },
+  {
+   "mode": "select",
+   "day": "2026-09-24",
+   "minute": 281,
+   "options": [
+    "STOCK_014"
+   ],
+   "choice": "STOCK_014",
+   "retPcts": {
+    "STOCK_014": -0.3024
+   },
+   "reasoning": "Beats the others because it has a strong VWAP reclaim setup, a high agreement score from 2 strategies, and a good reward-to-cost ratio of 1.61:0.23 or 7:1. This setup is well-suited for today's market conditions, with the stock price above the VWAP and a moderate level of volatility."
+  },
+  {
+   "mode": "select",
+   "day": "2026-09-25",
+   "minute": 91,
+   "options": [
+    "STOCK_015"
+   ],
+   "choice": "STOCK_015",
+   "retPcts": {
+    "STOCK_015": 0.2263
+   },
+   "reasoning": "This trade beats the others because it has a strong opening-range breakout setup with a high strength of evidence (86%), and its risk is well-managed with a stop that is capped by sizing, allowing for a high reward-to-risk ratio after costs (1.4:1). The current market conditions, with the S&P 500 in"
+  },
+  {
+   "mode": "select",
+   "day": "2026-09-28",
+   "minute": 167,
+   "options": [
+    "STOCK_016"
+   ],
+   "choice": "STOCK_016",
+   "retPcts": {
+    "STOCK_016": -0.3755
+   },
+   "reasoning": "This trade beats the others because it has a strong VWAP reclaim setup, a reasonable stop loss, and a good reward after costs. The other options do not have as strong of a setup or as favorable risk-reward ratios."
+  },
+  {
+   "mode": "select",
+   "day": "2026-09-28",
+   "minute": 171,
+   "options": [
+    "STOCK_002"
+   ],
+   "choice": "STOCK_002",
+   "retPcts": {
+    "STOCK_002": -0.1764
+   },
+   "reasoning": "Beats the others because it has a strong VWAP reclaim setup and a good risk-reward ratio after costs, with a target of +1.84% and a stop of 0.92%. The market conditions also favor this trade, with the S&P 500 index showing a decline of -0.12% and the stock's price being above its VWAP. The other opt"
+  },
+  {
+   "mode": "select",
+   "day": "2026-09-28",
+   "minute": 177,
+   "options": [
+    "STOCK_013"
+   ],
+   "choice": "STOCK_013",
+   "retPcts": {
+    "STOCK_013": -0.4257
+   },
+   "reasoning": "Beats the others because it has a strong VWAP reclaim setup, a high reward-to-risk ratio after costs (1.4:1), and is well-suited for today's market conditions, which include a relatively high market volatility (2.14%) and a strong momentum (0.44% 15m pct)."
+  },
+  {
+   "mode": "select",
+   "day": "2026-09-28",
+   "minute": 222,
+   "options": [
+    "STOCK_017",
+    "STOCK_018"
+   ],
+   "choice": "STOCK_017",
+   "retPcts": {
+    "STOCK_017": -0.5785,
+    "STOCK_018": -1.0627
+   },
+   "reasoning": "This stock has a stronger VWAP reclaim setup and better indicators, making it a more attractive choice than STOCK_018, which has a weaker setup and more volatility. The current market conditions, with the S\u00f6x index above the VWAP, also favor this trade."
+  },
+  {
+   "mode": "select",
+   "day": "2026-09-30",
+   "minute": 33,
+   "options": [
+    "STOCK_006"
+   ],
+   "choice": "STOCK_006",
+   "retPcts": {
+    "STOCK_006": 0.2422
+   },
+   "reasoning": "This trade beats the others because it has a strong opening-range breakout setup with a high strength percentage of 82%. The reward after costs is 2.607%, which is higher than the other options. Additionally, the costs are relatively low at around 0.23% round trip."
+  },
+  {
+   "mode": "select",
+   "day": "2026-10-01",
+   "minute": 236,
+   "options": [
+    "STOCK_015"
+   ],
+   "choice": "STOCK_015",
+   "retPcts": {
+    "STOCK_015": -0.0441
+   },
+   "reasoning": "Beats the others because it has a strong volume-confirmed breakout setup with a high strength of evidence (87%), and its reward after costs is relatively high (1.61%) compared to its costs (0.23%). This trade also suits today's market conditions, as the S\u00f4P 500 is above its VWAP, indicating a bullis"
+  },
+  {
+   "mode": "select",
+   "day": "2026-10-01",
+   "minute": 346,
+   "options": [
+    "STOCK_013"
+   ],
+   "choice": "STOCK_013",
+   "retPcts": {
+    "STOCK_013": 1.6204
+   },
+   "reasoning": "Beats the others because it has a strong VWAP reclaim setup, aims for a high reward-to-risk ratio, and is well-suited for today's market conditions, which are above the VWAP and showing moderate volume."
+  },
+  {
+   "mode": "select",
+   "day": "2026-10-02",
+   "minute": 32,
+   "options": [
+    "STOCK_019"
+   ],
+   "choice": "STOCK_019",
+   "retPcts": {
+    "STOCK_019": -0.797
+   },
+   "reasoning": "This stock has a strong trend following setup, with a high strength of evidence (79%) and a favorable risk-reward ratio after costs (1.4:1). The stop loss is wide enough to minimize trading costs, and the trade aims for a respectable return of +1.84% with a stop loss of 0.92%. This trade beats the o"
+  },
+  {
+   "mode": "select",
+   "day": "2026-10-02",
+   "minute": 65,
+   "options": [
+    "STOCK_020"
+   ],
+   "choice": "STOCK_020",
+   "retPcts": {
+    "STOCK_020": 0.0374
+   },
+   "reasoning": "Beats the others because it has a strong opening-range breakout setup with a high strength of evidence (78%), and its reward after costs is 3.205%, which is higher than the other options. The costs are relatively low at around 0.23% round trip."
+  },
+  {
+   "mode": "select",
+   "day": "2026-10-05",
+   "minute": 89,
+   "options": [
+    "STOCK_016"
+   ],
+   "choice": "STOCK_016",
+   "retPcts": {
+    "STOCK_016": -0.151
+   },
+   "reasoning": "This trade beats the others because it has a strong opening-range breakout setup with a high strength rating, a reasonable risk-reward ratio after costs, and a low trading cost percentage. Its indicators also show a strong momentum and a recent average volume breakout, making it a good candidate for"
+  },
+  {
+   "mode": "select",
+   "day": "2026-10-06",
+   "minute": 66,
+   "options": [
+    "STOCK_002"
+   ],
+   "choice": "STOCK_002",
+   "retPcts": {
+    "STOCK_002": 0.4876
+   },
+   "reasoning": "This trade beats the others because it has a strong opening-range breakout setup with 2 strategies agreeing, and its reward after costs is 3.138%, which is higher than the other options. Additionally, its costs are relatively low at 0.23% round trip, making it a more attractive choice."
+  },
+  {
+   "mode": "select",
+   "day": "2026-10-06",
+   "minute": 89,
+   "options": [
+    "STOCK_001"
+   ],
+   "choice": "STOCK_001",
+   "retPcts": {
+    "STOCK_001": -1.1065
+   },
+   "reasoning": "This trade beats the others because it has a strong opening-range breakout setup, a clear target and stop, and a reasonable risk-reward ratio after costs. The market conditions also favor this trade, as the S\u00f4PY is above its VWAP and the minutes to close are relatively low, indicating a high probabi"
+  },
+  {
+   "mode": "select",
+   "day": "2026-10-08",
+   "minute": 31,
+   "options": [
+    "STOCK_021"
+   ],
+   "choice": "STOCK_021",
+   "retPcts": {
+    "STOCK_021": -0.6641
+   },
+   "reasoning": "This trade beats the others because it has a strong intraday momentum setup with a high momentum reading (87%) and a reasonable risk-reward ratio (1.4:1) after costs. The market conditions today are favorable with a slight increase in the S\u00f6x (0.06%) and a high relative volume, which supports the tr"
+  },
+  {
+   "mode": "select",
+   "day": "2026-10-09",
+   "minute": 57,
+   "options": [
+    "STOCK_022"
+   ],
+   "choice": "STOCK_022",
+   "retPcts": {
+    "STOCK_022": -0.7289
+   },
+   "reasoning": "Beats the others because it has a strong trend following setup with a high strength of evidence (87%), and its reward after costs is 1.61% which is higher than the other options. The costs are relatively low at 0.23% round trip, making it a more attractive choice."
+  },
+  {
+   "mode": "select",
+   "day": "2026-10-09",
+   "minute": 113,
+   "options": [
+    "STOCK_021"
+   ],
+   "choice": "STOCK_021",
+   "retPcts": {
+    "STOCK_021": 0.6006
+   },
+   "reasoning": "This trade beats the others because it has a strong opening-range breakout setup with a high strength of evidence (88%). The reward after costs is also high (1.909%), making it a good choice given the current market conditions, which show a moderate increase in the market (0.17% change in the S&P 50"
+  },
+  {
+   "mode": "select",
+   "day": "2026-10-13",
+   "minute": 305,
+   "options": [
+    "STOCK_012"
+   ],
+   "choice": "STOCK_012",
+   "retPcts": {
+    "STOCK_012": -0.5288
+   },
+   "reasoning": "Beats the others because it has a strong VWAP reclaim setup, a high agreeing score, and a good reward-to-cost ratio. The current market conditions, with the S&P 500 above the VWAP, also support this trade."
+  },
+  {
+   "mode": "select",
+   "day": "2026-10-15",
+   "minute": 45,
+   "options": [
+    "STOCK_018"
+   ],
+   "choice": "STOCK_018",
+   "retPcts": {
+    "STOCK_018": -0.7178
+   },
+   "reasoning": "This trade beats the others because it has a strong trend following setup, a reasonable risk-reward ratio (1.4:1), and a low cost percentage (0.23%). The market conditions also favor a long position, with the S\u00f4PY above VWAP and a moderate increase in the market (0.12%). The trade's indicators, such"
+  },
+  {
+   "mode": "select",
+   "day": "2026-10-15",
+   "minute": 57,
+   "options": [
+    "STOCK_023"
+   ],
+   "choice": "STOCK_023",
+   "retPcts": {
+    "STOCK_023": 1.6284
+   },
+   "reasoning": "This trade beats the others because it has a strong trend following setup with a high strength of evidence (87%), a reasonable risk-reward ratio (1.4:1), and a capped dollar risk due to stop widening. The current market conditions, with the S&P 500 above VWAP and rising, also support this trade."
+  },
+  {
+   "mode": "select",
+   "day": "2026-10-15",
+   "minute": 73,
+   "options": [
+    "STOCK_024"
+   ],
+   "choice": "STOCK_024",
+   "retPcts": {
+    "STOCK_024": -0.3787
+   },
+   "reasoning": "This trade beats the others because it has a high score, a clear reason for the trade (volume-confirmed breakout setup), and a reasonable risk-reward ratio after costs. The other options either have lower scores or unclear reasons for the trade, making this the best choice."
+  },
+  {
+   "mode": "select",
+   "day": "2026-10-15",
+   "minute": 82,
+   "options": [
+    "STOCK_009"
+   ],
+   "choice": "STOCK_009",
+   "retPcts": {
+    "STOCK_009": 1.6186
+   },
+   "reasoning": "This trade beats the others because it has a strong trend following setup, a reasonable risk-reward ratio after costs, and is well-suited for today's market conditions, which are characterized by a moderate uptrend and above VWAP. The stop is also widened to minimize trading costs, making it a more "
+  },
+  {
+   "mode": "select",
+   "day": "2026-10-15",
+   "minute": 85,
+   "options": [
+    "STOCK_002"
+   ],
+   "choice": "STOCK_002",
+   "retPcts": {
+    "STOCK_002": 0.0325
+   },
+   "reasoning": "STOCK_002 has the highest rewardAfterCost percentage (1.61%) and the lowest costPct (0.23%), making it the best option after costs. Its indicators show a strong uptrend, with the 20-minute average above the 50-minute average and rising, and it bounced off the 20-minute average, indicating a strong t"
+  },
+  {
+   "mode": "select",
+   "day": "2026-10-15",
+   "minute": 148,
+   "options": [
+    "STOCK_019"
+   ],
+   "choice": "STOCK_019",
+   "retPcts": {
+    "STOCK_019": -0.2873
+   },
+   "reasoning": "This trade beats the others because it has a strong volume-confirmed breakout setup, a reasonable risk-reward ratio after costs, and is well-suited for today's market conditions, which are generally bullish with a 0.53% change in the S&P 500. The stop loss is also relatively wide, which helps to lim"
+  },
+  {
+   "mode": "select",
+   "day": "2026-10-16",
+   "minute": 68,
+   "options": [
+    "STOCK_025"
+   ],
+   "choice": "STOCK_025",
+   "retPcts": {
+    "STOCK_025": -0.4027
+   },
+   "reasoning": "Beats the others because it has a strong VWAP reclaim setup, a good risk-reward ratio after costs, and is well-suited for today's market conditions, which are generally bearish with a declining VWAP and low volatility."
+  },
+  {
+   "mode": "select",
+   "day": "2026-10-19",
+   "minute": 44,
+   "options": [
+    "STOCK_021"
+   ],
+   "choice": "STOCK_021",
+   "retPcts": {
+    "STOCK_021": 2.1785
+   },
+   "reasoning": "This trade beats the others because it has a strong opening-range breakout setup with a high strength rating (80%) and a clear target price of +3.13%. The costs are relatively low at around 0.23% round trip, and the reward after costs is high at 2.899%. This trade is well-suited for today's market c"
+  },
+  {
+   "mode": "select",
+   "day": "2026-10-20",
+   "minute": 68,
+   "options": [
+    "STOCK_009",
+    "STOCK_023"
+   ],
+   "choice": "STOCK_009",
+   "retPcts": {
+    "STOCK_009": -0.1058,
+    "STOCK_023": -0.879
+   },
+   "reasoning": "STOCK_009 has a higher reward-to-cost ratio (1.959% vs 1.819%) and a stronger uptrend setup, making it the best choice among the options."
+  },
+  {
+   "mode": "select",
+   "day": "2026-10-20",
+   "minute": 79,
+   "options": [
+    "STOCK_001"
+   ],
+   "choice": "STOCK_001",
+   "retPcts": {
+    "STOCK_001": -1.2556
+   },
+   "reasoning": "Beats the others because it has a strong trend following setup with a high strength of evidence (85%), and its reward after costs is high (2.486%), making it a good choice despite a relatively high cost percentage (0.23%) and a moderate risk-reward ratio (1.57)."
+  },
+  {
+   "mode": "select",
+   "day": "2026-10-23",
+   "minute": 72,
+   "options": [
+    "STOCK_022"
+   ],
+   "choice": "STOCK_022",
+   "retPcts": {
+    "STOCK_022": -1.1942
+   },
+   "reasoning": "This trade beats the others because it has a strong VWAP reclaim setup, a reasonable risk-reward ratio after costs, and a high number of agreeing indicators. The stop loss is also widened to minimize trading costs, making this a more attractive option than the others."
+  },
+  {
+   "mode": "select",
+   "day": "2026-10-23",
+   "minute": 272,
+   "options": [
+    "STOCK_020"
+   ],
+   "choice": "STOCK_020",
+   "retPcts": {
+    "STOCK_020": -0.3132
+   },
+   "reasoning": "Beats other options due to strong VWAP reclaim setup and high reward after costs (1.61%) despite relatively high costs (0.23%) and moderate agreement among strategies. Other options either lack strong setups or have lower rewards after costs."
+  },
+  {
+   "mode": "select",
+   "day": "2026-10-26",
+   "minute": 31,
+   "options": [
+    "STOCK_020"
+   ],
+   "choice": "STOCK_020",
+   "retPcts": {
+    "STOCK_020": -0.6363
+   },
+   "reasoning": "Beats the others because it has a strong trend following setup with a high strength of evidence (87%), and its reward after costs (1.824%) is higher than the others. Its costs are relatively low (0.23% round trip), making it a more attractive option."
+  },
+  {
+   "mode": "select",
+   "day": "2026-10-26",
+   "minute": 98,
+   "options": [
+    "STOCK_009"
+   ],
+   "choice": "STOCK_009",
+   "retPcts": {
+    "STOCK_009": 0.5189
+   },
+   "reasoning": "Beats the others because it has a strong in-day momentum setup, a reasonable risk-reward ratio after costs, and the market conditions (high volatility) suit the strategy. The other options either have weaker setups or less favorable risk-reward ratios."
+  },
+  {
+   "mode": "select",
+   "day": "2026-10-26",
+   "minute": 356,
+   "options": [
+    "STOCK_016"
+   ],
+   "choice": "STOCK_016",
+   "retPcts": {
+    "STOCK_016": -0.891
+   },
+   "reasoning": "Picks beat the others because it has a strong VWAP reclaim setup, a high reward-to-risk ratio after costs, and a low cost percentage. The other options either have weaker setups or higher costs, making this the best choice despite the current market conditions favoring the S\u00f4P 500 index."
+  },
+  {
+   "mode": "select",
+   "day": "2026-10-27",
+   "minute": 65,
+   "options": [
+    "STOCK_018"
+   ],
+   "choice": "STOCK_018",
+   "retPcts": {
+    "STOCK_018": 0.3193
+   },
+   "reasoning": "This stock has a strong intraday momentum setup with 2 strategies agreeing on its potential. The trade aims for a +1.84% return with a 0.92% stop, which is a reasonable risk-reward ratio considering the costs. The current market conditions, with the S&P 500 above its VWAP, also support this trade."
+  },
+  {
+   "mode": "select",
+   "day": "2026-10-27",
+   "minute": 70,
+   "options": [
+    "STOCK_026"
+   ],
+   "choice": "STOCK_026",
+   "retPcts": {
+    "STOCK_026": 0.1941
+   },
+   "reasoning": "This trade beats the others because it has a strong intraday momentum setup, a reasonable risk-reward ratio after costs, and is well-suited for today's market conditions. The stop loss is wide enough to limit trading costs, and the target is high enough to capture a decent profit. The agreement amon"
+  },
+  {
+   "mode": "select",
+   "day": "2026-10-28",
+   "minute": 211,
+   "options": [
+    "STOCK_027"
+   ],
+   "choice": "STOCK_027",
+   "retPcts": {
+    "STOCK_027": -0.4251
+   },
+   "reasoning": "This trade beats the others because it has a strong VWAP reclaim setup, a reasonable risk-reward ratio after costs, and is well-suited for today's market conditions, which are generally bullish with a slight increase in the S\u0266P. The trade's stop loss is also relatively wide, which helps to limit the"
+  },
+  {
+   "mode": "select",
+   "day": "2026-10-29",
+   "minute": 61,
+   "options": [
+    "STOCK_010"
+   ],
+   "choice": "STOCK_010",
+   "retPcts": {
+    "STOCK_010": 0.7544
+   },
+   "reasoning": "This stock has a clear trend following setup, with a strong uptrend and a price above the VWAP. The risk is capped by the stop, and the reward is high enough to beat the costs, making it the best choice among the options."
+  },
+  {
+   "mode": "select",
+   "day": "2026-10-29",
+   "minute": 146,
+   "options": [
+    "STOCK_006"
+   ],
+   "choice": "STOCK_006",
+   "retPcts": {
+    "STOCK_006": 0.5621
+   },
+   "reasoning": "Beats the others because it has a strong VWAP reclaim setup, aims for a high reward-to-risk ratio (1.4:1), and has a low cost percentage (0.23%) compared to the other options. The market conditions also favor this trade, with the S\u00f6x 30-minute high above the VWAP, indicating a bullish momentum."
+  },
+  {
+   "mode": "select",
+   "day": "2026-10-30",
+   "minute": 76,
+   "options": [
+    "STOCK_009"
+   ],
+   "choice": "STOCK_009",
+   "retPcts": {
+    "STOCK_009": -0.9545
+   },
+   "reasoning": "This stock has a strong trend following setup with a 87% strength, aiming for a +2.13% reward with a 1.06% stop, and costs approximately 0.23% round trip. Its current market conditions, with the S&P 500 index showing a -0.2% change and above VWAP, agree with the setup. This trade beats the others as"
+  },
+  {
+   "mode": "select",
+   "day": "2026-10-30",
+   "minute": 79,
+   "options": [
+    "STOCK_028"
+   ],
+   "choice": "STOCK_028",
+   "retPcts": {
+    "STOCK_028": -0.1361
+   },
+   "reasoning": "Beats the others because it has a strong trend following setup, a reasonable stop loss that limits trading costs, and a clear target. The current market conditions, with the S\u00f4X index showing a slight decline, also favor this trade, as the uptrend setup is still present despite the price drop."
+  },
+  {
+   "mode": "select",
+   "day": "2026-11-02",
+   "minute": 34,
+   "options": [
+    "STOCK_013"
+   ],
+   "choice": "STOCK_013",
+   "retPcts": {
+    "STOCK_013": 0.4948
+   },
+   "reasoning": "This trade beats the others because it has a strong opening-range breakout setup with a high agreement score from 2 strategies. The risk-reward ratio after costs is 1.4, which is relatively high, and the trade aims for a +1.84% target with a 0.92% stop, making it a good risk-reward trade. The curren"
+  },
+  {
+   "mode": "select",
+   "day": "2026-11-02",
+   "minute": 41,
+   "options": [
+    "STOCK_001"
+   ],
+   "choice": "STOCK_001",
+   "retPcts": {
+    "STOCK_001": -1.5747
+   },
+   "reasoning": "Beats the others because it has a strong opening-range breakout setup with a high strength of evidence (86%), and its reward after costs is relatively high (2.683%) compared to the costs (0.23%). This trade also has a good risk-reward ratio (1.59:1) and is well-suited for today's market conditions, "
+  },
+  {
+   "mode": "select",
+   "day": "2026-11-02",
+   "minute": 52,
+   "options": [
+    "STOCK_019"
+   ],
+   "choice": "STOCK_019",
+   "retPcts": {
+    "STOCK_019": -0.9361
+   },
+   "reasoning": "This trade beats the others because it has a strong opening-range breakout setup, a reasonable risk-reward ratio (1.4:1), and a low cost percentage (0.23%). The market conditions also favor this trade, with the S&P 500 index above its VWAP and a moderate level of volatility. The other options either"
+  },
+  {
+   "mode": "select",
+   "day": "2026-11-03",
+   "minute": 78,
+   "options": [
+    "STOCK_011"
+   ],
+   "choice": "STOCK_011",
+   "retPcts": {
+    "STOCK_011": -1.186
+   },
+   "reasoning": "Beats the others because it has a strong intraday momentum setup with a high momentum reading (3.63%) and a reasonable risk-reward ratio (1.4:1) after costs. The market conditions also favor this trade, with the S\u00f6x 34% above VWAP and a normal trading volume so far."
+  },
+  {
+   "mode": "select",
+   "day": "2026-11-03",
+   "minute": 97,
+   "options": [
+    "STOCK_021",
+    "STOCK_001"
+   ],
+   "choice": "STOCK_021",
+   "retPcts": {
+    "STOCK_021": -1.1968,
+    "STOCK_001": -0.8594
+   },
+   "reasoning": "This stock has a stronger trend following setup with a higher strength percentage (87%) and aims for a higher reward percentage (+2.24%) compared to STOCK_001. The current market conditions, with the S\u00f4PY above VWAP and rising, also align with the uptrend setup of both stocks."
+  },
+  {
+   "mode": "select",
+   "day": "2026-11-03",
+   "minute": 217,
+   "options": [
+    "STOCK_021"
+   ],
+   "choice": "STOCK_021",
+   "retPcts": {
+    "STOCK_021": -0.449
+   },
+   "reasoning": "This trade beats the others because it has a strong volume-confirmed breakout setup, a reasonable risk-reward ratio after costs, and a stop that is wide enough to limit trading costs. The strength of the evidence and the favorable market conditions make this the best choice."
+  },
+  {
+   "mode": "select",
+   "day": "2026-11-04",
+   "minute": 16,
+   "options": [
+    "STOCK_026"
+   ],
+   "choice": "STOCK_026",
+   "retPcts": {
+    "STOCK_026": 0.2831
+   },
+   "reasoning": "This trade beats the others because it has a strong opening-range breakout setup with a high strength of evidence (86%). The reward after costs is also high (2.229%), making it a good choice given the current market conditions."
+  },
+  {
+   "mode": "select",
+   "day": "2026-11-04",
+   "minute": 39,
+   "options": [
+    "STOCK_029"
+   ],
+   "choice": "STOCK_029",
+   "retPcts": {
+    "STOCK_029": -0.5723
+   },
+   "reasoning": "This stock has a strong trend following setup with a high strength of evidence (87%), a stop loss that is wide enough to limit trading costs, and a good reward-to-risk ratio after costs (1.61:1). The current market conditions, with the S&P 500 above its VWAP and rising, also support this trade, maki"
+  },
+  {
+   "mode": "select",
+   "day": "2026-11-04",
+   "minute": 67,
+   "options": [
+    "STOCK_001"
+   ],
+   "choice": "STOCK_001",
+   "retPcts": {
+    "STOCK_001": -1.1716
+   },
+   "reasoning": "Beats the others because it has a strong trend following setup with a high strength of evidence (87%) and a good reward-to-risk ratio (1.4:1) after costs. The current market conditions, with the S&P 500 above its VWAP and rising, also align with the strategy's aims."
+  },
+  {
+   "mode": "select",
+   "day": "2026-11-04",
+   "minute": 171,
+   "options": [
+    "STOCK_009"
+   ],
+   "choice": "STOCK_009",
+   "retPcts": {
+    "STOCK_009": -1.2715
+   },
+   "reasoning": "Beats the others because it has a strong VWAP reclaim setup, a high agreeing score, and a reasonable risk-reward ratio after costs. Its target is +5.29% and stop is 2.64%, which is attractive compared to the other options."
+  },
+  {
+   "mode": "select",
+   "day": "2026-11-04",
+   "minute": 186,
+   "options": [
+    "STOCK_010"
+   ],
+   "choice": "STOCK_010",
+   "retPcts": {
+    "STOCK_010": -0.4242
+   },
+   "reasoning": "Beats the others because it has a strong volume-confirmed breakout setup, a reasonable risk-reward ratio after costs, and a clear trigger in the recent 30-minute high and breakout volume. The stop is also widened to minimize trading costs, making it a more attractive option."
+  },
+  {
+   "mode": "select",
+   "day": "2026-11-04",
+   "minute": 293,
+   "options": [
+    "STOCK_027"
+   ],
+   "choice": "STOCK_027",
+   "retPcts": {
+    "STOCK_027": -0.3566
+   },
+   "reasoning": "Beats the others because it has a strong VWAP reclaim setup, a reasonable stop loss, and a high reward-to-risk ratio after costs. The market conditions also favor a long trade, with the S&P 500 above the VWAP and a high volume of recent trading. The other options either have weaker setups or higher "
+  }
+ ]
+}

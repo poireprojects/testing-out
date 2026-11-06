@@ -96,7 +96,7 @@ jobs:
     needs: test
     runs-on: windows-latest
     continue-on-error: true
-    timeout-minutes: 30
+    timeout-minutes: 12   # the old installer can hang on the newer failure scenarios; it's evidence only
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -144,8 +144,14 @@ jobs:
 
   latest:
     # Rolling "latest" release: permanent one-click download links for the newest build.
-    if: github.event_name != 'pull_request' && !startsWith(github.ref, 'refs/tags/')
-    needs: [windows, windows-uninstall-test, macos]
+    # The Windows installer is published once its own build, the test suite and the real install/
+    # uninstall test pass. The Mac disk image is added when its build succeeded (a missing macOS
+    # runner must not hold back a tested Windows installer).
+    if: >-
+      always() && github.event_name != 'pull_request' && !startsWith(github.ref, 'refs/tags/') &&
+      needs.test.result == 'success' && needs.windows.result == 'success' &&
+      needs.windows-uninstall-test.result == 'success'
+    needs: [test, windows, windows-uninstall-test, macos]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/download-artifact@v4
@@ -158,12 +164,17 @@ jobs:
         run: |
           mkdir out
           cp artifacts/dontknowwhatimdoing-windows-installer/*.exe out/dontknowwhatimdoing-windows-setup.exe
-          cp artifacts/dontknowwhatimdoing-macos-dmg/*.dmg out/dontknowwhatimdoing-macos.dmg
+          if ls artifacts/dontknowwhatimdoing-macos-dmg/*.dmg >/dev/null 2>&1; then
+            cp artifacts/dontknowwhatimdoing-macos-dmg/*.dmg out/dontknowwhatimdoing-macos.dmg
+            MAC_NOTE="Mac: open the .dmg and drag the app to Applications."
+          else
+            MAC_NOTE="(The Mac build didn't finish for this build; use an earlier release for macOS.)"
+          fi
           # One release per build (deleted release tags can't be reused here), marked "latest" so
           # https://github.com/<repo>/releases/latest/download/<file> always serves the newest build.
           gh release create "build-${GITHUB_RUN_NUMBER}" out/* --target "$GITHUB_SHA" --latest \
             --title "build ${GITHUB_RUN_NUMBER}" \
-            --notes "Newest build of don’t know what im doing (commit ${GITHUB_SHA::7}). Windows: run the setup file. Mac: open the .dmg and drag the app to Applications."
+            --notes "Newest build of don’t know what im doing (commit ${GITHUB_SHA::7}). Windows: run the setup file. ${MAC_NOTE}"
 
   release:
     if: startsWith(github.ref, 'refs/tags/v')

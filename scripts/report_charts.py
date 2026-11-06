@@ -127,27 +127,40 @@ def chart_ai(out: Path, figs: Path) -> Path | None:
     if not f.exists():
         return None
     cmp = json.loads(f.read_text())
-    names = {"rules_ranker": "rules + ranker (no AI)", "ai_confirm": "AI confirms each pick",
-             "ai_select": "AI picks one of the top 3"}
-    items = [(names[k], m["totalPnl"], m["trades"], m["avgRetPct"]) for k, m in cmp["modes"].items()][::-1]
-    fig, ax = plt.subplots(figsize=(9, 3.8), dpi=160)
+    m, cov = cmp["modes"], cmp.get("selectCoverage")
+    items = [(f"rules + ranker, no AI ({cmp['days']} days)", m["rules_ranker"]),
+             (f"AI confirms each pick ({cmp['days']} days)", m["ai_confirm"])]
+    if cov:
+        items += [(f"rules + ranker, no AI ({cov['days']} days)", cov["rulesRankerSameDays"]),
+                  (f"AI picks one of the top 3 ({cov['days']} days)", m["ai_select"])]
+    items = items[::-1]
+    fig, ax = plt.subplots(figsize=(9, 4.4), dpi=160)
     fig.patch.set_facecolor(SURFACE)
-    bars = ax.barh(range(len(items)), [i[1] for i in items], height=0.5, color=S1)
-    for bar, it in zip(bars, items):
-        label(ax, bar, it[1], lambda v, it=it: f"{money(v)}  ({it[3]:+.3f}% per trade)")
-    ax.set_yticks(range(len(items)), [f"{i[0]}\n{i[2]} trades" for i in items], fontsize=10, color=INK)
+    colors = [S2 if name.startswith("AI") else S1 for name, _ in items]
+    bars = ax.barh(range(len(items)), [v["totalPnl"] for _, v in items], height=0.5, color=colors)
+    for bar, (_, v) in zip(bars, items):
+        label(ax, bar, v["totalPnl"], lambda x, v=v: f"{money(x)}  ·  {v['trades']} trades  ·  {v['avgRetPct']:+.3f}%/trade")
+    ax.set_yticks(range(len(items)), [name for name, _ in items], fontsize=10, color=INK)
     ax.axvline(0, color=INK2, linewidth=1)
-    lo = min(i[1] for i in items + [("", 0, 0, 0)])
-    ax.set_xlim(lo * 1.6 - 0.5, 1.0)
+    lo = min(v["totalPnl"] for _, v in items)
+    ax.set_xlim(lo * 3.0, 0.6)
     ax.xaxis.set_major_formatter(matplotlib.ticker.FuncFormatter(lambda v, _: money(v)[:-3]))
     flt = cmp["filter"]
-    style(ax, "AI decision modes vs rules-only, same candidates and costs",
-          f"local {cmp['ai']['model']} (free) · all {cmp['days']} days · AI approved {flt['approved']} of {flt['asked']} setups it was asked about")
+    style(ax, "AI decision modes vs rules-only, real history, $100 account",
+          f"{res_period(out)} · after costs · local Llama 3.2 3B (free) approved {flt['approved']} of {flt['asked']} picks")
+    from matplotlib.patches import Patch
+    ax.legend(handles=[Patch(color=S1, label="no AI"), Patch(color=S2, label="with the AI")], loc="lower left",
+              frameon=False, fontsize=9, labelcolor=INK)
     fig.tight_layout()
     p = figs / "3-ai-modes.png"
     fig.savefig(p, facecolor=SURFACE)
     plt.close(fig)
     return p
+
+
+def res_period(out: Path) -> str:
+    r = json.loads((out / "backtest.json").read_text())
+    return f"{r['firstDay']} → {r['lastDay']}"
 
 
 if __name__ == "__main__":

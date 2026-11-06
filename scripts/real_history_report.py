@@ -130,10 +130,24 @@ def markdown(res: dict, cmp: dict | None, meta: dict, gross: dict | None = None)
                      f"{m['maxDrawdown']:.2f} |")
         f = cmp["filter"]
         c, s = cmp["ai"]["confirm"], cmp["ai"]["select"]
-        L += ["", f"Does its yes/no separate good setups from bad ones? Asked about {f['asked']} candidates (every ranked pick "
-                  f"plus a random sample): it approved {f['approved']} (avg {pct(f['approvedAvgRetPct'])} per trade after costs) "
-                  f"and turned down {f['skipped']} (avg {pct(f['skippedAvgRetPct'])}). All asked: {pct(f['allAvgRetPct'])}; "
-                  f"every rules signal: {pct(f['everySignalAvgRetPct'])}.", "",
+        cov = cmp.get("selectCoverage")
+        if cov:
+            r = cov["rulesRankerSameDays"]
+            L.append(f"| rules + ranker on the same {cov['days']} days as \"ai picks\" | {r['trades']} | {r['winRate']:.0%} | "
+                     f"{pct(r['avgRetPct'])} | {r['totalPnl']:+.2f} | {r['maxDrawdown']:.2f} |")
+        sel = [x for x in cmp.get("log", []) if x.get("mode") == "select"]
+        if sel:
+            top = sum(1 for x in sel if x["options"] and x["choice"] == x["options"][0])
+            L += ["", f"In \"ai picks\" mode the AI chose the ranker's own top pick in {top} of {len(sel)} decisions and never "
+                      f"chose \"none\" ({sum(1 for x in sel if len(x['options']) > 1)} decisions had more than one option). "
+                      "Any difference from rules-only comes from trades it didn't take (unusable answers, timing), not from judgment."]
+        if cmp["ai"].get("note"):
+            L += ["", f"_Note: {cmp['ai']['note']}" + (f"; \"ai picks\" covers {cov['first']} → {cov['last']}._" if cov else "._")]
+        sample_txt = "every ranked pick" + ("" if cmp["ai"].get("note") else " plus a random sample")
+        no_txt = (f"turned down {f['skipped']} (avg {pct(f['skippedAvgRetPct'])})" if f["skipped"] else "turned down none")
+        L += ["", f"Does its yes/no separate good setups from bad ones? Asked about {f['asked']} candidates ({sample_txt}): "
+                  f"it approved {f['approved']} (avg {pct(f['approvedAvgRetPct'])} per trade after costs) and {no_txt}. "
+                  f"Every rules signal averaged {pct(f['everySignalAvgRetPct'])}.", "",
               f"AI calls: confirm {c['calls']} ({c['invalid']} unusable answers, {c['avgSeconds']:.0f} s each on this "
               f"4-core machine) · pick {s['calls']} ({s['invalid']} unusable, {s['avgSeconds']:.0f} s each).", ""]
     L += ["## Caveats", "",
