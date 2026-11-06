@@ -64,6 +64,13 @@
    "status": "examined",
    "by": "build 20 live paper session",
    "note": "paper session 9:47-10:37 ET observed by the developer"
+  },
+  {
+   "start": "2023-09-01",
+   "end": "2025-08-29",
+   "status": "examined",
+   "by": "phase 2 holdout run (2026-11-06, commit 4f1a646)",
+   "note": "The phase-2 holdout was evaluated once (research/HOLDOUT_P2_USED.json). From now on these days are development data only. The only untouched history left is the vault (2020-07-27 to 2022-10-31)."
   }
  ]
 }

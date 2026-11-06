@@ -1,0 +1,10 @@
+H1 3251 candidates on 501 days (46s)
+H2 278 ORB trades, 349 baseline on 501 days (108s)
+P2-H5: rejected                   n=  500 net=+0.060% gross=+nan% p=0.025 holm=0.123 | could be luck after testing several ideas (Holm-adjusted p=0.12)
+P2-H2: rejected                   n=  278 net=-0.184% gross=+0.092% p=0.850 holm=1.000 | loses -0.184% per trade after costs; could be luck after testing several ideas (Holm-adjusted p=1.00); profitable in only 2 of 4 periods
+P2-H4: rejected                   n= 1996 net=-0.078% gross=+0.052% p=0.995 holm=1.000 | loses -0.078% per trade after costs; could be luck after testing several ideas (Holm-adjusted p=1.00); profitable in only 0 of 4 periods
+P2-H3: rejected                   n= 1135 net=-0.158% gross=-0.052% p=0.999 holm=1.000 | loses -0.158% per trade after costs; could be luck after testing several ideas (Holm-adjusted p=1.00); profitable in only 0 of 4 periods
+P2-H1: rejected                   n= 1180 net=-0.187% gross=-0.016% p=1.000 holm=1.000 | loses -0.187% per trade after costs; could be luck after testing several ideas (Holm-adjusted p=1.00); profitable in only 0 of 4 periods
+  H1-random: n=1125 net=-0.002% gross=+0.171%
+  H2-at-9:35: n=349 net=-0.124% gross=+0.146%
+exit 0
