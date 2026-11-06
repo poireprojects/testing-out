@@ -101,6 +101,10 @@ class _Tray:
 
 def main(argv: list[str] | None = None) -> int:
     argv = list(sys.argv if argv is None else argv)
+    from .. import maintenance
+    code = maintenance.run(argv)  # installer/uninstaller commands: no window
+    if code is not None:
+        return code
     self_test = "--self-test" in argv
     if self_test:
         # Packaging smoke test: isolated data folder, offscreen rendering, quit after loading the UI.
@@ -232,10 +236,31 @@ def main(argv: list[str] | None = None) -> int:
             show_window()
     tray.tray.activated.connect(on_tray)
 
+    def on_message(c):
+        msg = bytes(c.readAll().data())
+        if msg.startswith(b"quit"):
+            # Sent by the uninstaller/installer. Never abandon real-money positions.
+            live_open = controller.mode == "live" and any(
+                p.get("status") != "pending_entry" for p in controller.state.get("positions", []))
+            if live_open or maintenance.open_live_positions():
+                c.write(b"busy:live-positions")
+                c.flush()
+                show_window()
+                controller.toast.emit("warning", "can't close yet",
+                                      "you have open real-money positions. close them before uninstalling or updating.")
+                return
+            c.write(b"ok")
+            c.flush()
+            c.waitForBytesWritten(1000)
+            log.info("quit requested by installer/uninstaller")
+            controller.quitApp(False)
+        else:
+            show_window()
+
     def on_conn():
         c = server.nextPendingConnection()
         if c is not None:
-            c.readyRead.connect(lambda: (c.readAll(), show_window()))
+            c.readyRead.connect(lambda: on_message(c))
     server.newConnection.connect(on_conn)
 
     def on_state(state):

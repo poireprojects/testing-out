@@ -64,6 +64,54 @@ jobs:
           path: dist/installer/*.exe
           if-no-files-found: error
 
+  windows-uninstall-test:
+    # Real install -> launch (tray) -> uninstall (keep data) -> reinstall -> live-position block ->
+    # clean uninstall -> reinstall, on a real Windows machine.
+    needs: windows
+    runs-on: windows-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: pip install -r requirements.txt
+      - uses: actions/download-artifact@v4
+        with:
+          name: dontknowwhatimdoing-windows-installer
+          path: installer
+      - name: Install / launch / uninstall / reinstall test
+        shell: pwsh
+        run: |
+          $setup = (Get-ChildItem installer\*.exe | Select-Object -First 1).FullName
+          ./packaging/windows/test_uninstall.ps1 -Installer $setup -Strict
+      - name: Installer logs
+        if: always()
+        shell: pwsh
+        run: Get-ChildItem $env:RUNNER_TEMP -Filter "*install-*.log" | ForEach-Object { "----- $($_.Name)"; Get-Content $_.FullName -Tail 40 }
+
+  uninstall-repro-previous:
+    # Evidence of the original bug: the same test against the previously published installer (build 9).
+    needs: test
+    runs-on: windows-latest
+    continue-on-error: true
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: pip install -r requirements.txt
+      - name: Download build 9 installer
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release download build-9 -R ${{ github.repository }} -p "*windows-setup.exe" -D old
+      - name: Same test against build 9 (expected to fail)
+        shell: pwsh
+        run: ./packaging/windows/test_uninstall.ps1 -Installer old\dontknowwhatimdoing-windows-setup.exe
+
   macos:
     needs: test
     runs-on: macos-latest
@@ -97,7 +145,7 @@ jobs:
   latest:
     # Rolling "latest" release: permanent one-click download links for the newest build.
     if: github.event_name != 'pull_request' && !startsWith(github.ref, 'refs/tags/')
-    needs: [windows, macos]
+    needs: [windows, windows-uninstall-test, macos]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/download-artifact@v4
@@ -119,7 +167,7 @@ jobs:
 
   release:
     if: startsWith(github.ref, 'refs/tags/v')
-    needs: [windows, macos]
+    needs: [windows, windows-uninstall-test, macos]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/download-artifact@v4
