@@ -2,6 +2,11 @@
 
     python scripts/research_phase2.py dev     DATA_DIR OUT_DIR
     python scripts/research_phase2.py holdout DATA_DIR OUT_DIR      # ONE-TIME (marker research/HOLDOUT_P2_USED.json)
+    python scripts/research_phase2.py holdout DATA_DIR OUT_DIR --rerun-after-load-failure
+
+The rerun flag exists for exactly one case: every earlier attempt recorded in the marker failed while LOADING
+bars, before any hypothesis was evaluated (so no holdout result was ever produced or seen). It refuses
+otherwise, and appends the new attempt to the marker before reading any data.
 
 DATA_DIR holds: daily/ (IEX daily bars), min_dev/ (40-symbol 1-min, development), min_hold/ (40-symbol 1-min,
 holdout + warm-up), gap_dev/ and gap_hold/ (1-min bars of gap candidates). Development code never reads
@@ -62,13 +67,43 @@ def h1_day(day):
             "spy": None}
 
 
-def run(mode: str, data: Path, out: Path) -> dict:
+def _authorize_rerun(note: str) -> None:
+    """A holdout rerun is allowed only when no earlier attempt got past loading (no result was ever seen)."""
+    m = json.loads(MARKER.read_text())
+    attempts = m.get("attempts", [])
+    # every earlier attempt must be a recorded load failure; an unfinished ("pending") attempt has an unknown
+    # outcome and blocks a rerun until someone records what happened (an auditable, committed edit)
+    if not attempts or not all("failed while LOADING" in a.get("outcome", "") and not a.get("pending")
+                               for a in attempts):
+        raise SystemExit("refusing holdout rerun: an earlier attempt may have produced results")
+    import subprocess
+    from datetime import datetime, timezone
+    commit = subprocess.run(["git", "rev-parse", "HEAD"], cwd=ROOT, capture_output=True, text=True).stdout.strip()
+    attempts.append({"at": datetime.now(timezone.utc).isoformat(), "commit": commit, "pending": True,
+                     "outcome": note})
+    m["attempts"] = attempts
+    MARKER.write_text(json.dumps(m, indent=1) + "\n")
+
+
+def _finish_attempt(summary: str) -> None:
+    m = json.loads(MARKER.read_text())
+    for a in m.get("attempts", []):
+        if a.get("pending"):
+            a.pop("pending")
+            a["outcome"] = f"completed: {summary}"
+    MARKER.write_text(json.dumps(m, indent=1) + "\n")
+
+
+def run(mode: str, data: Path, out: Path, rerun: bool = False) -> dict:
     per = DEV if mode == "dev" else HOLD
     t0 = time.monotonic()
+    if mode == "holdout" and rerun:
+        _authorize_rerun("rerun after the load failure: 2025-01-09 (unscheduled closure) and 2025-03-10 (no IEX "
+                         "minute bars exist on Alpaca for that day; the daily bar does) left missing; same rules")
     # ---------------- H1 / H3 (40 symbols)
     cache = data / ("min_dev" if mode == "dev" else "min_hold")
     days = load_range(cache, *per["h1"], purpose="development" if mode == "dev" else "holdout", marker=MARKER,
-                      allow_reuse=mode == "dev")
+                      allow_reuse=mode == "dev" or rerun)
     with ProcessPoolExecutor(max_workers=min(4, os.cpu_count() or 1)) as ex:
         res = list(ex.map(h1_day, days, chunksize=2))
     day_list = [d.day for d in days]
@@ -239,8 +274,10 @@ def run(mode: str, data: Path, out: Path) -> dict:
     for k in ("H1-random", "H2-at-9:35"):
         e = ev[k]
         print(f"  {k}: n={e['trades']} net={e['avgRetPct']:+.3f}% gross={e['grossAvgRetPct']:+.3f}%")
+    if mode == "holdout" and rerun:
+        _finish_attempt(f"{len(day_list)} H1 days; results in {out.name}/holdout.json")
     return out_obj
 
 
 if __name__ == "__main__":
-    run(sys.argv[1], Path(sys.argv[2]), Path(sys.argv[3]))
+    run(sys.argv[1], Path(sys.argv[2]), Path(sys.argv[3]), rerun="--rerun-after-load-failure" in sys.argv[4:])

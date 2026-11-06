@@ -1,0 +1,15 @@
+{
+ "firstUsed": "2026-11-06T23:05:17.472276+00:00",
+ "commit": "a0b6889ff3d6e818ec513c2e5223d32a0dfd4cd6",
+ "days": [
+  "2023-09-01",
+  "2025-08-29"
+ ],
+ "attempts": [
+  {
+   "at": "2026-11-06T23:05:17.472276+00:00",
+   "commit": "a0b6889ff3d6e818ec513c2e5223d32a0dfd4cd6",
+   "outcome": "failed while LOADING bars (2 days missing from the cache: 2025-01-09 unscheduled closure, 2025-03-10 download gap); no hypothesis was evaluated and no result was produced or seen"
+  }
+ ]
+}

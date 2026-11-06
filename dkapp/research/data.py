@@ -18,8 +18,10 @@ HOLDOUT_MARKER = Path(__file__).resolve().parents[2] / "research" / "HOLDOUT_USE
 
 
 class _CacheOnly:
+    """Research reads cached bars only (no network, no credentials). A symbol-day that isn't cached is left
+    missing — never filled in (e.g. an unscheduled market closure such as 2025-01-09)."""
     def get_intraday_bars(self, *a, **k):
-        raise RuntimeError("research runs read cached bars only (no network, no credentials)")
+        return {}
 
 
 def load_cached_days(cache_dir: Path, last_day: date, n_days: int,
