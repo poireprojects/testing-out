@@ -359,13 +359,24 @@ def self_test(chrome: WindowChrome, window, out_dir: Path, done) -> None:
     def check(name, ok, detail="", required=True):
         res["checks"].append({"name": name, "ok": bool(ok), "detail": detail, "required": required})
 
+    def save():
+        res["ok"] = all(c["ok"] for c in res["checks"] if c["required"])
+        (out_dir / "chrome-selftest.json").write_text(json.dumps(res, indent=1))
+
     def shot(name):
-        p = out_dir / f"{name}.png"
-        window.grabWindow().save(str(p))
-        scr = window.screen()
-        if scr is not None and sys.platform == "win32":  # the real composed desktop: shadow, corners, taskbar
+        mark(f"selftest: screenshot {name}")
+        if sys.platform == "win32":
+            # QQuickWindow.grabWindow() waits on the render thread and can deadlock on a CI desktop; a plain
+            # copy of the screen also shows what Windows really composes (shadow, rounded corners, border).
+            scr = window.screen()
+            if scr is None:
+                return None
             g = window.frameGeometry()
-            scr.grabWindow(0, g.x() - 24, g.y() - 24, g.width() + 48, g.height() + 48).save(str(out_dir / f"{name}-desktop.png"))
+            p = out_dir / f"{name}-desktop.png"
+            scr.grabWindow(0, g.x() - 24, g.y() - 24, g.width() + 48, g.height() + 48).save(str(p))
+        else:
+            p = out_dir / f"{name}.png"
+            window.grabWindow().save(str(p))
         return p.name
 
     def step1():
@@ -393,6 +404,7 @@ def self_test(chrome: WindowChrome, window, out_dir: Path, done) -> None:
                 got = hit_test(pt[0], pt[1], w, h, title_height=chrome.title_height, max_rect=chrome.max_rect,
                                client_rects=chrome.client_rects, maximized=chrome.maximized)
             check(name, got == want, f"got {HT_NAMES.get(got, got)}, want {HT_NAMES.get(want, want)}")
+        save()
         res["shots"] = [shot("normal")]
         chrome.toggleMaximize()
         QTimer.singleShot(1500, step2)
@@ -412,6 +424,7 @@ def self_test(chrome: WindowChrome, window, out_dir: Path, done) -> None:
             sx, sy = int((l + r_) / 2), int(t + 8)
             got_ht = int(user32.SendMessageW(chrome.hwnd, WM_NCHITTEST, 0, (sy & 0xFFFF) << 16 | (sx & 0xFFFF)))
             check("maximized: no resize border at the top edge", got_ht in (HTCAPTION, HTCLIENT), HT_NAMES.get(got_ht, got_ht))
+        save()
         res["shots"].append(shot("maximized"))
         chrome.toggleMaximize()
         QTimer.singleShot(1200, step3)
@@ -442,8 +455,7 @@ def self_test(chrome: WindowChrome, window, out_dir: Path, done) -> None:
                   f"visibility={window.visibility()}", required=False)
             if chrome.maximized:
                 chrome.toggleMaximize()
-        res["ok"] = all(c["ok"] for c in res["checks"] if c["required"])
-        (out_dir / "chrome-selftest.json").write_text(json.dumps(res, indent=1))
+        save()
         print("CHROME SELF-TEST", "OK" if res["ok"] else "FAIL", json.dumps(res["checks"]), flush=True)
         done(0 if res["ok"] else 3)
 
