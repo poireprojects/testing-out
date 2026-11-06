@@ -14,6 +14,7 @@ from typing import Any, Callable, Optional
 
 from PySide6.QtCore import Property, QObject, QTimer, Signal, Slot
 
+from ..broker.explain import explain_rejection
 from .. import APP_NAME, __version__, credentials, paths
 from ..ai.engine import build_provider
 from ..ai.providers import ANTHROPIC_MODELS, ANTHROPIC_PRICES, OllamaProvider
@@ -100,6 +101,8 @@ class AppController(QObject):
         self._notifier = notifier
         self.runtime: Optional[Runtime] = None
         self._state: dict = {"booting": True}
+        self._power_checked_at = -1e9
+        self._on_battery = None
         self._setup: dict = {"busy": False, "progress": 0.0, "message": "", "error": "", "checked": False,
                              "installed": False, "running": False, "hasModel": False, "models": [],
                              "canAutoInstall": False, "model": "", "modelNote": "", "done": False}
@@ -211,6 +214,7 @@ class AppController(QObject):
             snap = plain(snap)
             snap["booting"] = False
             snap["notConfigured"] = ""
+            self._add_power_alert(snap)
             self._state = snap
             self._scanner.set_items(snap.get("scanner", {}).get("rows", []))
             self._positions.set_items(snap.get("positions", []))
@@ -224,6 +228,26 @@ class AppController(QObject):
             self._activity.prepend([self._event_row(e) for e in reversed(events)])
             for e in events:
                 self._maybe_notify(e)
+
+    def _add_power_alert(self, snap: dict) -> None:
+        """Warn when the laptop could go to sleep (or run flat) in the middle of a trade."""
+        import time as _t
+        if _t.monotonic() - self._power_checked_at > 60:
+            self._power_checked_at = _t.monotonic()
+            from ..platform_utils.power import on_battery
+            self._on_battery = on_battery()
+        sess = snap.get("session", {})
+        holding = any(p.get("status") != "pending_entry" for p in snap.get("positions", []))
+        alerts = list(snap.get("alerts") or [])
+        if self._on_battery and (holding or sess.get("isOpen")) and snap.get("mode") != "demo":
+            alerts.append({"level": "warning", "title": "running on battery",
+                           "detail": "plug the laptop in and keep the lid open while the market is open — if it "
+                                     "sleeps, only broker-side stop orders protect open positions.", "action": ""})
+        elif holding and not self._settings.automation.keep_awake_during_market and snap.get("mode") != "demo":
+            alerts.append({"level": "info", "title": "the computer may go to sleep",
+                           "detail": "\"keep the computer awake\" is off in settings. if it sleeps, the app stops "
+                                     "watching positions (broker-side stops still work).", "action": "settings"})
+        snap["alerts"] = alerts
 
     def _event_row(self, e: dict) -> dict:
         return {"id": e["id"], "time": e["time"], "timeText": _time_text(e["time"]), "level": e["level"],
@@ -271,7 +295,8 @@ class AppController(QObject):
                 "type": o["type"], "purpose": o["purpose"], "status": o["status"], "qty": o["qty"] or 0.0,
                 "filledQty": o["filled_qty"] or 0.0, "price": o["filled_avg_price"] or 0.0,
                 "limitPrice": o["limit_price"] or 0.0, "stopPrice": o["stop_price"] or 0.0,
-                "rejectReason": o["reject_reason"] or ""} for o in orows])
+                "rejectReason": (explain_rejection(o["reject_reason"]) + " — " + o["reject_reason"][:160])
+                if o["reject_reason"] else ""} for o in orows])
             perf = performance_report(db, self._settings)
             self._trades.set_items(plain(perf["trades"]))
             self._performance = plain(perf)
@@ -654,6 +679,22 @@ class AppController(QObject):
     @Slot()
     def openDataFolder(self) -> None:
         autostart.open_folder(paths.data_dir())
+
+    @Slot()
+    def exportDiagnostics(self) -> None:
+        """Zip logs + a status summary (never API keys) onto the Desktop and show it."""
+        from .. import diagnostics
+        snap, mode = dict(self._state), self._settings.broker.mode
+        self.toast.emit("info", "collecting diagnostics…", "logs and a status summary — no API keys")
+
+        def done(res):
+            if isinstance(res, Exception):
+                self.toast.emit("error", "couldn't create the diagnostics file", str(res)[:200])
+                return
+            self.toast.emit("success", "diagnostics saved", f"{res.name} — on your {res.parent.name or 'computer'}. "
+                            "nothing secret is inside; you can share it.")
+            autostart.open_folder(res.parent)
+        self._run_bg(lambda: diagnostics.build(self._settings, mode, snap), done)
 
     @Slot(int, int, int, int, bool, int)
     def saveWindow(self, x: int, y: int, w: int, h: int, maximized: bool, page: int) -> None:

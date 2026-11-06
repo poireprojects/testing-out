@@ -44,6 +44,7 @@ from ..risk.sizing import scaled_limits
 from ..scanner import Scanner, load_baselines
 from ..analysis.features import Baseline
 from ..storage.db import Database, from_iso, to_iso, utcnow_iso
+from ..broker.explain import explain_rejection, with_raw
 from ..decision import Candidate, Decision, Evidence, OpportunityRanker, Regime, breadth_pct, classify_regime
 from ..strategies import ALL_STRATEGIES
 from .shadow import ShadowTracker
@@ -90,6 +91,9 @@ class PendingAI:
 
 class TradingEngine:
     TICK_SECONDS = 2.0
+    SLEEP_GAP_SECONDS = 90.0      # a pause this long between ticks means the laptop slept or the app froze
+    RESUME_HOLD_SECONDS = 60.0    # after waking: no new entries until this long has passed AND a fresh scan ran
+    STOP_RETRY_SECONDS = 120.0    # how often to retry a broker-side stop the broker refused
 
     def __init__(self, settings: AppSettings, mode: str, broker: Broker, data: MarketData, db: Database,
                  calendar: MarketCalendar, clock: Clock, ai: AIEngine, *, cost_model: Optional[CostModel] = None,
@@ -136,6 +140,12 @@ class TradingEngine:
         self._summarized_day: Optional[date] = None
         self._daily_limit_day: Optional[date] = None
         self._software_stop_warned: set[int] = set()
+        self._stop_retry_at: dict[int, datetime] = {}
+        self._wall = time.time            # real elapsed time keeps counting while the laptop sleeps
+        self._last_step_end: Optional[float] = None
+        self.resumed_at: Optional[datetime] = None
+        self.resume_note = ""
+        self._last_full_scan_at: Optional[datetime] = None
         self._stop_synced: dict[int, float] = {}
         self._last_signal_logged: dict[tuple[str, str], datetime] = {}
         self._last_error_at = 0.0
@@ -302,6 +312,42 @@ class TradingEngine:
     def step(self) -> None:
         self._drain_commands()
         now = self.clock.now()
+        wall = self._wall()
+        if self._last_step_end is not None and wall - self._last_step_end > self.SLEEP_GAP_SECONDS:
+            self._on_resume(now, wall - self._last_step_end)
+        try:
+            self._step(now)
+        finally:
+            self._last_step_end = self._wall()
+
+    def _on_resume(self, now: datetime, gap_s: float) -> None:
+        """The laptop slept (or the app was frozen). Prices, quotes and pending AI answers are stale and
+        orders may have filled meanwhile: re-sync with the broker first and hold new entries until a
+        fresh scan has run. Open positions keep being managed (and broker-side stops kept working)."""
+        self.resumed_at = now
+        self.resume_note = (f"the computer was asleep or the app was frozen for about {gap_s / 60:.0f} min. "
+                            "re-checking orders and positions with the brokerage and refreshing prices before "
+                            "any new trade.")
+        self.quotes.clear()
+        self.timers = Timers()  # everything is due right away
+        log.warning("resumed after a %.0f s pause", gap_s)
+        self.emit("warning", "system", "woke up after a pause", self.resume_note, notify=True)
+        self.reconcile(now, force=True)
+
+    def recovering(self, now: datetime) -> str:
+        if self.resumed_at is None:
+            return ""
+        if now - self.resumed_at < timedelta(seconds=self.RESUME_HOLD_SECONDS) or \
+                self._last_full_scan_at is None or self._last_full_scan_at <= self.resumed_at:
+            return "just woke up from a pause — re-checking everything before new trades"
+        return ""
+
+    def unprotected(self) -> list[str]:
+        """Symbols the app holds without a working broker-side stop order (only the app is watching)."""
+        return [t["symbol"] for t in self.db.open_trades() if t["software_stop"] and t["status"] in ("open", "closing")
+                and t["entry_qty"] - t["exit_qty"] > EPS]
+
+    def _step(self, now: datetime) -> None:
         r = self.settings.risk
         sess = session_state(self.calendar, now, no_entries_first_minutes=r.no_entries_first_minutes,
                              last_entry_minutes_before_close=r.last_entry_minutes_before_close,
@@ -477,10 +523,18 @@ class TradingEngine:
                 self._ensure_protection(self.db.trade(tid), now)
             else:
                 last = self.db.query_one("SELECT * FROM orders WHERE trade_id=? AND purpose='entry' ORDER BY id DESC", (tid,))
-                why = (last or {}).get("reject_reason") or (last or {}).get("status") or "not filled"
-                self.db.update("trades", tid, status="canceled", exit_reason=f"entry not filled: {why}")
-                level = "warning" if (last or {}).get("status") == "rejected" else "info"
-                self.emit(level, "trade", f"{t['symbol']} entry not filled", str(why)[:300], t["symbol"],
+                status = (last or {}).get("status")
+                raw = (last or {}).get("reject_reason")
+                if raw:
+                    why = with_raw(raw)
+                elif status == "canceled":
+                    why = (f"the buy order didn't fill within {self.settings.risk.entry_timeout_seconds:.0f}s (the "
+                           "price moved away), so it was canceled. nothing was bought.")
+                else:
+                    why = explain_rejection(status)
+                self.db.update("trades", tid, status="canceled", exit_reason=f"entry not filled: {why}"[:500])
+                level = "warning" if status == "rejected" else "info"
+                self.emit(level, "trade", f"{t['symbol']} entry not filled", why[:400], t["symbol"],
                           notify=level == "warning", ref_id=tid)
             return
         if t["status"] == "open":
@@ -490,8 +544,17 @@ class TradingEngine:
             self._advance_closing(t, now)
 
     def _ensure_protection(self, t: dict, now: datetime) -> None:
-        if t["software_stop"] or t["status"] != "open":
+        if t["status"] != "open":
             return
+        if t["software_stop"]:
+            # the broker refused a stop earlier; keep trying, since the app can't protect a position
+            # while it (or the laptop) is off
+            due = self._stop_retry_at.get(t["id"])
+            if due is not None and now < due:
+                return
+            self._stop_retry_at[t["id"]] = now + timedelta(seconds=self.STOP_RETRY_SECONDS)
+            if due is None:
+                return  # first retry after a pause, not in the same tick as the refusal
         remaining = t["entry_qty"] - t["exit_qty"]
         if remaining <= EPS:
             return
@@ -505,13 +568,21 @@ class TradingEngine:
             return
         row = self.orders.place(t["id"], "stop", dict(symbol=t["symbol"], side="sell", type="stop", qty=qty,
                                                       stop_price=round_price(t["stop_price"])))
+        if t["software_stop"]:
+            if row["status"] != "rejected":
+                self.db.update("trades", t["id"], software_stop=0)
+                self._stop_retry_at.pop(t["id"], None)
+                self.emit("success", "risk", f"{t['symbol']} is protected by a broker stop again",
+                          f"stop order at ${t['stop_price']:.2f} accepted by the brokerage", t["symbol"], ref_id=t["id"])
+            return
         if row["status"] == "rejected":
+            self._stop_retry_at[t["id"]] = now + timedelta(seconds=self.STOP_RETRY_SECONDS)
             self.db.update("trades", t["id"], software_stop=1)
             if t["id"] not in self._software_stop_warned:
                 self._software_stop_warned.add(t["id"])
                 self.emit("warning", "risk", f"{t['symbol']}: broker stop order not accepted",
                           f"the app will watch the stop at ${t['stop_price']:.2f} itself. If the app or computer "
-                          f"stops, this position is not protected. ({row.get('reject_reason') or ''})"[:400],
+                          f"stops, this position is not protected. {with_raw(row.get('reject_reason'))}"[:500],
                           t["symbol"], notify=True, ref_id=t["id"])
 
     def _begin_exit(self, t: dict, reason: str) -> None:
@@ -581,7 +652,7 @@ class TradingEngine:
             return
         row = self.orders.place(t["id"], "exit", dict(symbol=t["symbol"], side="sell", type="market", qty=qty))
         if row["status"] == "rejected":
-            self.emit("warning", "trade", f"sell order for {t['symbol']} rejected", row.get("reject_reason") or "",
+            self.emit("warning", "trade", f"sell order for {t['symbol']} rejected", with_raw(row.get("reject_reason")),
                       t["symbol"], ref_id=t["id"])
             self.timers.reconcile = 0.0
         else:
@@ -688,6 +759,7 @@ class TradingEngine:
         rows = list(self.scanner.rows.values())
         fresh = [r for r in rows if r.data_age_s <= self.settings.risk.max_data_age_seconds]
         self.health["data"].good(f"{len(rows)} symbols scanned · {len(fresh)} with fresh prices", now)
+        self._last_full_scan_at = now
         self.shadow.update({r.symbol: r.price for r in rows}, now)
 
     def _hot_scan_and_signals(self, now: datetime, sess: SessionState) -> None:
@@ -702,7 +774,7 @@ class TradingEngine:
         enabled = [k for k, v in self.settings.strategies.enabled.items() if v]
         sigs = self.scanner.signals(now, frames, enabled, exclude=held | set(self.pending_ai) | set(CONTEXT_SYMBOLS))
         self.regime = self._read_regime(frames)
-        if not sess.can_enter or self.emergency_stop:
+        if not sess.can_enter or self.emergency_stop or self.recovering(now):
             return
         min_score = self.settings.strategies.min_signal_score
         sigs = [s for s in sigs if s.score >= min_score][:12]
@@ -1004,6 +1076,9 @@ class TradingEngine:
         return realized, unreal
 
     def risk_context(self, now: datetime, sess: SessionState) -> RiskContext:
+        def rem_ok(t):
+            return t["status"] in ("open", "closing") and t["entry_qty"] - t["exit_qty"] > EPS
+
         day = now.astimezone(ET).date().isoformat()
         open_trades = self.db.open_trades()
         opens: list[OpenRisk] = []
@@ -1042,7 +1117,9 @@ class TradingEngine:
             account=self.account, settled_cash=self._settled_cash(now), open_positions=opens,
             pending_entry_symbols=pending_syms, pending_buy_notional=pending_notional, realized_today=realized,
             unrealized_today=unreal, trades_today=trades_today, consecutive_losses=consec, last_exit_time=last_exit,
-            held_symbols={p.symbol for p in self.external_positions})
+            held_symbols={p.symbol for p in self.external_positions},
+            unprotected_symbols=[t["symbol"] for t in open_trades if t["software_stop"] and rem_ok(t)],
+            recovering=self.recovering(now))
 
     def _risk_check(self, sig: Signal, now: datetime, sess: SessionState):
         q = self.quotes.get(sig.symbol)
@@ -1284,6 +1361,14 @@ class TradingEngine:
         if self.emergency_stop:
             return {"kind": "stopped", "headline": "everything is stopped.",
                     "detail": "press reset when you're ready to trade again."}
+        unprotected = self.unprotected()
+        if unprotected and self.mode == "live":
+            return {"kind": "error", "headline": f"{', '.join(unprotected)} isn't protected at the brokerage.",
+                    "detail": "the broker refused the stop-loss order, so only this app is watching it — if the app "
+                              "or computer stops, nothing will sell it. no new real-money trades until it's protected "
+                              "or closed. retrying every 2 minutes."}
+        if self.recovering(now):
+            return {"kind": "waiting", "headline": "back after a pause — re-checking.", "detail": self.resume_note}
         if self.health["broker"].ok is False:
             return {"kind": "error", "headline": "can't reach the brokerage.",
                     "detail": "no new trades until the connection is back. broker-side stop orders still protect "
@@ -1300,7 +1385,7 @@ class TradingEngine:
         if self.mode == "live" and not live_authorization_status(self.settings)[0]:
             return {"kind": "paused", "headline": "live trading needs your ok.",
                     "detail": live_authorization_status(self.settings)[1]}
-        if self.settings.ai.decision_mode == "ai_confirm" and self.health["ai"].ok is False:
+        if self.settings.ai.decision_mode != "rules" and self.health["ai"].ok is False:
             return {"kind": "paused", "headline": "the AI is offline, so i'm not buying.",
                     "detail": f"{self.health['ai'].message}. start Ollama, or switch to rules-only in settings."}
         if sess.phase == "opening":
@@ -1317,6 +1402,28 @@ class TradingEngine:
                     "detail": f"watching {len(self.scanner.hotlist)} stocks closely for the next opportunity."}
         return {"kind": "trading", "headline": f"scanning {len(self.universe)} stocks.",
                 "detail": "nothing convincing yet — sitting tight is a perfectly good trade."}
+
+    def _alerts(self, now: datetime) -> list[dict]:
+        """Things that need the person's attention, most serious first (shown as a banner)."""
+        out = []
+        unprotected = self.unprotected()
+        if unprotected:
+            live = self.mode == "live"
+            out.append({"level": "critical" if live else "warning",
+                        "title": f"{', '.join(unprotected)}: no stop-loss order at the brokerage",
+                        "detail": ("only this app is watching the stop — if the app or computer stops, nothing will "
+                                   "sell it. " + ("new real-money trades are paused until it's protected or closed. "
+                                                  if live else "") + "retrying the broker stop every 2 minutes."),
+                        "action": "trades"})
+        if self.health["broker"].ok is False and self.db.open_trades():
+            out.append({"level": "critical" if self.mode == "live" else "warning",
+                        "title": "can't reach the brokerage while positions are open",
+                        "detail": "broker-side stop orders still protect them. no new trades until it's back.",
+                        "action": ""})
+        note = self.recovering(now)
+        if note:
+            out.append({"level": "warning", "title": "back after a pause", "detail": self.resume_note, "action": ""})
+        return out
 
     def _publish_snapshot(self, now: datetime) -> None:
         try:
@@ -1399,6 +1506,7 @@ class TradingEngine:
                    "budget": self.settings.ai.monthly_budget_usd, "pending": list(self.pending_ai),
                    "busy": self.ai.busy, "isPaid": bool(getattr(self.ai.provider, "is_paid", False))},
             "regime": self.regime.to_dict(),
+            "alerts": self._alerts(now),
             "lastDecision": self.last_decision.to_dict() if self.last_decision else None,
             "equityToday": [{"t": from_iso(r["time"]).astimezone(ET).strftime("%H:%M"), "v": r["equity"]} for r in eq_rows],
         }

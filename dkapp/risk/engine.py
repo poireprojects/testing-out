@@ -53,6 +53,8 @@ class RiskContext:
     consecutive_losses: int = 0
     last_exit_time: dict[str, datetime] = field(default_factory=dict)
     held_symbols: set[str] = field(default_factory=set)  # includes positions not managed by the app
+    unprotected_symbols: list[str] = field(default_factory=list)  # held with no broker-side stop order
+    recovering: str = ""  # non-empty right after the laptop slept / the app froze
 
     @property
     def pnl_today(self) -> float:
@@ -135,6 +137,11 @@ class RiskEngine:
                 reasons.append(f"strategy '{p.strategy}' is not validated")
         if not ctx.broker_connected:
             reasons.append("brokerage connection is down")
+        if ctx.recovering:
+            reasons.append(ctx.recovering)
+        if ctx.unprotected_symbols and ctx.mode == "live":
+            reasons.append(f"{', '.join(ctx.unprotected_symbols)} has no broker-side stop order — no new real-money "
+                           "trades until it's protected or closed")
         if not ctx.data_ok:
             reasons.append("market data is unhealthy")
         if acct is None:

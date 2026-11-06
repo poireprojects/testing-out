@@ -226,6 +226,35 @@ Popup {
                         Txt { text: modelData.t; font.pixelSize: 14; color: Theme.textDim; wrapMode: Text.WordWrap; Layout.fillWidth: true }
                     }
                 }
+                // running during the day — the one thing it can't do for itself is stay awake
+                Rectangle {
+                    Layout.fillWidth: true
+                    implicitHeight: dayCol.implicitHeight + 24
+                    radius: 14
+                    color: Theme.surface2
+                    ColumnLayout {
+                        id: dayCol
+                        anchors.left: parent.left; anchors.right: parent.right; anchors.top: parent.top
+                        anchors.margins: 12
+                        spacing: 8
+                        Txt { text: "running during market hours"; font.pixelSize: 14; font.weight: Font.Medium }
+                        RowLayout {
+                            Layout.fillWidth: true
+                            Txt { text: "start automatically when i log in (in the tray)"; color: Theme.textDim; font.pixelSize: 13; Layout.fillWidth: true }
+                            DkSwitch { checked: wiz.cfg.automation ? wiz.cfg.automation.launch_at_login : false; onToggled: app.setSetting("automation.launch_at_login", checked) }
+                        }
+                        RowLayout {
+                            Layout.fillWidth: true
+                            Txt { text: "keep the computer awake while the market is open"; color: Theme.textDim; font.pixelSize: 13; Layout.fillWidth: true }
+                            DkSwitch { checked: wiz.cfg.automation ? wiz.cfg.automation.keep_awake_during_market : true; onToggled: app.setSetting("automation.keep_awake_during_market", checked) }
+                        }
+                        Txt {
+                            Layout.fillWidth: true
+                            text: "it only trades while this computer is on, awake and online (9:30–4:00 ET). keep it plugged in with the lid open — closing the lid sleeps a laptop no matter what. if it does sleep, broker-side stop orders keep protecting open positions and the app re-checks everything when it wakes."
+                            color: Theme.amber; font.pixelSize: 12; wrapMode: Text.WordWrap; elide: Text.ElideNone
+                        }
+                    }
+                }
                 Txt {
                     visible: wiz.creds.paperSaved && app.mode === "demo"
                     text: "switch to paper trading now? it uses real prices with fake money, and runs during market hours (9:30–4:00 ET)."

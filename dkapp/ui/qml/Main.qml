@@ -255,6 +255,61 @@ ApplicationWindow {
                 }
             }
 
+            // paper / real-money banner: which kind of money is at stake is never in doubt
+            Rectangle {
+                Layout.fillWidth: true
+                visible: !root.isDemo && (app.mode === "paper" || app.mode === "live")
+                implicitHeight: app.mode === "live" ? 38 : 30
+                color: app.mode === "live" ? Theme.coralSoft : Theme.skySoft
+                Rectangle { anchors.bottom: parent.bottom; width: parent.width; height: 1; color: app.mode === "live" ? Theme.coral : Theme.border; opacity: 0.4 }
+                RowLayout {
+                    anchors.fill: parent
+                    anchors.leftMargin: 28
+                    anchors.rightMargin: 28
+                    spacing: 10
+                    StatusDot { size: 7; color: app.mode === "live" ? Theme.coral : Theme.sky; pulse: app.mode === "live" }
+                    Txt {
+                        Layout.fillWidth: true
+                        text: app.mode === "live" ? "REAL MONEY — trades use your actual Alpaca account. every limit in settings still applies."
+                                                  : "paper trading — real market prices, pretend money at Alpaca. nothing here costs or earns real money."
+                        color: app.mode === "live" ? Theme.coral : Theme.sky
+                        font.pixelSize: app.mode === "live" ? 13 : 12
+                        font.weight: app.mode === "live" ? Font.DemiBold : Font.Medium
+                    }
+                }
+            }
+
+            // things that need attention right now (unprotected positions, waking from sleep, battery…)
+            Repeater {
+                model: (root.st.alerts || []).slice(0, 3)
+                delegate: Rectangle {
+                    Layout.fillWidth: true
+                    implicitHeight: alertRow.implicitHeight + 18
+                    readonly property bool crit: modelData.level === "critical"
+                    color: crit ? Theme.coral : modelData.level === "warning" ? Theme.amberSoft : Theme.surface
+                    Rectangle { anchors.bottom: parent.bottom; width: parent.width; height: 1; color: Theme.border }
+                    RowLayout {
+                        id: alertRow
+                        anchors.left: parent.left; anchors.right: parent.right; anchors.verticalCenter: parent.verticalCenter
+                        anchors.leftMargin: 28; anchors.rightMargin: 28
+                        spacing: 10
+                        Icon { name: "shield"; size: 16; color: parent.parent.crit ? Theme.limeInk : modelData.level === "warning" ? Theme.amber : Theme.textDim }
+                        ColumnLayout {
+                            Layout.fillWidth: true
+                            spacing: 1
+                            Txt { text: modelData.title; font.pixelSize: 13; font.weight: Font.DemiBold; color: parent.parent.parent.crit ? Theme.limeInk : modelData.level === "warning" ? Theme.amber : Theme.text; Layout.fillWidth: true; wrapMode: Text.WordWrap }
+                            Txt { text: modelData.detail; font.pixelSize: 12; color: parent.parent.parent.crit ? Theme.limeInk : Theme.textDim; Layout.fillWidth: true; wrapMode: Text.WordWrap; elide: Text.ElideNone }
+                        }
+                        DkButton {
+                            visible: modelData.action === "trades" || modelData.action === "settings"
+                            compact: true; kind: "ghost"
+                            text: modelData.action === "trades" ? "see position →" : "open settings →"
+                            onClicked: root.page = modelData.action === "trades" ? 3 : 5
+                        }
+                    }
+                }
+            }
+
             // top bar
             Item {
                 Layout.fillWidth: true

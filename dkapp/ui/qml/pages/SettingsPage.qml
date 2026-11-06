@@ -422,6 +422,11 @@ DkScroll {
                 DkButton { compact: true; kind: "primary"; iconName: "bolt"; text: "run guided setup"; onClicked: app.openSetup() }
                 DkButton { compact: true; kind: "secondary"; iconName: "folder"; text: "open data folder"; onClicked: app.openDataFolder() }
                 DkButton { compact: true; kind: "secondary"; iconName: "folder"; text: "open logs"; onClicked: app.openLogsFolder() }
+                DkButton { compact: true; kind: "secondary"; iconName: "data"; text: "save diagnostics file"; onClicked: app.exportDiagnostics() }
+            }
+            Txt {
+                text: "“save diagnostics file” puts a .zip on your desktop with the logs and a status summary — useful if something goes wrong. API keys are never included."
+                color: Theme.textMuted; font.pixelSize: 12; wrapMode: Text.WordWrap; Layout.fillWidth: true
             }
         }
     }
