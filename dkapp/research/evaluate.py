@@ -57,7 +57,8 @@ def model_metrics(preds: dict[int, dict], ret: np.ndarray, train_base_rate: Opti
 
 
 # ------------------------------------------------------------------ trade evaluation
-def evaluate(name: str, trades: list[BTTrade], cfg: BTConfig, day_list: list[date], folds: int = 4) -> dict:
+def evaluate(name: str, trades: list[BTTrade], cfg: BTConfig, day_list: list[date], folds: int = 4,
+             stress: Optional[list[float]] = None) -> dict:
     ts = with_daily_rounding(trades, cfg)
     s = summarize(ts)
     rets = [t.ret_pct for t in ts]
@@ -69,7 +70,8 @@ def evaluate(name: str, trades: list[BTTrade], cfg: BTConfig, day_list: list[dat
         chunk = set(day_list[k * size:(k + 1) * size] if k < folds - 1 else day_list[k * size:])
         fr = [t.ret_pct for t in ts if t.day in chunk]
         fold.append({"fold": k + 1, "trades": len(fr), "avgRetPct": float(np.mean(fr)) if fr else 0.0})
-    stress = [recost(t, cfg, 2.0) for t in trades]
+    if stress is None:
+        stress = [recost(t, cfg, 2.0) for t in trades]
     sd = float(np.std(rets, ddof=1)) if len(rets) > 2 else 0.0
     n_eff = effective_n(rets, days) if rets else 0.0
     return {"name": name, "trades": s["trades"], "winRate": s["winRate"], "avgRetPct": s["avgRetPct"],
