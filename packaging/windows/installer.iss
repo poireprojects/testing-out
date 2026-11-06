@@ -32,8 +32,20 @@ Source: "..\..\dist\dontknowwhatimdoing\*"; DestDir: "{app}"; Flags: recursesubd
 
 [Icons]
 Name: "{autoprograms}\{#MyAppName}"; Filename: "{app}\{#MyAppExe}"; IconFilename: "{app}\{#MyAppExe}"
+Name: "{autoprograms}\{#MyAppName} (fresh test)"; Filename: "{app}\{#MyAppExe}"; Parameters: "--profile test --fresh"; Comment: "A separate test copy that starts from scratch every time"
 Name: "{autodesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExe}"; Tasks: desktopicon
 Name: "{userstartup}\{#MyAppName}"; Filename: "{app}\{#MyAppExe}"; Parameters: "--minimized"; Tasks: startup
 
 [Run]
 Filename: "{app}\{#MyAppExe}"; Description: "Open {#MyAppName}"; Flags: nowait postinstall skipifsilent
+
+[Code]
+// Offer a truly clean uninstall: settings, trade history, logs and test copies.
+procedure CurUninstallStepChanged(CurUninstallStep: TUninstallStep);
+begin
+  if CurUninstallStep = usPostUninstall then
+    if SuppressibleMsgBox('Also delete your settings, trade history, logs and test copies?' + #13#10 + #13#10 +
+       'Choose Yes for a completely fresh reinstall. (Saved API keys can be removed first in the app: settings, brokerage, remove.)',
+       mbConfirmation, MB_YESNO or MB_DEFBUTTON2, IDNO) = IDYES then
+      DelTree(ExpandConstant('{localappdata}\dontknowwhatimdoing'), True, True, True);
+end;

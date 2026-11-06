@@ -113,8 +113,15 @@ def main(argv: list[str] | None = None) -> int:
             ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID("com.dontknowwhatimdoing.app")  # type: ignore[attr-defined]
         except Exception:
             pass
+    # Single-instance lock always lives in the main data folder, so a test copy and the main
+    # app never run (and trade) at the same time.
+    lock_dir = paths.data_dir()
+    from .. import profiles
+    profile, fresh = profiles.parse_args(argv)
+    if profile and not self_test:
+        profiles.activate(profile, fresh)
     setup_logging()
-    log.info("starting %s %s", APP_NAME, __version__)
+    log.info("starting %s %s%s", APP_NAME, __version__, f" (test copy '{profile}')" if profile else "")
 
     from PySide6.QtCore import QCoreApplication, QLockFile, Qt, QUrl
     from PySide6.QtGui import QGuiApplication
@@ -133,9 +140,14 @@ def main(argv: list[str] | None = None) -> int:
     app.setQuitOnLastWindowClosed(False)
 
     # ---- single instance: a second launch just brings the first window forward
-    lock = QLockFile(str(paths.data_dir() / "app.lock"))
+    lock = QLockFile(str(lock_dir / "app.lock"))
     lock.setStaleLockTime(0)
     if not lock.tryLock(200) and not self_test:
+        if profile:
+            from PySide6.QtWidgets import QMessageBox
+            QMessageBox.information(None, APP_NAME, "the app is already running. quit it first (tray icon → quit), "
+                                                    "then open the fresh test copy again.")
+            return 0
         sock = QLocalSocket()
         sock.connectToServer(APP_ID)
         if sock.waitForConnected(1500):
@@ -175,6 +187,7 @@ def main(argv: list[str] | None = None) -> int:
     ctx.setContextProperty("app", controller)
     ctx.setContextProperty("initialGeometry", _valid_geometry(settings.window))
     ctx.setContextProperty("trayAvailable", tray.available)
+    ctx.setContextProperty("profileName", profile or "")
     ctx.setContextProperty("iconUrl", QUrl.fromLocalFile(str(paths.assets_dir() / "icons" / "dk.png")))
     ctx.setContextProperty("startMinimized", "--minimized" in argv or settings.automation.start_minimized)
     qml_warnings: list[str] = []

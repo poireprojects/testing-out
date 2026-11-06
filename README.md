@@ -50,6 +50,17 @@ Install Python 3.12 from python.org, then double-click:
 * Linux: `packaging/linux/build_linux.sh` → adds the app to your applications menu.
 </details>
 
+## Testing it over and over (works on Windows Home)
+
+* **Fresh test copy:** the Start menu has **don’t know what im doing (fresh test)**. It's a separate copy of the app
+  that erases itself every time you open it, so each launch is a brand-new first run: guided setup, no saved keys, no
+  history. Your main copy is never touched. (Quit the main copy first, using the tray icon → quit. Only one copy runs
+  at a time, so two copies never trade the same account.) On a Mac, run the app with `--profile test --fresh`.
+* **Start over:** settings → **start over** erases the main copy's settings, trade history and saved keys, then
+  reopens the guided setup. Your Alpaca account itself isn't changed.
+* **Clean uninstall:** Windows Settings → Apps → *don’t know what im doing* → Uninstall. Answer **Yes** when asked
+  whether to delete your settings and history, then reinstall from the link above for a completely fresh install.
+
 ## 2. First launch: demo mode
 
 You start in **demo mode**. A built-in simulator generates fake prices, so you can watch the scanner, the AI
@@ -175,7 +186,7 @@ pip install -r requirements-dev.txt
 python -m pytest -q
 ```
 
-164 automated tests (162 run anywhere; 2 need your Alpaca paper keys) cover market-data ingestion and batching, indicators (including look-ahead checks), every
+167 automated tests (165 run anywhere; 2 need your Alpaca paper keys) cover market-data ingestion and batching, indicators (including look-ahead checks), every
 strategy, AI response validation (malformed, out-of-range and missing fields → no trade), Ollama/Anthropic providers,
 position sizing and compounding, settled cash (T+1 across weekends and holidays), fees, every risk rule, idempotent
 order submission, duplicate prevention, lost responses, partial fills, network failures, crash/restart recovery,

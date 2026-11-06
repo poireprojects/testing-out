@@ -383,6 +383,29 @@ DkScroll {
             }
         }
 
+        // ================================================================ start over
+        Card {
+            Layout.fillWidth: true
+            title: "start over"
+            icon: "refresh"
+            subtitle: "erase this copy’s settings, trade history and saved keys, then run the guided setup again — like a brand-new install. your Alpaca account itself isn’t touched."
+            RowLayout {
+                Layout.fillWidth: true
+                spacing: 10
+                DkField { id: resetConfirm; Layout.fillWidth: true; placeholderText: "type: start over" }
+                DkButton {
+                    kind: "danger"; iconName: "refresh"; text: "erase & start over"
+                    enabled: resetConfirm.text.trim().toLowerCase() === "start over"
+                    onClicked: { var e = app.factoryReset(resetConfirm.text); if (e !== "") app.toast("warning", "not reset", e); else resetConfirm.text = "" }
+                }
+            }
+            Txt {
+                text: Qt.platform.os === "windows" ? "tip: the Start menu also has “don’t know what im doing (fresh test)” — a separate copy that wipes itself every time you open it, without touching this one."
+                                                   : "tip: launch the app with --profile test --fresh for a separate copy that wipes itself every launch."
+                color: Theme.textMuted; font.pixelSize: 12; wrapMode: Text.WordWrap; Layout.fillWidth: true
+            }
+        }
+
         // ================================================================ about
         Card {
             Layout.fillWidth: true

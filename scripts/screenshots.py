@@ -40,6 +40,7 @@ ctx = eng.rootContext()
 ctx.setContextProperty("app", ctl)
 ctx.setContextProperty("initialGeometry", {"x": 0, "y": 0, "width": 1440, "height": 900, "maximized": False, "page": 0})
 ctx.setContextProperty("trayAvailable", False)
+ctx.setContextProperty("profileName", "")
 ctx.setContextProperty("startMinimized", False)
 ctx.setContextProperty("iconUrl", QUrl.fromLocalFile(str(paths.assets_dir() / "icons" / "dk.png")))
 errors = []

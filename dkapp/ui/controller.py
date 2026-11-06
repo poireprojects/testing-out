@@ -793,6 +793,38 @@ class AppController(QObject):
             self.refreshOllamaModels()
         self._run_bg(work, done)
 
+    @Slot(str, result=str)
+    def factoryReset(self, confirm: str) -> str:
+        """Erase this copy's settings, history and saved keys, then start again from the guided setup."""
+        if confirm.strip().lower() != "start over":
+            return 'type "start over" to confirm'
+        if self._settings.broker.mode == "live":
+            return "switch out of live mode first"
+        from .. import profiles
+        from ..config import AppSettings
+        self.stop_runtime()
+        leftovers = profiles.factory_reset()
+        win = self._settings.window
+        self._settings = AppSettings()
+        self._settings.window = win  # keep the window where it is
+        save_settings(self._settings)
+        self._performance = {}
+        self._backtest = {"running": False, "progress": 0.0, "message": "", "results": None}
+        self._setup.update(done=False, checked=False, error="", progress=0.0, message="")
+        self._decisions.set_items([])
+        self._trades.set_items([])
+        self._orders.set_items([])
+        self.start_runtime()
+        self.settingsChanged.emit()
+        self.credentialsChanged.emit()
+        self.performanceChanged.emit()
+        self.backtestChanged.emit()
+        self.setupChanged.emit()
+        self.setupRequested.emit()
+        if leftovers:
+            log.warning("factory reset left: %s", leftovers)
+        return ""
+
     @Slot()
     def markFirstRunDone(self) -> None:
         self._settings.first_run_done = True

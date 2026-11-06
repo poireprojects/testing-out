@@ -7,7 +7,7 @@ import "pages"
 
 ApplicationWindow {
     id: root
-    title: app.appName
+    title: app.appName + (profileName !== "" ? " — test copy" : "")
     color: Theme.bg
     minimumWidth: 1060
     minimumHeight: 680
@@ -119,6 +119,20 @@ ApplicationWindow {
                     Layout.bottomMargin: 12
                 }
 
+                // test-copy badge
+                Rectangle {
+                    visible: profileName !== ""
+                    Layout.fillWidth: true
+                    Layout.bottomMargin: 8
+                    implicitHeight: 34
+                    radius: 10
+                    color: Theme.skySoft
+                    Txt {
+                        anchors.centerIn: parent
+                        text: "TEST COPY · wiped every launch"
+                        color: Theme.sky; font.pixelSize: 11; font.weight: Font.Bold; font.letterSpacing: 0.5
+                    }
+                }
                 // mode badge
                 Rectangle {
                     Layout.fillWidth: true
