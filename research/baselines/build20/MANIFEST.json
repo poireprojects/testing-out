@@ -1,0 +1,214 @@
+{
+ "frozen": "build 20 baseline \u2014 never edit; new research goes in new versioned folders",
+ "commit": "a5a4f988e3a255a63c30ab1ff486bc68933ac752",
+ "release": {
+  "tag": "build-20",
+  "installer": "dontknowwhatimdoing-windows-setup.exe",
+  "installerSha256": "87ec4539dba1dfc6b670117c8566f743d82d904c021c3a04680951c33914da90"
+ },
+ "sourcesAtCommit": {
+  "dkapp/backtest/engine.py": "cf4d67e2e5d1541ebd15e78c3c43d3c8092bd07b3cf9b468e327144ecb22e75c",
+  "dkapp/backtest/runner.py": "496f1de9549d0ee3bb9f6d272b545239d924c0b3753ab4903f8e63b84c83851c",
+  "dkapp/backtest/ai_replay.py": "acce6e5e26b1abf4bbc402d4cdce8dff51bd365f9953a39f6ef8f8ca8f86a7a9",
+  "dkapp/risk/fees.py": "fca98a58245eca8124324c90d7e433eebd4d38af99c27f0f9ebbe2d210de2918",
+  "dkapp/decision.py": "fc27748d9d2aafa397303f236c967c90b565ee81ed8919207dc53fb9793c2765",
+  "dkapp/strategies/library.py": "7b785d3fa4ef8d437ce164b7e0b0ae260a56e26c38c44848a7e1eec0f1d5eef9",
+  "dkapp/strategies/base.py": "d54a8ba864db0caa6568753b1b71e97175ae9ce5f53bec4c1c6ce363ea3a5d94",
+  "dkapp/analysis/features.py": "9a65c57c0dd401555cbf3360c0a0a430f69ca5d32252960baee9f951a6df3f9d",
+  "dkapp/analysis/indicators.py": "2a43db391863a9d029022f7724a6e688695b0eef001d77a44e47d8676c541d16",
+  "dkapp/ai/engine.py": "bd8e231d28435a3fc9fda08936e73fa9214bb0b43a761d5f0fe971765f8f3e8e",
+  "dkapp/ai/schema.py": "e5832e763876ebd35ba465046241f606a70e37541ddd491e830fd460f8aeff5c",
+  "dkapp/config.py": "0a68f50803ed000501bdb7bb2df685a5c0c697c56d1752b2ae60d3dfdbf6cd4e",
+  "scripts/real_history_report.py": "ffb64c3c5bf8fc0e5c28e494ae191adb17ae26674b707ca52bc60f74c1d19142",
+  "scripts/ai_modes_from_recorded.py": "e759f69b51affd0c1e7d84e97dbf0cdfed77c3114d6d1996b646a282d0f0b862"
+ },
+ "results": {
+  "docs/results/2026-11-06/REPORT.md": "98e5db1060d43e883a7af457247d618b04ccdbbc1e8d59bd1d92cc3a0ce30aaf",
+  "docs/results/2026-11-06/LIVE_SESSION.md": "af6cca22e9d22d0ccb52d30cf2f730a934f17fa37652ed8f5cc867514f51089e",
+  "docs/results/2026-11-06/REVIEW_FIXES.md": "2dfb7264649d750143d77fa369b401cd2df2884d2e6d8f0e7ed406a72ed6165e",
+  "docs/results/2026-11-06/backtest.json": "464fcd7548e0bcb0436c46d44ee65f92a9c56e65619162c65e2b0e52657b875f",
+  "docs/results/2026-11-06/ai_modes.json": "9403456e87c1ceeabe5a475a46cf5cd5e3d05e3657c710a35a934248d85970dd"
+ },
+ "backtestConfig": {
+  "notional": 20.0,
+  "spread_bps": 3.0,
+  "flatten_minutes_before_close": 10,
+  "last_entry_minutes_before_close": 30,
+  "no_entries_first_minutes": 5,
+  "min_stop_pct": 0.4,
+  "max_stop_pct": 3.0,
+  "min_signal_score": 0.55,
+  "costs": {
+   "sec_rate": 2.78e-05,
+   "taf_per_share": 0.000166,
+   "taf_max": 8.3,
+   "slippage_bps": 5.0,
+   "round_up_to_cent": true
+  },
+  "random_baseline_draws": 3,
+  "seed": 11,
+  "max_positions": 2,
+  "cooldown_minutes": 20,
+  "cost_aware_brackets": true
+ },
+ "costModelNote": "build 20 rounded the SEC fee and the FINRA TAF up to $0.01 on EVERY sale (SEC $27.80/M, TAF $0.000166/share) \u2014 reproduced by CostModel.legacy_build20()",
+ "data": {
+  "source": "Alpaca market data v2, IEX feed (one exchange, a few % of U.S. volume)",
+  "bars": "1-minute",
+  "symbols": [
+   "SPY",
+   "QQQ",
+   "IWM",
+   "DIA",
+   "XLK",
+   "XLF",
+   "XLE",
+   "SMH",
+   "AAPL",
+   "MSFT",
+   "NVDA",
+   "AMZN",
+   "GOOGL",
+   "META",
+   "TSLA",
+   "AMD",
+   "AVGO",
+   "JPM",
+   "BAC",
+   "XOM",
+   "UNH",
+   "COST",
+   "NFLX",
+   "CRM",
+   "INTC",
+   "MU",
+   "PLTR",
+   "UBER",
+   "BA",
+   "DIS",
+   "PYPL",
+   "SHOP",
+   "COIN",
+   "SOFI",
+   "F",
+   "GM",
+   "T",
+   "PFE",
+   "KO",
+   "WMT"
+  ],
+  "studyDays": [
+   "2026-09-11",
+   "2026-11-05"
+  ],
+  "tradingDays": 40,
+  "warmupDaysBefore": "prior-day baselines use the days before the first study day",
+  "symbolDays": 2000,
+  "coverage": {
+   "symbols": 40,
+   "days": 40,
+   "symbolDaysExpected": 1600,
+   "symbolDaysWithData": 1600,
+   "missing": []
+  }
+ },
+ "splits": {
+  "train": [
+   "2026-09-11",
+   "2026-10-08"
+  ],
+  "validation": [
+   "2026-10-09",
+   "2026-10-22"
+  ],
+  "test": [
+   "2026-10-23",
+   "2026-11-05"
+  ]
+ },
+ "strategies": {
+  "momentum": {
+   "name": "intraday momentum",
+   "verdict": "no_edge",
+   "testAvgRetPct": -0.2140527689968309,
+   "testTrades": 123,
+   "allTrades": 285,
+   "allAvgRetPct": -0.22997194159164674
+  },
+  "trend": {
+   "name": "trend following",
+   "verdict": "no_edge",
+   "testAvgRetPct": -0.318535924008342,
+   "testTrades": 245,
+   "allTrades": 705,
+   "allAvgRetPct": -0.27140515507128454
+  },
+  "orb": {
+   "name": "opening-range breakout",
+   "verdict": "no_edge",
+   "testAvgRetPct": -0.33904842486873465,
+   "testTrades": 82,
+   "allTrades": 302,
+   "allAvgRetPct": -0.28218425662568025
+  },
+  "vwap": {
+   "name": "VWAP reclaim",
+   "verdict": "no_edge",
+   "testAvgRetPct": -0.24351798147926107,
+   "testTrades": 272,
+   "allTrades": 1237,
+   "allAvgRetPct": -0.24507827869036702
+  },
+  "volume_breakout": {
+   "name": "volume-confirmed breakout",
+   "verdict": "no_edge",
+   "testAvgRetPct": -0.2831494787440422,
+   "testTrades": 139,
+   "allTrades": 466,
+   "allAvgRetPct": -0.2219619781826274
+  }
+ },
+ "approachesTest": {
+  "every_signal": {
+   "trades": 861,
+   "totalPnl": -47.55328626313425,
+   "avgRetPct": -0.27615148817151114
+  },
+  "first_come": {
+   "trades": 190,
+   "totalPnl": -10.733692551650785,
+   "avgRetPct": -0.2824655934644943
+  },
+  "ranked": {
+   "trades": 26,
+   "totalPnl": -2.570764616832376,
+   "avgRetPct": -0.49437781092930305
+  },
+  "random": {
+   "trades": 2583,
+   "totalPnl": -124.99968646525743,
+   "avgRetPct": -0.24196609846158887
+  }
+ },
+ "benchmarks": {
+  "spyBuyHoldPct": -3.481447850661623,
+  "spyOpenToCloseAvgPct": -0.41780407730305447,
+  "doNothingPct": 0.0
+ },
+ "ai": {
+  "model": "Llama-3.2-3B-Instruct-Q4_K_M.gguf (bartowski build), llama.cpp via llama-cpp-python 0.3.16",
+  "modelSha256": "6c1a2b41161032677be168d354123594c0e6e67d2b9227c84f296ad037c728ff",
+  "temperature": 0.1,
+  "seedOfShim": 11,
+  "promptsAnonymised": true,
+  "recordedAnswers": 141,
+  "firstAnswerAt": "2026-11-06T14:35:33.040104+00:00",
+  "lastAnswerAt": "2026-11-06T16:01:56.402075+00:00"
+ },
+ "paperSession": {
+  "notes": "docs/results/2026-11-06/LIVE_SESSION.md",
+  "date": "2026-11-06",
+  "integrationTests": "tests/test_alpaca_integration.py \u2014 8 passed on the real paper account"
+ },
+ "dataUse": "see research/ledger.json \u2014 every study day here counts as EXAMINED from now on"
+}

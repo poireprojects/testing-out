@@ -68,7 +68,7 @@ def test_good_setup_in_good_market_is_taken():
 def test_costs_that_eat_the_target_block_the_trade():
     r = OpportunityRanker(max_stop_pct=3.0, max_spread_bps=30.0)
     # wide spread: blocked outright, and the cost-covering stop would be beyond the limit too
-    c = r.score(sig(stop_pct=1.0, target_pct=1.0), UP, Evidence(), notional=20.0, spread_bps=60.0)
+    c = r.score(sig(stop_pct=1.0, target_pct=1.0), UP, Evidence(), notional=20.0, spread_bps=75.0)
     assert any("spread" in b for b in c.blockers)
     assert any("beyond the 3.0% limit" in b for b in c.blockers)
     # without the widening rule, a small target after costs fails the reward/risk test

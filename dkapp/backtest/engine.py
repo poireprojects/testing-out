@@ -5,6 +5,10 @@ Realism rules (to avoid flattering results):
 * Every buy pays half the spread plus slippage; every sale pays half the spread, slippage
   and regulatory fees (rounded up to the cent, like the broker).
 * If a bar touches both the stop and the target, the stop is assumed to hit first.
+* A target (limit) only counts as filled when the price trades THROUGH it by `limit_through_bps`
+  (touching a limit price doesn't guarantee a fill).
+* The ranker decides with the signal bar's close — never the next bar's open it is filled at.
+* Fees follow the broker's dated schedule; the once-a-day rounding is charged per day (`with_daily_rounding`).
 * If price gaps through the stop, the fill is at the (worse) open, not the stop.
 * Positions are force-closed before the close (same rule as live trading).
 * Strategies use fixed parameters — nothing is tuned on the test period.
@@ -21,7 +25,7 @@ import numpy as np
 import pandas as pd
 
 from ..analysis.features import Baseline, feature_frame
-from ..risk.fees import CostModel
+from ..risk.fees import CostModel, FeeBreakdown
 from ..strategies import ALL_STRATEGIES, Context
 
 
@@ -82,6 +86,14 @@ class BTTrade:
     target_pct: float = 0.0
     agreeing: int = 1
     widened: bool = False
+    signal_px: float = 0.0          # close of the signal bar (what was known when deciding)
+    fee_sec: float = 0.0            # unrounded fee accruals (for the broker's daily rounding)
+    fee_taf: float = 0.0
+    fee_cat: float = 0.0
+
+    @property
+    def gross_ret_pct(self) -> float:
+        return (self.ref_exit / self.ref_entry - 1) * 100 if self.ref_entry else 0.0
 
 
 @dataclass
@@ -100,6 +112,21 @@ class BTConfig:
     max_positions: int = 2
     cooldown_minutes: int = 20
     cost_aware_brackets: bool = True   # same rule the live ranker uses
+    dated_fees: bool = True            # use the fee schedule in force on each day
+    limit_through_bps: float = 1.0     # a target fills only if the high exceeds it by this much
+    ranker_price: str = "signal"       # "signal": decide on the signal close; "entry_open": build 20's rule
+
+    @classmethod
+    def baseline_build20(cls) -> "BTConfig":
+        """Exactly the frozen build 20 study (per-sale fee rounding, touch = fill, ranker saw the fill bar's open)."""
+        return cls(costs=CostModel.legacy_build20(), dated_fees=False, limit_through_bps=0.0,
+                   ranker_price="entry_open")
+
+    def costs_on(self, day: date) -> CostModel:
+        if not self.dated_fees:
+            return self.costs
+        return CostModel.on(day, slippage_bps=self.costs.slippage_bps, rounding=self.costs.rounding,
+                            expected_sales_per_day=self.costs.expected_sales_per_day)
 
 
 @dataclass
@@ -132,7 +159,7 @@ def _simulate_exit(fv: FrameView, strat, start_i: int, entry_px: float, stop: fl
             return j, o[j], "stop (gap)"
         if l[j] <= stop_now:
             return j, stop_now, "stop"
-        if h[j] >= target:
+        if h[j] >= target * (1 + cfg.limit_through_bps / 10_000):
             return j, target, "target"
         hi = max(hi, h[j])
         if hi >= entry_px + risk_r:
@@ -149,20 +176,21 @@ def _simulate_exit(fv: FrameView, strat, start_i: int, entry_px: float, stop: fl
 
 def _fill_trade(strategy: str, symbol: str, day: date, entry_i: int, exit_i: int, ref_entry: float, ref_exit: float,
                 reason: str, cfg: BTConfig, rb: bool = False, costs: Optional[CostModel] = None) -> BTTrade:
-    c = costs or cfg.costs
+    c = costs or cfg.costs_on(day)
     buy = c.fill_price("buy", ref_entry, cfg.spread_bps)
     sell = c.fill_price("sell", ref_exit, cfg.spread_bps)
     qty = cfg.notional / buy
-    fees = c.sell_fees(qty * sell, qty)
+    fees = c.sell_fees(qty * sell, qty) + c.buy_fees(qty)
+    acc = c.sale_breakdown(qty * sell, qty) + c.buy_breakdown(qty)
     pnl = qty * (sell - buy) - fees
     return BTTrade(strategy, symbol, day, entry_i, exit_i, buy, sell, cfg.notional, pnl, pnl / cfg.notional * 100,
-                   reason, rb, ref_entry, ref_exit)
+                   reason, rb, ref_entry, ref_exit, fee_sec=acc.sec, fee_taf=acc.taf, fee_cat=acc.cat)
 
 
 def recost(t: BTTrade, cfg: BTConfig, slippage_multiplier: float) -> float:
     """Return % of the same trade under heavier slippage (cost stress test)."""
-    harsher = CostModel(sec_rate=cfg.costs.sec_rate, taf_per_share=cfg.costs.taf_per_share, taf_max=cfg.costs.taf_max,
-                        slippage_bps=cfg.costs.slippage_bps * slippage_multiplier)
+    base = cfg.costs_on(t.day)
+    harsher = base.with_slippage(base.slippage_bps * slippage_multiplier)
     return _fill_trade(t.strategy, t.symbol, t.day, t.entry_i, t.exit_i, t.ref_entry, t.ref_exit, t.reason, cfg,
                        costs=harsher).ret_pct
 
@@ -172,6 +200,7 @@ def run_day(day: DayInput, strategies: list[str], cfg: BTConfig, rng: random.Ran
     from ..decision import cost_aware_bracket
     out: list[BTTrade] = []
     m = day.session_minutes
+    day_costs = cfg.costs_on(day.day)
     flatten_i = m - cfg.flatten_minutes_before_close
     last_entry_i = m - cfg.last_entry_minutes_before_close
     for sym, bars in day.bars.items():
@@ -209,7 +238,7 @@ def run_day(day: DayInput, strategies: list[str], cfg: BTConfig, rng: random.Ran
                 target = idea.target_price
                 widened = False
                 if cfg.cost_aware_brackets:
-                    cost = cfg.costs.round_trip_cost_pct(cfg.notional, ref, cfg.spread_bps)
+                    cost = day_costs.round_trip_cost_pct(cfg.notional, ref, cfg.spread_bps)
                     stop, target, widened = cost_aware_bracket(ref, stop, target, cost)
                     if (ref - stop) / ref * 100 > cfg.max_stop_pct:
                         continue
@@ -220,6 +249,7 @@ def run_day(day: DayInput, strategies: list[str], cfg: BTConfig, rng: random.Ran
                 t = _fill_trade(sid, sym, day.day, entry_i, ex_i, entry_ref, ex_px, why, cfg)
                 t.minute, t.exit_minute, t.score = int(mins[entry_i]), int(mins[min(ex_i, n - 1)]), idea.score
                 t.stop_pct, t.target_pct, t.widened = (ref - stop) / ref * 100, (target / ref - 1) * 100, widened
+                t.signal_px = float(ref)
                 fired_at[i] = fired_at.get(i, 0) + 1
                 sym_trades.append(t)
                 # random-entry baseline: same symbol/day, same stop/target distance and hold, random time
@@ -284,7 +314,7 @@ def replay_portfolio(trades: list[BTTrade], cfg: BTConfig, use_ranker: bool, spy
                 regime = classify_regime(above, None, None, None)
                 scored = []
                 for t in cands:
-                    price = t.ref_entry
+                    price = t.signal_px if cfg.ranker_price == "signal" and t.signal_px else t.ref_entry
                     sig = Signal(t.symbol, t.strategy, None, price, price * (1 - t.stop_pct / 100),
                                  price * (1 + t.target_pct / 100), t.score, [], 60, {},
                                  agreeing=[t.strategy] * t.agreeing)
@@ -306,6 +336,26 @@ def replay_portfolio(trades: list[BTTrade], cfg: BTConfig, use_ranker: bool, spy
                 taken.append(t)
                 open_until[t.symbol] = max(t.exit_minute, mi + 1)
     return taken
+
+
+def with_daily_rounding(trades: list[BTTrade], cfg: BTConfig) -> list[BTTrade]:
+    """Copies of one account's trades with the broker's once-a-day fee rounding charged to the last
+    trade of each day (each fee type's daily total is rounded up to a cent). No-op for per-trade rounding."""
+    import copy
+    by_day: dict[date, list[BTTrade]] = {}
+    for t in trades:
+        by_day.setdefault(t.day, []).append(t)
+    out: list[BTTrade] = []
+    for day, ts in sorted(by_day.items()):
+        c = cfg.costs_on(day)
+        extra = c.daily_rounding(FeeBreakdown(t.fee_sec, t.fee_taf, t.fee_cat) for t in ts)
+        ts = [copy.copy(t) for t in ts]
+        if extra > 0:
+            last = max(ts, key=lambda t: (t.exit_minute, t.minute))
+            last.pnl -= extra
+            last.ret_pct = last.pnl / last.notional * 100
+        out.extend(ts)
+    return out
 
 
 # ------------------------------------------------------------------ statistics

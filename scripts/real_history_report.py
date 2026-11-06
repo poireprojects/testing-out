@@ -97,7 +97,7 @@ def markdown(res: dict, cmp: dict | None, meta: dict, gross: dict | None = None)
                  f"{pct(r['test']['avgRetPct'])} | {pct(r['randomBaseline']['avgRetPct'])} | {pct(r['stressAvgRetPct'])} | "
                  f"{len(good)}/{len(used)} | {r['pAdjusted']:.2f} | **{r['verdict']}** |")
     if gross:
-        c = BTConfig().costs
+        c = BTConfig.baseline_build20().costs  # the published report describes build 20's cost rule
         rt = c.round_trip_cost_pct(res["config"]["notional"], 100.0, res["config"]["spreadBps"])
         L += ["", "### Before vs after costs (all 40 days)", "",
               f"A ${res['config']['notional']:.0f} round trip costs about **{rt:.2f}%**: half the spread each side, "
@@ -169,6 +169,7 @@ def main() -> int:
     ap.add_argument("--ai-sample", type=int, default=100)
     ap.add_argument("--threads", type=int, default=4)
     ap.add_argument("--render-only", action="store_true", help="rebuild REPORT.md from saved results + cached bars")
+    ap.add_argument("--build20", action="store_true", help="use the frozen build 20 cost/fill rules (reproduction)")
     a = ap.parse_args()
     logging.basicConfig(level=logging.INFO, format="%(asctime)s %(message)s")
     out = Path(a.out)
@@ -198,12 +199,12 @@ def main() -> int:
                                cache=HistoryCache(out / "cache"))
         meta = {"first": res["firstDay"], "last": res["lastDay"], "symbols": len(symbols),
                 "generated": datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")}
-        (out / "REPORT.md").write_text(markdown(res, cmp, meta, gross_stats(days, BTConfig(), list(ALL_STRATEGIES))))
+        (out / "REPORT.md").write_text(markdown(res, cmp, meta, gross_stats(days, BTConfig.baseline_build20() if a.build20 else BTConfig(), list(ALL_STRATEGIES))))
         log.info("wrote %s", out / "REPORT.md")
         return 0
     days = historical_days(data, cal, symbols, end, a.days, cache=HistoryCache(out / "cache"),
                            progress=lambda f, m: log.info("%3.0f%% %s", f * 100, m))
-    cfg = BTConfig()
+    cfg = BTConfig.baseline_build20() if a.build20 else BTConfig()
     strategies = list(ALL_STRATEGIES)
     res = run_backtest(days, strategies, cfg, synthetic=False, expected_symbols=symbols)
     meta = {"first": res["firstDay"], "last": res["lastDay"], "symbols": len(symbols),

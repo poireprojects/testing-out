@@ -49,7 +49,7 @@ def gross_net(out: Path) -> dict:
             raise RuntimeError("cache only")
     days = historical_days(CacheOnly(), MarketCalendar(), DEFAULT_BACKTEST_SYMBOLS[:40], date.fromisoformat(res["lastDay"]),
                            res["days"], cache=HistoryCache(out / "cache"))
-    cfg = BTConfig()
+    cfg = BTConfig.baseline_build20()  # the frozen build 20 study's exact rules
     rng = random.Random(cfg.seed)
     trades = [t for d in sorted(days, key=lambda d: d.day) for t in run_day(d, list(ALL_STRATEGIES), cfg, rng)]
     rows = []

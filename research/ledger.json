@@ -1,0 +1,12 @@
+{
+ "about": "Which market days have influenced development. See dkapp/research/ledger.py. Append only.",
+ "forwardFrom": "2026-11-09",
+ "periods": [
+  {"start": "2026-08-27", "end": "2026-09-10", "status": "examined", "by": "build 20 (a5a4f98)",
+   "note": "warm-up days: prior-day volume/range baselines for the study"},
+  {"start": "2026-09-11", "end": "2026-11-05", "status": "examined", "by": "build 20 (a5a4f98)",
+   "note": "train 09-11..10-08, validation 10-09..10-22, 'unseen' test 10-23..11-05 — all results published 2026-11-06, so none of it is unseen any more"},
+  {"start": "2026-11-06", "end": "2026-11-06", "status": "examined", "by": "build 20 live paper session",
+   "note": "paper session 9:47-10:37 ET observed by the developer"}
+ ]
+}

@@ -254,11 +254,29 @@ def test_daily_limit_breach_detection(engine):
 
 
 # ---------------------------------------------------------------- fees & prices
-def test_regulatory_fees_round_up_to_the_cent():
-    c = CostModel()
+def test_build20_fee_rule_rounded_every_sale_up_to_the_cent():
+    c = CostModel.legacy_build20()
     assert c.sell_fees(20.0, 0.1) == pytest.approx(0.02)  # $0.01 SEC + $0.01 TAF minimums
     assert c.sell_fees(1_000_000, 10_000) == pytest.approx(27.80 + 1.66)
     assert c.sell_fees(10_000_000, 1_000_000) == pytest.approx(278.0 + 8.30)  # TAF capped
+
+
+def test_alpaca_rounds_each_fee_type_once_per_day_not_per_trade():
+    from datetime import date
+    from dkapp.risk.fees import FeeBreakdown, rates_on
+    c = CostModel()  # 2027 rates: SEC $20.60/M, TAF $0.000195/share (max $9.79), CAT $0.000003/share
+    assert c.sell_fees(20.0, 0.1) == pytest.approx(20 * 20.60e-6 + 0.1 * 0.000195 + 0.1 * 0.000003)
+    sales = [c.sale_breakdown(20.0, 0.1) for _ in range(4)]
+    # four $20 sales: each fee type's day total rounds up to one cent -> $0.03 for the day, not $0.08
+    assert sum(s.total for s in sales) + c.daily_rounding(sales) == pytest.approx(0.03)
+    assert c.sell_fees(10_000_000, 1_000_000) == pytest.approx(206.0 + 9.79 + 3.0)  # TAF capped
+    # dated schedule: TAF paused Oct-Dec 2026, SEC fee $0 before 2026-04-04
+    assert rates_on(date(2026, 11, 2)).taf_per_share == 0.0
+    assert rates_on(date(2026, 9, 15)).taf_per_share == pytest.approx(0.000195)
+    assert rates_on(date(2026, 3, 2)).sec_rate == 0.0
+    assert rates_on(date(2027, 2, 1)).taf_per_share == pytest.approx(0.000195)
+    assert CostModel.on(date(2026, 11, 2)).daily_rounding([FeeBreakdown(0.0004, 0.0, 0.000001)]) == \
+        pytest.approx(0.02 - 0.000401)
 
 
 def test_fill_prices_are_pessimistic():

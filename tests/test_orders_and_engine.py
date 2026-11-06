@@ -166,7 +166,7 @@ def test_target_exit_and_pnl_matches_broker_cash(rig):
     t = rig.db.trade(t["id"])
     assert t["status"] == "closed" and "target" in t["exit_reason"] and t["realized_pnl"] > 0
     assert rig.broker.state.cash - cash0 == pytest.approx(t["realized_pnl"], abs=1e-6)
-    assert t["fees"] == pytest.approx(0.02)
+    assert 0 < t["fees"] < 0.005  # exact SEC/TAF/CAT accrual on a ~$20 sale (Alpaca rounds the DAY total, not each sale)
 
 
 def test_trailing_stop_only_moves_up(rig):
