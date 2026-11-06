@@ -17,6 +17,13 @@
    "note": "RESERVED HOLDOUT: no result may be computed on these days until every round-1 rule and model is frozen; then evaluated ONCE for all pre-registered hypotheses, after which it becomes examined."
   },
   {
+   "start": "2026-05-01",
+   "end": "2026-08-26",
+   "status": "examined",
+   "by": "research round 1 holdout (used once, 2026-11-06 18:23 UTC, commit 291bb29)",
+   "note": "the reserved holdout has now been evaluated once; from now on it is development data like the rest"
+  },
+  {
    "start": "2026-08-27",
    "end": "2026-09-10",
    "status": "examined",

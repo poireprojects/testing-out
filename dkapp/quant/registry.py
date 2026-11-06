@@ -22,7 +22,15 @@ from typing import Optional
 from .model import QuantModel
 
 STAGES = ("experimental", "shadow", "paper", "retired")
-BUNDLED_DIR = Path(__file__).resolve().parents[1] / "assets" / "models"
+def _bundled_dir() -> Path:
+    try:
+        from .. import paths
+        return paths.assets_dir() / "models"
+    except Exception:
+        return Path(__file__).resolve().parents[1] / "assets" / "models"
+
+
+BUNDLED_DIR = _bundled_dir()
 
 
 @dataclass

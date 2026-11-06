@@ -1,0 +1,1338 @@
+{
+ "summary": {
+  "answers": 72,
+  "inconsistent": 10,
+  "inconsistentShare": 0.1388888888888889,
+  "approved": 72,
+  "avgConfidence": 0.9465277777777779,
+  "medianSeconds": 43.004,
+  "problemKinds": {
+   "says the stop is 1": 7,
+   "says the stop is 9": 2,
+   "says the target is": 2,
+   "calls it oversold": 1,
+   "says the stop is 2": 1
+  }
+ },
+ "answers": [
+  {
+   "trade": [
+    "2026-09-14",
+    "COIN",
+    "trend",
+    38
+   ],
+   "confidence": 0.96,
+   "latencyS": 37.765,
+   "problems": [],
+   "reasoning": "The stock is in an uptrend, with the 20-minute average above the 50-minute average and rising. The price dipped to the 20-minute average and bounced, and the stock is above the VWAP and has an RSI of 67.7, indicating a strong bullish signal. The potential gain is 1.84% and the risk is 0.92%.",
+   "facts": {
+    "rsi": 67.7,
+    "stopPct": 0.9200000000000159,
+    "targetPct": 1.8400000000000034,
+    "rr": 1.3999999999999837
+   }
+  },
+  {
+   "trade": [
+    "2026-09-14",
+    "AMD",
+    "volume_breakout",
+    42
+   ],
+   "confidence": 0.96,
+   "latencyS": 36.309,
+   "problems": [],
+   "reasoning": "Several independent pieces of evidence agree: recent 30-minute high above $99.97, breakout volume 5.9\u00d7 recent average, and relative volume 2.8\u00d7. The potential gain clearly outweighs the risk after costs, and the stop is sensible at 99.08.",
+   "facts": {
+    "rsi": 69.8,
+    "stopPct": 0.9200000000000017,
+    "targetPct": 1.8400000000000034,
+    "rr": 1.400000000000001
+   }
+  },
+  {
+   "trade": [
+    "2026-09-14",
+    "AAPL",
+    "vwap",
+    124
+   ],
+   "confidence": 0.97,
+   "latencyS": 39.585,
+   "problems": [
+    "says the stop is 1.2% but it is 0.92%"
+   ],
+   "reasoning": "Price has reclaimed the VWAP after 10 minutes of decline, volume is above the recent average, and RSI is below 70. The stop loss is set at 1.2% below the entry price, and the target is set at 1.8% above the entry price. This setup has a high signal strength and strong evidence from multiple indicators, suggesting a high probability of a successful trade.",
+   "facts": {
+    "rsi": 69.7,
+    "stopPct": 0.9200000000000017,
+    "targetPct": 1.8400000000000034,
+    "rr": 1.400000000000001
+   }
+  },
+  {
+   "trade": [
+    "2026-09-14",
+    "XLF",
+    "vwap",
+    198
+   ],
+   "confidence": 0.85,
+   "latencyS": 37.969,
+   "problems": [
+    "says the stop is 1.2% but it is 0.92%"
+   ],
+   "reasoning": "Price has reclaimed the day's VWAP after 10 minutes below it, and the RSI is at 66, indicating a possible buy signal. The volume is also above the recent average, supporting the trade. The stop loss is set at 1.2% below the entry price, and the take profit is set at 1.8% above the entry price, indicating a potential gain of 2.0% after costs.",
+   "facts": {
+    "rsi": 66.3,
+    "stopPct": 0.9200000000000017,
+    "targetPct": 1.8400000000000034,
+    "rr": 1.400000000000001
+   }
+  },
+  {
+   "trade": [
+    "2026-09-14",
+    "KO",
+    "vwap",
+    302
+   ],
+   "confidence": 0.99,
+   "latencyS": 41.74,
+   "problems": [
+    "says the stop is 1.2% but it is 0.92%"
+   ],
+   "reasoning": "Price has reclaimed the day's average price (VWAP) after 10 minutes of being below it. The Relative Strength Index (RSI) is also above 60, indicating a strong buying signal. The price is also above the VWAP, and the momentum indicators are showing a strong upward trend. The stop loss is set at 1.2% below the entry price, and the take profit is set at 1.8% above the entry price, which is a reasonab",
+   "facts": {
+    "rsi": 69.4,
+    "stopPct": 0.9200000000000017,
+    "targetPct": 1.8400000000000034,
+    "rr": 1.400000000000001
+   }
+  },
+  {
+   "trade": [
+    "2026-09-17",
+    "CRM",
+    "vwap",
+    109
+   ],
+   "confidence": 0.98,
+   "latencyS": 29.958,
+   "problems": [],
+   "reasoning": "Price has reclaimed the VWAP after 7 minutes of decline, volume is above the recent average, and RSI is high. The stop loss is sensible and the potential gain outweighs the risk after costs.",
+   "facts": {
+    "rsi": 63.2,
+    "stopPct": 0.9200000000000017,
+    "targetPct": 1.8400000000000034,
+    "rr": 1.400000000000001
+   }
+  },
+  {
+   "trade": [
+    "2026-09-17",
+    "NFLX",
+    "vwap",
+    274
+   ],
+   "confidence": 0.99,
+   "latencyS": 45.582,
+   "problems": [],
+   "reasoning": "Price has reclaimed the VWAP after 10 minutes of decline, and the RSI is at 74, indicating a strong buying signal. The recent volume is 6.0x the recent average, and the price has moved 1.41% above the open. The momentum indicators are also showing a strong upward trend. The stop loss is set at 99.08, which is 92% of the entry price, and the take profit is set at 101.84, which is 84% above the entr",
+   "facts": {
+    "rsi": 74.0,
+    "stopPct": 0.9200000000000017,
+    "targetPct": 1.8400000000000034,
+    "rr": 1.400000000000001
+   }
+  },
+  {
+   "trade": [
+    "2026-09-21",
+    "AMD",
+    "trend",
+    39
+   ],
+   "confidence": 0.97,
+   "latencyS": 41.559,
+   "problems": [],
+   "reasoning": "The stock is in an uptrend with a 20-minute average above the 50-minute average and rising. The price dipped to the 20-minute average and bounced, indicating a potential buying opportunity. The Relative Strength Index (RSI) is above 65, indicating overbought conditions. The stock is above the VWAP and has a high momentum. The proposed stop loss is 1.35% below the entry price, and the target profit",
+   "facts": {
+    "rsi": 65.0,
+    "stopPct": 1.349833139159145,
+    "targetPct": 2.699666278318304,
+    "rr": 1.5632450143644705
+   }
+  },
+  {
+   "trade": [
+    "2026-09-21",
+    "META",
+    "trend",
+    45
+   ],
+   "confidence": 0.99,
+   "latencyS": 52.179,
+   "problems": [
+    "says the stop is 97% but it is 0.97%",
+    "says the target is 101.94% but it is 1.94%"
+   ],
+   "reasoning": "The stock is in an uptrend, the price dipped to the 20-minute average and bounced, and the Relative Strength Index (RSI) is above 66, indicating overbought conditions. The stop loss is set at 97% of the entry price, and the target price is set at 101.94% of the entry price, indicating a potential gain of 1.94%. The momentum indicators are also showing a positive trend, with the 30-minute momentum ",
+   "facts": {
+    "rsi": 66.3,
+    "stopPct": 0.9687529867986483,
+    "targetPct": 1.9375059735972966,
+    "rr": 1.4244018512582044
+   }
+  },
+  {
+   "trade": [
+    "2026-09-21",
+    "INTC",
+    "trend",
+    111
+   ],
+   "confidence": 0.99,
+   "latencyS": 44.377,
+   "problems": [],
+   "reasoning": "The stock is in an uptrend with a 20-minute average above the 50-minute average and rising. The price dipped to the 20-minute average and bounced. The Relative Strength Index (RSI) is above 60, indicating overbought conditions. The stock is above the 20-minute average and the VWAP, and the momentum is positive. The stop loss is set at 99.08, which is below the recent low, and the take profit is se",
+   "facts": {
+    "rsi": 61.0,
+    "stopPct": 0.9200000000000017,
+    "targetPct": 1.8400000000000034,
+    "rr": 1.400000000000001
+   }
+  },
+  {
+   "trade": [
+    "2026-09-21",
+    "META",
+    "volume_breakout",
+    213
+   ],
+   "confidence": 0.86,
+   "latencyS": 38.338,
+   "problems": [],
+   "reasoning": "A new 30-minute high was made on a burst of volume (6.0x recent average), and the relative volume was 2.7x. The price is above the Vwap and the RSI is 62.7, indicating a strong bullish signal. The stop loss is set at 99.08, and the take profit is set at 101.84, which is a reasonable risk-reward ratio.",
+   "facts": {
+    "rsi": 62.7,
+    "stopPct": 0.9199999999999875,
+    "targetPct": 1.8400000000000034,
+    "rr": 1.4000000000000181
+   }
+  },
+  {
+   "trade": [
+    "2026-09-21",
+    "F",
+    "vwap",
+    206
+   ],
+   "confidence": 0.99,
+   "latencyS": 38.145,
+   "problems": [
+    "calls it oversold but RSI is 64",
+    "says the stop is 1.2% but it is 0.92%"
+   ],
+   "reasoning": "Price has reclaimed the VWAP after 10 minutes of decline, volume is high, and RSI is oversold. The price is also close to the opening range high, indicating potential momentum. The stop loss is set at 1.2% below the entry price, and the take profit is set at 1.8% above the entry price, indicating a clear potential gain. The risk is also relatively low considering the potential reward.",
+   "facts": {
+    "rsi": 64.3,
+    "stopPct": 0.9200000000000017,
+    "targetPct": 1.8400000000000034,
+    "rr": 1.400000000000001
+   }
+  },
+  {
+   "trade": [
+    "2026-09-21",
+    "SHOP",
+    "trend",
+    232
+   ],
+   "confidence": 0.99,
+   "latencyS": 45.485,
+   "problems": [],
+   "reasoning": "The stock is in an established uptrend, with the 20-minute average above the 50-minute average and rising. The price dipped to the 20-minute average and bounced, and the Relative Strength Index (RSI) is 56, indicating overbought conditions. The stock is above the VWAP and has a high momentum, suggesting a strong bullish signal. The stop loss is set at 98.9844, which is 1.02% below the entry price,",
+   "facts": {
+    "rsi": 56.0,
+    "stopPct": 1.0156266507487288,
+    "targetPct": 2.031253301497472,
+    "rr": 1.4460619483492616
+   }
+  },
+  {
+   "trade": [
+    "2026-09-22",
+    "XLF",
+    "vwap",
+    263
+   ],
+   "confidence": 0.97,
+   "latencyS": 41.128,
+   "problems": [],
+   "reasoning": "The VWAP has reclaimed its value after 10 minutes below it, and the RSI is high, indicating a strong trend. The price has also climbed above the opening range high, suggesting a potential breakout. The volume is high, and the distance from the VWAP is small, indicating a strong move. The momentum indicators also support this move, with the 5m and 15m momentum percentages both above 0.1. The estima",
+   "facts": {
+    "rsi": 78.1,
+    "stopPct": 0.9200000000000159,
+    "targetPct": 1.8400000000000034,
+    "rr": 1.3999999999999837
+   }
+  },
+  {
+   "trade": [
+    "2026-09-24",
+    "UNH",
+    "orb",
+    58
+   ],
+   "confidence": 0.9,
+   "latencyS": 42.658,
+   "problems": [],
+   "reasoning": "The stock broke above its opening-range high, which is a strong signal for a long trade. The recent average volume of the breakout bar is 3.3, which is above the recent average volume of the recent 15 minutes. The opening range was 1.3% wide, indicating a strong move. The RSI14 is 75.0, indicating a high level of momentum. The entry price is $100.00, the stop price is $99.08, and the target price ",
+   "facts": {
+    "rsi": 75.0,
+    "stopPct": 0.9200000000000017,
+    "targetPct": 1.8400000000000034,
+    "rr": 1.400000000000001
+   }
+  },
+  {
+   "trade": [
+    "2026-09-24",
+    "BA",
+    "vwap",
+    160
+   ],
+   "confidence": 0.97,
+   "latencyS": 31.448,
+   "problems": [],
+   "reasoning": "Price has reclaimed the VWAP after 10 minutes below it, and the RSI is not overly extended. The recent volume is also above the recent average. The stop loss is sensible, and the potential gain is significant.",
+   "facts": {
+    "rsi": 71.8,
+    "stopPct": 0.9200000000000017,
+    "targetPct": 1.8400000000000034,
+    "rr": 1.400000000000001
+   }
+  },
+  {
+   "trade": [
+    "2026-09-24",
+    "F",
+    "vwap",
+    161
+   ],
+   "confidence": 0.95,
+   "latencyS": 71.661,
+   "problems": [],
+   "reasoning": "The VWAP has reclaimed its previous value after 10 minutes of decline, indicating a potential reversal. The RSI is also at 69, which is above the oversold threshold of 30. The recent 1-minute bars show a steady increase in price, and the momentum indicators are positive. The stop loss is set at 99.08, which is 8% below the entry price, and the take profit is set at 101.84, which is 18% above the e",
+   "facts": {
+    "rsi": 69.0,
+    "stopPct": 0.9200000000000017,
+    "targetPct": 1.8400000000000034,
+    "rr": 1.400000000000001
+   }
+  },
+  {
+   "trade": [
+    "2026-09-24",
+    "JPM",
+    "vwap",
+    279
+   ],
+   "confidence": 0.96,
+   "latencyS": 354.304,
+   "problems": [],
+   "reasoning": "Price has reclaimed the VWAP after 9 minutes below it, and the RSI is at 61, indicating a strong bullish signal. The volume is also above the recent average, supporting the move. The stop loss is set at 99.08, which is 8% below the entry price, and the take profit is set at 101.84, which is 18% above the entry price. The estimated round trip cost is 0.23%, which is relatively low. The market is ab",
+   "facts": {
+    "rsi": 61.3,
+    "stopPct": 0.9200000000000159,
+    "targetPct": 1.8400000000000034,
+    "rr": 1.3999999999999837
+   }
+  },
+  {
+   "trade": [
+    "2026-09-25",
+    "GM",
+    "orb",
+    83
+   ],
+   "confidence": 0.98,
+   "latencyS": 46.285,
+   "problems": [],
+   "reasoning": "The price broke above the opening-range high ($99.96), and the breakout bar volume (15.3\u00d7 recent average) supports the signal. The opening range was 1.3% wide, indicating a strong breakout. The RSI14 (62.5) is slightly overbought, but the momentum indicators (momentum_5m_pct = 0.27, momentum_15m_pct = 0.18) are not overly bearish. The estimated round-trip cost is 0.23%, which is relatively low. Th",
+   "facts": {
+    "rsi": 62.5,
+    "stopPct": 0.9200000000000017,
+    "targetPct": 1.8400000000000034,
+    "rr": 1.400000000000001
+   }
+  },
+  {
+   "trade": [
+    "2026-09-28",
+    "UBER",
+    "vwap",
+    167
+   ],
+   "confidence": 0.95,
+   "latencyS": 41.619,
+   "problems": [],
+   "reasoning": "The VWAP has reclaimed its value after 10 minutes of decline, the recent average volume is high, and the RSI is above 60, indicating a strong buying signal. The stop loss is set at 99.08, which is 8% below the entry price, and the take profit is set at 101.84, which is 84% above the entry price. The estimated round trip cost is 0.23%, which is relatively low. The market is still open for 224 minut",
+   "facts": {
+    "rsi": 66.0,
+    "stopPct": 0.9200000000000017,
+    "targetPct": 1.8400000000000034,
+    "rr": 1.400000000000001
+   }
+  },
+  {
+   "trade": [
+    "2026-09-28",
+    "AMD",
+    "vwap",
+    170
+   ],
+   "confidence": 0.98,
+   "latencyS": 40.798,
+   "problems": [],
+   "reasoning": "The price has reclaimed the VWAP after 10 minutes of being below it, and the RSI is at 74, indicating a potential buy signal. The recent volume is also high, suggesting a strong move. The stop loss is set at 99.08, which is 8% below the entry price, and the take profit is set at 101.84, which is 18% above the entry price. The estimated round trip cost is 0.23%, which is relatively low. With these ",
+   "facts": {
+    "rsi": 74.4,
+    "stopPct": 0.9200000000000159,
+    "targetPct": 1.8400000000000034,
+    "rr": 1.3999999999999837
+   }
+  },
+  {
+   "trade": [
+    "2026-09-28",
+    "BA",
+    "vwap",
+    176
+   ],
+   "confidence": 0.85,
+   "latencyS": 41.745,
+   "problems": [],
+   "reasoning": "The VWAP has reclaimed its value after 10 minutes of being below it, and the price has climbed back above the day's average price. The RSI is also at 64, indicating a strong bullish signal. The stop loss is set at 99.08, which is 8% below the entry price, and the take profit is set at 101.84, which is 18% above the entry price. The estimated round trip cost is 0.23%, which is relatively low. The p",
+   "facts": {
+    "rsi": 64.1,
+    "stopPct": 0.9200000000000017,
+    "targetPct": 1.8400000000000034,
+    "rr": 1.400000000000001
+   }
+  },
+  {
+   "trade": [
+    "2026-09-28",
+    "DIS",
+    "vwap",
+    220
+   ],
+   "confidence": 0.99,
+   "latencyS": 42.307,
+   "problems": [],
+   "reasoning": "The VWAP reclaimed its previous value after 10 minutes below it, and the RSI is at 76, indicating a strong buying signal. The price has also shown a significant increase from the opening range low, and the relative volume is high. The stop loss is set at 99.08, which is 8% below the entry price, and the take profit is set at 101.84, which is 18% above the entry price. The estimated round trip cost",
+   "facts": {
+    "rsi": 76.0,
+    "stopPct": 0.9200000000000017,
+    "targetPct": 1.8400000000000034,
+    "rr": 1.400000000000001
+   }
+  },
+  {
+   "trade": [
+    "2026-09-28",
+    "SOFI",
+    "vwap",
+    218
+   ],
+   "confidence": 0.98,
+   "latencyS": 34.251,
+   "problems": [
+    "says the stop is 1.2% but it is 0.92%"
+   ],
+   "reasoning": "Price has reclaimed the VWAP after 8 minutes below it, and the volume is above the recent average. The RSI is also above 70, indicating a strong bullish signal. The stop loss is set at 1.2% below the entry price, and the target is set at 1.8% above the entry price, which is a reasonable risk-reward ratio.",
+   "facts": {
+    "rsi": 74.9,
+    "stopPct": 0.9200000000000017,
+    "targetPct": 1.8400000000000034,
+    "rr": 1.400000000000001
+   }
+  },
+  {
+   "trade": [
+    "2026-09-30",
+    "CRM",
+    "orb",
+    31
+   ],
+   "confidence": 0.82,
+   "latencyS": 39.867,
+   "problems": [],
+   "reasoning": "Price broke above the opening-range high, breakout bar volume was high, and the opening range was wide. These are all signs that the price is likely to continue rising. The stop loss is set at 1.42% below the entry price, and the take profit is set at 2.84% above the entry price, which is a reasonable risk-reward ratio. The momentum indicators also suggest that the price is moving upwards, with th",
+   "facts": {
+    "rsi": 77.2,
+    "stopPct": 1.41874648557463,
+    "targetPct": 2.83749297114926,
+    "rr": 1.5815002451638176
+   }
+  },
+  {
+   "trade": [
+    "2026-10-01",
+    "GM",
+    "volume_breakout",
+    236
+   ],
+   "confidence": 0.96,
+   "latencyS": 43.407,
+   "problems": [],
+   "reasoning": "A new 30-minute high was made on a burst of volume (6.1x recent average) and the relative volume is 2.8x. The price is above the Vwap and the RSI14 is 76.5, indicating a strong bullish signal. The stop loss is set at 99.08, which is 8% below the entry price, and the take profit is set at 101.84, which is 18% above the entry price. The estimated round trip cost is 0.23%, which is relatively low. Th",
+   "facts": {
+    "rsi": 76.5,
+    "stopPct": 0.9200000000000017,
+    "targetPct": 1.8400000000000034,
+    "rr": 1.400000000000001
+   }
+  },
+  {
+   "trade": [
+    "2026-10-01",
+    "BA",
+    "vwap",
+    311
+   ],
+   "confidence": 0.84,
+   "latencyS": 43.249,
+   "problems": [],
+   "reasoning": "Price has reclaimed the day's average price (VWAP) after 9 of the last 10 minutes below it, and the Relative Strength Index (RSI) is 74, indicating a strong bullish signal. The price has also shown a significant increase in volume, and the momentum indicators are also bullish. The stop loss is set at 1% below the entry price, and the take profit is set at 2% above the entry price, which is a reaso",
+   "facts": {
+    "rsi": 73.9,
+    "stopPct": 0.9978032448455566,
+    "targetPct": 1.9956064896911274,
+    "rr": 1.4380207065776407
+   }
+  },
+  {
+   "trade": [
+    "2026-10-02",
+    "NVDA",
+    "trend",
+    32
+   ],
+   "confidence": 0.97,
+   "latencyS": 49.246,
+   "problems": [],
+   "reasoning": "The stock is in an uptrend with a 20-minute average above the 50-minute average and rising. The price dipped to the 20-minute average and bounced, indicating a potential buy signal. The Relative Strength Index (RSI) is above 60, indicating overbought conditions. The stock is above the VWAP and has a high momentum. The stop loss is set at 99.08, which is 92% of the entry price, and the take profit ",
+   "facts": {
+    "rsi": 60.0,
+    "stopPct": 0.9200000000000017,
+    "targetPct": 1.8400000000000034,
+    "rr": 1.400000000000001
+   }
+  },
+  {
+   "trade": [
+    "2026-10-02",
+    "TSLA",
+    "orb",
+    65
+   ],
+   "confidence": 0.95,
+   "latencyS": 38.309,
+   "problems": [],
+   "reasoning": "Price broke above the opening-range high ($99.86), breakout bar volume was 2.6x recent average, and the opening range was 3.3% wide. These are strong indicators of a potential long trade. The stop loss is set at 1.72% below the entry price, and the take profit is set at 3.44% above the entry price. The trade will be closed before the market close today.",
+   "facts": {
+    "rsi": 47.6,
+    "stopPct": 1.717690734961792,
+    "targetPct": 3.4353814699235983,
+    "rr": 1.6457343110925045
+   }
+  },
+  {
+   "trade": [
+    "2026-10-05",
+    "UBER",
+    "orb",
+    87
+   ],
+   "confidence": 0.95,
+   "latencyS": 43.004,
+   "problems": [
+    "says the stop is 1.2% but it is 0.92%"
+   ],
+   "reasoning": "Price broke above the opening-range high ($99.97), breakout bar volume was 3.6x recent average, and the opening range was 1.8% wide. These indicators suggest a strong breakout, increasing the likelihood of a successful trade. The stop loss is set at 1.2% below the entry price ($98.80), and the take profit is set at 1.8% above the entry price ($101.80). The estimated round trip cost is 0.23%, which",
+   "facts": {
+    "rsi": 63.0,
+    "stopPct": 0.9200000000000017,
+    "targetPct": 1.8400000000000034,
+    "rr": 1.400000000000001
+   }
+  },
+  {
+   "trade": [
+    "2026-10-06",
+    "AMD",
+    "orb",
+    66
+   ],
+   "confidence": 0.93,
+   "latencyS": 99.98,
+   "problems": [],
+   "reasoning": "The price broke above the opening-range high, which is a key indicator of a potential breakout. The recent 30m high was also close to the opening-range high, suggesting a strong up move. The RSI14 is above 60, indicating overbought conditions, but the momentum indicators are still showing a strong up trend. The volume is increasing, supporting the breakout. The stop loss is set at 1.68% below the ",
+   "facts": {
+    "rsi": 66.1,
+    "stopPct": 1.684053421959618,
+    "targetPct": 3.368106843919236,
+    "rr": 1.6395084943378568
+   }
+  },
+  {
+   "trade": [
+    "2026-10-06",
+    "COIN",
+    "orb",
+    84
+   ],
+   "confidence": 0.93,
+   "latencyS": 117.528,
+   "problems": [],
+   "reasoning": "Price broke above the opening-range high ($99.71), and the breakout bar volume was 8.0\u00d7 recent average. The opening range was 2.1% wide, indicating a strong breakout. The price action since the breakout has been positive, with the RSI14 at 71.8 and the momentum indicators at 0.55 and 0.74. The estimated round-trip cost is 0.23%, making the potential gain clearly outweighing the risk after costs.",
+   "facts": {
+    "rsi": 71.8,
+    "stopPct": 1.3018397256002316,
+    "targetPct": 2.6036794512004633,
+    "rr": 1.549561231198889
+   }
+  },
+  {
+   "trade": [
+    "2026-10-08",
+    "PLTR",
+    "momentum",
+    31
+   ],
+   "confidence": 0.97,
+   "latencyS": 61.547,
+   "problems": [],
+   "reasoning": "Multiple indicators show the stock is rising strongly on heavy volume, including a 1.6% increase in the last 30 minutes, trading 0.32% above VWAP, and an RSI of 68. The momentum indicators also support this trend, with a 5m% momentum of 0.65 and a 15m% momentum of 1.09. The stop loss is set at 99.08, which is 8% below the entry price of 100. The target price is set at 101.84, which is 84% above th",
+   "facts": {
+    "rsi": 68.4,
+    "stopPct": 0.9200000000000017,
+    "targetPct": 1.8400000000000034,
+    "rr": 1.400000000000001
+   }
+  },
+  {
+   "trade": [
+    "2026-10-09",
+    "T",
+    "trend",
+    57
+   ],
+   "confidence": 0.95,
+   "latencyS": 89.41,
+   "problems": [],
+   "reasoning": "The stock is in an uptrend, the price dipped to the 20-minute average and bounced, and the Relative Strength Index (RSI) is above 60, indicating overbought conditions. The stop loss is set at 99.08, which is 8% below the entry price, and the take profit is set at 101.84, which is 18% above the entry price. The momentum indicators are also showing a strong upward trend. The trade is considered stro",
+   "facts": {
+    "rsi": 60.4,
+    "stopPct": 0.9200000000000017,
+    "targetPct": 1.8400000000000034,
+    "rr": 1.400000000000001
+   }
+  },
+  {
+   "trade": [
+    "2026-10-09",
+    "PLTR",
+    "orb",
+    112
+   ],
+   "confidence": 0.95,
+   "latencyS": 54.953,
+   "problems": [],
+   "reasoning": "The price broke above the opening-range high ($99.97), and the breakout bar volume was 5.1\u00d7 recent average. The opening range was 2.1% wide, indicating a strong breakout. The RSI14 (65.5) is above 70, indicating overbought conditions, but the momentum indicators (momentum_5m_pct = 0.17, momentum_15m_pct = 0.34, momentum_30m_pct = 0.72) are still positive, suggesting a potential continuation of the",
+   "facts": {
+    "rsi": 65.5,
+    "stopPct": 1.069518716577548,
+    "targetPct": 2.139037433155096,
+    "rr": 1.4690341961236195
+   }
+  },
+  {
+   "trade": [
+    "2026-10-13",
+    "UNH",
+    "vwap",
+    297
+   ],
+   "confidence": 0.99,
+   "latencyS": 42.354,
+   "problems": [],
+   "reasoning": "The VWAP has reclaimed its previous value after 10 minutes of decline, and the RSI is at 75, indicating a strong bullish signal. The price has also shown a significant increase in volume and momentum, suggesting a strong buying opportunity. The stop loss is set at 99.08, which is 8% below the entry price, and the take profit is set at 101.84, which is 18% above the entry price. With a confidence l",
+   "facts": {
+    "rsi": 74.5,
+    "stopPct": 0.9200000000000017,
+    "targetPct": 1.8400000000000034,
+    "rr": 1.400000000000001
+   }
+  },
+  {
+   "trade": [
+    "2026-10-15",
+    "SOFI",
+    "trend",
+    45
+   ],
+   "confidence": 0.97,
+   "latencyS": 38.678,
+   "problems": [],
+   "reasoning": "The stock is in an uptrend, the price dipped to the 20-minute average and bounced, and the Relative Strength Index (RSI) is above 50, indicating a buy signal. The stop loss is set at 99.08, which is 92% of the entry price, and the take profit is set at 101.84, which is 84% of the entry price. The potential gain outweighs the risk after costs.",
+   "facts": {
+    "rsi": 52.1,
+    "stopPct": 0.9200000000000017,
+    "targetPct": 1.8400000000000034,
+    "rr": 1.400000000000001
+   }
+  },
+  {
+   "trade": [
+    "2026-10-15",
+    "MU",
+    "trend",
+    57
+   ],
+   "confidence": 0.99,
+   "latencyS": 43.79,
+   "problems": [],
+   "reasoning": "The stock is in an uptrend, with the 20-minute average above the 50-minute average and rising. The price dipped to the 20-minute average and bounced, indicating a potential buying opportunity. The Relative Strength Index (RSI) is at 57, which is above the overbought threshold of 70. The stock is above the Volume Weighted Average Price (VWAP) and has a high momentum. The stop loss is set at 99.08, ",
+   "facts": {
+    "rsi": 57.0,
+    "stopPct": 0.9200000000000017,
+    "targetPct": 1.8400000000000034,
+    "rr": 1.400000000000001
+   }
+  },
+  {
+   "trade": [
+    "2026-10-15",
+    "SMH",
+    "volume_breakout",
+    73
+   ],
+   "confidence": 0.9,
+   "latencyS": 46.47,
+   "problems": [],
+   "reasoning": "A new 30-minute high was made on a burst of volume (6.3x recent average), and the relative volume is 3.9x. The price has also broken above the 30-minute high of $99.82 and the VWA (99.1942). The momentum indicators (momentum_5m_pct and momentum_15m_pct) are also showing a strong upward trend. The stop loss is set at 99.08, and the target is at 101.84. The estimated round trip cost is 0.23%. The ma",
+   "facts": {
+    "rsi": 68.3,
+    "stopPct": 0.9200000000000017,
+    "targetPct": 1.8400000000000034,
+    "rr": 1.400000000000001
+   }
+  },
+  {
+   "trade": [
+    "2026-10-15",
+    "INTC",
+    "trend",
+    82
+   ],
+   "confidence": 0.97,
+   "latencyS": 47.831,
+   "problems": [],
+   "reasoning": "The stock is in an uptrend, with the 20-minute average above the 50-minute average and rising. The price dipped to the 20-minute average and bounced, indicating a potential buying opportunity. The Relative Strength Index (RSI) is above 50, indicating overbought conditions, but the momentum indicators are rising, suggesting a potential continuation of the uptrend. The stop loss is set at 99.08, whi",
+   "facts": {
+    "rsi": 58.1,
+    "stopPct": 0.9200000000000017,
+    "targetPct": 1.8400000000000034,
+    "rr": 1.400000000000001
+   }
+  },
+  {
+   "trade": [
+    "2026-10-15",
+    "AMD",
+    "trend",
+    85
+   ],
+   "confidence": 0.95,
+   "latencyS": 113.767,
+   "problems": [],
+   "reasoning": "The stock is in an uptrend, with the 50-minute average above the 20-minute average and rising. The price dipped to the 20-minute average and bounced, indicating a potential buying opportunity. The Relative Strength Index (RSI) is at 55, which is above the oversold level of 30. The stock is above its 20-minute volume-weighted average price (VWAP) and has a high momentum, indicating a strong upward ",
+   "facts": {
+    "rsi": 55.0,
+    "stopPct": 0.9200000000000017,
+    "targetPct": 1.8400000000000034,
+    "rr": 1.400000000000001
+   }
+  },
+  {
+   "trade": [
+    "2026-10-15",
+    "NVDA",
+    "volume_breakout",
+    148
+   ],
+   "confidence": 0.97,
+   "latencyS": 35.674,
+   "problems": [],
+   "reasoning": "A new 30-minute high was confirmed by a burst of volume and a relative volume of 2.2x, indicating a strong breakout. The price has also made a new high above $99.95 and the RSI14 is 64.7, indicating overbought conditions. The potential gain is 1.84% and the risk is 0.92%. The trade will be closed before the market close today.",
+   "facts": {
+    "rsi": 64.7,
+    "stopPct": 0.9199999999999875,
+    "targetPct": 1.8400000000000034,
+    "rr": 1.4000000000000181
+   }
+  },
+  {
+   "trade": [
+    "2026-10-16",
+    "QQQ",
+    "vwap",
+    68
+   ],
+   "confidence": 0.95,
+   "latencyS": 38.088,
+   "problems": [],
+   "reasoning": "Price has reclaimed the day's VWAP after 10 minutes of decline, and the RSI is at 61, indicating a potential buy signal. The recent volume is also above the recent average, supporting the move. The stop loss is set at 0.92% below the entry price, and the take profit is set at 1.84% above the entry price, indicating a reasonable risk-reward ratio.",
+   "facts": {
+    "rsi": 61.5,
+    "stopPct": 0.9200000000000017,
+    "targetPct": 1.8400000000000034,
+    "rr": 1.400000000000001
+   }
+  },
+  {
+   "trade": [
+    "2026-10-19",
+    "PLTR",
+    "orb",
+    44
+   ],
+   "confidence": 0.9,
+   "latencyS": 38.502,
+   "problems": [],
+   "reasoning": "The price broke above the opening-range high ($99.89) and the opening range was 3.0% wide. The breakout bar volume was 3.4\u00d7 recent average, indicating strong momentum. The RSI14 was 74.2, indicating overbought conditions, but the momentum indicators were still bullish. The estimated gain is 3.13% and the risk is 1.56%. The position will be closed before today's market close.",
+   "facts": {
+    "rsi": 74.2,
+    "stopPct": 1.564696693569374,
+    "targetPct": 3.1293933871387623,
+    "rr": 1.615533921429541
+   }
+  },
+  {
+   "trade": [
+    "2026-10-20",
+    "INTC",
+    "trend",
+    68
+   ],
+   "confidence": 0.96,
+   "latencyS": 45.395,
+   "problems": [],
+   "reasoning": "The stock is in an uptrend, with the 50-minute average above the 20-minute average and rising. The price dipped to the 20-minute average and bounced, indicating a potential buying opportunity. The Relative Strength Index (RSI) is above 60, indicating overbought conditions. The stock is above the VWAP and has a high momentum, suggesting a strong upswing. The stop loss is set at 98.9055, and the tak",
+   "facts": {
+    "rsi": 61.3,
+    "stopPct": 1.0945371006635014,
+    "targetPct": 2.189074201327017,
+    "rr": 1.479063289616921
+   }
+  },
+  {
+   "trade": [
+    "2026-10-20",
+    "MU",
+    "trend",
+    68
+   ],
+   "confidence": 0.98,
+   "latencyS": 95.38,
+   "problems": [],
+   "reasoning": "The stock is in an uptrend, with the 20-minute average above the 50-minute average and rising. The price dipped to the 20-minute average and bounced, indicating a possible buy signal. The Relative Strength Index (RSI) is above 63, indicating overbought conditions. The stock is above the VWAP and has a high momentum. The estimated round-trip cost is 0.23%, which is relatively low. The potential gai",
+   "facts": {
+    "rsi": 63.5,
+    "stopPct": 1.0246079226366476,
+    "targetPct": 2.049215845273295,
+    "rr": 1.45002738500972
+   }
+  },
+  {
+   "trade": [
+    "2026-10-23",
+    "T",
+    "vwap",
+    72
+   ],
+   "confidence": 0.85,
+   "latencyS": 57.246,
+   "problems": [],
+   "reasoning": "Price has reclaimed the VWAP after 10 minutes of decline, and the RSI is at 70, indicating a strong bullish signal. The distance from VWAP is 0.43%, and the momentum is 0.44% over 5 minutes, indicating a potential upward move. The estimated round-trip cost is 0.23%.",
+   "facts": {
+    "rsi": 70.3,
+    "stopPct": 0.9200000000000017,
+    "targetPct": 1.8400000000000034,
+    "rr": 1.400000000000001
+   }
+  },
+  {
+   "trade": [
+    "2026-10-23",
+    "TSLA",
+    "vwap",
+    272
+   ],
+   "confidence": 0.9,
+   "latencyS": 34.205,
+   "problems": [],
+   "reasoning": "Price has reclaimed the VWAP after 10 minutes below it, and the RSI is at 60, indicating a strong bullish signal. The volume is also above the recent average, supporting the move. The potential gain outweighs the risk after costs, and the stop loss is sensible at 99.08.",
+   "facts": {
+    "rsi": 60.0,
+    "stopPct": 0.9200000000000159,
+    "targetPct": 1.8400000000000034,
+    "rr": 1.3999999999999837
+   }
+  },
+  {
+   "trade": [
+    "2026-10-26",
+    "TSLA",
+    "trend",
+    31
+   ],
+   "confidence": 0.97,
+   "latencyS": 40.782,
+   "problems": [],
+   "reasoning": "The stock is in an established uptrend, with the 50-minute average above the 20-minute average and rising. The price dipped to the 20-minute average and bounced, indicating a potential buying opportunity. The Relative Strength Index (RSI) is above 60, indicating overbought conditions. The stock is above the VWAP, and the momentum indicators are showing a slight increase. The estimated round-trip c",
+   "facts": {
+    "rsi": 61.0,
+    "stopPct": 1.0271349923346378,
+    "targetPct": 2.05426998466929,
+    "rr": 1.4511329298704987
+   }
+  },
+  {
+   "trade": [
+    "2026-10-26",
+    "INTC",
+    "momentum",
+    98
+   ],
+   "confidence": 0.95,
+   "latencyS": 42.618,
+   "problems": [],
+   "reasoning": "The stock has risen strongly today on heavy volume (up 3.1% in the last 30 minutes), and its Relative Strength Index (RSI) is 74, indicating a strong but not extreme momentum. The stock is trading 2.51% above its Volume-Weighted Average Price (VWAP), and its momentum indicators (momentum_5m_pct and momentum_30m_pct) are also strong. The proposed stop loss is 99.08, and the target profit is 101.84,",
+   "facts": {
+    "rsi": 74.4,
+    "stopPct": 0.9199999999999875,
+    "targetPct": 1.8400000000000034,
+    "rr": 1.4000000000000181
+   }
+  },
+  {
+   "trade": [
+    "2026-10-26",
+    "UBER",
+    "vwap",
+    353
+   ],
+   "confidence": 0.99,
+   "latencyS": 44.21,
+   "problems": [],
+   "reasoning": "The VWAP has reclaimed its value after 10 minutes of being below it, and the price has climbed back above the day's average price. The recent volume is 13.5 times the recent average, and the RSI is 76, indicating a strong bullish signal. The stop loss is set at 1.05% below the entry price, and the take profit is set at 2.11% above the entry price. The estimated round trip cost is 0.23%. These cond",
+   "facts": {
+    "rsi": 75.7,
+    "stopPct": 1.0532651218778,
+    "targetPct": 2.1065302437556,
+    "rr": 1.4623090831064403
+   }
+  },
+  {
+   "trade": [
+    "2026-10-27",
+    "SOFI",
+    "momentum",
+    65
+   ],
+   "confidence": 0.9,
+   "latencyS": 39.762,
+   "problems": [],
+   "reasoning": "The stock has risen strongly (2.1%) in the last 30 minutes, has heavy volume (4.3x normal), and is trading above its VWAP (2.19%). The RSI is also in a strong but not extreme range (68). This suggests that the stock is likely to continue rising, making it a good candidate for a long trade.",
+   "facts": {
+    "rsi": 68.1,
+    "stopPct": 0.9200000000000017,
+    "targetPct": 1.8400000000000034,
+    "rr": 1.400000000000001
+   }
+  },
+  {
+   "trade": [
+    "2026-10-27",
+    "PYPL",
+    "momentum",
+    70
+   ],
+   "confidence": 0.99,
+   "latencyS": 43.875,
+   "problems": [],
+   "reasoning": "The stock has risen strongly today on heavy volume (up 0.8% in the last 30 minutes), and the Relative Strength Index (RSI) is 64, indicating a strong but not extreme momentum. The stock is trading 0.29% above the Volume-Weighted Average Price (VWAP), which suggests a bullish trend. The trading volume is 2.6 times a normal day so far, indicating a strong buying interest.",
+   "facts": {
+    "rsi": 63.6,
+    "stopPct": 0.9200000000000017,
+    "targetPct": 1.8400000000000034,
+    "rr": 1.400000000000001
+   }
+  },
+  {
+   "trade": [
+    "2026-10-28",
+    "GOOGL",
+    "vwap",
+    211
+   ],
+   "confidence": 0.96,
+   "latencyS": 73.877,
+   "problems": [],
+   "reasoning": "Price has reclaimed the day's average price (VWAP) after 9 minutes below it, and the recent average volume is 3.9x the recent average. The RSI is at 75, indicating a strong overbought condition. The price is also above the VWAP, and the momentum indicators are showing a strong upward trend. The estimated round-trip cost is 0.23%, which is relatively low. The potential gain is 1.84% above the entry",
+   "facts": {
+    "rsi": 75.5,
+    "stopPct": 0.9200000000000017,
+    "targetPct": 1.8400000000000034,
+    "rr": 1.400000000000001
+   }
+  },
+  {
+   "trade": [
+    "2026-10-29",
+    "F",
+    "trend",
+    59
+   ],
+   "confidence": 0.97,
+   "latencyS": 46.378,
+   "problems": [],
+   "reasoning": "The stock is in an uptrend, with the 20-minute average above the 50-minute average and rising. The price dipped to the 20-minute average and bounced, indicating a potential buying opportunity. The Relative Strength Index (RSI) is above 60, indicating overbought conditions. The stock is above the VWAP and has a high momentum, suggesting a strong upward trend. The stop loss is set at 99.08, which is",
+   "facts": {
+    "rsi": 60.7,
+    "stopPct": 0.9200000000000017,
+    "targetPct": 1.8400000000000034,
+    "rr": 1.400000000000001
+   }
+  },
+  {
+   "trade": [
+    "2026-10-29",
+    "CRM",
+    "vwap",
+    140
+   ],
+   "confidence": 0.85,
+   "latencyS": 36.556,
+   "problems": [
+    "says the stop is 2.8% but it is 0.92%",
+    "says the target is 8.4% but it is 1.84%"
+   ],
+   "reasoning": "Price has reclaimed the VWAP after 10 minutes of decline, recent volume is above the recent average, and the RSI is in a neutral zone. The stop loss is set at 2.8% below the entry price, and the target is set at 8.4% above the entry price. This setup has a strong signal strength and meets the conditions for a long trade.",
+   "facts": {
+    "rsi": 59.7,
+    "stopPct": 0.9200000000000017,
+    "targetPct": 1.8400000000000034,
+    "rr": 1.400000000000001
+   }
+  },
+  {
+   "trade": [
+    "2026-10-30",
+    "INTC",
+    "trend",
+    76
+   ],
+   "confidence": 0.99,
+   "latencyS": 42.608,
+   "problems": [],
+   "reasoning": "The stock is in an established uptrend, with the 20-minute average above the 50-minute average and rising. The price dipped to the 20-minute average and bounced, indicating a potential buying opportunity. The Relative Strength Index (RSI) is above 50, indicating overbought conditions. The stock is above the VWAP (Volume-Weighted Average Price) and has a high momentum. The price has also shown a st",
+   "facts": {
+    "rsi": 59.2,
+    "stopPct": 1.0642076591319665,
+    "targetPct": 2.128415318263933,
+    "rr": 1.4668552645849837
+   }
+  },
+  {
+   "trade": [
+    "2026-10-30",
+    "AMZN",
+    "trend",
+    79
+   ],
+   "confidence": 0.95,
+   "latencyS": 49.439,
+   "problems": [],
+   "reasoning": "The stock is in an uptrend, with the 50-minute average above the 20-minute average and rising. The price dipped to the 20-minute average and bounced, indicating a potential buying opportunity. The Relative Strength Index (RSI) is 64, which is above the overbought threshold of 70. The stock is above the Volume-Weighted Average Price (VWAP) and has a high momentum. The stop loss is set at 99.08, whi",
+   "facts": {
+    "rsi": 63.7,
+    "stopPct": 0.9200000000000017,
+    "targetPct": 1.8400000000000034,
+    "rr": 1.400000000000001
+   }
+  },
+  {
+   "trade": [
+    "2026-11-02",
+    "BA",
+    "orb",
+    34
+   ],
+   "confidence": 0.95,
+   "latencyS": 47.901,
+   "problems": [],
+   "reasoning": "The price broke above the opening-range high ($99.88), and the breakout bar volume was 2.6x recent average. The opening range was 1.4% wide, indicating a strong breakout. The RSI14 is 78.1, which is above the oversold threshold, and the EMA9 is 99.7465, which is above the recent low. The momentum indicators are also showing a strong upward trend. The stop-loss is set at 99.08, which is 8% below th",
+   "facts": {
+    "rsi": 78.1,
+    "stopPct": 0.9200000000000159,
+    "targetPct": 1.8400000000000034,
+    "rr": 1.3999999999999837
+   }
+  },
+  {
+   "trade": [
+    "2026-11-02",
+    "COIN",
+    "orb",
+    41
+   ],
+   "confidence": 0.95,
+   "latencyS": 71.836,
+   "problems": [],
+   "reasoning": "The price broke above the opening-range high ($99.71), and the breakout bar volume was 4.1\u00d7 recent average. The opening range was 2.4% wide, indicating a strong breakout. The RSI14 was 77.6, indicating overbought conditions, but the momentum indicators were still bullish. The stop loss was set at 98.5435, which is 1.46% below the entry price, and the take profit was set at 102.913, which is 2.91% ",
+   "facts": {
+    "rsi": 77.6,
+    "stopPct": 1.456514146000714,
+    "targetPct": 2.913028292001414,
+    "rr": 1.5908720945885728
+   }
+  },
+  {
+   "trade": [
+    "2026-11-02",
+    "NVDA",
+    "orb",
+    52
+   ],
+   "confidence": 0.95,
+   "latencyS": 54.84,
+   "problems": [],
+   "reasoning": "The price broke above the opening-range high ($99.86), and the breakout bar volume was 4.0x recent average. The opening range was 1.1% wide, indicating a strong breakout. The price is now above the recent high (99.9092) and the 50-day EMA (99.5167). The RSI (63.1) is in overbought territory, but the price is still moving up. The volume is increasing, indicating a strong up trend. The stop loss is ",
+   "facts": {
+    "rsi": 63.1,
+    "stopPct": 0.9200000000000017,
+    "targetPct": 1.8400000000000034,
+    "rr": 1.400000000000001
+   }
+  },
+  {
+   "trade": [
+    "2026-11-03",
+    "SHOP",
+    "momentum",
+    78
+   ],
+   "confidence": 0.95,
+   "latencyS": 46.573,
+   "problems": [],
+   "reasoning": "The stock has risen strongly today on heavy volume, with a 2.6% increase in the last 30 minutes and trading 2.76% above VWAP. The RSI is 72, indicating a strong but not extreme signal. The volume is 3.3x a normal day so far, supporting the trend. The stop loss is set at 99.08, which is 8% below the entry price, and the take profit is set at 101.84, which is 4.84% above the entry price. The estimat",
+   "facts": {
+    "rsi": 72.4,
+    "stopPct": 0.9200000000000159,
+    "targetPct": 1.8400000000000034,
+    "rr": 1.3999999999999837
+   }
+  },
+  {
+   "trade": [
+    "2026-11-03",
+    "PLTR",
+    "trend",
+    97
+   ],
+   "confidence": 0.99,
+   "latencyS": 31.083,
+   "problems": [],
+   "reasoning": "Multiple indicators agree on a strong uptrend, the price dipped to the 20-minute average and bounced, and the RSI is above 50. The stop loss is sensible and the potential gain outweighs the risk after costs.",
+   "facts": {
+    "rsi": 57.4,
+    "stopPct": 1.119907248062205,
+    "targetPct": 2.23981449612441,
+    "rr": 1.488853770516088
+   }
+  },
+  {
+   "trade": [
+    "2026-11-03",
+    "COIN",
+    "trend",
+    97
+   ],
+   "confidence": 0.99,
+   "latencyS": 42.515,
+   "problems": [],
+   "reasoning": "Multiple indicators agree on a strong uptrend, the price dipped to the 20-minute average and bounced, and the RSI is above 65. This suggests a potential buy opportunity. The stop loss is set at 98.7132, which is below the recent low, and the take profit is set at 102.5736, which is above the recent high. The estimated round trip cost is 0.23%, which is relatively low. The position will be closed b",
+   "facts": {
+    "rsi": 65.0,
+    "stopPct": 1.2867839541545294,
+    "targetPct": 2.573567908309073,
+    "rr": 1.5450901243317816
+   }
+  },
+  {
+   "trade": [
+    "2026-11-03",
+    "PLTR",
+    "volume_breakout",
+    209
+   ],
+   "confidence": 0.96,
+   "latencyS": 44.015,
+   "problems": [
+    "says the stop is 1.2% but it is 0.92%"
+   ],
+   "reasoning": "A new 30-minute high was made above $99.73, with a burst of volume and a relative volume 2.6x recent average. The price has also broken above the 30-minute moving average and the 200-day moving average. The RSI is at 79.9, indicating overbought conditions, but the momentum indicators are still showing a strong uptrend. The stop loss is set at 1.2% below the entry price, and the take profit is set ",
+   "facts": {
+    "rsi": 79.9,
+    "stopPct": 0.9200000000000017,
+    "targetPct": 1.8400000000000034,
+    "rr": 1.400000000000001
+   }
+  },
+  {
+   "trade": [
+    "2026-11-04",
+    "PYPL",
+    "orb",
+    16
+   ],
+   "confidence": 0.93,
+   "latencyS": 45.368,
+   "problems": [
+    "says the stop is 98.77% but it is 1.23%"
+   ],
+   "reasoning": "The price broke above the opening-range high ($99.90), and the breakout bar volume (4.8\u00d7 recent average) supports the signal. The opening range was 2.3% wide, indicating a strong breakout. The RSI14 (91.3) is overbought, but the momentum indicators (momentum_5m_pct = 0.82, momentum_15m_pct = 2.01) are still bullish. The estimated round-trip cost is 0.23%, and the potential gain is 2.46%. The stop-",
+   "facts": {
+    "rsi": 91.3,
+    "stopPct": 1.2295081967213122,
+    "targetPct": 2.45901639344261,
+    "rr": 1.5272380096596558
+   }
+  },
+  {
+   "trade": [
+    "2026-11-04",
+    "MSFT",
+    "trend",
+    39
+   ],
+   "confidence": 0.95,
+   "latencyS": 64.415,
+   "problems": [],
+   "reasoning": "Multiple indicators agree on a strong uptrend, the price dipped to the 20-minute average and bounced, and the Relative Strength Index (RSI) is above 60, indicating overbought conditions. The stop-loss percentage is reasonable, and the potential gain outweighs the risk after costs.",
+   "facts": {
+    "rsi": 61.8,
+    "stopPct": 0.9199999999999875,
+    "targetPct": 1.8400000000000034,
+    "rr": 1.4000000000000181
+   }
+  },
+  {
+   "trade": [
+    "2026-11-04",
+    "COIN",
+    "trend",
+    67
+   ],
+   "confidence": 0.97,
+   "latencyS": 56.616,
+   "problems": [],
+   "reasoning": "The stock is in an uptrend, with the 20-minute average above the 50-minute average and rising. The price dipped to the 20-minute average and bounced, indicating a potential buying opportunity. The Relative Strength Index (RSI) is 54, which is below the overbought threshold of 70. The stock is above the Volume Weighted Average Price (VWAP) and has a high momentum, indicating a strong upward trend. ",
+   "facts": {
+    "rsi": 53.7,
+    "stopPct": 0.9200000000000017,
+    "targetPct": 1.8400000000000034,
+    "rr": 1.400000000000001
+   }
+  },
+  {
+   "trade": [
+    "2026-11-04",
+    "INTC",
+    "vwap",
+    171
+   ],
+   "confidence": 0.85,
+   "latencyS": 37.31,
+   "problems": [],
+   "reasoning": "Price has reclaimed the day's VWAP after 10 minutes of decline, and the RSI is in overbought territory. The recent volume is also above the recent average, indicating a strong buying signal. The stop loss is set at 2.64% below the entry price, and the take profit is set at 5.29% above the entry price, indicating a reasonable risk-reward ratio.",
+   "facts": {
+    "rsi": 77.2,
+    "stopPct": 2.6449643947100583,
+    "targetPct": 5.289928789420117,
+    "rr": 1.7599970276955075
+   }
+  },
+  {
+   "trade": [
+    "2026-11-04",
+    "F",
+    "volume_breakout",
+    184
+   ],
+   "confidence": 0.78,
+   "latencyS": 42.601,
+   "problems": [],
+   "reasoning": "A new 30-minute high was made above $99.88 on a burst of volume (14.2x recent average) and relative volume is 1.6x. This confirms a breakout and the price is above the recent average. The RSI is 73.1, which is above 70, indicating overbought conditions. However, the momentum indicators suggest a strong move upwards. The stop loss is 0.92% below the entry price and the take profit is 1.84% above th",
+   "facts": {
+    "rsi": 73.1,
+    "stopPct": 0.9200000000000017,
+    "targetPct": 1.8400000000000034,
+    "rr": 1.400000000000001
+   }
+  },
+  {
+   "trade": [
+    "2026-11-04",
+    "GOOGL",
+    "vwap",
+    293
+   ],
+   "confidence": 0.99,
+   "latencyS": 34.84,
+   "problems": [],
+   "reasoning": "Price has reclaimed the VWAP after 7 minutes of decline, and the RSI is at 63, indicating a strong bullish signal. The volume is also above the recent average, supporting the buy signal. The potential gain is significant, and the stop loss is reasonable, making this a strong buy opportunity.",
+   "facts": {
+    "rsi": 62.7,
+    "stopPct": 0.9200000000000017,
+    "targetPct": 1.8400000000000034,
+    "rr": 1.400000000000001
+   }
+  },
+  {
+   "trade": [
+    "2026-11-05",
+    "INTC",
+    "vwap",
+    68
+   ],
+   "confidence": 0.95,
+   "latencyS": 37.486,
+   "problems": [],
+   "reasoning": "The VWAP reclaimed its value after 10 minutes below it, the volume was 2.8x recent average, and the RSI was 64, indicating a strong buy signal. The stop loss is set at 1.84% below the entry price, and the take profit is set at 3.68% above the entry price, providing a reasonable risk-reward ratio.",
+   "facts": {
+    "rsi": 64.2,
+    "stopPct": 1.837897445322554,
+    "targetPct": 3.675794890645108,
+    "rr": 1.6663277467841868
+   }
+  }
+ ]
+}
