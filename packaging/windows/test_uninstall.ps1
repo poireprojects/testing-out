@@ -33,7 +33,7 @@ function PyKey { python -c "import keyring; print(keyring.get_password('dontknow
 
 function Install([string]$Label) {
     Write-Host "`n== install ($Label)"
-    $p = Start-Process $Installer "/VERYSILENT /SUPPRESSMSGBOXES /NORESTART /SP- /TASKS="desktopicon,startup" /LOG=`"$env:RUNNER_TEMP\install-$Label.log`"" -Wait -PassThru
+    $p = Start-Process $Installer "/VERYSILENT /SUPPRESSMSGBOXES /NORESTART /SP- /TASKS=desktopicon,startup /LOG=`"$env:RUNNER_TEMP\install-$Label.log`"" -Wait -PassThru
     Check "[$Label] installer exit code 0 (got $($p.ExitCode))" ($p.ExitCode -eq 0)
     Check "[$Label] app installed" (Test-Path $Exe)
     Check "[$Label] registered in Installed Apps" (Test-Path $UninstKey)
