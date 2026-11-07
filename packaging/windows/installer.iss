@@ -1,7 +1,14 @@
 ﻿; Inno Setup script — builds a normal Windows installer (per-user, no admin rights needed).
-#define MyAppName "don’t know what im doing"
-#define MyAppExe "dontknowwhatimdoing.exe"
-#define MyAppVersion "1.0.0"
+#define MyAppName "StockPilot"
+#define MyAppExe "StockPilot.exe"
+#define MyAppVersion "1.1.0"
+; The app's previous name (before 1.1). Used only to upgrade an existing installation in place: close it with its
+; own safety check, remove its program folder and shortcuts, and move its data and launch-at-login entry.
+#define PrevName "don’t know what im doing"
+#define PrevExe "dontknowwhatimdoing.exe"
+#define PrevDir "{localappdata}\Programs\dontknowwhatimdoing"
+#define PrevData "{localappdata}\dontknowwhatimdoing"
+#define PrevRunValue "dontknowwhatimdoing"
 
 [Setup]
 AppId={{8C6B0E2A-5D1F-4C3B-9B7E-2D1F6A9E4C11}
@@ -9,13 +16,15 @@ AppName={#MyAppName}
 AppVersion={#MyAppVersion}
 AppVerName={#MyAppName} {#MyAppVersion}
 AppPublisher=personal use
-DefaultDirName={localappdata}\Programs\dontknowwhatimdoing
+DefaultDirName={localappdata}\Programs\StockPilot
+; always install into the StockPilot folder, even when upgrading the previously named installation (same AppId)
+UsePreviousAppDir=no
 DefaultGroupName={#MyAppName}
 DisableProgramGroupPage=yes
 PrivilegesRequired=lowest
 OutputDir=..\..\dist\installer
-OutputBaseFilename=dontknowwhatimdoing-setup-{#MyAppVersion}
-SetupIconFile=..\..\dkapp\assets\icons\dk.ico
+OutputBaseFilename=StockPilot-setup-{#MyAppVersion}
+SetupIconFile=..\..\stockpilot\assets\icons\stockpilot.ico
 UninstallDisplayIcon={app}\{#MyAppExe}
 UninstallDisplayName={#MyAppName}
 Compression=lzma2/max
@@ -31,13 +40,21 @@ Name: "desktopicon"; Description: "Create a desktop shortcut"; GroupDescription:
 Name: "startup"; Description: "Start automatically when I log in (minimized to the tray)"; GroupDescription: "Startup:"; Flags: unchecked
 
 [Files]
-Source: "..\..\dist\dontknowwhatimdoing\*"; DestDir: "{app}"; Flags: recursesubdirs createallsubdirs ignoreversion
+Source: "..\..\dist\StockPilot\*"; DestDir: "{app}"; Flags: recursesubdirs createallsubdirs ignoreversion
 
 [Icons]
 Name: "{autoprograms}\{#MyAppName}"; Filename: "{app}\{#MyAppExe}"; IconFilename: "{app}\{#MyAppExe}"
 Name: "{autoprograms}\{#MyAppName} (fresh test)"; Filename: "{app}\{#MyAppExe}"; Parameters: "--profile test --fresh"; Comment: "A separate test copy that starts from scratch every time"
 Name: "{autodesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExe}"; Tasks: desktopicon
 Name: "{userstartup}\{#MyAppName}"; Filename: "{app}\{#MyAppExe}"; Parameters: "--minimized"; Tasks: startup
+
+[InstallDelete]
+; the previously named installation (closed by PrepareToInstall before anything here runs)
+Type: filesandordirs; Name: "{#PrevDir}"
+Type: files; Name: "{autoprograms}\{#PrevName}.lnk"
+Type: files; Name: "{autoprograms}\{#PrevName} (fresh test).lnk"
+Type: files; Name: "{autodesktop}\{#PrevName}.lnk"
+Type: files; Name: "{userstartup}\{#PrevName}.lnk"
 
 [UninstallDelete]
 ; anything left in the program folder (never touches user data, which lives elsewhere)
@@ -49,7 +66,7 @@ Filename: "{app}\{#MyAppExe}"; Description: "Open {#MyAppName}"; Flags: nowait p
 [Code]
 // Safety rules (every one of them blocks the uninstall or upgrade when it can't be satisfied):
 //  * The app itself checks for open REAL-MONEY positions and shuts a tray-hidden copy down gracefully
-//    (dontknowwhatimdoing.exe --check-live / --shutdown-running / --uninstall-prepare), BEFORE any file
+//    (StockPilot.exe --check-live / --shutdown-running / --uninstall-prepare), BEFORE any file
 //    is removed or replaced.
 //  * A check that could not run, crashed, or returned anything unexpected is a FAILED check — never
 //    success. If the app's program can't be started, the installer looks for itself: is a copy running,
@@ -62,7 +79,7 @@ const
   RC_RUNNING = 4;
   RC_NOT_RUN = -1;
   RUN_KEY = 'Software\Microsoft\Windows\CurrentVersion\Run';
-  DATA_DIR = '{localappdata}\dontknowwhatimdoing';
+  DATA_DIR = '{localappdata}\StockPilot';
 
 var
   DeleteUserData: Boolean;
@@ -94,8 +111,8 @@ begin
   end;
 end;
 
-// Is any copy of the app running? Known=False if that couldn't be determined.
-function AppProcessRunning(var Known: Boolean): Boolean;
+// Is a program with this file name running? Known=False if that couldn't be determined.
+function ImageRunning(const Image: String; var Known: Boolean): Boolean;
 var
   tmp: String;
   rc: Integer;
@@ -103,24 +120,31 @@ var
 begin
   Result := False;
   Known := False;
-  tmp := AddBackslash(GetTempDir()) + 'dk-tasklist.txt';
+  tmp := AddBackslash(GetTempDir()) + 'stockpilot-tasklist.txt';
   DeleteFile(tmp);
-  if Exec(ExpandConstant('{cmd}'), '/C tasklist /FI "IMAGENAME eq {#MyAppExe}" /FO CSV /NH > "' + tmp + '"',
+  if Exec(ExpandConstant('{cmd}'), '/C tasklist /FI "IMAGENAME eq ' + Image + '" /FO CSV /NH > "' + tmp + '"',
           '', SW_HIDE, ewWaitUntilTerminated, rc) and (rc = 0) and LoadStringFromFile(tmp, txt) then begin
     Known := True;
-    Result := Pos(Lowercase('"{#MyAppExe}"'), Lowercase(String(txt))) > 0;
+    Result := Pos(Lowercase('"' + Image + '"'), Lowercase(String(txt))) > 0;
   end;
   DeleteFile(tmp);
-  Log(Format('process check: known=%d running=%d', [Ord(Known), Ord(Result)]));
+  Log(Format('process check %s: known=%d running=%d', [Image, Ord(Known), Ord(Result)]));
 end;
 
-// Any real-money database (main copy or a test copy)? Used when the app itself can't answer.
-function AnyLiveDatabase(): Boolean;
+// Is any copy of the app running, under its current or its previous name?
+function AppProcessRunning(var Known: Boolean): Boolean;
 var
-  base: String;
+  k1, k2: Boolean;
+begin
+  Result := ImageRunning('{#MyAppExe}', k1) or ImageRunning('{#PrevExe}', k2);
+  Known := k1 and k2;
+end;
+
+// Any real-money database (main copy or a test copy) in this data folder?
+function LiveDatabaseIn(const base: String): Boolean;
+var
   rec: TFindRec;
 begin
-  base := ExpandConstant(DATA_DIR);
   Result := FileExists(base + '\trading_live.db');
   if Result then exit;
   if FindFirst(base + '\profiles\*', rec) then begin
@@ -133,6 +157,12 @@ begin
       FindClose(rec);
     end;
   end;
+end;
+
+// Used when the app itself can't answer: StockPilot's data folder, or one not yet moved from the previous name.
+function AnyLiveDatabase(): Boolean;
+begin
+  Result := LiveDatabaseIn(ExpandConstant(DATA_DIR)) or LiveDatabaseIn(ExpandConstant('{#PrevData}'));
 end;
 
 // The app's program can't run its own check: decide from what the installer can see for itself.
@@ -160,12 +190,12 @@ begin
 end;
 
 const
-  LIVE_MSG = 'don''t know what im doing still has open REAL-MONEY positions.' + #13#10 + #13#10 +
+  LIVE_MSG = 'StockPilot still has open REAL-MONEY positions.' + #13#10 + #13#10 +
              'Open the app and close them first (Trades -> sell now, or let it close them before 4:00 pm ET), ' +
              'then try again. Nothing was changed.';
   FIX_MSG = #13#10 + #13#10 + 'Nothing was changed. Open the app and quit it from the tray icon (or restart the ' +
             'computer), then try again. If the app won''t start, reinstall it first — that keeps your data. ' +
-            'Details: %TEMP%\dontknowwhatimdoing-uninstall.log and the setup log.';
+            'Details: %TEMP%\StockPilot-uninstall.log and the setup log.';
 
 // The app didn't close in time. Only force it closed if a fresh read-only check confirms that no
 // real-money position is open, and the person agrees (never in silent mode).
@@ -186,28 +216,70 @@ begin
     Log('force-close refused: silent mode never force-closes a trading process');
     exit;
   end;
-  Result := MsgBox('don''t know what im doing didn''t close on its own.' + #13#10 + #13#10 +
+  Result := MsgBox('StockPilot didn''t close on its own.' + #13#10 + #13#10 +
                    'No real-money positions are open (just checked). Force it closed so ' + What + ' can continue?' + #13#10 + #13#10 +
                    'Choose No to cancel and close it yourself from the tray icon.',
                    mbConfirmation, MB_YESNO or MB_DEFBUTTON2) = IDYES;
 end;
 
-function ForceClose(): Boolean;
+function ForceCloseImage(const Image: String): Boolean;
 var
   rc: Integer;
 begin
-  Exec(ExpandConstant('{sys}\taskkill.exe'), '/F /T /IM {#MyAppExe}', '', SW_HIDE, ewWaitUntilTerminated, rc);
+  Exec(ExpandConstant('{sys}\taskkill.exe'), '/F /T /IM ' + Image, '', SW_HIDE, ewWaitUntilTerminated, rc);
   Sleep(1500);
   Result := NothingRunning();
 end;
 
+function ForceClose(): Boolean;
+begin
+  Result := ForceCloseImage('{#MyAppExe}');
+end;
+
 // ---------------------------------------------------------------- install / upgrade
+// The installation under the app's previous name: closed by its own program's safety check, exactly as an
+// upgrade of StockPilot itself would be. Returns '' when it is safe to continue.
+function PreparePrevious(): String;
+var
+  rc: Integer;
+  prev: String;
+  known: Boolean;
+begin
+  Result := '';
+  prev := ExpandConstant('{#PrevDir}\{#PrevExe}');
+  if not FileExists(prev) then begin
+    if ImageRunning('{#PrevExe}', known) or (not known) then
+      Result := 'Setup can''t continue safely: an older version is running (or that couldn''t be checked) and its ' +
+                'safety check couldn''t run.' + FIX_MSG;
+    exit;
+  end;
+  Log('upgrading the installation under the previous name: ' + prev);
+  if not RunApp(prev, '--shutdown-running', rc) then begin
+    if ImageRunning('{#PrevExe}', known) or (not known) then
+      Result := 'Setup can''t continue safely: the older version is running and its safety check couldn''t run.' + FIX_MSG;
+    exit;
+  end;
+  if rc = RC_OK then exit;
+  if rc = RC_LIVE then
+    Result := LIVE_MSG
+  else if rc = RC_RUNNING then begin
+    // nested ifs on purpose: ForceCloseImage must never run unless MayForceClose said yes
+    if MayForceClose(prev, 'the update', WizardSilent()) then begin
+      if not ForceCloseImage('{#PrevExe}') then
+        Result := 'Setup can''t continue: the older version couldn''t be closed.' + FIX_MSG;
+    end else
+      Result := 'Setup can''t continue: the older version didn''t close.' + FIX_MSG;
+  end else
+    Result := Format('Setup can''t continue safely: the older version''s safety check failed (code %d).', [rc]) + FIX_MSG;
+end;
+
 function PrepareToInstall(var NeedsRestart: Boolean): String;
 var
   rc: Integer;
   exe, why: String;
 begin
-  Result := '';
+  Result := PreparePrevious();
+  if Result <> '' then exit;
   exe := ExpandConstant('{app}\{#MyAppExe}');
   if not RunApp(exe, '--shutdown-running', rc) then begin
     // fresh install, or the old copy's program is gone/broken: nothing must be running
@@ -229,6 +301,28 @@ begin
       Result := 'Setup can''t continue: the running app didn''t close.' + FIX_MSG;
   end else
     Result := Format('Setup can''t continue safely: the app''s safety check failed (code %d).', [rc]) + FIX_MSG;
+end;
+
+// After the files are in place: move the previous installation's data folder (if StockPilot has none yet) and
+// its launch-at-login entry. Saved API keys are moved by the app itself on its first start.
+procedure CurStepChanged(CurStep: TSetupStep);
+var
+  oldData, newData: String;
+begin
+  if CurStep <> ssPostInstall then exit;
+  oldData := ExpandConstant('{#PrevData}');
+  newData := ExpandConstant(DATA_DIR);
+  if DirExists(oldData) and (not DirExists(newData)) then begin
+    if RenameFile(oldData, newData) then
+      Log('moved data folder ' + oldData + ' -> ' + newData)
+    else
+      Log('could not move ' + oldData + '; StockPilot moves it on its first start');
+  end;
+  if RegValueExists(HKEY_CURRENT_USER, RUN_KEY, '{#PrevRunValue}') then begin
+    RegDeleteValue(HKEY_CURRENT_USER, RUN_KEY, '{#PrevRunValue}');
+    RegWriteStringValue(HKEY_CURRENT_USER, RUN_KEY, 'StockPilot', '"' + ExpandConstant('{app}\{#MyAppExe}') + '" --minimized');
+    Log('launch-at-login moved to StockPilot');
+  end;
 end;
 
 // ---------------------------------------------------------------- uninstall
@@ -299,11 +393,12 @@ begin
       if DeleteUserData then
         SuppressibleMsgBox('The app''s own program couldn''t run, so saved API keys could not be removed automatically. ' +
           'To remove them: Windows Credential Manager -> Windows Credentials -> entries containing ' +
-          '"dontknowwhatimdoing".', mbInformation, MB_OK, IDOK);
+          '"StockPilot".', mbInformation, MB_OK, IDOK);
     end;
     if not NothingRunning() then
       RefuseUninstall('a copy of the app is still running (or that couldn''t be checked).');
-    RegDeleteValue(HKEY_CURRENT_USER, RUN_KEY, 'dontknowwhatimdoing');
+    RegDeleteValue(HKEY_CURRENT_USER, RUN_KEY, 'StockPilot');
+    RegDeleteValue(HKEY_CURRENT_USER, RUN_KEY, '{#PrevRunValue}');
   end;
   if CurUninstallStep = usPostUninstall then begin
     // safety net: if anything in the program folder was still locked a moment ago, try once more
@@ -313,7 +408,9 @@ begin
       DelTree(ExpandConstant('{app}\_internal'), True, True, True);
       DeleteFile(ExpandConstant('{app}\{#MyAppExe}'));
     end;
-    if DeleteUserData then
+    if DeleteUserData then begin
       DelTree(ExpandConstant(DATA_DIR), True, True, True);
+      DelTree(ExpandConstant('{#PrevData}'), True, True, True);   // never moved: the app wasn't started after the upgrade
+    end;
   end;
 end;
