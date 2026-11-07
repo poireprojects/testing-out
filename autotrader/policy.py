@@ -12,7 +12,7 @@ import json
 from dataclasses import dataclass
 from pathlib import Path
 
-from dkapp.config import AppSettings
+from stockpilot.config import AppSettings
 
 POLICY_PATH = Path(__file__).resolve().parent / "owner_policy.json"
 ALLOWED_MODES = ("simulate",)
