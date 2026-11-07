@@ -18,7 +18,7 @@ from collections import defaultdict
 from datetime import date, datetime, time as dtime
 from typing import Callable, Optional
 
-from dkapp.clock import ET
+from stockpilot.clock import ET
 
 from .ledger import Ledger
 
