@@ -29,7 +29,7 @@ def setup_logging(level: int = logging.INFO) -> None:
         return
     root.setLevel(level)
     fmt = logging.Formatter("%(asctime)s %(levelname)-7s %(name)s: %(message)s")
-    fh = logging.handlers.RotatingFileHandler(paths.log_dir() / "dk.log", maxBytes=5_000_000, backupCount=5,
+    fh = logging.handlers.RotatingFileHandler(paths.log_dir() / "stockpilot.log", maxBytes=5_000_000, backupCount=5,
                                               encoding="utf-8")
     fh.setFormatter(fmt)
     fh.addFilter(_Scrubber())
