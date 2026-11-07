@@ -20,10 +20,10 @@ import pandas as pd
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
-from dkapp.clock import ET  # noqa: E402
-from dkapp.quant.model import LogisticL2, Standardizer  # noqa: E402
-from dkapp.research.stats import day_block_bootstrap, holm, top_share  # noqa: E402
-from dkapp.risk.fees import CostModel  # noqa: E402
+from stockpilot.clock import ET  # noqa: E402
+from stockpilot.quant.model import LogisticL2, Standardizer  # noqa: E402
+from stockpilot.research.stats import day_block_bootstrap, holm, top_share  # noqa: E402
+from stockpilot.risk.fees import CostModel  # noqa: E402
 
 SLIP_BPS = 5.0
 STOP = 0.03
