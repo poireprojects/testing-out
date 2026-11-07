@@ -384,7 +384,7 @@ class AppController(QObject):
 
     @staticmethod
     def _research_file(name: str) -> dict:
-        """Shipped research evidence (dkapp/assets/research): historical, clearly labeled as such."""
+        """Shipped research evidence (stockpilot/assets/research): historical, clearly labeled as such."""
         try:
             return json.loads((paths.assets_dir() / "research" / name).read_text())
         except (OSError, ValueError):
