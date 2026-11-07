@@ -4,7 +4,7 @@ import sys
 import httpx
 import pytest
 
-from dkapp import setup_assistant as sa
+from stockpilot import setup_assistant as sa
 
 
 def client(handler):
