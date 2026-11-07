@@ -54,7 +54,7 @@ def activate(name: str, fresh: bool) -> Path:
         _forget_keys()
         log.info("profile %s wiped for a fresh start", name)
     root.mkdir(parents=True, exist_ok=True)
-    os.environ["DK_HOME"] = str(root)
+    os.environ["STOCKPILOT_HOME"] = str(root)
     active_profile = name
     return root
 
