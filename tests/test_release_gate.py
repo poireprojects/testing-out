@@ -18,7 +18,7 @@ import app_changed as gate  # noqa: E402
 @pytest.mark.parametrize("path", [
     "research/runs/2026-11-07-phase4/corrected/results_corrected.json", "research/ledger.json",
     "scripts/phase4_corrected.py", "tests/test_events.py", "docs/results/x.md", "README.md",
-    ".github/workflows/build.yml", "dkapp/research/events.py", "dkapp/research/phase2.py",
+    ".github/workflows/build.yml", "stockpilot/research/events.py", "stockpilot/research/phase2.py",
     "requirements-research.txt", "packaging/app_changed.py", "autotrader/runner.py", "autotrader/owner_policy.json",
 ])
 def test_research_test_and_doc_paths_do_not_release(path):
@@ -26,9 +26,9 @@ def test_research_test_and_doc_paths_do_not_release(path):
 
 
 @pytest.mark.parametrize("path", [
-    "dkapp/ui/qml/Main.qml", "dkapp/engine/trading_engine.py", "dkapp/risk/fees.py",
-    "dkapp/research/forward.py", "dkapp/research/daily_shadow.py", "dkapp/research/__init__.py",
-    "packaging/dk.spec", "packaging/windows/installer.iss", "requirements.txt", "requirements-dev.txt",
+    "stockpilot/ui/qml/Main.qml", "stockpilot/engine/trading_engine.py", "stockpilot/risk/fees.py",
+    "stockpilot/research/forward.py", "stockpilot/research/daily_shadow.py", "stockpilot/research/__init__.py",
+    "packaging/stockpilot.spec", "packaging/windows/installer.iss", "requirements.txt", "requirements-dev.txt",
     "pyproject.toml", "some_new_top_level_file.py",
 ])
 def test_app_paths_and_unknown_paths_do_release(path):
@@ -36,9 +36,9 @@ def test_app_paths_and_unknown_paths_do_release(path):
 
 
 def _app_reachable_modules() -> set[str]:
-    """dkapp modules reachable by static import from the packaged app's entry points."""
+    """stockpilot modules reachable by static import from the packaged app's entry points."""
     mods = {}
-    for p in (ROOT / "dkapp").rglob("*.py"):
+    for p in (ROOT / "stockpilot").rglob("*.py"):
         name = ".".join(p.relative_to(ROOT).with_suffix("").parts)
         mods[name.removesuffix(".__init__")] = p
 
@@ -56,7 +56,7 @@ def _app_reachable_modules() -> set[str]:
                 out |= {base} | {f"{base}.{a.name}" for a in n.names}
         return {d for d in out if d in mods}
 
-    entry = {"dkapp", "dkapp.__main__", "dkapp.ui.app", "dkapp.ui.charts", "dkapp.ui.controller", "dkapp.ui.models"}
+    entry = {"stockpilot", "stockpilot.__main__", "stockpilot.ui.app", "stockpilot.ui.charts", "stockpilot.ui.controller", "stockpilot.ui.models"}
     seen, stack = set(), list(entry)
     while stack:
         m = stack.pop()
@@ -71,8 +71,8 @@ def _app_reachable_modules() -> set[str]:
 
 def test_research_modules_listed_as_non_app_are_never_imported_by_the_app():
     reach = _app_reachable_modules()
-    assert "dkapp.research.forward" in reach                        # sanity: the graph sees the app's research use
-    listed = [p for p in gate.NON_APP if p.startswith("dkapp/")]
+    assert "stockpilot.research.forward" in reach                        # sanity: the graph sees the app's research use
+    listed = [p for p in gate.NON_APP if p.startswith("stockpilot/")]
     assert listed
     for p in listed:
         mod = p.removesuffix(".py").replace("/", ".")
@@ -80,21 +80,21 @@ def test_research_modules_listed_as_non_app_are_never_imported_by_the_app():
 
 
 def test_the_app_never_imports_the_research_prototype():
-    for p in (ROOT / "dkapp").rglob("*.py"):
+    for p in (ROOT / "stockpilot").rglob("*.py"):
         assert "autotrader" not in p.read_text(encoding="utf-8"), p
-    spec = (ROOT / "packaging" / "dk.spec").read_text(encoding="utf-8")
-    assert "autotrader" not in spec and 'collect_submodules("dkapp")' in spec
+    spec = (ROOT / "packaging" / "stockpilot.spec").read_text(encoding="utf-8")
+    assert "autotrader" not in spec and 'collect_submodules("stockpilot")' in spec
 
 
 def test_launcher_entry_point_is_the_one_the_graph_starts_from():
-    assert "from dkapp.ui.app import main" in (ROOT / "packaging" / "launch.py").read_text(encoding="utf-8")
+    assert "from stockpilot.ui.app import main" in (ROOT / "packaging" / "launch.py").read_text(encoding="utf-8")
 
 
 def test_every_installer_and_release_job_is_gated_and_the_tests_are_not():
     yaml = pytest.importorskip("yaml")
     jobs = yaml.safe_load((ROOT / ".github" / "workflows" / "build.yml").read_text(encoding="utf-8"))["jobs"]
     assert "if" not in jobs["test"] and "if" not in jobs["changes"]
-    for name in ("windows", "windows-uninstall-test", "uninstall-repro-previous", "macos", "latest", "latest-mac"):
+    for name in ("windows", "windows-uninstall-test", "upgrade-from-previous", "macos", "latest", "latest-mac"):
         assert "needs.changes.outputs.app == 'true'" in jobs[name]["if"], name
         needs = jobs[name]["needs"]
         assert "changes" in (needs if isinstance(needs, list) else [needs]), name
@@ -124,18 +124,18 @@ def test_decision_compares_against_the_newest_published_build(tmp_path, monkeypa
     monkeypatch.chdir(repo)
     monkeypatch.delenv("GITHUB_EVENT_NAME", raising=False)
     monkeypatch.setenv("GITHUB_REF", "refs/heads/claude/x")
-    _commit(repo, "dkapp/ui/app.py")
+    _commit(repo, "stockpilot/ui/app.py")
     assert gate.decide()[0] is True                                   # nothing published yet
     _git(repo, "tag", "build-9")
-    _commit(repo, "dkapp/ui/app.py", "y")
+    _commit(repo, "stockpilot/ui/app.py", "y")
     _git(repo, "tag", "build-10")                                     # numeric, not lexical, ordering
     _commit(repo, "research/runs/a.json")
     _commit(repo, "scripts/a.py")
-    _commit(repo, "dkapp/research/events.py")
+    _commit(repo, "stockpilot/research/events.py")
     assert gate.decide()[0] is False                                  # research only since build-10
-    _commit(repo, "dkapp/risk/fees.py")
+    _commit(repo, "stockpilot/risk/fees.py")
     _commit(repo, "research/runs/b.json")
     ok, why = gate.decide()
-    assert ok and "dkapp/risk/fees.py" in why                         # an app change is never hidden by a later commit
+    assert ok and "stockpilot/risk/fees.py" in why                         # an app change is never hidden by a later commit
     monkeypatch.setenv("GITHUB_EVENT_NAME", "workflow_dispatch")
     assert gate.decide() == (True, "manual run")
