@@ -7,10 +7,10 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from dkapp.clock import ET, MarketCalendar
-from dkapp.research.daily_shadow import (BENCH, H1, H2, SECTORS, DailyShadow, decisions_for_month, outcome_for)
-from dkapp.research.forward import ForwardLedger
-from dkapp.storage.db import Database
+from stockpilot.clock import ET, MarketCalendar
+from stockpilot.research.daily_shadow import (BENCH, H1, H2, SECTORS, DailyShadow, decisions_for_month, outcome_for)
+from stockpilot.research.forward import ForwardLedger
+from stockpilot.storage.db import Database
 
 
 class FakeDaily:
@@ -131,7 +131,7 @@ def test_engine_runs_the_daily_shadow_outside_demo_mode_only(tmp_path, monkeypat
 
 
 def test_naive_and_aware_bar_timestamps_map_to_the_same_session_day():
-    from dkapp.research.daily_shadow import _session_days
+    from stockpilot.research.daily_shadow import _session_days
     aware = pd.DatetimeIndex([datetime(2026, 11, 30, tzinfo=ET)]).tz_convert("UTC")
     naive = pd.DatetimeIndex([datetime(2026, 11, 30)])
     assert _session_days(aware) == _session_days(naive) == [date(2026, 11, 30)]
