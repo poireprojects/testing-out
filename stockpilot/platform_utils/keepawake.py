@@ -34,7 +34,7 @@ class KeepAwake:
                     self._proc = None
             else:
                 if on:
-                    self._proc = subprocess.Popen(["systemd-inhibit", "--what=idle:sleep", "--who=dk",
+                    self._proc = subprocess.Popen(["systemd-inhibit", "--what=idle:sleep", "--who=StockPilot",
                                                    "--why=market open", "sleep", "infinity"],
                                                   stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
                 elif self._proc:
