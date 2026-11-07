@@ -21,12 +21,12 @@ import pandas as pd
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
-from dkapp.research.academic import load_series, market_total_return, price_index, segments  # noqa: E402
-from dkapp.research.phase3 import (H1_VERSION, H2_VERSION, block_signs, decade_signs, equal_weight_targets,  # noqa: E402
+from stockpilot.research.academic import load_series, market_total_return, price_index, segments  # noqa: E402
+from stockpilot.research.phase3 import (H1_VERSION, H2_VERSION, block_signs, decade_signs, equal_weight_targets,  # noqa: E402
                                    h1_targets, h2_targets, random_topk_percentiles, random_window_baseline,
                                    tom_day_flags, top_months_share, window_returns)
-from dkapp.research.portfolio import SimCosts, monthly_returns, perf, simulate  # noqa: E402
-from dkapp.research.stats import day_block_bootstrap, deflated_sharpe, holm, moving_block_bootstrap  # noqa: E402
+from stockpilot.research.portfolio import SimCosts, monthly_returns, perf, simulate  # noqa: E402
+from stockpilot.research.stats import day_block_bootstrap, deflated_sharpe, holm, moving_block_bootstrap  # noqa: E402
 
 CAPS = [100, 500, 1_000, 5_000, 10_000]
 PRIMARY_CAP = 10_000
