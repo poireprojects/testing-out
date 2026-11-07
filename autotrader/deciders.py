@@ -184,7 +184,7 @@ class RecordedProvider:
         self.answers, self.model = answers, model
 
     def complete_json(self, system: str, user: str, schema: dict, max_tokens: int = 1200):
-        from dkapp.ai.providers import ProviderResult
+        from stockpilot.ai.providers import ProviderResult
         key = hashlib.sha256((system + user).encode()).hexdigest()
         if key not in self.answers:
             raise ModelFailure("no recorded answer for this prompt")
