@@ -91,7 +91,7 @@ class AISettings(BaseModel):
 
 
 class QuantSettings(BaseModel):
-    """The statistical model (dkapp/quant). It records a prediction for every candidate (shadow). It can
+    """The statistical model (stockpilot/quant). It records a prediction for every candidate (shadow). It can
     only ever BLOCK paper entries, and only when its model card passed the pre-registered checks."""
     shadow: bool = True
     forward_ledger: bool = True      # record every candidate + its later outcome (research/forward.py)
