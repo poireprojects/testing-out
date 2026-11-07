@@ -12,12 +12,16 @@ Alpaca. Real-money trading stays locked until you explicitly authorize it.
 > is built to *measure* whether a strategy has an edge after costs — and to refuse real money until there is
 > evidence. It's not financial advice.
 
-> **Project status (2026-11-07).** No strategy has shown a profit after costs (13 pre-registered hypotheses,
-> four research phases). Phase 5 is a separate, simulation-only prototype of an autonomous research-and-decision
-> process (`autotrader/`, [`research/PHASE5-AUTONOMOUS.md`](research/PHASE5-AUTONOMOUS.md)); it is not part of the
-> desktop app and places no orders. What the app does now, what runs without placing orders, and which credentials
-> to rotate: [`docs/OPERATIONAL-STATUS.md`](docs/OPERATIONAL-STATUS.md). Pushes that change only research, tests or
-> docs do not publish a new installer.
+> **Project status (2026-11-07).** No strategy has shown a profit after costs: 13 pre-registered hypotheses over
+> four research phases.
+> * **Phase 5** is building a separate autonomous AI trader (`autotrader/`). It runs only in simulation, is not
+>   part of the desktop app, and cannot place orders.
+> * Its forward test is **on hold** until a capable AI model passes a small, fixed-cost check. That check waits on
+>   your approval (see *Research → Phase 5* below).
+> * **Before leaving the app running:** in paper mode with **autopilot** on, it places *paper* orders with
+>   strategies that have no evidence. Turn autopilot off to watch only. Details, and the API key you should rotate,
+>   are in [`docs/OPERATIONAL-STATUS.md`](docs/OPERATIONAL-STATUS.md).
+> * Pushes that change only research, tests or docs no longer publish a new installer.
 
 ---
 
@@ -193,6 +197,7 @@ They were tested on a second untouched holdout: two years, 2023-09 → 2025-08, 
   * Passive limit orders save half the cost but fill mostly on the trades that go on to lose.
 * Every day of history used so far is recorded in `research/ledger.json`. The only untouched history left (2020-07 →
   2022-10) is reserved for one future test.
+
 **Phase 3** (`research/runs/2026-11-07-phase3/REPORT.md`) tried holding for days and weeks instead of minutes:
 
 * industry relative strength (hold the 3 strongest of 12 industries, monthly)
@@ -223,6 +228,8 @@ earnings releases) gives an intraday edge that price-only rules lack.
   if the stock is outperforming its sector.
   * It lost **−0.27% per trade** after measured costs (974 trades, 2024-11 → 2026-10).
   * It did no better than a price-only look-alike, so the news added nothing.
+  * A later audit found the test charged fees per trade instead of per day. Corrected, it still lost −0.19% per
+    trade (`research/runs/2026-11-07-phase4/corrected/`). The original results are kept unchanged.
 * **Decision: NO-GO.** No app changes.
 
 * New evidence now comes from **forward** observation:
@@ -239,6 +246,44 @@ earnings releases) gives an intraday edge that price-only rules lack.
   * a multiple-testing-adjusted p < 0.05 after costs
   * your explicit approval
 
+**Strategic reset** (`research/runs/2026-11-07-reset/REPORT.md`) asked where trading profits actually come from.
+* Reliable trading profits go to market makers and a few large firms. They earn them from spreads, order flow,
+  speed and scale, none of which a retail account has.
+* What an individual *can* reproduce are risk premia (owning the market, trend-following, merger arbitrage). Those
+  pay roughly market-like returns, with long drawdowns.
+* **More capital would not have rescued any failed strategy.** Their edge before costs was smaller than the spread,
+  and the spread is a percentage of every trade.
+* $1,000 a month at realistic returns needs roughly $120,000–$300,000.
+* What would justify reopening this research: `research/REOPENING-CRITERIA.md`.
+
+**Phase 5** (`research/PHASE5-AUTONOMOUS.md`) is a prototype of an AI that trades on its own, without asking you
+about each trade. It runs **only in simulation**.
+* **How it works:**
+  * It reads new SEC filings and the company's financial history.
+  * It writes a thesis: facts that must cite their source sentences, interpretation, uncertainty, what the market
+    has already priced in, and what would prove it wrong.
+  * It decides to trade or not.
+  * The app's own risk engine checks every proposal (the $100 / $20 / 2-position / $2-a-day limits, which the AI
+    cannot change).
+  * The trade is simulated with realistic costs.
+  * Everything is recorded in a tamper-evident ledger, and a daily report is written.
+  * Any invalid answer, invented figure or failure becomes "no trade".
+* **What we found:** the free local model (Llama 3.2 3B) is not good enough.
+  * Only 8 of 30 answers passed the source checks; after a stricter answer format, 2 of 30.
+  * Its probabilities were worse than a constant guess.
+  * It proposed no trades.
+  * Every invented figure was caught.
+* **Corrected since the first version:**
+  * Predictions are scored on the session they target (a Saturday decision is scored on Monday).
+  * Finished sessions are scored automatically once prices exist, against simple rules computed only from data
+    available at 10:00.
+* **Next steps, each needing your decision:**
+  * a fixed-cost check of a capable model: Claude Opus 5.5 on 160 past events, hard ceiling $12.50, expected $5–7
+    (`research/runs/2026-11-07-phase5/dev-eval/PLAN.md`);
+  * a new market-data key, to score forward decisions;
+  * a computer that stays on, to run it.
+* No real orders, no paid calls and no new installer so far. Sophisticated reasoning is not a demonstrated edge.
+
 ### Is the AI actually helping?
 
 Every candidate is followed as a *shadow trade* with identical exit rules, traded or not: all rules signals, the
@@ -254,7 +299,8 @@ backtested honestly, so this comparison is made going forward.
 
 * **The $25,000 pattern-day-trader rule is gone.** FINRA's Rule 4210 amendments took effect **June 4, 2026**, and
   Alpaca moved to an intraday-margin framework that day. A legacy guard is still in settings (off by default) in case
-  a broker keeps enforcing day-trade counts.
+  a broker keeps enforcing day-trade counts. (The later strategic reset could not independently confirm the final
+  rule, so check with Alpaca before relying on it.)
 * **Every Alpaca account is a margin account.** Under $2,000 of equity it's a *limited margin* account: 1× buying
   power (= cash), no borrowing, no shorting, but proceeds from a sale can buy again the **same day** — Alpaca covers
   the T+1 settlement float, so there are no good-faith violations. The app follows that by default (settings →
@@ -330,7 +376,8 @@ pip install -r requirements-dev.txt
 python -m pytest -q
 ```
 
-217 automated tests (215 run anywhere; 2 need your Alpaca paper keys) cover the uninstall/shutdown handshake
+461 automated tests. 453 run anywhere; 8 need your Alpaca paper keys, and 4 of those place paper orders, so they
+run only when you ask. They cover the uninstall/shutdown handshake
 (open live positions block it; keep vs. delete data and saved keys), opportunity ranking and market regimes, the AI
 picking mode, approach comparison and confidence calibration, walk-forward/train-validation-test evaluation, cost
 stress, sleep/wake recovery, refused protective stops (retry + live block), plain-English rejections, the
@@ -342,6 +389,14 @@ external closes, protective-stop fallback, trailing stops, emergency stop, daily
 complete simulated trading day (P/L reconciled to the cent against the simulated broker's cash), paper/live
 separation, the backtester's realism rules, and loading the real interface (`--self-test`).
 
+They also cover the research tooling:
+* the phase-4 integrity corrections;
+* the release gate that keeps research-only pushes from publishing installers;
+* the Phase 5 prototype: evidence time stamps and look-ahead guards, tamper and duplicate detection, rejection of
+  invented or ungrounded answers, every risk rejection, safe failure when the model, data or ledger fails,
+  target-session scoring, unattended forward scoring, and the paid-model spending ceiling (with fake clients; no
+  paid call).
+
 ### What is verified and what isn't
 
 * **Verified:** real Alpaca paper calls (8 integration tests: account, assets, fractional limit orders, a
@@ -349,7 +404,8 @@ separation, the backtester's realism rules, and loading the real interface (`--s
   clean); real historical backtests with a frozen, reproducible baseline (`research/baselines/build20`); a real local
   language model (Llama 3.2 3B) on recorded decisions; the Windows installer, upgrade-over-a-running-copy and
   every blocked-uninstall scenario on a real Windows CI machine; the window frame's hit-testing, maximize bounds,
-  restore and minimize via `--chrome-selftest` at 100/125/150% on Windows CI.
+  restore and minimize via `--chrome-selftest` at 100/125/150% on Windows CI; the Phase 5 prototype end to end
+  with a real local model, real SEC filings and cached market data.
 * **Not verified by a person:** the Windows 11 **Snap Layouts flyout** itself (CI checks the documented
   requirement — the maximize button answers `HTMAXBUTTON` — but the flyout only appears for a real mouse on
   Windows 11), multi-monitor dragging between screens with different scaling, the tray, notifications and the
@@ -378,7 +434,12 @@ dkapp/
   backtest/           bar-by-bar backtester, out-of-sample evidence gate
   data/               Alpaca + demo market data, universe, rate limiting
   ui/                 PySide6/QML interface, custom charts, tray, notifications
-packaging/            PyInstaller spec, Windows installer, macOS/Linux build scripts
+  research/           forward recorders used by the app, plus research-only modules
+autotrader/           Phase 5 autonomous-trader prototype (simulation only; not in the app or installer)
+packaging/            PyInstaller spec, Windows installer, macOS/Linux build scripts, release gate
+research/             pre-registrations, data ledger, reports and results of every research phase
+scripts/              research and data scripts (historical data only)
+docs/                 operational status and published results
 tests/                automated tests
 ```
 
