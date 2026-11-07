@@ -23,11 +23,11 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
-from dkapp.ai.providers import AIUnavailable, ProviderResult  # noqa: E402
-from dkapp.backtest.engine import BTConfig, run_backtest, run_day  # noqa: E402
-from dkapp.backtest.runner import DEFAULT_BACKTEST_SYMBOLS, HistoryCache, historical_days  # noqa: E402
-from dkapp.clock import ET, MarketCalendar  # noqa: E402
-from dkapp.strategies import ALL_STRATEGIES  # noqa: E402
+from stockpilot.ai.providers import AIUnavailable, ProviderResult  # noqa: E402
+from stockpilot.backtest.engine import BTConfig, run_backtest, run_day  # noqa: E402
+from stockpilot.backtest.runner import DEFAULT_BACKTEST_SYMBOLS, HistoryCache, historical_days  # noqa: E402
+from stockpilot.clock import ET, MarketCalendar  # noqa: E402
+from stockpilot.strategies import ALL_STRATEGIES  # noqa: E402
 
 log = logging.getLogger("real_history")
 
@@ -174,8 +174,8 @@ def main() -> int:
     logging.basicConfig(level=logging.INFO, format="%(asctime)s %(message)s")
     out = Path(a.out)
     out.mkdir(parents=True, exist_ok=True)
-    from dkapp.credentials import AlpacaKeys
-    from dkapp.data.alpaca_data import AlpacaMarketData
+    from stockpilot.credentials import AlpacaKeys
+    from stockpilot.data.alpaca_data import AlpacaMarketData
     keys = AlpacaKeys(os.environ["ALPACA_PAPER_KEY"], os.environ["ALPACA_PAPER_SECRET"])
     data = AlpacaMarketData(keys, feed="iex")
     cal = MarketCalendar()
@@ -213,10 +213,10 @@ def main() -> int:
     log.info("backtest done: %s", {k: v["verdict"] for k, v in res["strategies"].items()})
     cmp = None
     if a.model:
-        from dkapp.ai.engine import AIEngine
-        from dkapp.backtest.ai_replay import compare_modes
-        from dkapp.config import AppSettings
-        from dkapp.storage.db import Database
+        from stockpilot.ai.engine import AIEngine
+        from stockpilot.backtest.ai_replay import compare_modes
+        from stockpilot.config import AppSettings
+        from stockpilot.storage.db import Database
         s = AppSettings()
         s.ai.decision_mode = "ai_confirm"
         db = Database(out / "ai_replay.db", "paper")

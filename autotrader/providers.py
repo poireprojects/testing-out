@@ -21,7 +21,7 @@ import copy
 import json
 import time
 from pathlib import Path
-from dkapp.ai.providers import ANTHROPIC_PRICES, AIUnavailable, ProviderResult, anthropic_cost
+from stockpilot.ai.providers import ANTHROPIC_PRICES, AIUnavailable, ProviderResult, anthropic_cost
 
 UNSUPPORTED = ("minItems", "maxItems", "minLength", "maxLength", "minimum", "maximum", "multipleOf")
 

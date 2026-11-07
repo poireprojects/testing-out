@@ -5,8 +5,8 @@ from datetime import datetime, timedelta
 
 import pytest
 
-from dkapp.clock import ET, MarketCalendar
-from dkapp.research.events import (Edgar, EventTimes, FairAccessError, actionable_time, json_acceptance,
+from stockpilot.clock import ET, MarketCalendar
+from stockpilot.research.events import (Edgar, EventTimes, FairAccessError, actionable_time, json_acceptance,
                                    match_release, parse_flash, parse_header, session_phase, stated_times)
 
 HEADER = """&lt;SEC-HEADER&gt;0000320193-26-000024.hdr.sgml : 20261102
@@ -37,8 +37,8 @@ def test_header_parsing_and_the_two_sec_clocks_agree():
 
 def test_fair_access_requires_a_declared_contact(tmp_path):
     with pytest.raises(FairAccessError):
-        Edgar("dontknowwhatimdoing research", tmp_path)
-    Edgar("dontknowwhatimdoing research someone@example.com", tmp_path)
+        Edgar("StockPilot research", tmp_path)
+    Edgar("StockPilot research someone@example.com", tmp_path)
 
 
 def test_actionable_time_and_receipt():

@@ -141,12 +141,12 @@ Files: `research/runs/2026-11-07-phase5/replay-v2-3b/`; each run's `results_prot
 
 | piece | from |
 |---|---|
-| position sizing, $20 cap, 2 positions, $2 daily loss, stop bounds, quote age, spread, trading hours, cooldowns | `dkapp.risk.engine.RiskEngine.check_entry` (unchanged) |
-| fee schedule (SEC, TAF, CAT by date) | `dkapp.risk.fees.CostModel` |
-| market calendar and session phases | `dkapp.clock` |
-| local and paid model access, with cost tracking and budget cap | `dkapp.ai.providers` (Ollama, Anthropic) |
-| SEC fair-access client and filing-header parsing | `dkapp.research.events` |
-| permitted universe and symbol safety | `dkapp.data.universe` |
+| position sizing, $20 cap, 2 positions, $2 daily loss, stop bounds, quote age, spread, trading hours, cooldowns | `stockpilot.risk.engine.RiskEngine.check_entry` (unchanged) |
+| fee schedule (SEC, TAF, CAT by date) | `stockpilot.risk.fees.CostModel` |
+| market calendar and session phases | `stockpilot.clock` |
+| local and paid model access, with cost tracking and budget cap | `stockpilot.ai.providers` (Ollama, Anthropic) |
+| SEC fair-access client and filing-header parsing | `stockpilot.research.events` |
+| permitted universe and symbol safety | `stockpilot.data.universe` |
 | cost conventions and the phase-4 integrity fixes | `scripts/phase4_corrected.py` |
 
 New code is in `autotrader/`:

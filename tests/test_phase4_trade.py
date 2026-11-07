@@ -12,7 +12,7 @@ import pytest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 
-from dkapp.clock import ET  # noqa: E402
+from stockpilot.clock import ET  # noqa: E402
 
 
 def _setup(tmp_path, lows=None, entry_q=True, exit_q=True):

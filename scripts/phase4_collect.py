@@ -26,10 +26,10 @@ import pandas as pd
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
-from dkapp.clock import ET, MarketCalendar  # noqa: E402
-from dkapp.data.universe import curated_universe  # noqa: E402
-from dkapp.research.events import Edgar, json_acceptance, match_release, parse_flash, sector_etf  # noqa: E402
-from dkapp.research.ledger import EXAMINED, DataLedger  # noqa: E402
+from stockpilot.clock import ET, MarketCalendar  # noqa: E402
+from stockpilot.data.universe import curated_universe  # noqa: E402
+from stockpilot.research.events import Edgar, json_acceptance, match_release, parse_flash, sector_etf  # noqa: E402
+from stockpilot.research.ledger import EXAMINED, DataLedger  # noqa: E402
 
 BARS_FROM = date(2022, 11, 1)
 EVENTS_FROM, EVENTS_TO = date(2022, 12, 1), date(2026, 10, 30)

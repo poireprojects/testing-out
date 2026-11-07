@@ -2,12 +2,12 @@ from datetime import date, datetime, timedelta, timezone
 
 import pytest
 
-from dkapp.ai.engine import AIEngine
-from dkapp.broker.base import BrokerUnavailable, DuplicateOrder
-from dkapp.clock import ET
-from dkapp.engine.trading_engine import TradingEngine
-from dkapp.execution.order_manager import OrderManager
-from dkapp.models import OrderRequest
+from stockpilot.ai.engine import AIEngine
+from stockpilot.broker.base import BrokerUnavailable, DuplicateOrder
+from stockpilot.clock import ET
+from stockpilot.engine.trading_engine import TradingEngine
+from stockpilot.execution.order_manager import OrderManager
+from stockpilot.models import OrderRequest
 from tests.harness import ScriptedAI, enter, make_rig, override_price
 
 DAY = date(2026, 11, 4)
@@ -38,7 +38,7 @@ def test_write_ahead_then_submit(rig):
                         session_date=DAY.isoformat(), created_at=rig.clock.now().isoformat())
     row = om.place(tid, "entry", dict(symbol="SPY", side="buy", type="market", qty=0.01))
     assert row["client_order_id"] == f"{rig.engine.orders.prefix}261104-t{tid}-entry-1"
-    assert rig.engine.orders.prefix.startswith("dkd") and len(rig.engine.orders.tag) == 4
+    assert rig.engine.orders.prefix.startswith("spd") and len(rig.engine.orders.tag) == 4
     assert row["broker_order_id"] and row["status"] == "filled"
     assert len(broker_orders(rig)) == 1
 

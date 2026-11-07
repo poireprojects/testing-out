@@ -9,7 +9,7 @@ ROOT = Path(__file__).resolve().parents[1]
 RACE = r"""
 import sys, threading
 sys.path.insert(0, %r)
-from dkapp import preload
+from stockpilot import preload
 missing = preload.preload()
 errs = []
 def a():
@@ -43,7 +43,7 @@ def test_libraries_import_safely_from_many_threads_after_preload():
 
 
 def test_preload_covers_what_the_app_imports_lazily():
-    from dkapp import preload
+    from stockpilot import preload
     for name in ("asyncio", "anyio._backends._asyncio", "alpaca.trading.client", "alpaca.data.historical", "anthropic"):
         assert name in preload.MODULES
     assert preload.preload() == [] or True  # idempotent, never raises

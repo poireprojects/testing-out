@@ -30,14 +30,14 @@ sys.path.insert(0, str(ROOT))
 import numpy as np  # noqa: E402
 import pandas as pd  # noqa: E402
 
-from dkapp.backtest.runner import HistoryCache  # noqa: E402
-from dkapp.clock import MarketCalendar  # noqa: E402
-from dkapp.research.data import load_range, sessions_between  # noqa: E402
-from dkapp.research.dataset import build_frames, slot_replay  # noqa: E402
-from dkapp.research.evaluate import evaluate, judge  # noqa: E402
-from dkapp.research.phase2 import (cfg_standard, cfg_wide, daily_stats, gap_context, h1_candidates,  # noqa: E402
+from stockpilot.backtest.runner import HistoryCache  # noqa: E402
+from stockpilot.clock import MarketCalendar  # noqa: E402
+from stockpilot.research.data import load_range, sessions_between  # noqa: E402
+from stockpilot.research.dataset import build_frames, slot_replay  # noqa: E402
+from stockpilot.research.evaluate import evaluate, judge  # noqa: E402
+from stockpilot.research.phase2 import (cfg_standard, cfg_wide, daily_stats, gap_context, h1_candidates,  # noqa: E402
                                    h1_random, h2_candidates, h3_from, h4_overnight, h5_trend, net_pct, profile)
-from dkapp.research.stats import day_block_bootstrap, holm, top_share  # noqa: E402
+from stockpilot.research.stats import day_block_bootstrap, holm, top_share  # noqa: E402
 
 DEV = {"h1": (date(2025, 9, 16), date(2026, 11, 5)), "h2": (date(2025, 9, 22), date(2026, 11, 5)),
        "daily": (date(2025, 9, 2), date(2026, 11, 5))}

@@ -37,10 +37,10 @@ counts from **2026-11-09** (`research/ledger.json`).
 
 | recorder | what it records | code |
 |---|---|---|
-| forward ledger | every ranked candidate of the five strategies, taken or not, scored later with hypothetical costs | `dkapp/research/forward.py` |
-| gap-stock observer | P2-H2 and P2-H2b gap candidates each morning | `dkapp/engine/trading_engine.py` |
-| daily shadow | P3-H1 sector relative strength, P3-H2 turn of the month, SPY buy-and-hold benchmark (month-end decisions) | `dkapp/research/daily_shadow.py` |
-| shadow tracker and statistical-model predictions | hypothetical results of rules decisions, and the model's prediction for each candidate (it has no authority: `gate_paper_entries` is off) | `dkapp/engine/shadow.py`, `dkapp/quant/` |
+| forward ledger | every ranked candidate of the five strategies, taken or not, scored later with hypothetical costs | `stockpilot/research/forward.py` |
+| gap-stock observer | P2-H2 and P2-H2b gap candidates each morning | `stockpilot/engine/trading_engine.py` |
+| daily shadow | P3-H1 sector relative strength, P3-H2 turn of the month, SPY buy-and-hold benchmark (month-end decisions) | `stockpilot/research/daily_shadow.py` |
+| shadow tracker and statistical-model predictions | hypothetical results of rules decisions, and the model's prediction for each candidate (it has no authority: `gate_paper_entries` is off) | `stockpilot/engine/shadow.py`, `stockpilot/quant/` |
 
 All four keep running with autopilot off. The ledger is append-only and hash-chained.
 

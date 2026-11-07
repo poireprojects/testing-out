@@ -9,7 +9,7 @@ from datetime import timedelta
 
 import pytest
 
-from dkapp.execution.order_manager import WORKING_STATES, is_working
+from stockpilot.execution.order_manager import WORKING_STATES, is_working
 from tests.harness import enter, make_rig, override_price
 
 
@@ -163,7 +163,7 @@ def test_app_watched_stop_sells_safely_when_broker_stop_is_unconfirmed(rig):
 
 # ---------------------------------------------------------------- recovery after a restart
 def test_restart_resolves_unconfirmed_stop(rig, tmp_path):
-    from dkapp.engine.trading_engine import TradingEngine
+    from stockpilot.engine.trading_engine import TradingEngine
     rig.broker.stop_responses_lost = 1
     rig.broker.lookup_failures = 10_000
     t = enter(rig, "MSFT")
@@ -201,7 +201,7 @@ def test_stray_sell_order_with_nothing_behind_it_is_canceled(rig):
 
 
 def test_orders_not_placed_by_the_app_are_never_touched(rig):
-    from dkapp.models import OrderRequest
+    from stockpilot.models import OrderRequest
     t = enter(rig, "AAPL")
     qty = rig.db.trade(t["id"])["entry_qty"]
     for o in stops_at_broker(rig, "AAPL"):
@@ -242,8 +242,8 @@ def test_paper_position_without_stop_is_watched_not_sold(rig):
 
 
 def test_live_entries_pause_after_broker_refuses_stops():
-    from dkapp.config import AppSettings
-    from dkapp.risk.engine import RiskEngine
+    from stockpilot.config import AppSettings
+    from stockpilot.risk.engine import RiskEngine
     from tests.test_risk_and_sizing import ctx, proposal
     s = AppSettings()
     one = RiskEngine(s).check_entry(ctx(mode="live", live_authorized=True, stop_refused_symbols=["AAPL"]),
@@ -267,7 +267,7 @@ def test_unconfirmed_stop_blocks_live_entries_via_risk_context(rig):
     eng.mode = "live"
     ctx = eng.risk_context(rig.clock.now(), eng.session)
     assert ctx.unprotected_symbols == ["AAPL"]
-    from dkapp.risk.engine import RiskEngine
+    from stockpilot.risk.engine import RiskEngine
     from tests.test_risk_and_sizing import proposal
     ctx.live_authorized = True
     d = RiskEngine(eng.settings).check_entry(ctx, proposal(symbol="MSFT"))
@@ -277,8 +277,8 @@ def test_unconfirmed_stop_blocks_live_entries_via_risk_context(rig):
 def test_another_copys_orders_on_the_same_account_are_never_touched(rig, tmp_path):
     """Two databases (main copy + test copy, or another computer) trading one account: each has its own
     tag in the order ids, so neither ever cancels or adopts the other's orders."""
-    from dkapp.execution.order_manager import OrderManager
-    from dkapp.storage.db import Database
+    from stockpilot.execution.order_manager import OrderManager
+    from stockpilot.storage.db import Database
     other = OrderManager(Database(tmp_path / "other.db", "demo"), rig.broker, rig.clock.now, "demo")
     assert other.prefix != rig.engine.orders.prefix
     t = enter(rig, "AAPL")
@@ -291,3 +291,19 @@ def test_another_copys_orders_on_the_same_account_are_never_touched(rig, tmp_pat
     assert theirs["client_order_id"] != mine[0]["client_order_id"]
     rig.engine._sweep_stray_orders(rig.clock.now())
     assert rig.broker.state.orders[theirs["broker_order_id"]]["status"] == "new", "never cancel another copy's order"
+
+
+def test_a_leftover_order_placed_before_the_rename_is_still_recognised_as_ours(rig):
+    """Orders the app placed under its previous name carry the old prefix with the same database tag."""
+    from stockpilot.legacy import order_prefix
+    from stockpilot.models import OrderRequest
+    t = enter(rig, "AAPL")
+    qty = rig.db.trade(t["id"])["entry_qty"]
+    for o in stops_at_broker(rig, "AAPL"):
+        o["status"] = "canceled"
+    old_cid = order_prefix(rig.engine.orders.mode, rig.engine.orders.tag) + "261104-t99-stop-1"
+    assert old_cid not in rig.engine.orders.prefix
+    old = rig.broker.submit_order(OrderRequest(client_order_id=old_cid, symbol="AAPL", side="sell", type="stop",
+                                               qty=qty / 2, stop_price=1.0))
+    rig.engine._sweep_stray_orders(rig.clock.now())
+    assert rig.broker.state.orders[old.id]["status"] == "canceled"      # ours, untracked: canceled, never left open

@@ -11,7 +11,7 @@ from autotrader.__main__ import _provider
 from autotrader.decision import json_schema_v2, sentences
 from autotrader.providers import (AnthropicJSONProvider, Budget, BudgetedProvider, BudgetExceeded, api_schema,
                                   budgeted_anthropic, worst_case_usd)
-from dkapp.ai.providers import AIUnavailable, ProviderResult
+from stockpilot.ai.providers import AIUnavailable, ProviderResult
 from tests.test_autotrader_v2 import _pack
 
 

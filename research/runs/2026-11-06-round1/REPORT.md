@@ -45,7 +45,7 @@ Percentages are per trade (P/L ÷ the $20 position), not of the account. Holm–
 
 ![calibration](figures/3-model-calibration-holdout.png)
 
-L2-regularised logistic + ridge regression (numpy), 15 point-in-time features (+9 strategy features for H5), standardised on training days only, expanding walk-forward with a 1-day embargo. The H5 model ships with the app at **shadow** stage (`dkapp/assets/models/strategy-filter-v1.json`): it shows its estimate for every candidate and never changes a trade.
+L2-regularised logistic + ridge regression (numpy), 15 point-in-time features (+9 strategy features for H5), standardised on training days only, expanding walk-forward with a 1-day embargo. The H5 model ships with the app at **shadow** stage (`stockpilot/assets/models/strategy-filter-v1.json`): it shows its estimate for every candidate and never changes a trade.
 
 ## Why the original strategies lose (development, 197 days)
 

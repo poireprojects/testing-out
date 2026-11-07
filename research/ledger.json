@@ -1,5 +1,5 @@
 {
- "about": "Which market days have influenced development. See dkapp/research/ledger.py. Append only.",
+ "about": "Which market days have influenced development. See stockpilot/research/ledger.py. Append only.",
  "forwardFrom": "2026-11-09",
  "periods": [
   {

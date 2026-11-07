@@ -1,6 +1,6 @@
 import pytest
 
-from dkapp import credentials, paths, profiles
+from stockpilot import credentials, paths, profiles
 
 
 @pytest.fixture(autouse=True)
@@ -30,18 +30,18 @@ def test_profile_is_isolated_and_fresh_wipes_only_it(monkeypatch):
     credentials.save_alpaca_keys("paper", "TESTKEY", "testsecret")
     (paths.data_dir() / "trading_demo.db").write_text("test history")
 
-    monkeypatch.setenv("DK_HOME", str(main_root.parent))
-    credentials.SERVICE = "dontknowwhatimdoing"
+    monkeypatch.setenv("STOCKPILOT_HOME", str(main_root.parent))
+    credentials.SERVICE = "StockPilot"
     root = profiles.activate("test", fresh=True)
     assert not (paths.data_dir() / "trading_demo.db").exists()
     assert credentials.load_alpaca_keys("paper") is None
-    credentials.SERVICE = "dontknowwhatimdoing"
+    credentials.SERVICE = "StockPilot"
     assert credentials.load_alpaca_keys("paper").key_id == "MAINKEY"  # main copy untouched
     assert (main_root / "trading_paper.db").read_text() == "main history"
 
 
 def test_factory_reset_erases_settings_history_and_keys():
-    from dkapp.config import AppSettings, save_settings
+    from stockpilot.config import AppSettings, save_settings
     save_settings(AppSettings())
     (paths.data_dir() / "trading_paper.db").write_text("x")
     (paths.data_dir() / "cache").mkdir()

@@ -14,5 +14,5 @@
 
 Build 20 rounded each sale's SEC fee and TAF up to a cent ($0.02 per $20 sale = 0.10%). With Alpaca's daily
 rounding, a $20 round trip costs ≈0.17% (2027 rates, ~4 sales a day), of which spread + slippage are 0.13%.
-Implemented in `dkapp/risk/fees.py` (dated schedule; `CostModel.legacy_build20()` keeps the old rule for the
-frozen baseline). Economics scenarios: `dkapp/research/economics.py`, `runs/2026-11-06-round1/economics.json`.
+Implemented in `stockpilot/risk/fees.py` (dated schedule; `CostModel.legacy_build20()` keeps the old rule for the
+frozen baseline). Economics scenarios: `stockpilot/research/economics.py`, `runs/2026-11-06-round1/economics.json`.

@@ -44,15 +44,15 @@ def _overflow(root_item, container, tol=0.5):
                                         ((1536, 864), "1.25"), ((1280, 720), "1.5")])
 def test_sidebar_and_title_bar_contents_fit(qtbot, size, scale, tmp_path, monkeypatch):
     """QT_SCALE_FACTOR is read at startup, so the scaled cases check layout at the logical sizes those scales give."""
-    monkeypatch.setenv("DK_HOME", str(tmp_path))
+    monkeypatch.setenv("STOCKPILOT_HOME", str(tmp_path))
     from PySide6.QtCore import QUrl
     from PySide6.QtQml import QQmlApplicationEngine
-    from dkapp import paths
-    from dkapp.config import load_settings
-    from dkapp.ui.app import _load_fonts
-    from dkapp.ui.charts import LineChart  # noqa: F401
-    from dkapp.ui.chrome import WindowChrome
-    from dkapp.ui.controller import AppController
+    from stockpilot import paths
+    from stockpilot.config import load_settings
+    from stockpilot.ui.app import _load_fonts
+    from stockpilot.ui.charts import LineChart  # noqa: F401
+    from stockpilot.ui.chrome import WindowChrome
+    from stockpilot.ui.controller import AppController
     _load_fonts()
     s = load_settings()
     s.first_run_done = True
@@ -62,7 +62,7 @@ def test_sidebar_and_title_bar_contents_fit(qtbot, size, scale, tmp_path, monkey
     ctx = eng.rootContext()
     chrome = WindowChrome()
     for k, v in {"app": ctl, "chrome": chrome, "trayAvailable": False, "profileName": "", "startMinimized": False,
-                 "iconUrl": QUrl.fromLocalFile(str(paths.assets_dir() / "icons" / "dk.png")),
+                 "iconUrl": QUrl.fromLocalFile(str(paths.assets_dir() / "icons" / "stockpilot.png")),
                  "initialGeometry": {"x": 0, "y": 0, "width": size[0], "height": size[1], "maximized": False, "page": 0}}.items():
         ctx.setContextProperty(k, v)
     eng.load(QUrl.fromLocalFile(str(paths.qml_dir() / "Main.qml")))

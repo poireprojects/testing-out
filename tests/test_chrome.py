@@ -1,5 +1,5 @@
 """Integrated title bar: hit-testing decides drag / resize / Snap Layouts / buttons (pure logic, every OS)."""
-from dkapp.ui.chrome import (HTBOTTOM, HTBOTTOMRIGHT, HTCAPTION, HTCLIENT, HTLEFT, HTMAXBUTTON, HTRIGHT, HTTOP,
+from stockpilot.ui.chrome import (HTBOTTOM, HTBOTTOMRIGHT, HTCAPTION, HTCLIENT, HTLEFT, HTMAXBUTTON, HTRIGHT, HTTOP,
                              HTTOPLEFT, WindowChrome, hit_test)
 
 W, H, T = 1280.0, 800.0, 50.0

@@ -88,9 +88,9 @@ def chart_costs(review, figs: Path) -> Path:
 
 
 def chart_h1(data_dir: Path, figs: Path) -> Path:
-    from dkapp.research.academic import load_series, price_index
-    from dkapp.research.phase3 import equal_weight_targets, h1_targets
-    from dkapp.research.portfolio import SimCosts, monthly_returns, simulate
+    from stockpilot.research.academic import load_series, price_index
+    from stockpilot.research.phase3 import equal_weight_targets, h1_targets
+    from stockpilot.research.portfolio import SimCosts, monthly_returns, simulate
     ind = load_series(data_dir, "ind12_daily").loc[:"2005-12-30"]
     p = price_index(ind)
     t, log = h1_targets(p)
@@ -252,7 +252,7 @@ def main(run: Path, data_dir: Path) -> int:
     for p in (chart_tom(review, dev, hold, figs), chart_costs(review, figs), chart_h1(data_dir, figs)):
         print("wrote", p)
     (run / "tables.md").write_text(tables(review, dev, ml, hold))
-    dst = ROOT / "dkapp" / "assets" / "research" / "phase3-summary.json"
+    dst = ROOT / "stockpilot" / "assets" / "research" / "phase3-summary.json"
     dst.write_text(json.dumps(app_summary(dev, hold), indent=1))
     print("wrote", run / "tables.md", dst)
     return 0

@@ -13,11 +13,11 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
-from dkapp.ai.consistency import Facts, check_explanation  # noqa: E402
-from dkapp.backtest.ai_replay import PromptBuilder  # noqa: E402
-from dkapp.backtest.engine import BTConfig, run_day  # noqa: E402
-from dkapp.research.data import load_cached_days  # noqa: E402
-from dkapp.strategies import ALL_STRATEGIES  # noqa: E402
+from stockpilot.ai.consistency import Facts, check_explanation  # noqa: E402
+from stockpilot.backtest.ai_replay import PromptBuilder  # noqa: E402
+from stockpilot.backtest.engine import BTConfig, run_day  # noqa: E402
+from stockpilot.research.data import load_cached_days  # noqa: E402
+from stockpilot.strategies import ALL_STRATEGIES  # noqa: E402
 
 
 def main(src: Path, out: Path) -> int:

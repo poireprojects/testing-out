@@ -20,7 +20,7 @@ import sys
 from datetime import date
 from pathlib import Path
 
-from dkapp.data.universe import curated_universe
+from stockpilot.data.universe import curated_universe
 
 from .deciders import LLMResearcher, LLMResearcherV2, NoTrade, baselines
 from .evaluate import base_rate, evaluate
@@ -44,7 +44,7 @@ def _provider(a, n_calls: int = 0, out: Path | None = None):
         return budgeted_anthropic(a.model, (out or Path(".")) / "budget.json", a.budget_usd)
     if a.llm != "ollama":
         return None
-    from dkapp.ai.providers import OllamaProvider
+    from stockpilot.ai.providers import OllamaProvider
     return OllamaProvider(os.environ.get("OLLAMA_URL", "http://127.0.0.1:11434"),
                           os.environ.get("OLLAMA_MODEL", "llama3.2:3b"), timeout=float(os.environ.get("OLLAMA_TIMEOUT", "900")))
 
@@ -134,7 +134,7 @@ def cmd_sample(a) -> int:
     import hashlib
     import random
     from datetime import date as _d, datetime as _dt, time as _t
-    from dkapp.clock import ET
+    from stockpilot.clock import ET
     from .sources import ReplaySource
     src = ReplaySource(Path(a.data))
     exclude = {"2026-10-30"}                                   # the one-day demonstration replay

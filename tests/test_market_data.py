@@ -4,14 +4,14 @@ from types import SimpleNamespace
 import pandas as pd
 import pytest
 
-from dkapp.clock import ET, ManualClock, MarketCalendar
-from dkapp.credentials import AlpacaKeys
-from dkapp.data.alpaca_data import AlpacaMarketData, convert_snapshot
-from dkapp.data.base import DataUnavailable
-from dkapp.data.demo_data import DemoMarket, DemoMarketData
-from dkapp.data.ratelimit import RateLimitTimeout, TokenBucket
-from dkapp.data.universe import asset_allowed, build_universe, curated_universe, is_safe_symbol
-from dkapp.models import AssetInfo
+from stockpilot.clock import ET, ManualClock, MarketCalendar
+from stockpilot.credentials import AlpacaKeys
+from stockpilot.data.alpaca_data import AlpacaMarketData, convert_snapshot
+from stockpilot.data.base import DataUnavailable
+from stockpilot.data.demo_data import DemoMarket, DemoMarketData
+from stockpilot.data.ratelimit import RateLimitTimeout, TokenBucket
+from stockpilot.data.universe import asset_allowed, build_universe, curated_universe, is_safe_symbol
+from stockpilot.models import AssetInfo
 
 UTC = timezone.utc
 

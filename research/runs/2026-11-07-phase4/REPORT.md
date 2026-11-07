@@ -144,7 +144,7 @@ No paid newswire is required, but none of these sources would rescue the result.
 ## G. Implementation (research only; the desktop app is unchanged, so no installer)
 
 **Code:**
-* `dkapp/research/events.py`:
+* `stockpilot/research/events.py`:
   * a fair-access EDGAR client that refuses to run without a declared contact
   * header parsing
   * the timestamp model (release / acceptance / receipt / actionable)

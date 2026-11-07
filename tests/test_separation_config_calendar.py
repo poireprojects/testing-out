@@ -4,17 +4,17 @@ from types import SimpleNamespace
 
 import pytest
 
-from dkapp import credentials, paths
-from dkapp.broker.alpaca_broker import AlpacaBroker, convert_order
-from dkapp.broker.base import BrokerUnavailable, DuplicateOrder, NotFound, OrderRejected
-from dkapp.clock import ET, MarketCalendar, rule_based_session, session_state
-from dkapp.config import (LIVE_ACKS, LIVE_PHRASE, AppSettings, authorize_live, live_authorization_status,
+from stockpilot import credentials, paths
+from stockpilot.broker.alpaca_broker import AlpacaBroker, convert_order
+from stockpilot.broker.base import BrokerUnavailable, DuplicateOrder, NotFound, OrderRejected
+from stockpilot.clock import ET, MarketCalendar, rule_based_session, session_state
+from stockpilot.config import (LIVE_ACKS, LIVE_PHRASE, AppSettings, authorize_live, live_authorization_status,
                           load_settings, save_settings)
-from dkapp.credentials import AlpacaKeys
-from dkapp.models import OrderRequest
-from dkapp.risk.settlement import SettlementLedger
-from dkapp.runtime import NotConfigured, Runtime
-from dkapp.storage.db import Database
+from stockpilot.credentials import AlpacaKeys
+from stockpilot.models import OrderRequest
+from stockpilot.risk.settlement import SettlementLedger
+from stockpilot.runtime import NotConfigured, Runtime
+from stockpilot.storage.db import Database
 
 UTC = timezone.utc
 

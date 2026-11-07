@@ -5,7 +5,7 @@ from __future__ import annotations
 from collections import Counter, defaultdict
 from datetime import datetime
 
-from dkapp.clock import ET
+from stockpilot.clock import ET
 
 from .ledger import Ledger
 

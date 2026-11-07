@@ -6,15 +6,15 @@ from dataclasses import dataclass
 from datetime import date, datetime, timedelta
 from typing import Optional
 
-from dkapp.ai.engine import AIEngine
-from dkapp.ai.providers import AIUnavailable, ProviderResult
-from dkapp.broker.sim_broker import SimBroker
-from dkapp.clock import ET, ManualClock, MarketCalendar
-from dkapp.config import AppSettings
-from dkapp.data.demo_data import DemoMarket, DemoMarketData
-from dkapp.data.universe import build_universe
-from dkapp.engine.trading_engine import TradingEngine
-from dkapp.storage.db import Database
+from stockpilot.ai.engine import AIEngine
+from stockpilot.ai.providers import AIUnavailable, ProviderResult
+from stockpilot.broker.sim_broker import SimBroker
+from stockpilot.clock import ET, ManualClock, MarketCalendar
+from stockpilot.config import AppSettings
+from stockpilot.data.demo_data import DemoMarket, DemoMarketData
+from stockpilot.data.universe import build_universe
+from stockpilot.engine.trading_engine import TradingEngine
+from stockpilot.storage.db import Database
 
 
 class ScriptedAI:
@@ -106,7 +106,7 @@ def make_rig(tmp_path, *, day: date = date(2026, 11, 4), start_offset_min: float
 
 def override_price(rig: "Rig", symbol: str, price: float, spread_bps: float = 4.0) -> None:
     """Force the demo market's live quote for one symbol (for both the broker and the data feed)."""
-    from dkapp.models import Quote
+    from stockpilot.models import Quote
     original = getattr(rig.market, "_orig_quote", None) or rig.market.quote
     rig.market._orig_quote = original
     overrides = getattr(rig.market, "_overrides", {})
@@ -126,7 +126,7 @@ def override_price(rig: "Rig", symbol: str, price: float, spread_bps: float = 4.
 
 def make_signal(rig: "Rig", symbol: str, strategy: str = "orb", stop_pct: float = 1.0, target_pct: float = 2.0,
                 max_hold: int = 60):
-    from dkapp.models import Signal
+    from stockpilot.models import Signal
     now = rig.clock.now()
     q = rig.market.quote(symbol, now)
     px = q.mid

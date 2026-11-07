@@ -10,7 +10,7 @@ trading edge.
 
 **Claude Opus 5.5**, model ID `claude-opus-5-5`.
 * **Price:** $4 per million input tokens and $20 per million output tokens (Claude API table, October 2026; the
-  same figures are in the app's `dkapp/ai/providers.py`).
+  same figures are in the app's `stockpilot/ai/providers.py`).
 * **Settings:**
   * structured outputs (`output_config.format`, a JSON schema);
   * effort `low` (thinking is always on for this model, and effort sets how much of it);

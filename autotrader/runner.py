@@ -15,7 +15,7 @@ import time as _time
 from datetime import date, datetime, time as dtime, timedelta
 from typing import Callable, Optional
 
-from dkapp.clock import ET, MarketCalendar
+from stockpilot.clock import ET, MarketCalendar
 
 from .decision import no_trade
 from .deciders import ModelFailure

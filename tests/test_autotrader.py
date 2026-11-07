@@ -18,7 +18,7 @@ from autotrader.report import daily_report
 from autotrader.risk import Health, Quote, RiskController, SimPortfolio, SimPosition
 from autotrader.runner import Autonomy
 from autotrader.simulate import daily_fees, simulate_exit
-from dkapp.clock import ET
+from stockpilot.clock import ET
 
 DAY = date(2026, 3, 10)                                         # a Tuesday
 T10 = datetime(2026, 3, 10, 10, 0, tzinfo=ET)

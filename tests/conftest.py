@@ -10,7 +10,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
 
-from dkapp import preload  # noqa: E402
+from stockpilot import preload  # noqa: E402
 
 preload.preload()  # same as the app does at startup: import asyncio-based libraries before threads start
 
@@ -35,7 +35,7 @@ class MemoryKeyring(KeyringBackend):
 
 @pytest.fixture(autouse=True)
 def isolated_home(tmp_path, monkeypatch):
-    monkeypatch.setenv("DK_HOME", str(tmp_path / "dkhome"))
+    monkeypatch.setenv("STOCKPILOT_HOME", str(tmp_path / "dkhome"))
     kr = MemoryKeyring()
     keyring.set_keyring(kr)
     yield tmp_path

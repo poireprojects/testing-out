@@ -8,13 +8,13 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from dkapp.backtest.engine import BTConfig, BTTrade, DayInput, FrameView, _simulate_exit, replay_portfolio, with_daily_rounding
-from dkapp.quant.model import QuantModel
-from dkapp.quant.registry import ModelCard, ModelRegistry
-from dkapp.research.dataset import build_frames, dense_samples
-from dkapp.research.evaluate import judge, walk_forward_predict
-from dkapp.research.ledger import DataLedger, Period
-from dkapp.research.stats import auc, calibration, day_block_bootstrap, holm
+from stockpilot.backtest.engine import BTConfig, BTTrade, DayInput, FrameView, _simulate_exit, replay_portfolio, with_daily_rounding
+from stockpilot.quant.model import QuantModel
+from stockpilot.quant.registry import ModelCard, ModelRegistry
+from stockpilot.research.dataset import build_frames, dense_samples
+from stockpilot.research.evaluate import judge, walk_forward_predict
+from stockpilot.research.ledger import DataLedger, Period
+from stockpilot.research.stats import auc, calibration, day_block_bootstrap, holm
 
 
 def _bars(seed: int, day: date, n: int = 390, drift: float = 0.0) -> pd.DataFrame:
@@ -29,7 +29,7 @@ def _bars(seed: int, day: date, n: int = 390, drift: float = 0.0) -> pd.DataFram
 
 
 def _day(day: date, n_sym: int = 6, cut: int | None = None, alter_after: int | None = None) -> DayInput:
-    from dkapp.analysis.features import Baseline
+    from stockpilot.analysis.features import Baseline
     bars = {}
     for k, s in enumerate(["SPY"] + [f"S{j}" for j in range(n_sym)]):
         b = _bars(k + day.toordinal(), day)
@@ -138,7 +138,7 @@ def test_go_no_go_rejects_losers_and_marks_small_samples_insufficient():
 
 # ------------------------------------------------------------------ honest data use
 def test_ledger_never_calls_examined_days_unseen_and_loader_refuses_the_holdout(tmp_path):
-    from dkapp.research.data import ReservedData, load_range
+    from stockpilot.research.data import ReservedData, load_range
     led = DataLedger([Period(date(2026, 1, 1), date(2026, 1, 31), "examined", "t"),
                       Period(date(2026, 2, 1), date(2026, 2, 28), "reserved", "t")], date(2026, 11, 9))
     assert led.status(date(2026, 1, 5)) == "examined" and led.status(date(2026, 2, 5)) == "reserved"
@@ -164,7 +164,7 @@ def test_repository_ledger_marks_the_build20_study_examined():
 
 # ------------------------------------------------------------------ model registry stages
 def _tiny_model() -> QuantModel:
-    from dkapp.quant.features import FEATURES, STRATEGY_FEATURES
+    from stockpilot.quant.features import FEATURES, STRATEGY_FEATURES
     names = list(FEATURES) + STRATEGY_FEATURES
     rng = np.random.default_rng(0)
     X = rng.normal(size=(300, len(names)))
@@ -188,8 +188,8 @@ def test_registry_stages_activation_and_rollback(tmp_path):
 
 
 def test_gate_records_in_shadow_and_blocks_only_in_gated_paper_mode(tmp_path):
-    from dkapp.models import Signal
-    from dkapp.quant.gate import QuantGate
+    from stockpilot.models import Signal
+    from stockpilot.quant.gate import QuantGate
     reg = ModelRegistry(tmp_path, bundled=tmp_path / "none")
     reg.register(ModelCard("sf-v1", "strategy_filter", "f1", "shadow", [], paper_eligible=True), _tiny_model())
     reg.activate("sf-v1")
@@ -207,7 +207,7 @@ def test_gate_records_in_shadow_and_blocks_only_in_gated_paper_mode(tmp_path):
 
 # ------------------------------------------------------------------ language-model explanations
 def test_explanations_that_contradict_computed_numbers_are_caught():
-    from dkapp.ai.consistency import Facts, check_explanation
+    from stockpilot.ai.consistency import Facts, check_explanation
     f = Facts(rsi=64.3, stop_pct=0.92, target_pct=1.84, reward_risk=1.4)
     assert check_explanation("RSI is oversold, so buy.", f).problems
     assert check_explanation("The stop loss is set at 1.2% below the entry.", f).problems
@@ -219,7 +219,7 @@ def test_explanations_that_contradict_computed_numbers_are_caught():
 def test_engine_records_model_predictions_and_gates_only_paper(tmp_path):
     from datetime import timedelta as td
 
-    from dkapp.quant.gate import NO_EDGE_TEXT, QuantGate
+    from stockpilot.quant.gate import NO_EDGE_TEXT, QuantGate
     from tests.harness import make_rig, make_signal
     rig = make_rig(tmp_path, mode="paper", start_offset_min=40)
     rig.run_until(rig.clock.now() + td(minutes=2), step_seconds=30)

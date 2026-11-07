@@ -16,10 +16,10 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
-from dkapp.backtest.engine import BTConfig, run_backtest  # noqa: E402
-from dkapp.backtest.runner import DEFAULT_BACKTEST_SYMBOLS  # noqa: E402
-from dkapp.research.data import load_cached_days  # noqa: E402
-from dkapp.strategies import ALL_STRATEGIES  # noqa: E402
+from stockpilot.backtest.engine import BTConfig, run_backtest  # noqa: E402
+from stockpilot.backtest.runner import DEFAULT_BACKTEST_SYMBOLS  # noqa: E402
+from stockpilot.research.data import load_cached_days  # noqa: E402
+from stockpilot.strategies import ALL_STRATEGIES  # noqa: E402
 
 
 def main(src: Path) -> int:

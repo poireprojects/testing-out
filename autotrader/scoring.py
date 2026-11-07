@@ -21,7 +21,7 @@ from __future__ import annotations
 from datetime import date, datetime, time as dtime, timedelta
 from typing import Optional
 
-from dkapp.clock import ET, MarketCalendar
+from stockpilot.clock import ET, MarketCalendar
 
 from .deciders import PriceOnly, RuleP4H1
 from .evidence import Evidence, EvidencePack

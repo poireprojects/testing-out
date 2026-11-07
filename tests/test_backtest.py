@@ -4,14 +4,14 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from dkapp.analysis.features import feature_frame
-from dkapp.backtest.engine import (BTConfig, BTTrade, DayInput, FrameView, _fill_trade, _simulate_exit,
+from stockpilot.analysis.features import feature_frame
+from stockpilot.backtest.engine import (BTConfig, BTTrade, DayInput, FrameView, _fill_trade, _simulate_exit,
                                    bootstrap_p_value, judge, run_backtest, summarize)
-from dkapp.backtest.runner import latest_results, record_results, synthetic_days
-from dkapp.clock import ET, MarketCalendar
-from dkapp.data.demo_data import DemoMarket
-from dkapp.storage.db import Database
-from dkapp.strategies import ALL_STRATEGIES
+from stockpilot.backtest.runner import latest_results, record_results, synthetic_days
+from stockpilot.clock import ET, MarketCalendar
+from stockpilot.data.demo_data import DemoMarket
+from stockpilot.storage.db import Database
+from stockpilot.strategies import ALL_STRATEGIES
 
 
 def fv_from(o, h, l, c):
@@ -53,7 +53,7 @@ def test_entries_fill_at_next_bar_open_not_signal_close():
     m = DemoMarket(["SPY", "AAPL", "MSFT", "NVDA"], cal, 3)
     days = synthetic_days(m, ["SPY", "AAPL", "MSFT", "NVDA"], date(2026, 11, 4), 6, warmup=5)
     res = run_backtest(days, list(ALL_STRATEGIES), BTConfig(random_baseline_draws=0))
-    from dkapp.backtest.engine import run_day
+    from stockpilot.backtest.engine import run_day
     import random
     trades = [t for d in days for t in run_day(d, list(ALL_STRATEGIES), BTConfig(random_baseline_draws=0), random.Random(1))]
     for t in trades[:50]:
@@ -103,7 +103,7 @@ def test_synthetic_backtest_finds_no_edge_in_random_data():
 
 
 # ------------------------------------------------------------------ evaluation upgrade (walk-forward, splits, stress)
-from dkapp.backtest.engine import (judge_full, recost, replay_portfolio, risk_adjusted, split_days,  # noqa: E402
+from stockpilot.backtest.engine import (judge_full, recost, replay_portfolio, risk_adjusted, split_days,  # noqa: E402
                                    walk_forward)
 
 
@@ -190,7 +190,7 @@ def test_missing_history_is_reported_not_fabricated():
     cov = res["coverage"]
     assert cov["symbolDaysExpected"] == 24 and cov["symbolDaysWithData"] == 23
     assert f"AAPL {gone.day}" in cov["missing"]
-    from dkapp.backtest.engine import run_day
+    from stockpilot.backtest.engine import run_day
     import random
     assert not [t for t in run_day(gone, list(ALL_STRATEGIES), BTConfig(), random.Random(0)) if t.symbol == "AAPL"]
     for key in ("approaches", "benchmarks", "splits", "aiNote"):

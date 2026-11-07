@@ -39,12 +39,12 @@ Live trading was never turned on and no money was spent. Every broker call went 
 ## B. Code changes
 
 New modules:
-* `dkapp/quant/`:
+* `stockpilot/quant/`:
   * `features.py`: point-in-time features, one definition shared by research and the live app.
   * `model.py`: numpy L2 logistic and ridge regression, with a day-bootstrap ensemble for uncertainty and JSON fingerprints.
   * `registry.py`: stages experimental → shadow → paper → retired. There is no live stage. Includes rollback.
   * `gate.py`: records the model's prediction for every candidate. It can only *block* a paper entry, and only for an eligible model.
-* `dkapp/research/`:
+* `stockpilot/research/`:
   * `ledger.py`: tracks which days are examined, reserved or forward.
   * `data.py`: refuses to load the reserved holdout, and marks its single use.
   * `dataset.py`: labels built with the backtester's pessimistic fills, plus the pre-registered rules.
@@ -52,24 +52,24 @@ New modules:
   * `stats.py`: day-block bootstrap, Holm correction, calibration, AUC, minimum detectable effect.
   * `diagnose.py`: the failure analysis in section A.
   * `economics.py`: break-even and capital scenarios.
-* `dkapp/ai/consistency.py`: hands the model app-computed facts and rejects contradictory explanations.
-* `dkapp/ui/chrome.py`, `TitleBar.qml` and `WindowButton.qml`: the integrated window frame (section F).
+* `stockpilot/ai/consistency.py`: hands the model app-computed facts and rejects contradictory explanations.
+* `stockpilot/ui/chrome.py`, `TitleBar.qml` and `WindowButton.qml`: the integrated window frame (section F).
 
 Changed:
-* `dkapp/risk/fees.py`: dated, verified fee schedule with daily rounding. `CostModel.legacy_build20()` reproduces the old rule.
-* `dkapp/backtest/engine.py`:
+* `stockpilot/risk/fees.py`: dated, verified fee schedule with daily rounding. `CostModel.legacy_build20()` reproduces the old rule.
+* `stockpilot/backtest/engine.py`:
   * targets must trade through by 1 bp to fill
   * the ranker decides on the signal bar's close
   * buy-side CAT fee
   * `with_daily_rounding`
   * `BTConfig.baseline_build20()`
-* `dkapp/engine/trading_engine.py`:
+* `stockpilot/engine/trading_engine.py`:
   * model assessment in every decision
   * a "No candidate demonstrates an adequate expected advantage after costs." summary
   * effective decision mode: a language model has no authority in live mode
   * signal-to-order latency recorded
   * overnight-exposure warning
-* `dkapp/config.py`: settings schema v3 adds `quant` settings. The default decision mode is now rules + ranker; v2's untouched `ai_confirm` default migrates to it.
+* `stockpilot/config.py`: settings schema v3 adds `quant` settings. The default decision mode is now rules + ranker; v2's untouched `ai_confirm` default migrates to it.
 * UI:
   * Performance: "what the evidence says"
   * AI activity: the model's estimate on every candidate
@@ -160,14 +160,14 @@ The window keeps Windows' native window behaviour but draws its own title bar.
   * `WM_NCCALCSIZE` removes the system caption. A maximized window is clipped to the monitor's work area.
   * `WM_NCHITTEST` maps our title bar: resize edges, a drag caption, and **HTMAXBUTTON over our maximize button**, which is what Windows 11 Snap Layouts needs.
 * **What's in the 50 px title bar:**
-  * the dk. icon and name, aligned with the sidebar column
+  * the StockPilot icon and name, aligned with the sidebar column
   * the current page
   * market session status
   * model stage
   * account mode
   * 46 px minimize / maximize-restore / close buttons, with a red hover on close
 * **On other platforms:** Linux uses Qt's system move and resize. macOS keeps its native frame.
-* **Screenshots:** `screenshots/`. They are taken from the real running app at 1366×768 (100%), 1536×864 (125%) and 1280×720 (150%), plus a live paper session with real market data. Windows CI screenshots are uploaded as the `windows-ui-screenshots` artifact.
+* **Screenshots:** `screenshots/`. They are taken from the real running app at 1366×768 (100%), 1536×864 (125%) and 1280×720 (150%), plus a live paper session with real market data. Windows CI screenshots are uploaded as the `windows-ui-screenshots` artifact. The app was renamed StockPilot after this report. In these screenshots only the corner with the app's name and logo was redrawn with the new ones; everything else is exactly as captured.
 
 **Verified on a real Windows desktop (CI build 30, commit `89f58f5`), at 100%, 125% and 150% scaling, with native hit-testing active.** Log: `windows-frame-selftest-ci-run30.log`; screenshots: `screenshots/win-*-real-desktop.png`. Every check passed at every scale:
 * maximize button → `HTMAXBUTTON`, the Snap Layouts requirement
@@ -202,7 +202,7 @@ Remaining operational risks:
   * `test`
   * `windows`: build, package self-test, the frame self-test at 3 scales, installer
   * `windows-uninstall-test`
-  * `latest` published release **build-30** with `dontknowwhatimdoing-windows-setup.exe` (sha256 `225b4370…022f`).
+  * `latest` published release **build-30** with its Windows setup file (sha256 `225b4370…022f`).
 * **Not running:** `macos` is still stuck in GitHub's queue, so there is no .dmg. `uninstall-repro-previous` (reproducing an old build's failure, evidence only) hits its 12-minute cap.
 * **Later commits** (a small layout fix and this report) build as build 31 and later. Check the GitHub release page for the newest tested installer: a release is published only when the same required jobs pass.
 

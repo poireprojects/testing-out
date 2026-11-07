@@ -26,10 +26,10 @@ sys.path.insert(0, str(ROOT))
 
 BUILD20_COMMIT = "a5a4f988e3a255a63c30ab1ff486bc68933ac752"
 INSTALLER_SHA256 = "87ec4539dba1dfc6b670117c8566f743d82d904c021c3a04680951c33914da90"
-SOURCES = ["dkapp/backtest/engine.py", "dkapp/backtest/runner.py", "dkapp/backtest/ai_replay.py",
-           "dkapp/risk/fees.py", "dkapp/decision.py", "dkapp/strategies/library.py", "dkapp/strategies/base.py",
-           "dkapp/analysis/features.py", "dkapp/analysis/indicators.py", "dkapp/ai/engine.py", "dkapp/ai/schema.py",
-           "dkapp/config.py", "scripts/real_history_report.py", "scripts/ai_modes_from_recorded.py"]
+SOURCES = ["stockpilot/backtest/engine.py", "stockpilot/backtest/runner.py", "stockpilot/backtest/ai_replay.py",
+           "stockpilot/risk/fees.py", "stockpilot/decision.py", "stockpilot/strategies/library.py", "stockpilot/strategies/base.py",
+           "stockpilot/analysis/features.py", "stockpilot/analysis/indicators.py", "stockpilot/ai/engine.py", "stockpilot/ai/schema.py",
+           "stockpilot/config.py", "scripts/real_history_report.py", "scripts/ai_modes_from_recorded.py"]
 RESULTS = ["REPORT.md", "LIVE_SESSION.md", "REVIEW_FIXES.md", "backtest.json", "ai_modes.json"]
 
 
@@ -69,8 +69,8 @@ def main() -> int:
     out = ROOT / "research" / "baselines" / "build20"
     out.mkdir(parents=True, exist_ok=True)
 
-    from dkapp.backtest.engine import BTConfig
-    from dkapp.backtest.runner import DEFAULT_BACKTEST_SYMBOLS
+    from stockpilot.backtest.engine import BTConfig
+    from stockpilot.backtest.runner import DEFAULT_BACKTEST_SYMBOLS
     bt = json.loads((src / "backtest.json").read_text())
     cfg = BTConfig.baseline_build20()
 
@@ -96,7 +96,7 @@ def main() -> int:
     manifest = {
         "frozen": "build 20 baseline — never edit; new research goes in new versioned folders",
         "commit": BUILD20_COMMIT,
-        "release": {"tag": "build-20", "installer": "dontknowwhatimdoing-windows-setup.exe",
+        "release": {"tag": "build-20", "installer": "the Windows setup file of release build-20",
                     "installerSha256": INSTALLER_SHA256},
         "sourcesAtCommit": {p: sha256_bytes(git_show(BUILD20_COMMIT, p)) for p in SOURCES},
         "results": {f"docs/results/2026-11-06/{n}": sha256_file(results_dir / n) for n in RESULTS

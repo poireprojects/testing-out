@@ -14,10 +14,10 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from datetime import datetime, timezone  # noqa: E402
 
-from dkapp.clock import MarketCalendar  # noqa: E402
-from dkapp.research.daily_shadow import HYPOTHESES as DAILY, DailyShadow  # noqa: E402
-from dkapp.research.forward import ForwardLedger  # noqa: E402
-from dkapp.storage.db import Database  # noqa: E402
+from stockpilot.clock import MarketCalendar  # noqa: E402
+from stockpilot.research.daily_shadow import HYPOTHESES as DAILY, DailyShadow  # noqa: E402
+from stockpilot.research.forward import ForwardLedger  # noqa: E402
+from stockpilot.storage.db import Database  # noqa: E402
 
 # what the research measured, so forward results can be read as "holding up" or "fading" (per holding, net)
 EXPECTED = {

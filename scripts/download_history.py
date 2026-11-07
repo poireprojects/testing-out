@@ -19,8 +19,8 @@ sys.path.insert(0, str(ROOT))
 
 import pandas as pd  # noqa: E402
 
-from dkapp.backtest.runner import DEFAULT_BACKTEST_SYMBOLS, HistoryCache  # noqa: E402
-from dkapp.clock import MarketCalendar  # noqa: E402
+from stockpilot.backtest.runner import DEFAULT_BACKTEST_SYMBOLS, HistoryCache  # noqa: E402
+from stockpilot.clock import MarketCalendar  # noqa: E402
 
 
 def main(cache_dir: str, start: str, end: str, symbols: list[str]) -> int:

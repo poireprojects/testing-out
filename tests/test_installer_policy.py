@@ -52,15 +52,30 @@ def test_force_close_only_after_fresh_live_check_and_consent_never_silent():
     may = body("MayForceClose")
     assert "'--check-live'" in may and "rc <> RC_OK" in may
     assert "if Silent then" in may and "MB_DEFBUTTON2" in may, "default answer must be No"
-    # ForceClose is only ever called inside an `if MayForceClose(...) then` block
-    for name in ("PrepareToInstall", "CurUninstallStepChanged"):
+    # ForceClose / ForceCloseImage is only ever called inside an `if MayForceClose(...) then` block,
+    # including when the installation under the app's previous name is upgraded
+    for name in ("PrepareToInstall", "PreparePrevious", "CurUninstallStepChanged"):
         f = body(name)
         lines = f.splitlines()
         for i, line in enumerate(lines):
-            if "ForceClose()" in line and "function" not in line:
+            if re.search(r"(?<!May)ForceClose(Image)?\(", line) and "function" not in line:
                 assert any("if MayForceClose(" in prev for prev in lines[max(0, i - 3):i]), (name, line)
-        assert " and ForceClose()" not in f, "Pascal Script may not short-circuit: never `MayForceClose and ForceClose`"
-    assert "NothingRunning()" in body("ForceClose"), "a force-close must be verified"
+        assert " and ForceClose" not in f, "Pascal Script may not short-circuit: never `MayForceClose and ForceClose`"
+    assert "NothingRunning()" in body("ForceCloseImage"), "a force-close must be verified"
+    assert "ForceCloseImage(" in body("ForceClose")
+
+
+def test_the_previously_named_installation_gets_the_same_safety_rules():
+    prev = body("PreparePrevious")
+    assert "'--shutdown-running'" in prev and "RC_LIVE" in prev and "if rc = RC_OK then exit;" in prev
+    assert "Result := Format('Setup can''t continue safely: the older version''s safety check failed" in prev
+    assert "(not known)" in prev, "an unknown process state must block"
+    assert body("PrepareToInstall").index("PreparePrevious()") < body("PrepareToInstall").index("'--shutdown-running'")
+    run = body("AppProcessRunning")
+    assert "{#MyAppExe}" in run and "{#PrevExe}" in run and "Known := k1 and k2" in run
+    assert "{#PrevData}" in body("AnyLiveDatabase")
+    assert "UsePreviousAppDir=no" in ISS
+    assert '[InstallDelete]' in ISS and 'Name: "{#PrevDir}"' in ISS
 
 
 def test_uninstall_verifies_nothing_is_running_before_files_go():
@@ -69,7 +84,7 @@ def test_uninstall_verifies_nothing_is_running_before_files_go():
 
 
 def test_live_check_covers_test_copies_too():
-    assert "profiles" in body("AnyLiveDatabase")
+    assert "profiles" in body("LiveDatabaseIn")
 
 
 def test_no_code_line_starts_with_a_preprocessor_hash():

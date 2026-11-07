@@ -8,10 +8,10 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from dkapp.research.portfolio import SimCosts, perf, simulate
-from dkapp.research.phase3 import h1_targets, h2_targets, tom_day_flags, tom_windows, window_returns
-from dkapp.research.stats import deflated_sharpe, expected_max_sharpe, moving_block_bootstrap, probabilistic_sharpe
-from dkapp.risk.fees import CostModel
+from stockpilot.research.portfolio import SimCosts, perf, simulate
+from stockpilot.research.phase3 import h1_targets, h2_targets, tom_day_flags, tom_windows, window_returns
+from stockpilot.research.stats import deflated_sharpe, expected_max_sharpe, moving_block_bootstrap, probabilistic_sharpe
+from stockpilot.risk.fees import CostModel
 
 
 def _days(n, start="2001-01-02"):
@@ -109,8 +109,8 @@ def test_overfitting_aware_statistics():
 
 
 def test_academic_loader_refuses_reserved_rows_and_marks_holdout_use(tmp_path):
-    from dkapp.research.academic import load_series
-    from dkapp.research.ledger import DataLedger, Period, ReservedData
+    from stockpilot.research.academic import load_series
+    from stockpilot.research.ledger import DataLedger, Period, ReservedData
     led = DataLedger([Period(date(1990, 1, 1), date(1999, 12, 31), "examined", "t"),
                       Period(date(2000, 1, 1), date(2000, 12, 31), "reserved", "t")])
     (tmp_path / "dev").mkdir()
@@ -143,7 +143,7 @@ def test_shipped_phase3_summary_matches_the_committed_results():
     run = root / "research/runs/2026-11-07-phase3"
     hold = json.loads((run / "holdout.json").read_text())
     dev = json.loads((run / "dev.json").read_text())
-    s = json.loads((root / "dkapp/assets/research/phase3-summary.json").read_text())
+    s = json.loads((root / "stockpilot/assets/research/phase3-summary.json").read_text())
     rows = {r["key"]: r for r in s["rows"]}
     ho = hold["results"]["P3-H2"]
     assert rows["h2_hold"]["netPct"] == pytest.approx(ho["primary"]["meanPct"]) and rows["h2_hold"]["trades"] == ho["windows"]

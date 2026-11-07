@@ -22,7 +22,7 @@ from autotrader.policy import OwnerPolicy
 from autotrader.risk import Health, Quote, RiskController, SimPortfolio
 from autotrader.runner import Autonomy
 from autotrader.scoring import ForwardScorer
-from dkapp.clock import ET
+from stockpilot.clock import ET
 
 FRI_PM = datetime(2026, 11, 6, 16, 5, tzinfo=ET)          # after the close on Friday
 SAT_AM = datetime(2026, 11, 7, 8, 0, tzinfo=ET)           # Saturday morning

@@ -16,8 +16,8 @@ import matplotlib.pyplot as plt  # noqa: E402
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
-from dkapp.research.economics import economics  # noqa: E402
-from dkapp.risk.fees import CostModel  # noqa: E402
+from stockpilot.research.economics import economics  # noqa: E402
+from stockpilot.risk.fees import CostModel  # noqa: E402
 
 SURFACE, INK, INK2, GRID, MUTED = "#fcfcfb", "#0b0b0b", "#52514e", "#e6e5e1", "#a3a29d"
 S1, S2 = "#2a78d6", "#eb6834"
@@ -173,7 +173,7 @@ def markdown(run: Path, dev: dict, hold: dict, llm: dict, econ: dict) -> str:
           "", "![calibration](figures/3-model-calibration-holdout.png)", "",
           "L2-regularised logistic + ridge regression (numpy), 15 point-in-time features (+9 strategy features for H5), "
           "standardised on training days only, expanding walk-forward with a 1-day embargo. The H5 model ships with "
-          "the app at **shadow** stage (`dkapp/assets/models/strategy-filter-v1.json`): it shows its estimate for "
+          "the app at **shadow** stage (`stockpilot/assets/models/strategy-filter-v1.json`): it shows its estimate for "
           "every candidate and never changes a trade.", "",
           "## Why the original strategies lose (development, 197 days)", ""]
     dg = dev["diagnosis"]
@@ -258,7 +258,7 @@ def main(run: Path) -> int:
 
 
 def write_app_summary(dev: dict, hold: dict, llm: dict, econ: dict) -> None:
-    """The compact evidence the app's Performance page shows (shipped in dkapp/assets/research)."""
+    """The compact evidence the app's Performance page shows (shipped in stockpilot/assets/research)."""
     rows = []
     for k, lab in ROWS:
         if k == "no_trade":
@@ -280,7 +280,7 @@ def write_app_summary(dev: dict, hold: dict, llm: dict, econ: dict) -> None:
            "llm": llm["summary"],
            "capitalFor100PerMonth": econ["capitalNeeded"]["+0.05%"]["$100/mo"],
            "conclusion": "No approach made money after costs on the unseen holdout; not trading was best."}
-    dst = ROOT / "dkapp" / "assets" / "research"
+    dst = ROOT / "stockpilot" / "assets" / "research"
     dst.mkdir(parents=True, exist_ok=True)
     (dst / "round1-summary.json").write_text(json.dumps(out, indent=1))
     print("wrote", dst / "round1-summary.json")

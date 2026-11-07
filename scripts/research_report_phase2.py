@@ -3,7 +3,7 @@
     python scripts/research_report_phase2.py research/runs/2026-11-07-phase2 [DEV_CANDIDATES_PKL]
 
 Writes figures/*.png, tables.md (every number the report quotes, regenerated from dev.json + holdout.json)
-and dkapp/assets/research/phase2-summary.json. REPORT.md is written by hand around these tables.
+and stockpilot/assets/research/phase2-summary.json. REPORT.md is written by hand around these tables.
 """
 from __future__ import annotations
 
@@ -283,7 +283,7 @@ def main(run: Path, pkl: Path | None) -> int:
         filt = json.loads((run / "dev_filters.json").read_text())
     (run / "tables.md").write_text(tables(dev, hold, filt))
     print("wrote", run / "tables.md")
-    dst = ROOT / "dkapp" / "assets" / "research"
+    dst = ROOT / "stockpilot" / "assets" / "research"
     (dst / "phase2-summary.json").write_text(json.dumps(app_summary(dev, hold), indent=1))
     print("wrote", dst / "phase2-summary.json")
     return 0

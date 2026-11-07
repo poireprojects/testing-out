@@ -24,7 +24,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
-from dkapp.research.ledger import EXAMINED, RESERVED, DataLedger  # noqa: E402
+from stockpilot.research.ledger import EXAMINED, RESERVED, DataLedger  # noqa: E402
 
 BASE = "https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/ftp/"
 FILES = {
@@ -40,7 +40,7 @@ HOLD_A = (date(2006, 1, 3), date(2020, 7, 24))
 def fetch(name: str) -> bytes:
     for attempt in range(4):
         try:
-            req = urllib.request.Request(BASE + name, headers={"User-Agent": "dkapp-research/phase3"})
+            req = urllib.request.Request(BASE + name, headers={"User-Agent": "stockpilot-research/phase3"})
             with urllib.request.urlopen(req, timeout=60) as r:
                 return r.read()
         except Exception as exc:  # network hiccup
