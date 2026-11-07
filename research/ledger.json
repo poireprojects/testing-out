@@ -71,6 +71,20 @@
    "status": "examined",
    "by": "phase 2 holdout run (2026-11-06, commit 4f1a646)",
    "note": "The phase-2 holdout was evaluated once (research/HOLDOUT_P2_USED.json). From now on these days are development data only. The only untouched history left is the vault (2020-07-27 to 2022-10-31)."
+  },
+  {
+   "start": "1926-07-01",
+   "end": "2005-12-30",
+   "status": "examined",
+   "by": "phase 3 (registered 2026-11-07, before download)",
+   "note": "PHASE-3 DEVELOPMENT (long history): Ken French daily industry/factor returns and FRED Treasury rates. Never used by this project before; exploratory research allowed here. Covers the samples of the original industry-momentum and turn-of-the-month studies."
+  },
+  {
+   "start": "2006-01-03",
+   "end": "2020-07-24",
+   "status": "reserved",
+   "by": "phase 3 (registered 2026-11-07, before download)",
+   "note": "PHASE-3 HOLDOUT A: the same academic return series, post-publication for the phase-3 mechanisms. Split into separate files at download; development code may not load these rows. Single use after the phase-3 rules are frozen; marker research/HOLDOUT_P3_USED.json."
   }
  ]
 }
