@@ -23,12 +23,12 @@ import pandas as pd
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
-from dkapp.quant.model import LogisticL2, Standardizer  # noqa: E402
-from dkapp.research.academic import load_series, market_total_return, price_index  # noqa: E402
-from dkapp.research.factors import breadth  # noqa: E402
-from dkapp.research.phase3 import tom_windows  # noqa: E402
-from dkapp.research.portfolio import SimCosts  # noqa: E402
-from dkapp.research.stats import auc, brier, day_block_bootstrap, moving_block_bootstrap  # noqa: E402
+from stockpilot.quant.model import LogisticL2, Standardizer  # noqa: E402
+from stockpilot.research.academic import load_series, market_total_return, price_index  # noqa: E402
+from stockpilot.research.factors import breadth  # noqa: E402
+from stockpilot.research.phase3 import tom_windows  # noqa: E402
+from stockpilot.research.portfolio import SimCosts  # noqa: E402
+from stockpilot.research.stats import auc, brier, day_block_bootstrap, moving_block_bootstrap  # noqa: E402
 
 
 def main(data: Path, out: Path) -> int:
