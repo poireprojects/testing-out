@@ -2,12 +2,12 @@ from datetime import date, datetime, timedelta, timezone
 
 import pytest
 
-from dkapp.clock import ET, MarketCalendar, session_state
-from dkapp.config import AppSettings
-from dkapp.models import AccountInfo, AssetInfo
-from dkapp.risk.engine import EntryProposal, OpenRisk, RiskContext, RiskEngine, floor_qty, round_price
-from dkapp.risk.fees import CostModel
-from dkapp.risk.sizing import SizingInputs, position_size, scaled_limits, spendable_cash
+from stockpilot.clock import ET, MarketCalendar, session_state
+from stockpilot.config import AppSettings
+from stockpilot.models import AccountInfo, AssetInfo
+from stockpilot.risk.engine import EntryProposal, OpenRisk, RiskContext, RiskEngine, floor_qty, round_price
+from stockpilot.risk.fees import CostModel
+from stockpilot.risk.sizing import SizingInputs, position_size, scaled_limits, spendable_cash
 
 UTC = timezone.utc
 CAL = MarketCalendar()
@@ -100,7 +100,7 @@ def test_auto_mode_uses_unsettled_proceeds_but_never_more_than_cash_or_buying_po
 
 def test_old_settings_files_move_off_the_settled_only_default(tmp_path):
     import json
-    from dkapp.config import load_settings
+    from stockpilot.config import load_settings
     f = tmp_path / "settings.json"
     f.write_text(json.dumps({"schema_version": 1, "risk": {"settlement_mode": "conservative", "max_positions": 2}}))
     s = load_settings(f)
@@ -111,7 +111,7 @@ def test_old_settings_files_move_off_the_settled_only_default(tmp_path):
 
 def test_untouched_ai_confirm_default_moves_to_rules_but_a_choice_is_kept(tmp_path):
     import json
-    from dkapp.config import effective_decision_mode, load_settings
+    from stockpilot.config import effective_decision_mode, load_settings
     f = tmp_path / "settings.json"
     f.write_text(json.dumps({"schema_version": 2, "ai": {"decision_mode": "ai_confirm"}}))
     assert load_settings(f).ai.decision_mode == "rules"      # v2's default: the 3B model added nothing
@@ -279,7 +279,7 @@ def test_build20_fee_rule_rounded_every_sale_up_to_the_cent():
 
 def test_alpaca_rounds_each_fee_type_once_per_day_not_per_trade():
     from datetime import date
-    from dkapp.risk.fees import FeeBreakdown, rates_on
+    from stockpilot.risk.fees import FeeBreakdown, rates_on
     c = CostModel()  # 2027 rates: SEC $20.60/M, TAF $0.000195/share (max $9.79), CAT $0.000003/share
     assert c.sell_fees(20.0, 0.1) == pytest.approx(20 * 20.60e-6 + 0.1 * 0.000195 + 0.1 * 0.000003)
     sales = [c.sale_breakdown(20.0, 0.1) for _ in range(4)]
