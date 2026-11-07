@@ -1,0 +1,2888 @@
+{
+ "window": [
+  "2025-09-02",
+  "2026-10-30"
+ ],
+ "seed": 20261107,
+ "companiesDrawn": 120,
+ "population": {
+  "earnings": 566,
+  "other": 1089
+ },
+ "secRequests": 206,
+ "events": [
+  {
+   "symbol": "CCL",
+   "name": "Carnival Corp Ltd.",
+   "cik": 815097,
+   "accession": "0001628280-25-058106",
+   "stratum": "earnings",
+   "items": "2.02,9.01",
+   "acceptance": "2025-12-19T09:17:01-05:00",
+   "acceptanceJsonUtcCheckSeconds": 0.0,
+   "acceptancePhase": "pre-market",
+   "pressRelease": true,
+   "statedTimes": [],
+   "release": "2025-12-19T09:16:19-05:00",
+   "releaseSource": "earnings headline: Carnival Q4 Adj. EPS $0.34 Beats $0.25 Estimate, Sales $6.330B Miss $6.372B Estimate",
+   "newsNearby": 7,
+   "releaseMinusAcceptanceMin": -0.7,
+   "receipt": "2025-12-19T09:16:24-05:00",
+   "actionable": "2025-12-19T09:31:00-05:00",
+   "delayFromFirstPublicMin": 14.683333333333334,
+   "sector": "XLI",
+   "formerNames": [
+    {
+     "name": "CARNIVAL CORP",
+     "from": "1995-03-21T00:00:00.000Z",
+     "to": "2026-04-29T00:00:00.000Z"
+    }
+   ],
+   "ledgerStatus": "examined",
+   "sip": {
+    "barsAround": 2822,
+    "refPrice": 27.66,
+    "entryPrice": 28.33,
+    "moveBeforeEntryPct": 2.422270426608808,
+    "move60AfterEntryPct": 9.512883868690425,
+    "moveToCloseAfterEntryPct": 10.395340628309224,
+    "SPY60Pct": 0.3736192332683741,
+    "XLI60Pct": 0.5104018607055227
+   },
+   "volume30": {
+    "sip": 10533894.0,
+    "iex": 381035.0,
+    "iexShare": 0.03617228348794852,
+    "iexBarAtEntry": true,
+    "sipBarAtEntry": true
+   },
+   "iexEntryPrice": 28.27,
+   "spreads": {
+    "sip": {
+     "quotes": 2460,
+     "valid": 2417,
+     "medianSpreadBps": 10.43296817944745,
+     "p90SpreadBps": 21.244956880743377,
+     "medianAskSize": 200.0
+    },
+    "iex": {
+     "quotes": 128,
+     "valid": 128,
+     "medianSpreadBps": 677.5720276015386,
+     "p90SpreadBps": 1021.9490781387182,
+     "medianAskSize": 100.0
+    }
+   }
+  },
+  {
+   "symbol": "RDDT",
+   "name": "Reddit, Inc.",
+   "cik": 1713445,
+   "accession": "0001713445-26-000067",
+   "stratum": "earnings",
+   "items": "2.02,9.01",
+   "acceptance": "2026-04-30T16:08:35-04:00",
+   "acceptanceJsonUtcCheckSeconds": 0.0,
+   "acceptancePhase": "after hours",
+   "pressRelease": true,
+   "statedTimes": [],
+   "release": "2026-04-30T16:12:09-04:00",
+   "releaseSource": "earnings headline: Reddit Q1 EPS $1.01 Beats $0.58 Estimate, Sales $663.411M Beat $610.877M Estimate",
+   "newsNearby": 4,
+   "releaseMinusAcceptanceMin": 3.566666666666667,
+   "receipt": "2026-04-30T16:09:35-04:00",
+   "actionable": "2026-05-01T09:31:00-04:00",
+   "delayFromFirstPublicMin": 1038.85,
+   "sector": "XLK",
+   "formerNames": [
+    {
+     "name": "Reddit, Inc.",
+     "from": "2017-07-31T00:00:00.000Z",
+     "to": "2026-11-06T00:00:00.000Z"
+    }
+   ],
+   "ledgerStatus": "examined",
+   "sip": {
+    "barsAround": 3032,
+    "refPrice": 156.98,
+    "entryPrice": 166.94,
+    "moveBeforeEntryPct": 6.344757293922809,
+    "move60AfterEntryPct": -1.6772493111297582,
+    "moveToCloseAfterEntryPct": 1.1321432850125879,
+    "SPY60Pct": 0.3590948795807014,
+    "XLK60Pct": 0.5357087239542757
+   },
+   "volume30": {
+    "sip": 3521626.0,
+    "iex": 112257.0,
+    "iexShare": 0.03187646842680057,
+    "iexBarAtEntry": true,
+    "sipBarAtEntry": true
+   },
+   "iexEntryPrice": 166.38,
+   "spreads": {
+    "sip": {
+     "quotes": 175,
+     "valid": 175,
+     "medianSpreadBps": 48.076923076923755,
+     "p90SpreadBps": 119.76047904191617,
+     "medianAskSize": 100.0
+    },
+    "iex": {
+     "quotes": 8,
+     "valid": 8,
+     "medianSpreadBps": 1123.5143673837813,
+     "p90SpreadBps": 1123.5143673837813,
+     "medianAskSize": 100.0
+    }
+   }
+  },
+  {
+   "symbol": "PFE",
+   "name": "PFIZER INC",
+   "cik": 78003,
+   "accession": "0000078003-26-000053",
+   "stratum": "earnings",
+   "items": "2.02,9.01",
+   "acceptance": "2026-05-05T07:01:20-04:00",
+   "acceptanceJsonUtcCheckSeconds": 0.0,
+   "acceptancePhase": "pre-market",
+   "pressRelease": true,
+   "statedTimes": [],
+   "release": "2026-05-05T06:45:35-04:00",
+   "releaseSource": "earnings headline: Pfizer Q1 Adj. EPS $0.75 Beats $0.72 Estimate, Sales $14.451B Beat $13.785B Estimate",
+   "newsNearby": 5,
+   "releaseMinusAcceptanceMin": -15.75,
+   "receipt": "2026-05-05T06:45:40-04:00",
+   "actionable": "2026-05-05T09:31:00-04:00",
+   "delayFromFirstPublicMin": 165.41666666666666,
+   "sector": "XLV",
+   "formerNames": [
+    {
+     "name": "PFIZER INC",
+     "from": "1994-03-18T05:00:00.000Z",
+     "to": "2026-11-03T05:00:00.000Z"
+    }
+   ],
+   "ledgerStatus": "examined",
+   "sip": {
+    "barsAround": 2097,
+    "refPrice": 26.4969,
+    "entryPrice": 26.62,
+    "moveBeforeEntryPct": 0.4645826492910565,
+    "move60AfterEntryPct": -2.1224643125469567,
+    "moveToCloseAfterEntryPct": -0.43200601051841536,
+    "SPY60Pct": 0.15515688855025633,
+    "XLV60Pct": -0.3234686854783231
+   },
+   "volume30": {
+    "sip": 6123298.0,
+    "iex": 151633.0,
+    "iexShare": 0.024763289325458276,
+    "iexBarAtEntry": true,
+    "sipBarAtEntry": true
+   },
+   "iexEntryPrice": 26.62,
+   "spreads": {
+    "sip": {
+     "quotes": 341,
+     "valid": 340,
+     "medianSpreadBps": 18.793459875963435,
+     "p90SpreadBps": 30.063885757233482,
+     "medianAskSize": 300.0
+    },
+    "iex": {
+     "quotes": 364,
+     "valid": 364,
+     "medianSpreadBps": 544.5066615176675,
+     "p90SpreadBps": 1031.6265060240958,
+     "medianAskSize": 100.0
+    }
+   }
+  },
+  {
+   "symbol": "AAL",
+   "name": "American Airlines Group Inc.",
+   "cik": 6201,
+   "accession": "0000006201-26-000031",
+   "stratum": "earnings",
+   "items": "2.02,7.01,9.01",
+   "acceptance": "2026-04-23T07:01:15-04:00",
+   "acceptanceJsonUtcCheckSeconds": 0.0,
+   "acceptancePhase": "pre-market",
+   "pressRelease": true,
+   "statedTimes": [],
+   "release": "2026-04-22T17:25:37-04:00",
+   "releaseSource": "earnings headline: 'American Air Explores Alaska Air Revenue-Sharing Deal'- Bloomberg",
+   "newsNearby": 7,
+   "releaseMinusAcceptanceMin": -815.6333333333333,
+   "receipt": "2026-04-22T17:25:42-04:00",
+   "actionable": "2026-04-23T09:31:00-04:00",
+   "delayFromFirstPublicMin": 965.3833333333333,
+   "sector": "XLI",
+   "formerNames": [],
+   "ledgerStatus": "examined",
+   "sip": {
+    "barsAround": 3017,
+    "refPrice": 11.5004,
+    "entryPrice": 11.81,
+    "moveBeforeEntryPct": 2.692080275468678,
+    "move60AfterEntryPct": 1.5800169348010096,
+    "moveToCloseAfterEntryPct": -1.0160880609652923,
+    "SPY60Pct": 0.17121839857952015,
+    "XLI60Pct": 1.0205264988982998
+   },
+   "volume30": {
+    "sip": 12827075.0,
+    "iex": 382500.0,
+    "iexShare": 0.029819736767735434,
+    "iexBarAtEntry": true,
+    "sipBarAtEntry": true
+   },
+   "iexEntryPrice": 11.81,
+   "spreads": {
+    "sip": {
+     "quotes": 1848,
+     "valid": 1711,
+     "medianSpreadBps": 8.456659619450138,
+     "p90SpreadBps": 16.835016835017974,
+     "medianAskSize": 800.0
+    },
+    "iex": {
+     "quotes": 1089,
+     "valid": 1089,
+     "medianSpreadBps": 16.949152542374023,
+     "p90SpreadBps": 42.24757076468013,
+     "medianAskSize": 300.0
+    }
+   }
+  },
+  {
+   "symbol": "PCAR",
+   "name": "PACCAR INC",
+   "cik": 75362,
+   "accession": "0001193125-26-318918",
+   "stratum": "earnings",
+   "items": "2.02,9.01",
+   "acceptance": "2026-07-28T08:05:17-04:00",
+   "acceptanceJsonUtcCheckSeconds": 0.0,
+   "acceptancePhase": "pre-market",
+   "pressRelease": true,
+   "statedTimes": [],
+   "release": "2026-07-28T08:00:40-04:00",
+   "releaseSource": "earnings headline: PACCAR Q2 EPS $1.43 Beats $1.35 Estimate, Sales $6.997B Miss $7.264B Estimate",
+   "newsNearby": 1,
+   "releaseMinusAcceptanceMin": -4.616666666666666,
+   "receipt": "2026-07-28T08:00:45-04:00",
+   "actionable": "2026-07-28T09:31:00-04:00",
+   "delayFromFirstPublicMin": 90.33333333333333,
+   "sector": "XLY",
+   "formerNames": [],
+   "ledgerStatus": "examined",
+   "sip": {
+    "barsAround": 1197,
+    "refPrice": 133.9,
+    "entryPrice": 131.4,
+    "moveBeforeEntryPct": -1.8670649738610878,
+    "move60AfterEntryPct": 1.933028919330293,
+    "moveToCloseAfterEntryPct": 5.585996955859973,
+    "SPY60Pct": -0.15565150305213438,
+    "XLY60Pct": 0.251053528198697
+   },
+   "volume30": {
+    "sip": 350449.0,
+    "iex": 19927.0,
+    "iexShare": 0.0568613407371686,
+    "iexBarAtEntry": true,
+    "sipBarAtEntry": true
+   },
+   "iexEntryPrice": 131.4,
+   "spreads": {
+    "sip": {
+     "quotes": 69,
+     "valid": 69,
+     "medianSpreadBps": 66.66666666666633,
+     "p90SpreadBps": 79.55113985447694,
+     "medianAskSize": 100.0
+    },
+    "iex": {
+     "quotes": 26,
+     "valid": 26,
+     "medianSpreadBps": 677.4645693817174,
+     "p90SpreadBps": 1211.4787612629666,
+     "medianAskSize": 100.0
+    }
+   }
+  },
+  {
+   "symbol": "MTD",
+   "name": "METTLER TOLEDO INTERNATIONAL INC/",
+   "cik": 1037646,
+   "accession": "0001037646-26-000019",
+   "stratum": "earnings",
+   "items": "2.02,9.01",
+   "acceptance": "2026-05-07T16:33:00-04:00",
+   "acceptanceJsonUtcCheckSeconds": 0.0,
+   "acceptancePhase": "after hours",
+   "pressRelease": true,
+   "statedTimes": [],
+   "release": "2026-05-07T16:31:05-04:00",
+   "releaseSource": "earnings headline: Mettler-Toledo Intl Q1 Adj. EPS $8.91 Beats $8.70 Estimate, Sales $947.127M Beat $941.804M",
+   "newsNearby": 4,
+   "releaseMinusAcceptanceMin": -1.9166666666666667,
+   "receipt": "2026-05-07T16:31:10-04:00",
+   "actionable": "2026-05-08T09:31:00-04:00",
+   "delayFromFirstPublicMin": 1019.9166666666666,
+   "sector": "XLK",
+   "formerNames": [],
+   "ledgerStatus": "examined",
+   "sip": {
+    "barsAround": 1724,
+    "refPrice": 1319.29,
+    "entryPrice": 1190.23,
+    "moveBeforeEntryPct": -9.782534545096222,
+    "move60AfterEntryPct": -4.019391210102241,
+    "moveToCloseAfterEntryPct": -5.459449014056106,
+    "SPY60Pct": 0.25037760753310323,
+    "XLK60Pct": 1.1141573820218076
+   },
+   "volume30": {
+    "sip": 74818.0,
+    "iex": 10071.0,
+    "iexShare": 0.13460664545964876,
+    "iexBarAtEntry": true,
+    "sipBarAtEntry": true
+   },
+   "iexEntryPrice": 1193.89,
+   "spreads": {
+    "sip": {
+     "quotes": 104,
+     "valid": 104,
+     "medianSpreadBps": 93.77250121401936,
+     "p90SpreadBps": 179.40434115008705,
+     "medianAskSize": 80.0
+    },
+    "iex": {
+     "quotes": 20,
+     "valid": 20,
+     "medianSpreadBps": 1147.51532431712,
+     "p90SpreadBps": 1147.51532431712,
+     "medianAskSize": 10.0
+    }
+   }
+  },
+  {
+   "symbol": "BAC",
+   "name": "BANK OF AMERICA CORP /DE/",
+   "cik": 70858,
+   "accession": "0000070858-26-000353",
+   "stratum": "earnings",
+   "items": "2.02,7.01,9.01",
+   "acceptance": "2026-07-14T06:45:08-04:00",
+   "acceptanceJsonUtcCheckSeconds": 0.0,
+   "acceptancePhase": "pre-market",
+   "pressRelease": true,
+   "statedTimes": [],
+   "release": "2026-07-13T16:08:06-04:00",
+   "releaseSource": "earnings headline: Big Bank Earnings Hit Tuesday: JPMorgan Headlines the Slate, but the Widest Implied Move L",
+   "newsNearby": 5,
+   "releaseMinusAcceptanceMin": -877.0333333333333,
+   "receipt": "2026-07-13T16:08:11-04:00",
+   "actionable": "2026-07-14T09:31:00-04:00",
+   "delayFromFirstPublicMin": 1042.9,
+   "sector": "XLF",
+   "formerNames": [],
+   "ledgerStatus": "examined",
+   "sip": {
+    "barsAround": 2109,
+    "refPrice": 59.5046,
+    "entryPrice": 59.5,
+    "moveBeforeEntryPct": -0.007730494785285202,
+    "move60AfterEntryPct": 2.3445378151260465,
+    "moveToCloseAfterEntryPct": 2.2268907563025353,
+    "SPY60Pct": 0.02056993645169758,
+    "XLF60Pct": 1.795511669658878
+   },
+   "volume30": {
+    "sip": 6542870.0,
+    "iex": 365209.0,
+    "iexShare": 0.055817859746563815,
+    "iexBarAtEntry": true,
+    "sipBarAtEntry": true
+   },
+   "iexEntryPrice": 59.55,
+   "spreads": {
+    "sip": {
+     "quotes": 5364,
+     "valid": 5269,
+     "medianSpreadBps": 3.3534540576787424,
+     "p90SpreadBps": 6.709158000670772,
+     "medianAskSize": 300.0
+    },
+    "iex": {
+     "quotes": 795,
+     "valid": 795,
+     "medianSpreadBps": 26.79169457468128,
+     "p90SpreadBps": 688.5786141704966,
+     "medianAskSize": 100.0
+    }
+   }
+  },
+  {
+   "symbol": "ANET",
+   "name": "Arista Networks, Inc.",
+   "cik": 1596532,
+   "accession": "0001596532-25-000284",
+   "stratum": "earnings",
+   "items": "2.02,9.01",
+   "acceptance": "2025-11-04T16:08:44-05:00",
+   "acceptanceJsonUtcCheckSeconds": 0.0,
+   "acceptancePhase": "after hours",
+   "pressRelease": true,
+   "statedTimes": [],
+   "release": "2025-11-04T16:11:37-05:00",
+   "releaseSource": "earnings headline: Arista Networks Q3 Adj. EPS $0.75 Beats $0.71 Estimate, Sales $2.308B Beat $2.252B Estimat",
+   "newsNearby": 5,
+   "releaseMinusAcceptanceMin": 2.8833333333333333,
+   "receipt": "2025-11-04T16:09:44-05:00",
+   "actionable": "2025-11-05T09:31:00-05:00",
+   "delayFromFirstPublicMin": 1039.3833333333334,
+   "sector": "XLK",
+   "formerNames": [],
+   "ledgerStatus": "examined",
+   "sip": {
+    "barsAround": 2252,
+    "refPrice": 139.32,
+    "entryPrice": 147.16,
+    "moveBeforeEntryPct": 5.627332759115711,
+    "move60AfterEntryPct": -2.147322642022287,
+    "moveToCloseAfterEntryPct": -4.1145691764066346,
+    "SPY60Pct": 0.34805017846826214,
+    "XLK60Pct": 0.5488315134197119
+   },
+   "volume30": {
+    "sip": 2477807.0,
+    "iex": 126309.0,
+    "iexShare": 0.05097612525915053,
+    "iexBarAtEntry": true,
+    "sipBarAtEntry": true
+   },
+   "iexEntryPrice": 147.76,
+   "spreads": {
+    "sip": {
+     "quotes": 934,
+     "valid": 934,
+     "medianSpreadBps": 45.851682823020525,
+     "p90SpreadBps": 84.48204247253575,
+     "medianAskSize": 100.0
+    },
+    "iex": {
+     "quotes": 3,
+     "valid": 3,
+     "medianSpreadBps": 149.0066225165561,
+     "p90SpreadBps": 149.0066225165561,
+     "medianAskSize": 200.0
+    }
+   }
+  },
+  {
+   "symbol": "HD",
+   "name": "HOME DEPOT, INC.",
+   "cik": 354950,
+   "accession": "0000354950-26-000026",
+   "stratum": "earnings",
+   "items": "2.02,9.01",
+   "acceptance": "2026-02-24T06:07:18-05:00",
+   "acceptanceJsonUtcCheckSeconds": 0.0,
+   "acceptancePhase": "pre-market",
+   "pressRelease": true,
+   "statedTimes": [],
+   "release": "2026-02-24T06:01:13-05:00",
+   "releaseSource": "earnings headline: Home Depot Q4 Adj. EPS $2.72 Beats $2.54 Estimate, Sales $38.198B Beat $38.119B Estimate",
+   "newsNearby": 9,
+   "releaseMinusAcceptanceMin": -6.083333333333333,
+   "receipt": "2026-02-24T06:01:18-05:00",
+   "actionable": "2026-02-24T09:31:00-05:00",
+   "delayFromFirstPublicMin": 209.78333333333333,
+   "sector": "XLY",
+   "formerNames": [],
+   "ledgerStatus": "examined",
+   "sip": {
+    "barsAround": 1419,
+    "refPrice": 379.95,
+    "entryPrice": 390.09,
+    "moveBeforeEntryPct": 2.6687722068693187,
+    "move60AfterEntryPct": -0.3306929170191375,
+    "moveToCloseAfterEntryPct": -1.4599195057550807,
+    "SPY60Pct": 0.6285110814497452,
+    "XLY60Pct": 1.1828935395814533
+   },
+   "volume30": {
+    "sip": 912542.0,
+    "iex": 42868.0,
+    "iexShare": 0.046976467932434894,
+    "iexBarAtEntry": true,
+    "sipBarAtEntry": true
+   },
+   "iexEntryPrice": 390.09,
+   "spreads": {
+    "sip": {
+     "quotes": 672,
+     "valid": 672,
+     "medianSpreadBps": 19.41549151849558,
+     "p90SpreadBps": 36.51389072092987,
+     "medianAskSize": 80.0
+    },
+    "iex": {
+     "quotes": 51,
+     "valid": 51,
+     "medianSpreadBps": 617.2497127689079,
+     "p90SpreadBps": 1109.4522240527174,
+     "medianAskSize": 40.0
+    }
+   }
+  },
+  {
+   "symbol": "CCI",
+   "name": "CROWN CASTLE INC.",
+   "cik": 1051470,
+   "accession": "0001051470-25-000185",
+   "stratum": "earnings",
+   "items": "2.02,7.01,9.01",
+   "acceptance": "2025-10-22T16:17:39-04:00",
+   "acceptanceJsonUtcCheckSeconds": 0.0,
+   "acceptancePhase": "after hours",
+   "pressRelease": true,
+   "statedTimes": [],
+   "release": "2025-10-22T16:18:50-04:00",
+   "releaseSource": "earnings headline: Crown Castle Q3 FFO $1.12 Beats $1.02 Estimate, Sales $1.072B Beat $1.055B Estimate",
+   "newsNearby": 4,
+   "releaseMinusAcceptanceMin": 1.1833333333333333,
+   "receipt": "2025-10-22T16:18:39-04:00",
+   "actionable": "2025-10-23T09:31:00-04:00",
+   "delayFromFirstPublicMin": 1032.1666666666667,
+   "sector": "XLRE",
+   "formerNames": [],
+   "ledgerStatus": "examined",
+   "sip": {
+    "barsAround": 1588,
+    "refPrice": 97.7,
+    "entryPrice": 99.055,
+    "moveBeforeEntryPct": 1.3868986693961194,
+    "move60AfterEntryPct": -2.993286557972852,
+    "moveToCloseAfterEntryPct": -0.23219423552571783,
+    "SPY60Pct": 0.1331876749023575,
+    "XLRE60Pct": -0.7282123561193399
+   },
+   "volume30": {
+    "sip": 357175.0,
+    "iex": 26185.0,
+    "iexShare": 0.07331140197382235,
+    "iexBarAtEntry": true,
+    "sipBarAtEntry": true
+   },
+   "iexEntryPrice": 99.055,
+   "spreads": {
+    "sip": {
+     "quotes": 145,
+     "valid": 145,
+     "medianSpreadBps": 68.23198876179077,
+     "p90SpreadBps": 93.92486011191023,
+     "medianAskSize": 1.0
+    },
+    "iex": {
+     "quotes": 0
+    }
+   }
+  },
+  {
+   "symbol": "ABBV",
+   "name": "AbbVie Inc.",
+   "cik": 1551152,
+   "accession": "0001551152-26-000033",
+   "stratum": "earnings",
+   "items": "2.02,9.01",
+   "acceptance": "2026-10-30T07:51:51-04:00",
+   "acceptanceJsonUtcCheckSeconds": 0.0,
+   "acceptancePhase": "pre-market",
+   "pressRelease": true,
+   "statedTimes": [],
+   "release": "2026-10-30T07:47:32-04:00",
+   "releaseSource": "earnings headline: AbbVie Q3 Adj. EPS $3.82 Beats $3.75 Estimate, Sales $17.404B Beat $17.314B Estimate",
+   "newsNearby": 7,
+   "releaseMinusAcceptanceMin": -4.316666666666666,
+   "receipt": "2026-10-30T07:47:37-04:00",
+   "actionable": "2026-10-30T09:31:00-04:00",
+   "delayFromFirstPublicMin": 103.46666666666667,
+   "sector": "XLV",
+   "formerNames": [],
+   "ledgerStatus": "examined",
+   "sip": {
+    "barsAround": 2116,
+    "refPrice": 301.0,
+    "entryPrice": 292.0,
+    "moveBeforeEntryPct": -2.9900332225913595,
+    "move60AfterEntryPct": 0.39726027397262165,
+    "moveToCloseAfterEntryPct": 0.8732876712328697,
+    "SPY60Pct": -0.35615250160990763,
+    "XLV60Pct": -0.7443105756358648
+   },
+   "volume30": {
+    "sip": 791988.0,
+    "iex": 31134.0,
+    "iexShare": 0.039311201684874016,
+    "iexBarAtEntry": true,
+    "sipBarAtEntry": true
+   },
+   "iexEntryPrice": 293.41,
+   "spreads": {
+    "sip": {
+     "quotes": 244,
+     "valid": 233,
+     "medianSpreadBps": 39.023722315407056,
+     "p90SpreadBps": 82.25767978188854,
+     "medianAskSize": 100.0
+    },
+    "iex": {
+     "quotes": 25,
+     "valid": 25,
+     "medianSpreadBps": 1011.8731474977308,
+     "p90SpreadBps": 1011.8731474977308,
+     "medianAskSize": 100.0
+    }
+   }
+  },
+  {
+   "symbol": "SJM",
+   "name": "J M SMUCKER Co",
+   "cik": 91419,
+   "accession": "0000091419-26-000047",
+   "stratum": "earnings",
+   "items": "2.02,9.01",
+   "acceptance": "2026-06-09T07:05:54-04:00",
+   "acceptanceJsonUtcCheckSeconds": 0.0,
+   "acceptancePhase": "pre-market",
+   "pressRelease": true,
+   "statedTimes": [],
+   "release": "2026-06-09T07:01:20-04:00",
+   "releaseSource": "earnings headline: JM Smucker Q4 Adj. EPS $2.77 Beats $2.64 Estimate, Sales $2.268B Beat $2.260B Estimate",
+   "newsNearby": 5,
+   "releaseMinusAcceptanceMin": -4.566666666666666,
+   "receipt": "2026-06-09T07:01:25-04:00",
+   "actionable": "2026-06-09T09:31:00-04:00",
+   "delayFromFirstPublicMin": 149.66666666666666,
+   "sector": "XLP",
+   "formerNames": [],
+   "ledgerStatus": "examined",
+   "sip": {
+    "barsAround": 1228,
+    "refPrice": 105.72,
+    "entryPrice": 105.5,
+    "moveBeforeEntryPct": -0.2080968596292032,
+    "move60AfterEntryPct": 7.549763033175361,
+    "moveToCloseAfterEntryPct": 5.815165876777262,
+    "SPY60Pct": -0.42490251445476135,
+    "XLP60Pct": 1.0652383245065122
+   },
+   "volume30": {
+    "sip": 739829.0,
+    "iex": 26597.0,
+    "iexShare": 0.03595019930281187,
+    "iexBarAtEntry": true,
+    "sipBarAtEntry": true
+   },
+   "iexEntryPrice": 106.99,
+   "spreads": {
+    "sip": {
+     "quotes": 306,
+     "valid": 306,
+     "medianSpreadBps": 66.35337479672349,
+     "p90SpreadBps": 117.01380762930026,
+     "medianAskSize": 100.0
+    },
+    "iex": {
+     "quotes": 34,
+     "valid": 34,
+     "medianSpreadBps": 645.3377085042382,
+     "p90SpreadBps": 1261.616446071529,
+     "medianAskSize": 100.0
+    }
+   }
+  },
+  {
+   "symbol": "TSLA",
+   "name": "Tesla, Inc.",
+   "cik": 1318605,
+   "accession": "0001628280-26-064366",
+   "stratum": "earnings",
+   "items": "2.02,9.01",
+   "acceptance": "2026-10-02T09:04:26-04:00",
+   "acceptanceJsonUtcCheckSeconds": 0.0,
+   "acceptancePhase": "pre-market",
+   "pressRelease": true,
+   "statedTimes": [],
+   "release": "2026-10-01T15:04:58-04:00",
+   "releaseSource": "earnings headline: Market Reaction To Micron Earnings And Broadcom Deal Signals A Shift In AI Trade",
+   "newsNearby": 6,
+   "releaseMinusAcceptanceMin": -1079.4666666666667,
+   "receipt": "2026-10-01T15:05:03-04:00",
+   "actionable": "2026-10-01T15:06:00-04:00",
+   "delayFromFirstPublicMin": 1.0333333333333334,
+   "sector": "XLY",
+   "formerNames": [],
+   "ledgerStatus": "examined",
+   "sip": {
+    "barsAround": 3666,
+    "refPrice": 357.08,
+    "entryPrice": 357.18,
+    "moveBeforeEntryPct": 0.028004928867497725,
+    "move60AfterEntryPct": -0.7251245870429579,
+    "moveToCloseAfterEntryPct": 0.06999272075705054,
+    "SPY60Pct": 0.0,
+    "XLY60Pct": -0.21550735934705578
+   },
+   "volume30": {
+    "sip": 1073094.0,
+    "iex": 34721.0,
+    "iexShare": 0.032355972542945914,
+    "iexBarAtEntry": true,
+    "sipBarAtEntry": true
+   },
+   "iexEntryPrice": 357.155,
+   "spreads": {
+    "sip": {
+     "quotes": 266,
+     "valid": 264,
+     "medianSpreadBps": 1.400579841152269,
+     "p90SpreadBps": 4.202210362650117,
+     "medianAskSize": 40.0
+    },
+    "iex": {
+     "quotes": 72,
+     "valid": 72,
+     "medianSpreadBps": 5.040322580645352,
+     "p90SpreadBps": 31.122513353239317,
+     "medianAskSize": 40.0
+    }
+   }
+  },
+  {
+   "symbol": "EXPD",
+   "name": "EXPEDITORS INTERNATIONAL OF WASHINGTON INC",
+   "cik": 746515,
+   "accession": "0001193125-26-066101",
+   "stratum": "earnings",
+   "items": "2.02,9.01",
+   "acceptance": "2026-02-24T11:48:53-05:00",
+   "acceptanceJsonUtcCheckSeconds": 0.0,
+   "acceptancePhase": "regular hours",
+   "pressRelease": true,
+   "statedTimes": [],
+   "release": "2026-02-24T08:31:08-05:00",
+   "releaseSource": "earnings headline: Expeditors Intl Q4 EPS $1.49 Beats $1.46 Estimate, Sales $2.855B Beat $2.832B Estimate",
+   "newsNearby": 4,
+   "releaseMinusAcceptanceMin": -197.75,
+   "receipt": "2026-02-24T08:31:13-05:00",
+   "actionable": "2026-02-24T09:31:00-05:00",
+   "delayFromFirstPublicMin": 59.86666666666667,
+   "sector": "XLI",
+   "formerNames": [],
+   "ledgerStatus": "examined",
+   "sip": {
+    "barsAround": 1126,
+    "refPrice": 150.7,
+    "entryPrice": 145.04,
+    "moveBeforeEntryPct": -3.755806237558057,
+    "move60AfterEntryPct": -2.9440154440154354,
+    "moveToCloseAfterEntryPct": -4.467733039161603,
+    "SPY60Pct": 0.6285110814497452,
+    "XLI60Pct": 1.219442377053892
+   },
+   "volume30": {
+    "sip": 382058.0,
+    "iex": 12343.0,
+    "iexShare": 0.032306613132037545,
+    "iexBarAtEntry": true,
+    "sipBarAtEntry": true
+   },
+   "iexEntryPrice": 144.4,
+   "spreads": {
+    "sip": {
+     "quotes": 86,
+     "valid": 86,
+     "medianSpreadBps": 211.31784693729367,
+     "p90SpreadBps": 315.7172271791348,
+     "medianAskSize": 100.0
+    },
+    "iex": {
+     "quotes": 0
+    }
+   }
+  },
+  {
+   "symbol": "ZTS",
+   "name": "Zoetis Inc.",
+   "cik": 1555280,
+   "accession": "0001555280-26-000038",
+   "stratum": "earnings",
+   "items": "2.02,9.01",
+   "acceptance": "2026-08-06T07:06:31-04:00",
+   "acceptanceJsonUtcCheckSeconds": 0.0,
+   "acceptancePhase": "pre-market",
+   "pressRelease": true,
+   "statedTimes": [],
+   "release": "2026-08-06T07:00:59-04:00",
+   "releaseSource": "earnings headline: Zoetis Q2 Adj. EPS $1.87 Beats $1.86 Estimate, Sales $2.468B Miss $2.502B Estimate",
+   "newsNearby": 4,
+   "releaseMinusAcceptanceMin": -5.533333333333333,
+   "receipt": "2026-08-06T07:01:04-04:00",
+   "actionable": "2026-08-06T09:31:00-04:00",
+   "delayFromFirstPublicMin": 150.01666666666668,
+   "sector": "XLV",
+   "formerNames": [],
+   "ledgerStatus": "examined",
+   "sip": {
+    "barsAround": 2014,
+    "refPrice": 72.5,
+    "entryPrice": 78.825,
+    "moveBeforeEntryPct": 8.72413793103448,
+    "move60AfterEntryPct": -4.230891214716149,
+    "moveToCloseAfterEntryPct": -1.8966064065969013,
+    "SPY60Pct": 0.035055829654639936,
+    "XLV60Pct": -1.8951225372417113
+   },
+   "volume30": {
+    "sip": 1721649.0,
+    "iex": 57380.0,
+    "iexShare": 0.033328512373892706,
+    "iexBarAtEntry": false,
+    "sipBarAtEntry": true
+   },
+   "iexEntryPrice": null,
+   "spreads": {
+    "sip": {
+     "quotes": 70,
+     "valid": 70,
+     "medianSpreadBps": 103.30315052846329,
+     "p90SpreadBps": 191.73385816773606,
+     "medianAskSize": 100.0
+    },
+    "iex": {
+     "quotes": 29,
+     "valid": 29,
+     "medianSpreadBps": 1177.3671175462005,
+     "p90SpreadBps": 1177.3671175462005,
+     "medianAskSize": 100.0
+    }
+   }
+  },
+  {
+   "symbol": "URI",
+   "name": "UNITED RENTALS, INC.",
+   "cik": 1067701,
+   "accession": "0001067701-26-000036",
+   "stratum": "earnings",
+   "items": "2.02,7.01,9.01",
+   "acceptance": "2026-10-21T16:25:20-04:00",
+   "acceptanceJsonUtcCheckSeconds": 0.0,
+   "acceptancePhase": "after hours",
+   "pressRelease": true,
+   "statedTimes": [],
+   "release": "2026-10-21T16:16:03-04:00",
+   "releaseSource": "earnings headline: United Rentals Raises FY2026 Sales Guidance from $17.500B-$17.800B to $18.000B-$18.200B vs",
+   "newsNearby": 5,
+   "releaseMinusAcceptanceMin": -9.283333333333333,
+   "receipt": "2026-10-21T16:16:08-04:00",
+   "actionable": "2026-10-22T09:31:00-04:00",
+   "delayFromFirstPublicMin": 1034.95,
+   "sector": "SPY",
+   "formerNames": [],
+   "ledgerStatus": "examined",
+   "sip": {
+    "barsAround": 1485,
+    "refPrice": 1100.74,
+    "entryPrice": 1102.675,
+    "moveBeforeEntryPct": 0.17579083162235776,
+    "move60AfterEntryPct": -2.581612895912211,
+    "moveToCloseAfterEntryPct": 0.13149840161426063,
+    "SPY60Pct": -0.5139711445641737
+   },
+   "volume30": {
+    "sip": 191408.0,
+    "iex": 11590.0,
+    "iexShare": 0.06055128312296247,
+    "iexBarAtEntry": true,
+    "sipBarAtEntry": true
+   },
+   "iexEntryPrice": 1102.675,
+   "spreads": {
+    "sip": {
+     "quotes": 232,
+     "valid": 232,
+     "medianSpreadBps": 99.69442105571866,
+     "p90SpreadBps": 127.96243097744978,
+     "medianAskSize": 80.0
+    },
+    "iex": {
+     "quotes": 21,
+     "valid": 21,
+     "medianSpreadBps": 1176.8217131384013,
+     "p90SpreadBps": 1176.8217131384013,
+     "medianAskSize": 40.0
+    }
+   }
+  },
+  {
+   "symbol": "META",
+   "name": "Meta Platforms, Inc.",
+   "cik": 1326801,
+   "accession": "0001628280-25-047114",
+   "stratum": "earnings",
+   "items": "2.02,9.01",
+   "acceptance": "2025-10-29T16:08:34-04:00",
+   "acceptanceJsonUtcCheckSeconds": 0.0,
+   "acceptancePhase": "after hours",
+   "pressRelease": true,
+   "statedTimes": [],
+   "release": "2025-10-29T12:01:08-04:00",
+   "releaseSource": "earnings headline: Nvidia's 2 Surprises; NVDA Soars On Trump-Fueled Hopes of China Blackwell Sales; Fed In Fo",
+   "newsNearby": 14,
+   "releaseMinusAcceptanceMin": -247.43333333333334,
+   "receipt": "2025-10-29T12:01:13-04:00",
+   "actionable": "2025-10-29T12:02:00-04:00",
+   "delayFromFirstPublicMin": 0.8666666666666667,
+   "sector": "XLK",
+   "formerNames": [],
+   "ledgerStatus": "examined",
+   "sip": {
+    "barsAround": 2025,
+    "refPrice": 751.35,
+    "entryPrice": 751.49,
+    "moveBeforeEntryPct": 0.018633127038003572,
+    "move60AfterEntryPct": -0.43347216862500426,
+    "moveToCloseAfterEntryPct": 0.3459793210821127,
+    "SPY60Pct": 0.08286208550787322,
+    "XLK60Pct": 0.23362179592640864
+   },
+   "volume30": {
+    "sip": 538945.0,
+    "iex": 19908.0,
+    "iexShare": 0.036938834203861244,
+    "iexBarAtEntry": true,
+    "sipBarAtEntry": true
+   },
+   "iexEntryPrice": 751.325,
+   "spreads": {
+    "sip": {
+     "quotes": 205,
+     "valid": 205,
+     "medianSpreadBps": 3.5941774325590115,
+     "p90SpreadBps": 4.658932838154118,
+     "medianAskSize": 1.0
+    },
+    "iex": {
+     "quotes": 21,
+     "valid": 21,
+     "medianSpreadBps": 171.57400208653084,
+     "p90SpreadBps": 171.57400208653084,
+     "medianAskSize": 1.0
+    }
+   }
+  },
+  {
+   "symbol": "DOCU",
+   "name": "DOCUSIGN, INC.",
+   "cik": 1261333,
+   "accession": "0001261333-26-000072",
+   "stratum": "earnings",
+   "items": "2.02,9.01",
+   "acceptance": "2026-06-04T16:07:25-04:00",
+   "acceptanceJsonUtcCheckSeconds": 0.0,
+   "acceptancePhase": "after hours",
+   "pressRelease": true,
+   "statedTimes": [],
+   "release": "2026-06-04T16:06:38-04:00",
+   "releaseSource": "earnings headline: DocuSign Q1 Adj. EPS $1.09 Beats $0.99 Estimate, Sales $830.200M Beat $824.774M Estimate",
+   "newsNearby": 6,
+   "releaseMinusAcceptanceMin": -0.7833333333333333,
+   "receipt": "2026-06-04T16:06:43-04:00",
+   "actionable": "2026-06-05T09:31:00-04:00",
+   "delayFromFirstPublicMin": 1044.3666666666666,
+   "sector": "XLK",
+   "formerNames": [],
+   "ledgerStatus": "examined",
+   "sip": {
+    "barsAround": 2589,
+    "refPrice": 50.4999,
+    "entryPrice": 49.9501,
+    "moveBeforeEntryPct": -1.08871502715846,
+    "move60AfterEntryPct": -2.893087301126518,
+    "moveToCloseAfterEntryPct": -4.44463574647499,
+    "SPY60Pct": -0.2806186910667474,
+    "XLK60Pct": -0.9864757358790888
+   },
+   "volume30": {
+    "sip": 1382005.0,
+    "iex": 77093.0,
+    "iexShare": 0.055783445067130726,
+    "iexBarAtEntry": true,
+    "sipBarAtEntry": true
+   },
+   "iexEntryPrice": 49.87,
+   "spreads": {
+    "sip": {
+     "quotes": 443,
+     "valid": 443,
+     "medianSpreadBps": 43.89465283320009,
+     "p90SpreadBps": 89.94419335618292,
+     "medianAskSize": 100.0
+    },
+    "iex": {
+     "quotes": 78,
+     "valid": 78,
+     "medianSpreadBps": 583.4469148422639,
+     "p90SpreadBps": 1070.7911957168362,
+     "medianAskSize": 100.0
+    }
+   }
+  },
+  {
+   "symbol": "EMR",
+   "name": "EMERSON ELECTRIC CO",
+   "cik": 32604,
+   "accession": "0000032604-26-000006",
+   "stratum": "earnings",
+   "items": "2.02,9.01",
+   "acceptance": "2026-02-03T16:05:35-05:00",
+   "acceptanceJsonUtcCheckSeconds": 0.0,
+   "acceptancePhase": "after hours",
+   "pressRelease": true,
+   "statedTimes": [],
+   "release": "2026-02-03T16:07:46-05:00",
+   "releaseSource": "earnings headline: Emerson Electric Q1 Adj. EPS $1.46 Beats $1.41 Estimate, Sales $4.346B Miss $4.347B Estima",
+   "newsNearby": 7,
+   "releaseMinusAcceptanceMin": 2.183333333333333,
+   "receipt": "2026-02-03T16:06:35-05:00",
+   "actionable": "2026-02-04T09:31:00-05:00",
+   "delayFromFirstPublicMin": 1043.2333333333333,
+   "sector": "SPY",
+   "formerNames": [],
+   "ledgerStatus": "examined",
+   "sip": {
+    "barsAround": 1651,
+    "refPrice": 150.3525,
+    "entryPrice": 158.09,
+    "moveBeforeEntryPct": 5.146239670108588,
+    "move60AfterEntryPct": -0.6768296539945595,
+    "moveToCloseAfterEntryPct": 0.8887342652919239,
+    "SPY60Pct": -0.08117471407657062
+   },
+   "volume30": {
+    "sip": 922941.0,
+    "iex": 45753.0,
+    "iexShare": 0.049573049631558244,
+    "iexBarAtEntry": true,
+    "sipBarAtEntry": true
+   },
+   "iexEntryPrice": 157.55,
+   "spreads": {
+    "sip": {
+     "quotes": 76,
+     "valid": 76,
+     "medianSpreadBps": 75.70326878459727,
+     "p90SpreadBps": 119.276053646458,
+     "medianAskSize": 100.0
+    },
+    "iex": {
+     "quotes": 0
+    }
+   }
+  },
+  {
+   "symbol": "EIX",
+   "name": "EDISON INTERNATIONAL",
+   "cik": 827052,
+   "accession": "0000827052-26-000058",
+   "stratum": "earnings",
+   "items": "2.02,7.01,9.01",
+   "acceptance": "2026-07-30T16:07:33-04:00",
+   "acceptanceJsonUtcCheckSeconds": 0.0,
+   "acceptancePhase": "after hours",
+   "pressRelease": true,
+   "statedTimes": [],
+   "release": "2026-07-30T16:05:53-04:00",
+   "releaseSource": "earnings headline: Edison Intl Q2 Adj. EPS $1.54 Beats $1.16 Estimate, Sales $4.357B Miss $4.809B Estimate",
+   "newsNearby": 3,
+   "releaseMinusAcceptanceMin": -1.6666666666666667,
+   "receipt": "2026-07-30T16:05:58-04:00",
+   "actionable": "2026-07-31T09:31:00-04:00",
+   "delayFromFirstPublicMin": 1045.1166666666666,
+   "sector": "XLU",
+   "formerNames": [],
+   "ledgerStatus": "examined",
+   "sip": {
+    "barsAround": 1945,
+    "refPrice": 78.73,
+    "entryPrice": 76.8316,
+    "moveBeforeEntryPct": -2.4112790549981056,
+    "move60AfterEntryPct": -2.2644328635613276,
+    "moveToCloseAfterEntryPct": -3.815617532369475,
+    "SPY60Pct": -0.5745120674380488,
+    "XLU60Pct": -0.31319910514541194
+   },
+   "volume30": {
+    "sip": 364502.0,
+    "iex": 26644.0,
+    "iexShare": 0.07309699260909405,
+    "iexBarAtEntry": true,
+    "sipBarAtEntry": true
+   },
+   "iexEntryPrice": 76.54,
+   "spreads": {
+    "sip": {
+     "quotes": 108,
+     "valid": 108,
+     "medianSpreadBps": 78.68852459016318,
+     "p90SpreadBps": 86.46665793266037,
+     "medianAskSize": 100.0
+    },
+    "iex": {
+     "quotes": 11,
+     "valid": 11,
+     "medianSpreadBps": 593.2795528171252,
+     "p90SpreadBps": 1090.2940411137126,
+     "medianAskSize": 100.0
+    }
+   }
+  },
+  {
+   "symbol": "GOOG",
+   "name": "Alphabet Inc.",
+   "cik": 1652044,
+   "accession": "0001652044-26-000066",
+   "stratum": "earnings",
+   "items": "2.02,9.01",
+   "acceptance": "2026-07-22T16:01:36-04:00",
+   "acceptanceJsonUtcCheckSeconds": 0.0,
+   "acceptancePhase": "after hours",
+   "pressRelease": true,
+   "statedTimes": [],
+   "release": "2026-07-22T08:30:00-04:00",
+   "releaseSource": "earnings headline: Stock Market Today: Dow, S&P 500, Nasdaq 100 Futures Fall As Chip Stocks Cool Down and Tes",
+   "newsNearby": 21,
+   "releaseMinusAcceptanceMin": -451.6,
+   "receipt": "2026-07-22T08:30:05-04:00",
+   "actionable": "2026-07-22T09:31:00-04:00",
+   "delayFromFirstPublicMin": 61.0,
+   "sector": "XLK",
+   "formerNames": [],
+   "ledgerStatus": "examined",
+   "sip": {
+    "barsAround": 2569,
+    "refPrice": 347.0569,
+    "entryPrice": 346.89,
+    "moveBeforeEntryPct": -0.04809009704171974,
+    "move60AfterEntryPct": 0.2911585805298378,
+    "moveToCloseAfterEntryPct": -0.812937818905124,
+    "SPY60Pct": 0.0655902317548307,
+    "XLK60Pct": 0.692918227041539
+   },
+   "volume30": {
+    "sip": 1356149.0,
+    "iex": 62433.0,
+    "iexShare": 0.046036976762877824,
+    "iexBarAtEntry": true,
+    "sipBarAtEntry": true
+   },
+   "iexEntryPrice": 346.81,
+   "spreads": {
+    "sip": {
+     "quotes": 2972,
+     "valid": 2970,
+     "medianSpreadBps": 4.8873747610222065,
+     "p90SpreadBps": 7.766364739566711,
+     "medianAskSize": 80.0
+    },
+    "iex": {
+     "quotes": 1134,
+     "valid": 1134,
+     "medianSpreadBps": 37.931034482760055,
+     "p90SpreadBps": 174.03761568503748,
+     "medianAskSize": 40.0
+    }
+   }
+  },
+  {
+   "symbol": "TXT",
+   "name": "TEXTRON INC",
+   "cik": 217346,
+   "accession": "0000217346-26-000002",
+   "stratum": "earnings",
+   "items": "2.02,9.01",
+   "acceptance": "2026-01-28T06:33:40-05:00",
+   "acceptanceJsonUtcCheckSeconds": 0.0,
+   "acceptancePhase": "pre-market",
+   "pressRelease": true,
+   "statedTimes": [],
+   "release": "2026-01-28T06:30:47-05:00",
+   "releaseSource": "earnings headline: Textron Q4 Adj. EPS $1.73 Beats $1.70 Estimate, Sales $4.175B Beat $4.098B Estimate",
+   "newsNearby": 4,
+   "releaseMinusAcceptanceMin": -2.8833333333333333,
+   "receipt": "2026-01-28T06:30:52-05:00",
+   "actionable": "2026-01-28T09:31:00-05:00",
+   "delayFromFirstPublicMin": 180.21666666666667,
+   "sector": "XLI",
+   "formerNames": [],
+   "ledgerStatus": "examined",
+   "sip": {
+    "barsAround": 1202,
+    "refPrice": 94.8,
+    "entryPrice": 90.22,
+    "moveBeforeEntryPct": -4.831223628691983,
+    "move60AfterEntryPct": -3.7020616271336793,
+    "moveToCloseAfterEntryPct": -3.8461538461538436,
+    "SPY60Pct": -0.13071155142009294,
+    "XLI60Pct": -0.20652371985665496
+   },
+   "volume30": {
+    "sip": 1047609.0,
+    "iex": 30684.0,
+    "iexShare": 0.02928955364071901,
+    "iexBarAtEntry": true,
+    "sipBarAtEntry": true
+   },
+   "iexEntryPrice": 90.445,
+   "spreads": {
+    "sip": {
+     "quotes": 101,
+     "valid": 101,
+     "medianSpreadBps": 58.54089578616018,
+     "p90SpreadBps": 101.61254694057894,
+     "medianAskSize": 100.0
+    },
+    "iex": {
+     "quotes": 0
+    }
+   }
+  },
+  {
+   "symbol": "LCID",
+   "name": "Lucid Group, Inc.",
+   "cik": 1811210,
+   "accession": "0001628280-26-052548",
+   "stratum": "earnings",
+   "items": "2.02,9.01",
+   "acceptance": "2026-08-04T16:07:05-04:00",
+   "acceptanceJsonUtcCheckSeconds": 0.0,
+   "acceptancePhase": "after hours",
+   "pressRelease": true,
+   "statedTimes": [],
+   "release": "2026-08-04T04:24:18-04:00",
+   "releaseSource": "earnings headline: Lucid's US Sales Fell in July and Its Stock Is Down 30% This Year\u2014 Can Q2 Earnings Change ",
+   "newsNearby": 5,
+   "releaseMinusAcceptanceMin": -702.7833333333333,
+   "receipt": "2026-08-04T04:24:23-04:00",
+   "actionable": "2026-08-04T09:31:00-04:00",
+   "delayFromFirstPublicMin": 306.7,
+   "sector": "XLY",
+   "formerNames": [],
+   "ledgerStatus": "examined",
+   "sip": {
+    "barsAround": 1774,
+    "refPrice": 7.64,
+    "entryPrice": 7.605,
+    "moveBeforeEntryPct": -0.45811518324606615,
+    "move60AfterEntryPct": 0.19723865877712132,
+    "moveToCloseAfterEntryPct": 4.076265614727137,
+    "SPY60Pct": 0.38877286995810945,
+    "XLY60Pct": -0.16970725498514083
+   },
+   "volume30": {
+    "sip": 904788.0,
+    "iex": 32449.0,
+    "iexShare": 0.03586364982736288,
+    "iexBarAtEntry": true,
+    "sipBarAtEntry": true
+   },
+   "iexEntryPrice": 7.525,
+   "spreads": {
+    "sip": {
+     "quotes": 407,
+     "valid": 404,
+     "medianSpreadBps": 27.02702702702765,
+     "p90SpreadBps": 40.6228842247803,
+     "medianAskSize": 200.0
+    },
+    "iex": {
+     "quotes": 251,
+     "valid": 251,
+     "medianSpreadBps": 79.47019867549734,
+     "p90SpreadBps": 145.0230718523394,
+     "medianAskSize": 700.0
+    }
+   }
+  },
+  {
+   "symbol": "TRV",
+   "name": "TRAVELERS COMPANIES, INC.",
+   "cik": 86312,
+   "accession": "0000086312-26-000180",
+   "stratum": "earnings",
+   "items": "2.02,9.01",
+   "acceptance": "2026-10-16T06:58:21-04:00",
+   "acceptanceJsonUtcCheckSeconds": 0.0,
+   "acceptancePhase": "pre-market",
+   "pressRelease": true,
+   "statedTimes": [],
+   "release": "2026-10-16T06:57:35-04:00",
+   "releaseSource": "earnings headline: Travelers Companies Q3 Adj. EPS $9.18 Beats $7.42 Estimate, Sales $12.412B Beat $11.376B E",
+   "newsNearby": 5,
+   "releaseMinusAcceptanceMin": -0.7666666666666667,
+   "receipt": "2026-10-16T06:57:40-04:00",
+   "actionable": "2026-10-16T09:31:00-04:00",
+   "delayFromFirstPublicMin": 153.41666666666666,
+   "sector": "XLF",
+   "formerNames": [],
+   "ledgerStatus": "examined",
+   "sip": {
+    "barsAround": 2079,
+    "refPrice": 385.42,
+    "entryPrice": 373.025,
+    "moveBeforeEntryPct": -3.215972186186511,
+    "move60AfterEntryPct": 3.4885061322967648,
+    "moveToCloseAfterEntryPct": 4.235641042825544,
+    "SPY60Pct": -0.2587656876698152,
+    "XLF60Pct": 0.48561151079136167
+   },
+   "volume30": {
+    "sip": 340705.0,
+    "iex": 10072.0,
+    "iexShare": 0.02956223125577846,
+    "iexBarAtEntry": true,
+    "sipBarAtEntry": true
+   },
+   "iexEntryPrice": 372.675,
+   "spreads": {
+    "sip": {
+     "quotes": 119,
+     "valid": 119,
+     "medianSpreadBps": 44.37672093458358,
+     "p90SpreadBps": 57.78182012733316,
+     "medianAskSize": 760.0
+    },
+    "iex": {
+     "quotes": 13,
+     "valid": 13,
+     "medianSpreadBps": 50.93151052137722,
+     "p90SpreadBps": 70.93622431907856,
+     "medianAskSize": 40.0
+    }
+   }
+  },
+  {
+   "symbol": "KHC",
+   "name": "Kraft Heinz Co",
+   "cik": 1637459,
+   "accession": "0001637459-25-000164",
+   "stratum": "earnings",
+   "items": "2.02,9.01",
+   "acceptance": "2025-10-29T07:01:23-04:00",
+   "acceptanceJsonUtcCheckSeconds": 0.0,
+   "acceptancePhase": "pre-market",
+   "pressRelease": true,
+   "statedTimes": [],
+   "release": "2025-10-28T13:01:57-04:00",
+   "releaseSource": "earnings headline: Insights Ahead: Kraft Heinz's Quarterly Earnings",
+   "newsNearby": 5,
+   "releaseMinusAcceptanceMin": -1079.4333333333334,
+   "receipt": "2025-10-28T13:02:02-04:00",
+   "actionable": "2025-10-28T13:03:00-04:00",
+   "delayFromFirstPublicMin": 1.05,
+   "sector": "XLP",
+   "formerNames": [],
+   "ledgerStatus": "examined",
+   "sip": {
+    "barsAround": 1367,
+    "refPrice": 25.63,
+    "entryPrice": 25.61,
+    "moveBeforeEntryPct": -0.07803355442840276,
+    "move60AfterEntryPct": -0.6052323311206642,
+    "moveToCloseAfterEntryPct": -0.23428348301444135,
+    "SPY60Pct": 0.056022001367805885,
+    "XLP60Pct": -0.4369300911854057
+   },
+   "volume30": {
+    "sip": 1134034.0,
+    "iex": 47582.0,
+    "iexShare": 0.041958177620776804,
+    "iexBarAtEntry": true,
+    "sipBarAtEntry": true
+   },
+   "iexEntryPrice": 25.615,
+   "spreads": {
+    "sip": {
+     "quotes": 127,
+     "valid": 127,
+     "medianSpreadBps": 3.9039625219603993,
+     "p90SpreadBps": 3.9054872095286117,
+     "medianAskSize": 24.0
+    },
+    "iex": {
+     "quotes": 92,
+     "valid": 92,
+     "medianSpreadBps": 3.9039625219603993,
+     "p90SpreadBps": 3.9039625219603993,
+     "medianAskSize": 25.0
+    }
+   }
+  },
+  {
+   "symbol": "DLTR",
+   "name": "DOLLAR TREE, INC.",
+   "cik": 935703,
+   "accession": "0000935703-26-000071",
+   "stratum": "other",
+   "items": "5.03,5.07,9.01",
+   "acceptance": "2026-06-23T07:37:21-04:00",
+   "acceptanceJsonUtcCheckSeconds": 0.0,
+   "acceptancePhase": "pre-market",
+   "pressRelease": false,
+   "statedTimes": [],
+   "release": null,
+   "releaseSource": "unverified (no matching headline)",
+   "newsNearby": 0,
+   "releaseMinusAcceptanceMin": null,
+   "receipt": "2026-06-23T07:38:21-04:00",
+   "actionable": "2026-06-23T09:31:00-04:00",
+   "delayFromFirstPublicMin": 113.65,
+   "sector": "XLY",
+   "formerNames": [],
+   "ledgerStatus": "examined",
+   "sip": {
+    "barsAround": 773,
+    "refPrice": 113.41,
+    "entryPrice": 113.31,
+    "moveBeforeEntryPct": -0.0881756458866012,
+    "move60AfterEntryPct": 0.7060277115876756,
+    "moveToCloseAfterEntryPct": 0.7854558291412905,
+    "SPY60Pct": 0.7233618583575518,
+    "XLY60Pct": 0.5531653349723387
+   },
+   "volume30": {
+    "sip": 116644.0,
+    "iex": 7608.0,
+    "iexShare": 0.0652241006824183,
+    "iexBarAtEntry": true,
+    "sipBarAtEntry": true
+   },
+   "iexEntryPrice": 113.12,
+   "spreads": {
+    "sip": {
+     "quotes": 26,
+     "valid": 26,
+     "medianSpreadBps": 47.27715548187232,
+     "p90SpreadBps": 61.67944312274234,
+     "medianAskSize": 100.0
+    },
+    "iex": {
+     "quotes": 8,
+     "valid": 8,
+     "medianSpreadBps": 1091.6817920226658,
+     "p90SpreadBps": 1285.5452832668798,
+     "medianAskSize": 100.0
+    }
+   }
+  },
+  {
+   "symbol": "DHR",
+   "name": "DANAHER CORP /DE/",
+   "cik": 313616,
+   "accession": "0001193125-26-160383",
+   "stratum": "other",
+   "items": "1.01,2.03,9.01",
+   "acceptance": "2026-04-17T08:28:34-04:00",
+   "acceptanceJsonUtcCheckSeconds": 0.0,
+   "acceptancePhase": "pre-market",
+   "pressRelease": false,
+   "statedTimes": [],
+   "release": null,
+   "releaseSource": "unverified (no matching headline)",
+   "newsNearby": 1,
+   "releaseMinusAcceptanceMin": null,
+   "receipt": "2026-04-17T08:29:34-04:00",
+   "actionable": "2026-04-17T09:31:00-04:00",
+   "delayFromFirstPublicMin": 62.43333333333333,
+   "sector": "XLK",
+   "formerNames": [],
+   "ledgerStatus": "examined",
+   "sip": {
+    "barsAround": 1968,
+    "refPrice": 193.78,
+    "entryPrice": 195.04,
+    "moveBeforeEntryPct": 0.650221901124981,
+    "move60AfterEntryPct": 0.7229286300246107,
+    "moveToCloseAfterEntryPct": -0.11279737489745534,
+    "SPY60Pct": 0.4743213967121074,
+    "XLK60Pct": 0.20447906523854975
+   },
+   "volume30": {
+    "sip": 281493.0,
+    "iex": 32796.0,
+    "iexShare": 0.11650733766026153,
+    "iexBarAtEntry": true,
+    "sipBarAtEntry": true
+   },
+   "iexEntryPrice": 195.04,
+   "spreads": {
+    "sip": {
+     "quotes": 29,
+     "valid": 29,
+     "medianSpreadBps": 53.9055882126453,
+     "p90SpreadBps": 77.9327317473344,
+     "medianAskSize": 100.0
+    },
+    "iex": {
+     "quotes": 17,
+     "valid": 17,
+     "medianSpreadBps": 579.6568305436582,
+     "p90SpreadBps": 785.7129605556928,
+     "medianAskSize": 200.0
+    }
+   }
+  },
+  {
+   "symbol": "TXT",
+   "name": "TEXTRON INC",
+   "cik": 217346,
+   "accession": "0000217346-25-000072",
+   "stratum": "other",
+   "items": "7.01,8.01",
+   "acceptance": "2025-10-17T08:30:18-04:00",
+   "acceptanceJsonUtcCheckSeconds": 0.0,
+   "acceptancePhase": "pre-market",
+   "pressRelease": false,
+   "statedTimes": [],
+   "release": null,
+   "releaseSource": "unverified (no matching headline)",
+   "newsNearby": 1,
+   "releaseMinusAcceptanceMin": null,
+   "receipt": "2025-10-17T08:31:18-04:00",
+   "actionable": "2025-10-17T09:31:00-04:00",
+   "delayFromFirstPublicMin": 60.7,
+   "sector": "XLI",
+   "formerNames": [],
+   "ledgerStatus": "examined",
+   "sip": {
+    "barsAround": 1771,
+    "refPrice": 81.65,
+    "entryPrice": 81.2,
+    "moveBeforeEntryPct": -0.5511328842620955,
+    "move60AfterEntryPct": 0.09852216748769127,
+    "moveToCloseAfterEntryPct": 0.24630541871921707,
+    "SPY60Pct": 0.47501972925392266,
+    "XLI60Pct": 0.1915961945031741
+   },
+   "volume30": {
+    "sip": 27872.0,
+    "iex": 500.0,
+    "iexShare": 0.017939150401836967,
+    "iexBarAtEntry": true,
+    "sipBarAtEntry": true
+   },
+   "iexEntryPrice": 81.2,
+   "spreads": {
+    "sip": {
+     "quotes": 8,
+     "valid": 8,
+     "medianSpreadBps": 107.74251114780384,
+     "p90SpreadBps": 110.83743842364602,
+     "medianAskSize": 4.0
+    },
+    "iex": {
+     "quotes": 0
+    }
+   }
+  },
+  {
+   "symbol": "GOOG",
+   "name": "Alphabet Inc.",
+   "cik": 1652044,
+   "accession": "0001193125-26-216986",
+   "stratum": "other",
+   "items": "8.01,9.01",
+   "acceptance": "2026-05-11T16:45:29-04:00",
+   "acceptanceJsonUtcCheckSeconds": 0.0,
+   "acceptancePhase": "after hours",
+   "pressRelease": false,
+   "statedTimes": [],
+   "release": "2026-05-11T13:22:18-04:00",
+   "releaseSource": "item-keyword headline: CORRECTION: Google Announces End-To-End encrypted RCS Messaging Begins Rolling Out Today F",
+   "newsNearby": 4,
+   "releaseMinusAcceptanceMin": -203.18333333333334,
+   "receipt": "2026-05-11T13:22:23-04:00",
+   "actionable": "2026-05-11T13:23:00-04:00",
+   "delayFromFirstPublicMin": 0.7,
+   "sector": "XLK",
+   "formerNames": [],
+   "ledgerStatus": "examined",
+   "sip": {
+    "barsAround": 2510,
+    "refPrice": 389.4394,
+    "entryPrice": 389.28,
+    "moveBeforeEntryPct": -0.040930630028701565,
+    "move60AfterEntryPct": 0.008990957665444554,
+    "moveToCloseAfterEntryPct": -0.5523016851623486,
+    "SPY60Pct": 0.1366138696893282,
+    "XLK60Pct": 0.27594751365658254
+   },
+   "volume30": {
+    "sip": 578521.0,
+    "iex": 14819.0,
+    "iexShare": 0.02561531906361221,
+    "iexBarAtEntry": true,
+    "sipBarAtEntry": true
+   },
+   "iexEntryPrice": 389.31,
+   "spreads": {
+    "sip": {
+     "quotes": 447,
+     "valid": 447,
+     "medianSpreadBps": 0.770485277309792,
+     "p90SpreadBps": 1.2841421288511132,
+     "medianAskSize": 40.0
+    },
+    "iex": {
+     "quotes": 192,
+     "valid": 192,
+     "medianSpreadBps": 25.425361155698468,
+     "p90SpreadBps": 129.53003845023807,
+     "medianAskSize": 40.0
+    }
+   }
+  },
+  {
+   "symbol": "PG",
+   "name": "PROCTER & GAMBLE Co",
+   "cik": 80424,
+   "accession": "0000080424-26-000057",
+   "stratum": "other",
+   "items": "7.01,9.01",
+   "acceptance": "2026-04-24T10:02:12-04:00",
+   "acceptanceJsonUtcCheckSeconds": 0.0,
+   "acceptancePhase": "regular hours",
+   "pressRelease": true,
+   "statedTimes": [],
+   "release": null,
+   "releaseSource": "unverified (no matching headline)",
+   "newsNearby": 9,
+   "releaseMinusAcceptanceMin": null,
+   "receipt": "2026-04-24T10:03:12-04:00",
+   "actionable": "2026-04-24T10:04:00-04:00",
+   "delayFromFirstPublicMin": 1.8,
+   "sector": "XLB",
+   "formerNames": [],
+   "ledgerStatus": "examined",
+   "sip": {
+    "barsAround": 2362,
+    "refPrice": 149.48,
+    "entryPrice": 149.39,
+    "moveBeforeEntryPct": -0.06020872357506146,
+    "move60AfterEntryPct": 0.6493071825423469,
+    "moveToCloseAfterEntryPct": -0.9103688332552262,
+    "SPY60Pct": 0.29039033535855907,
+    "XLB60Pct": 0.5043157792648634
+   },
+   "volume30": {
+    "sip": 1285506.0,
+    "iex": 47153.0,
+    "iexShare": 0.03668049779619854,
+    "iexBarAtEntry": true,
+    "sipBarAtEntry": true
+   },
+   "iexEntryPrice": 149.51,
+   "spreads": {
+    "sip": {
+     "quotes": 1130,
+     "valid": 1130,
+     "medianSpreadBps": 2.674333088185602,
+     "p90SpreadBps": 4.008283786492235,
+     "medianAskSize": 100.0
+    },
+    "iex": {
+     "quotes": 114,
+     "valid": 114,
+     "medianSpreadBps": 386.14771682500685,
+     "p90SpreadBps": 392.1568627450974,
+     "medianAskSize": 100.0
+    }
+   }
+  },
+  {
+   "symbol": "KEY",
+   "name": "KEYCORP /NEW/",
+   "cik": 91576,
+   "accession": "0001628280-26-063618",
+   "stratum": "other",
+   "items": "7.01,9.01",
+   "acceptance": "2026-09-25T17:04:18-04:00",
+   "acceptanceJsonUtcCheckSeconds": 0.0,
+   "acceptancePhase": "after hours",
+   "pressRelease": true,
+   "statedTimes": [],
+   "release": null,
+   "releaseSource": "unverified (no matching headline)",
+   "newsNearby": 1,
+   "releaseMinusAcceptanceMin": null,
+   "receipt": "2026-09-25T17:05:18-04:00",
+   "actionable": "2026-09-28T09:31:00-04:00",
+   "delayFromFirstPublicMin": 3866.7,
+   "sector": "XLF",
+   "formerNames": [],
+   "ledgerStatus": "examined",
+   "sip": {
+    "barsAround": 2390,
+    "refPrice": 20.61,
+    "entryPrice": 20.5,
+    "moveBeforeEntryPct": -0.5337214944201807,
+    "move60AfterEntryPct": -0.024390243902439046,
+    "moveToCloseAfterEntryPct": -0.487804878048792,
+    "SPY60Pct": -0.05862122870095021,
+    "XLF60Pct": 0.02751536274419042
+   },
+   "volume30": {
+    "sip": 449146.0,
+    "iex": 38417.0,
+    "iexShare": 0.0855334345624808,
+    "iexBarAtEntry": true,
+    "sipBarAtEntry": true
+   },
+   "iexEntryPrice": 20.5,
+   "spreads": {
+    "sip": {
+     "quotes": 567,
+     "valid": 550,
+     "medianSpreadBps": 4.876859302609882,
+     "p90SpreadBps": 9.75134080936108,
+     "medianAskSize": 700.0
+    },
+    "iex": {
+     "quotes": 397,
+     "valid": 397,
+     "medianSpreadBps": 9.75134080936108,
+     "p90SpreadBps": 14.630577907827915,
+     "medianAskSize": 1000.0
+    }
+   }
+  },
+  {
+   "symbol": "USB",
+   "name": "US BANCORP \\DE\\",
+   "cik": 36104,
+   "accession": "0000036104-26-000035",
+   "stratum": "other",
+   "items": "8.01,9.01",
+   "acceptance": "2026-06-24T17:30:14-04:00",
+   "acceptanceJsonUtcCheckSeconds": 0.0,
+   "acceptancePhase": "after hours",
+   "pressRelease": true,
+   "statedTimes": [],
+   "release": null,
+   "releaseSource": "unverified (no matching headline)",
+   "newsNearby": 1,
+   "releaseMinusAcceptanceMin": null,
+   "receipt": "2026-06-24T17:31:14-04:00",
+   "actionable": "2026-06-25T09:31:00-04:00",
+   "delayFromFirstPublicMin": 960.7666666666667,
+   "sector": "XLF",
+   "formerNames": [],
+   "ledgerStatus": "examined",
+   "sip": {
+    "barsAround": 1600,
+    "refPrice": 60.11,
+    "entryPrice": 60.71,
+    "moveBeforeEntryPct": 0.9981700216270095,
+    "move60AfterEntryPct": 1.696590347553939,
+    "moveToCloseAfterEntryPct": 0.4447372755723933,
+    "SPY60Pct": -0.4586783568761188,
+    "XLF60Pct": 1.0547742413027361
+   },
+   "volume30": {
+    "sip": 601516.0,
+    "iex": 54641.0,
+    "iexShare": 0.09083881393013653,
+    "iexBarAtEntry": true,
+    "sipBarAtEntry": true
+   },
+   "iexEntryPrice": 60.705,
+   "spreads": {
+    "sip": {
+     "quotes": 193,
+     "valid": 193,
+     "medianSpreadBps": 11.529276126163268,
+     "p90SpreadBps": 13.201320132012919,
+     "medianAskSize": 200.0
+    },
+    "iex": {
+     "quotes": 89,
+     "valid": 89,
+     "medianSpreadBps": 51.14245648766844,
+     "p90SpreadBps": 245.05799705930403,
+     "medianAskSize": 400.0
+    }
+   }
+  },
+  {
+   "symbol": "CCL",
+   "name": "Carnival Corp Ltd.",
+   "cik": 815097,
+   "accession": "0000950142-26-000354",
+   "stratum": "other",
+   "items": "1.01,3.03,9.01",
+   "acceptance": "2026-02-12T16:45:19-05:00",
+   "acceptanceJsonUtcCheckSeconds": 0.0,
+   "acceptancePhase": "after hours",
+   "pressRelease": false,
+   "statedTimes": [],
+   "release": null,
+   "releaseSource": "unverified (no matching headline)",
+   "newsNearby": 0,
+   "releaseMinusAcceptanceMin": null,
+   "receipt": "2026-02-12T16:46:19-05:00",
+   "actionable": "2026-02-13T09:31:00-05:00",
+   "delayFromFirstPublicMin": 1005.6833333333333,
+   "sector": "XLI",
+   "formerNames": [
+    {
+     "name": "CARNIVAL CORP",
+     "from": "1995-03-21T00:00:00.000Z",
+     "to": "2026-04-29T00:00:00.000Z"
+    }
+   ],
+   "ledgerStatus": "examined",
+   "sip": {
+    "barsAround": 2513,
+    "refPrice": 32.6144,
+    "entryPrice": 32.19,
+    "moveBeforeEntryPct": -1.3012656985871396,
+    "move60AfterEntryPct": -0.32618825722272593,
+    "moveToCloseAfterEntryPct": -1.2581547064305587,
+    "SPY60Pct": 0.25377732140237086,
+    "XLI60Pct": 0.6193645032120498
+   },
+   "volume30": {
+    "sip": 2731732.0,
+    "iex": 160222.0,
+    "iexShare": 0.05865216646435302,
+    "iexBarAtEntry": true,
+    "sipBarAtEntry": true
+   },
+   "iexEntryPrice": 32.11,
+   "spreads": {
+    "sip": {
+     "quotes": 2042,
+     "valid": 2020,
+     "medianSpreadBps": 9.31532370749919,
+     "p90SpreadBps": 12.46105919003089,
+     "medianAskSize": 200.0
+    },
+    "iex": {
+     "quotes": 596,
+     "valid": 596,
+     "medianSpreadBps": 18.639328984157277,
+     "p90SpreadBps": 264.0466687135399,
+     "medianAskSize": 100.0
+    }
+   }
+  },
+  {
+   "symbol": "UNG",
+   "name": "United States Natural Gas Fund, LP",
+   "cik": 1376227,
+   "accession": "0001104659-25-094153",
+   "stratum": "other",
+   "items": "7.01,9.01",
+   "acceptance": "2025-09-29T08:52:27-04:00",
+   "acceptanceJsonUtcCheckSeconds": 0.0,
+   "acceptancePhase": "pre-market",
+   "pressRelease": true,
+   "statedTimes": [],
+   "release": null,
+   "releaseSource": "unverified (no matching headline)",
+   "newsNearby": 0,
+   "releaseMinusAcceptanceMin": null,
+   "receipt": "2025-09-29T08:53:27-04:00",
+   "actionable": "2025-09-29T09:31:00-04:00",
+   "delayFromFirstPublicMin": 38.55,
+   "sector": "XLF",
+   "formerNames": [],
+   "ledgerStatus": "examined",
+   "sip": {
+    "barsAround": 1779,
+    "refPrice": 12.45,
+    "entryPrice": 12.54,
+    "moveBeforeEntryPct": 0.7228915662650603,
+    "move60AfterEntryPct": 0.23923444976077235,
+    "moveToCloseAfterEntryPct": 2.3125996810207328,
+    "SPY60Pct": 0.07226956547923269,
+    "XLF60Pct": -0.1666512359966732
+   },
+   "volume30": {
+    "sip": 1102404.0,
+    "iex": 27015.0,
+    "iexShare": 0.024505535175852047,
+    "iexBarAtEntry": true,
+    "sipBarAtEntry": true
+   },
+   "iexEntryPrice": 12.54,
+   "spreads": {
+    "sip": {
+     "quotes": 452,
+     "valid": 434,
+     "medianSpreadBps": 7.977662544874182,
+     "p90SpreadBps": 7.977662544874182,
+     "medianAskSize": 89.0
+    },
+    "iex": {
+     "quotes": 382,
+     "valid": 382,
+     "medianSpreadBps": 7.977662544874182,
+     "p90SpreadBps": 15.948963317385449,
+     "medianAskSize": 30.0
+    }
+   }
+  },
+  {
+   "symbol": "JBLU",
+   "name": "JETBLUE AIRWAYS CORP",
+   "cik": 1158463,
+   "accession": "0001158463-26-000068",
+   "stratum": "other",
+   "items": "7.01",
+   "acceptance": "2026-06-01T07:00:30-04:00",
+   "acceptanceJsonUtcCheckSeconds": 0.0,
+   "acceptancePhase": "pre-market",
+   "pressRelease": false,
+   "statedTimes": [],
+   "release": null,
+   "releaseSource": "unverified (no matching headline)",
+   "newsNearby": 2,
+   "releaseMinusAcceptanceMin": null,
+   "receipt": "2026-06-01T07:01:30-04:00",
+   "actionable": "2026-06-01T09:31:00-04:00",
+   "delayFromFirstPublicMin": 150.5,
+   "sector": "XLI",
+   "formerNames": [],
+   "ledgerStatus": "examined",
+   "sip": {
+    "barsAround": 1396,
+    "refPrice": 5.4289,
+    "entryPrice": 5.24,
+    "moveBeforeEntryPct": -3.4795262392013027,
+    "move60AfterEntryPct": -3.912213740458015,
+    "moveToCloseAfterEntryPct": -1.2404580152671874,
+    "SPY60Pct": 0.12253278579945626,
+    "XLI60Pct": -0.07590354411165512
+   },
+   "volume30": {
+    "sip": 4572008.0,
+    "iex": 150553.0,
+    "iexShare": 0.03292929496186359,
+    "iexBarAtEntry": true,
+    "sipBarAtEntry": true
+   },
+   "iexEntryPrice": 5.23,
+   "spreads": {
+    "sip": {
+     "quotes": 2039,
+     "valid": 1754,
+     "medianSpreadBps": 19.175455417065745,
+     "p90SpreadBps": 19.212295869355977,
+     "medianAskSize": 1400.0
+    },
+    "iex": {
+     "quotes": 1084,
+     "valid": 1084,
+     "medianSpreadBps": 38.314176245211605,
+     "p90SpreadBps": 57.526366251198944,
+     "medianAskSize": 400.0
+    }
+   }
+  },
+  {
+   "symbol": "ANF",
+   "name": "ABERCROMBIE & FITCH CO /DE/",
+   "cik": 1018840,
+   "accession": "0001018840-26-000034",
+   "stratum": "other",
+   "items": "5.07",
+   "acceptance": "2026-06-04T16:32:15-04:00",
+   "acceptanceJsonUtcCheckSeconds": 0.0,
+   "acceptancePhase": "after hours",
+   "pressRelease": false,
+   "statedTimes": [],
+   "release": null,
+   "releaseSource": "unverified (no matching headline)",
+   "newsNearby": 0,
+   "releaseMinusAcceptanceMin": null,
+   "receipt": "2026-06-04T16:33:15-04:00",
+   "actionable": "2026-06-05T09:31:00-04:00",
+   "delayFromFirstPublicMin": 1018.75,
+   "sector": "XLY",
+   "formerNames": [
+    {
+     "name": "ABERCROMBIE & FITCH CO /DE/",
+     "from": "1996-09-26T00:00:00.000Z",
+     "to": "2026-11-05T00:00:00.000Z"
+    }
+   ],
+   "ledgerStatus": "examined",
+   "sip": {
+    "barsAround": 1809,
+    "refPrice": 76.11,
+    "entryPrice": 77.75,
+    "moveBeforeEntryPct": 2.1547759821311185,
+    "move60AfterEntryPct": -0.1543408360128673,
+    "moveToCloseAfterEntryPct": -3.774919614147909,
+    "SPY60Pct": -0.2806186910667474,
+    "XLY60Pct": -0.5267182057599129
+   },
+   "volume30": {
+    "sip": 31848.0,
+    "iex": 940.0,
+    "iexShare": 0.029515197186636522,
+    "iexBarAtEntry": false,
+    "sipBarAtEntry": true
+   },
+   "iexEntryPrice": null,
+   "spreads": {
+    "sip": {
+     "quotes": 4,
+     "valid": 4,
+     "medianSpreadBps": 167.20257234726833,
+     "p90SpreadBps": 167.20257234726833,
+     "medianAskSize": 100.0
+    },
+    "iex": {
+     "quotes": 2,
+     "valid": 2,
+     "medianSpreadBps": 2941.176470588234,
+     "p90SpreadBps": 2941.176470588234,
+     "medianAskSize": 100.0
+    }
+   }
+  },
+  {
+   "symbol": "ENTG",
+   "name": "ENTEGRIS INC",
+   "cik": 1101302,
+   "accession": "0001101302-26-000154",
+   "stratum": "other",
+   "items": "8.01",
+   "acceptance": "2026-10-14T07:05:09-04:00",
+   "acceptanceJsonUtcCheckSeconds": 0.0,
+   "acceptancePhase": "pre-market",
+   "pressRelease": true,
+   "statedTimes": [],
+   "release": "2026-10-14T06:33:52-04:00",
+   "releaseSource": "item-keyword headline: Truist Securities Initiates Coverage On Entegris with Buy Rating, Announces Price Target o",
+   "newsNearby": 1,
+   "releaseMinusAcceptanceMin": -31.283333333333335,
+   "receipt": "2026-10-14T06:33:57-04:00",
+   "actionable": "2026-10-14T09:31:00-04:00",
+   "delayFromFirstPublicMin": 177.13333333333333,
+   "sector": "SPY",
+   "formerNames": [],
+   "ledgerStatus": "examined",
+   "sip": {
+    "barsAround": 1158,
+    "refPrice": 161.71,
+    "entryPrice": 158.285,
+    "moveBeforeEntryPct": -2.117988992641151,
+    "move60AfterEntryPct": -1.367785955712797,
+    "moveToCloseAfterEntryPct": -3.016710364216446,
+    "SPY60Pct": -0.21812080536911527
+   },
+   "volume30": {
+    "sip": 76450.0,
+    "iex": 2990.0,
+    "iexShare": 0.03911052975801177,
+    "iexBarAtEntry": false,
+    "sipBarAtEntry": true
+   },
+   "iexEntryPrice": null,
+   "spreads": {
+    "sip": {
+     "quotes": 7,
+     "valid": 7,
+     "medianSpreadBps": 87.81628075938885,
+     "p90SpreadBps": 129.6592537380771,
+     "medianAskSize": 100.0
+    },
+    "iex": {
+     "quotes": 7,
+     "valid": 7,
+     "medianSpreadBps": 601.2309685779073,
+     "p90SpreadBps": 989.809847306435,
+     "medianAskSize": 100.0
+    }
+   }
+  },
+  {
+   "symbol": "OXY",
+   "name": "OCCIDENTAL PETROLEUM CORP /DE/",
+   "cik": 797468,
+   "accession": "0000950157-26-000166",
+   "stratum": "other",
+   "items": "7.01,9.01",
+   "acceptance": "2026-02-19T07:11:12-05:00",
+   "acceptanceJsonUtcCheckSeconds": 0.0,
+   "acceptancePhase": "pre-market",
+   "pressRelease": true,
+   "statedTimes": [
+    "5:00 p.m.",
+    "10:00 a.m.",
+    "5:00 p.m."
+   ],
+   "release": null,
+   "releaseSource": "unverified (no matching headline)",
+   "newsNearby": 4,
+   "releaseMinusAcceptanceMin": null,
+   "receipt": "2026-02-19T07:12:12-05:00",
+   "actionable": "2026-02-19T09:31:00-05:00",
+   "delayFromFirstPublicMin": 139.8,
+   "sector": "XLE",
+   "formerNames": [],
+   "ledgerStatus": "examined",
+   "sip": {
+    "barsAround": 1860,
+    "refPrice": 49.1,
+    "entryPrice": 51.01,
+    "moveBeforeEntryPct": 3.8900203665987787,
+    "move60AfterEntryPct": -1.137031954518719,
+    "moveToCloseAfterEntryPct": 1.431091942756324,
+    "SPY60Pct": 0.08476929597636129,
+    "XLE60Pct": -0.12638801119436716
+   },
+   "volume30": {
+    "sip": 9075427.0,
+    "iex": 215974.0,
+    "iexShare": 0.023797668142777194,
+    "iexBarAtEntry": true,
+    "sipBarAtEntry": true
+   },
+   "iexEntryPrice": 51.115,
+   "spreads": {
+    "sip": {
+     "quotes": 4381,
+     "valid": 4307,
+     "medianSpreadBps": 5.900285180450612,
+     "p90SpreadBps": 9.855129594953615,
+     "medianAskSize": 200.0
+    },
+    "iex": {
+     "quotes": 322,
+     "valid": 322,
+     "medianSpreadBps": 395.25691699604744,
+     "p90SpreadBps": 610.5793450881614,
+     "medianAskSize": 100.0
+    }
+   }
+  },
+  {
+   "symbol": "COF",
+   "name": "CAPITAL ONE FINANCIAL CORP",
+   "cik": 927628,
+   "accession": "0000927628-26-000062",
+   "stratum": "other",
+   "items": "7.01,9.01",
+   "acceptance": "2026-06-08T16:05:42-04:00",
+   "acceptanceJsonUtcCheckSeconds": 0.0,
+   "acceptancePhase": "after hours",
+   "pressRelease": false,
+   "statedTimes": [],
+   "release": null,
+   "releaseSource": "unverified (no matching headline)",
+   "newsNearby": 0,
+   "releaseMinusAcceptanceMin": null,
+   "receipt": "2026-06-08T16:06:42-04:00",
+   "actionable": "2026-06-09T09:31:00-04:00",
+   "delayFromFirstPublicMin": 1045.3,
+   "sector": "XLF",
+   "formerNames": [],
+   "ledgerStatus": "examined",
+   "sip": {
+    "barsAround": 1626,
+    "refPrice": 180.39,
+    "entryPrice": 182.17,
+    "moveBeforeEntryPct": 0.9867509285437226,
+    "move60AfterEntryPct": 2.190261843333152,
+    "moveToCloseAfterEntryPct": 0.3211286161278082,
+    "SPY60Pct": -0.42490251445476135,
+    "XLF60Pct": 0.8146444316657009
+   },
+   "volume30": {
+    "sip": 547732.0,
+    "iex": 24104.0,
+    "iexShare": 0.04400692309377579,
+    "iexBarAtEntry": true,
+    "sipBarAtEntry": true
+   },
+   "iexEntryPrice": 182.31,
+   "spreads": {
+    "sip": {
+     "quotes": 85,
+     "valid": 85,
+     "medianSpreadBps": 13.15212626041104,
+     "p90SpreadBps": 25.72734488326895,
+     "medianAskSize": 300.0
+    },
+    "iex": {
+     "quotes": 7,
+     "valid": 7,
+     "medianSpreadBps": 23.06425041186249,
+     "p90SpreadBps": 739.8619700359975,
+     "medianAskSize": 100.0
+    }
+   }
+  },
+  {
+   "symbol": "WDAY",
+   "name": "Workday, Inc.",
+   "cik": 1327811,
+   "accession": "0001104659-26-112898",
+   "stratum": "other",
+   "items": "1.01,1.02,2.03,9.01",
+   "acceptance": "2026-10-01T17:22:41-04:00",
+   "acceptanceJsonUtcCheckSeconds": 0.0,
+   "acceptancePhase": "after hours",
+   "pressRelease": false,
+   "statedTimes": [],
+   "release": null,
+   "releaseSource": "unverified (no matching headline)",
+   "newsNearby": 0,
+   "releaseMinusAcceptanceMin": null,
+   "receipt": "2026-10-01T17:23:41-04:00",
+   "actionable": "2026-10-02T09:31:00-04:00",
+   "delayFromFirstPublicMin": 968.3166666666667,
+   "sector": "XLK",
+   "formerNames": [],
+   "ledgerStatus": "examined",
+   "sip": {
+    "barsAround": 1996,
+    "refPrice": 186.5,
+    "entryPrice": 188.2,
+    "moveBeforeEntryPct": 0.9115281501340444,
+    "move60AfterEntryPct": -0.4702444208289025,
+    "moveToCloseAfterEntryPct": -1.4452709883103099,
+    "SPY60Pct": 0.18564918794710117,
+    "XLK60Pct": 0.4397801099450316
+   },
+   "volume30": {
+    "sip": 83887.0,
+    "iex": 1601.0,
+    "iexShare": 0.019085197944854387,
+    "iexBarAtEntry": true,
+    "sipBarAtEntry": true
+   },
+   "iexEntryPrice": 188.02,
+   "spreads": {
+    "sip": {
+     "quotes": 149,
+     "valid": 149,
+     "medianSpreadBps": 108.49909584086758,
+     "p90SpreadBps": 139.13228187563084,
+     "medianAskSize": 200.0
+    },
+    "iex": {
+     "quotes": 3,
+     "valid": 3,
+     "medianSpreadBps": 1227.123664445149,
+     "p90SpreadBps": 1227.123664445149,
+     "medianAskSize": 100.0
+    }
+   }
+  },
+  {
+   "symbol": "KHC",
+   "name": "Kraft Heinz Co",
+   "cik": 1637459,
+   "accession": "0001637459-26-000037",
+   "stratum": "other",
+   "items": "5.02",
+   "acceptance": "2026-06-18T08:01:50-04:00",
+   "acceptanceJsonUtcCheckSeconds": 0.0,
+   "acceptancePhase": "pre-market",
+   "pressRelease": false,
+   "statedTimes": [],
+   "release": null,
+   "releaseSource": "unverified (no matching headline)",
+   "newsNearby": 1,
+   "releaseMinusAcceptanceMin": null,
+   "receipt": "2026-06-18T08:02:50-04:00",
+   "actionable": "2026-06-18T09:31:00-04:00",
+   "delayFromFirstPublicMin": 89.16666666666667,
+   "sector": "XLP",
+   "formerNames": [],
+   "ledgerStatus": "examined",
+   "sip": {
+    "barsAround": 1771,
+    "refPrice": 23.14,
+    "entryPrice": 23.03,
+    "moveBeforeEntryPct": -0.4753673292999139,
+    "move60AfterEntryPct": 0.1085540599218282,
+    "moveToCloseAfterEntryPct": -0.8467216673903599,
+    "SPY60Pct": -0.3049269780131536,
+    "XLP60Pct": 0.08616769190261664
+   },
+   "volume30": {
+    "sip": 594843.0,
+    "iex": 60647.0,
+    "iexShare": 0.10195463340747055,
+    "iexBarAtEntry": true,
+    "sipBarAtEntry": true
+   },
+   "iexEntryPrice": 22.98,
+   "spreads": {
+    "sip": {
+     "quotes": 371,
+     "valid": 371,
+     "medianSpreadBps": 8.691873098652575,
+     "p90SpreadBps": 13.034977188790414,
+     "medianAskSize": 300.0
+    },
+    "iex": {
+     "quotes": 369,
+     "valid": 369,
+     "medianSpreadBps": 13.04064333840519,
+     "p90SpreadBps": 21.715526601520395,
+     "medianAskSize": 700.0
+    }
+   }
+  },
+  {
+   "symbol": "DD",
+   "name": "DuPont de Nemours, Inc.",
+   "cik": 1666700,
+   "accession": "0001193125-25-261601",
+   "stratum": "other",
+   "items": "1.01,2.01,5.02,7.01,8.01,9.01",
+   "acceptance": "2025-11-03T06:30:32-05:00",
+   "acceptanceJsonUtcCheckSeconds": 0.0,
+   "acceptancePhase": "pre-market",
+   "pressRelease": true,
+   "statedTimes": [],
+   "release": "2025-11-03T06:09:40-05:00",
+   "releaseSource": "item-keyword headline: DuPont Completes Spin-Off of Electronics Unit as New Company Qnity Begins Trading on NYSE",
+   "newsNearby": 1,
+   "releaseMinusAcceptanceMin": -20.866666666666667,
+   "receipt": "2025-11-03T06:09:45-05:00",
+   "actionable": "2025-11-03T09:31:00-05:00",
+   "delayFromFirstPublicMin": 201.33333333333334,
+   "sector": "XLB",
+   "formerNames": [],
+   "ledgerStatus": "examined",
+   "sip": {
+    "barsAround": 1267,
+    "refPrice": 34.73,
+    "entryPrice": 33.55,
+    "moveBeforeEntryPct": -3.3976389288799314,
+    "move60AfterEntryPct": 1.0432190760059745,
+    "moveToCloseAfterEntryPct": 3.502235469448589,
+    "SPY60Pct": -0.764729061163727,
+    "XLB60Pct": -0.8584195672624695
+   },
+   "volume30": {
+    "sip": 1247046.0,
+    "iex": 39981.0,
+    "iexShare": 0.03206056552845685,
+    "iexBarAtEntry": true,
+    "sipBarAtEntry": true
+   },
+   "iexEntryPrice": 33.45,
+   "spreads": {
+    "sip": {
+     "quotes": 29,
+     "valid": 29,
+     "medianSpreadBps": 94.92732126965304,
+     "p90SpreadBps": 186.5124118102883,
+     "medianAskSize": 100.0
+    },
+    "iex": {
+     "quotes": 0
+    }
+   }
+  },
+  {
+   "symbol": "C",
+   "name": "CITIGROUP INC",
+   "cik": 831001,
+   "accession": "0001104659-26-065155",
+   "stratum": "other",
+   "items": "5.02,5.07,9.01",
+   "acceptance": "2026-05-21T16:15:55-04:00",
+   "acceptanceJsonUtcCheckSeconds": 0.0,
+   "acceptancePhase": "after hours",
+   "pressRelease": true,
+   "statedTimes": [],
+   "release": null,
+   "releaseSource": "unverified (no matching headline)",
+   "newsNearby": 1,
+   "releaseMinusAcceptanceMin": null,
+   "receipt": "2026-05-21T16:16:55-04:00",
+   "actionable": "2026-05-22T09:31:00-04:00",
+   "delayFromFirstPublicMin": 1035.0833333333333,
+   "sector": "XLF",
+   "formerNames": [
+    {
+     "name": "CITIGROUP INC",
+     "from": "1994-02-01T00:00:00.000Z",
+     "to": "2026-11-06T00:00:00.000Z"
+    }
+   ],
+   "ledgerStatus": "examined",
+   "sip": {
+    "barsAround": 2115,
+    "refPrice": 124.82,
+    "entryPrice": 126.1,
+    "moveBeforeEntryPct": 1.0254766864284504,
+    "move60AfterEntryPct": -0.7533703409991932,
+    "moveToCloseAfterEntryPct": -0.8246629659000693,
+    "SPY60Pct": -0.1365882400203522,
+    "XLF60Pct": -0.12501202038657233
+   },
+   "volume30": {
+    "sip": 710778.0,
+    "iex": 20552.0,
+    "iexShare": 0.02891479477417703,
+    "iexBarAtEntry": true,
+    "sipBarAtEntry": true
+   },
+   "iexEntryPrice": 126.23,
+   "spreads": {
+    "sip": {
+     "quotes": 176,
+     "valid": 160,
+     "medianSpreadBps": 11.076825698235666,
+     "p90SpreadBps": 24.572945979152813,
+     "medianAskSize": 200.0
+    },
+    "iex": {
+     "quotes": 54,
+     "valid": 54,
+     "medianSpreadBps": 549.2935401918412,
+     "p90SpreadBps": 807.7726031797005,
+     "medianAskSize": 100.0
+    }
+   }
+  },
+  {
+   "symbol": "PH",
+   "name": "Parker-Hannifin Corp",
+   "cik": 76334,
+   "accession": "0001193125-26-387884",
+   "stratum": "other",
+   "items": "8.01,9.01",
+   "acceptance": "2026-09-10T16:11:31-04:00",
+   "acceptanceJsonUtcCheckSeconds": 0.0,
+   "acceptancePhase": "after hours",
+   "pressRelease": false,
+   "statedTimes": [],
+   "release": null,
+   "releaseSource": "unverified (no matching headline)",
+   "newsNearby": 0,
+   "releaseMinusAcceptanceMin": null,
+   "receipt": "2026-09-10T16:12:31-04:00",
+   "actionable": "2026-09-11T09:31:00-04:00",
+   "delayFromFirstPublicMin": 1039.4833333333333,
+   "sector": "XLI",
+   "formerNames": [],
+   "ledgerStatus": "examined",
+   "sip": {
+    "barsAround": 1358,
+    "refPrice": 934.34,
+    "entryPrice": 951.655,
+    "moveBeforeEntryPct": 1.853179784660819,
+    "move60AfterEntryPct": -0.8506233876772629,
+    "moveToCloseAfterEntryPct": -0.3210196972642354,
+    "SPY60Pct": 0.06408747286090755,
+    "XLI60Pct": -0.3185266693693123
+   },
+   "volume30": {
+    "sip": 25030.0,
+    "iex": 1300.0,
+    "iexShare": 0.0519376747902517,
+    "iexBarAtEntry": false,
+    "sipBarAtEntry": true
+   },
+   "iexEntryPrice": null,
+   "spreads": {
+    "sip": {
+     "quotes": 7,
+     "valid": 7,
+     "medianSpreadBps": 71.34938606953112,
+     "p90SpreadBps": 71.53920733780623,
+     "medianAskSize": 40.0
+    },
+    "iex": {
+     "quotes": 4,
+     "valid": 4,
+     "medianSpreadBps": 84.01243439393784,
+     "p90SpreadBps": 95.64332145344835,
+     "medianAskSize": 40.0
+    }
+   }
+  },
+  {
+   "symbol": "TMUS",
+   "name": "T-Mobile US, Inc.",
+   "cik": 1283699,
+   "accession": "0001193125-26-059515",
+   "stratum": "other",
+   "items": "8.01,9.01",
+   "acceptance": "2026-02-19T16:32:00-05:00",
+   "acceptanceJsonUtcCheckSeconds": 0.0,
+   "acceptancePhase": "after hours",
+   "pressRelease": true,
+   "statedTimes": [],
+   "release": null,
+   "releaseSource": "unverified (no matching headline)",
+   "newsNearby": 2,
+   "releaseMinusAcceptanceMin": null,
+   "receipt": "2026-02-19T16:33:00-05:00",
+   "actionable": "2026-02-20T09:31:00-05:00",
+   "delayFromFirstPublicMin": 1019.0,
+   "sector": "XLC",
+   "formerNames": [],
+   "ledgerStatus": "examined",
+   "sip": {
+    "barsAround": 1597,
+    "refPrice": 215.3,
+    "entryPrice": 214.76,
+    "moveBeforeEntryPct": -0.25081281932188837,
+    "move60AfterEntryPct": -0.3701806667908314,
+    "moveToCloseAfterEntryPct": 0.16995716148258122,
+    "SPY60Pct": 0.7551873304494361,
+    "XLC60Pct": 1.186543810848395
+   },
+   "volume30": {
+    "sip": 365440.0,
+    "iex": 9554.0,
+    "iexShare": 0.026143826619964974,
+    "iexBarAtEntry": true,
+    "sipBarAtEntry": true
+   },
+   "iexEntryPrice": 214.645,
+   "spreads": {
+    "sip": {
+     "quotes": 28,
+     "valid": 28,
+     "medianSpreadBps": 33.54610259516372,
+     "p90SpreadBps": 34.941414894360456,
+     "medianAskSize": 100.0
+    },
+    "iex": {
+     "quotes": 1,
+     "valid": 1,
+     "medianSpreadBps": 514.2662271228829,
+     "p90SpreadBps": 514.2662271228829,
+     "medianAskSize": 100.0
+    }
+   }
+  },
+  {
+   "symbol": "SCHW",
+   "name": "SCHWAB CHARLES CORP",
+   "cik": 316709,
+   "accession": "0001193125-26-251689",
+   "stratum": "other",
+   "items": "5.03,9.01",
+   "acceptance": "2026-06-01T17:00:25-04:00",
+   "acceptanceJsonUtcCheckSeconds": 0.0,
+   "acceptancePhase": "after hours",
+   "pressRelease": false,
+   "statedTimes": [],
+   "release": null,
+   "releaseSource": "unverified (no matching headline)",
+   "newsNearby": 0,
+   "releaseMinusAcceptanceMin": null,
+   "receipt": "2026-06-01T17:01:25-04:00",
+   "actionable": "2026-06-02T09:31:00-04:00",
+   "delayFromFirstPublicMin": 990.5833333333334,
+   "sector": "XLF",
+   "formerNames": [],
+   "ledgerStatus": "examined",
+   "sip": {
+    "barsAround": 1726,
+    "refPrice": 88.74,
+    "entryPrice": 88.225,
+    "moveBeforeEntryPct": -0.5803470813612766,
+    "move60AfterEntryPct": -1.5131765372626726,
+    "moveToCloseAfterEntryPct": -0.7707565882686285,
+    "SPY60Pct": 0.13736263736263687,
+    "XLF60Pct": -0.4671859785783772
+   },
+   "volume30": {
+    "sip": 516499.0,
+    "iex": 23488.0,
+    "iexShare": 0.04547540266292868,
+    "iexBarAtEntry": true,
+    "sipBarAtEntry": true
+   },
+   "iexEntryPrice": 88.45,
+   "spreads": {
+    "sip": {
+     "quotes": 355,
+     "valid": 354,
+     "medianSpreadBps": 13.573126774939006,
+     "p90SpreadBps": 23.732836073911734,
+     "medianAskSize": 100.0
+    },
+    "iex": {
+     "quotes": 451,
+     "valid": 451,
+     "medianSpreadBps": 27.152392804616937,
+     "p90SpreadBps": 397.15997337475176,
+     "medianAskSize": 100.0
+    }
+   }
+  },
+  {
+   "symbol": "CTVA",
+   "name": "Corteva, Inc.",
+   "cik": 1755672,
+   "accession": "0001193125-26-387254",
+   "stratum": "other",
+   "items": "8.01,9.01",
+   "acceptance": "2026-09-10T07:53:20-04:00",
+   "acceptanceJsonUtcCheckSeconds": 0.0,
+   "acceptancePhase": "pre-market",
+   "pressRelease": false,
+   "statedTimes": [],
+   "release": null,
+   "releaseSource": "unverified (no matching headline)",
+   "newsNearby": 1,
+   "releaseMinusAcceptanceMin": null,
+   "receipt": "2026-09-10T07:54:20-04:00",
+   "actionable": "2026-09-10T09:31:00-04:00",
+   "delayFromFirstPublicMin": 97.66666666666667,
+   "sector": "SPY",
+   "formerNames": [],
+   "ledgerStatus": "examined",
+   "sip": {
+    "barsAround": 1184,
+    "refPrice": 84.75,
+    "entryPrice": 84.615,
+    "moveBeforeEntryPct": -0.15929203539823966,
+    "move60AfterEntryPct": 0.9277314896886102,
+    "moveToCloseAfterEntryPct": 0.05909117768718719,
+    "SPY60Pct": 0.14380706105860952
+   },
+   "volume30": {
+    "sip": 364430.0,
+    "iex": 19307.0,
+    "iexShare": 0.05297862415278654,
+    "iexBarAtEntry": true,
+    "sipBarAtEntry": true
+   },
+   "iexEntryPrice": 84.73,
+   "spreads": {
+    "sip": {
+     "quotes": 35,
+     "valid": 35,
+     "medianSpreadBps": 42.45283018867917,
+     "p90SpreadBps": 50.6866269817873,
+     "medianAskSize": 200.0
+    },
+    "iex": {
+     "quotes": 4,
+     "valid": 4,
+     "medianSpreadBps": 1195.1722107742132,
+     "p90SpreadBps": 1195.1722107742132,
+     "medianAskSize": 100.0
+    }
+   }
+  },
+  {
+   "symbol": "SNAP",
+   "name": "Snap Inc",
+   "cik": 1564408,
+   "accession": "0001564408-26-000041",
+   "stratum": "other",
+   "items": "8.01,9.01",
+   "acceptance": "2026-07-09T16:13:42-04:00",
+   "acceptanceJsonUtcCheckSeconds": 0.0,
+   "acceptancePhase": "after hours",
+   "pressRelease": true,
+   "statedTimes": [],
+   "release": null,
+   "releaseSource": "unverified (no matching headline)",
+   "newsNearby": 0,
+   "releaseMinusAcceptanceMin": null,
+   "receipt": "2026-07-09T16:14:42-04:00",
+   "actionable": "2026-07-10T09:31:00-04:00",
+   "delayFromFirstPublicMin": 1037.3,
+   "sector": "XLK",
+   "formerNames": [
+    {
+     "name": "Snap Inc",
+     "from": "2016-10-31T00:00:00.000Z",
+     "to": "2026-11-06T00:00:00.000Z"
+    }
+   ],
+   "ledgerStatus": "examined",
+   "sip": {
+    "barsAround": 2684,
+    "refPrice": 4.6805,
+    "entryPrice": 4.79,
+    "moveBeforeEntryPct": 2.3394936438414726,
+    "move60AfterEntryPct": -0.6263048016701522,
+    "moveToCloseAfterEntryPct": -2.9227557411273475,
+    "SPY60Pct": 0.041196560751632916,
+    "XLK60Pct": 0.2330875975715463
+   },
+   "volume30": {
+    "sip": 3368816.0,
+    "iex": 165145.0,
+    "iexShare": 0.04902167408371368,
+    "iexBarAtEntry": false,
+    "sipBarAtEntry": true
+   },
+   "iexEntryPrice": null,
+   "spreads": {
+    "sip": {
+     "quotes": 73,
+     "valid": 73,
+     "medianSpreadBps": 41.841004184101386,
+     "p90SpreadBps": 62.82722513089057,
+     "medianAskSize": 5600.0
+    },
+    "iex": {
+     "quotes": 70,
+     "valid": 70,
+     "medianSpreadBps": 1406.2500000000011,
+     "p90SpreadBps": 2976.9392033542995,
+     "medianAskSize": 200.0
+    }
+   }
+  },
+  {
+   "symbol": "LUV",
+   "name": "SOUTHWEST AIRLINES CO",
+   "cik": 92380,
+   "accession": "0001193125-25-262544",
+   "stratum": "other",
+   "items": "1.01,2.03,8.01,9.01",
+   "acceptance": "2025-11-03T16:06:16-05:00",
+   "acceptanceJsonUtcCheckSeconds": 0.0,
+   "acceptancePhase": "after hours",
+   "pressRelease": false,
+   "statedTimes": [],
+   "release": null,
+   "releaseSource": "unverified (no matching headline)",
+   "newsNearby": 0,
+   "releaseMinusAcceptanceMin": null,
+   "receipt": "2025-11-03T16:07:16-05:00",
+   "actionable": "2025-11-04T09:31:00-05:00",
+   "delayFromFirstPublicMin": 1044.7333333333333,
+   "sector": "XLI",
+   "formerNames": [],
+   "ledgerStatus": "examined",
+   "sip": {
+    "barsAround": 1695,
+    "refPrice": 30.1,
+    "entryPrice": 29.975,
+    "moveBeforeEntryPct": -0.41528239202658357,
+    "move60AfterEntryPct": 0.10008340283569339,
+    "moveToCloseAfterEntryPct": -1.050875729774814,
+    "SPY60Pct": 0.43918669131239874,
+    "XLI60Pct": -0.013097576948251088
+   },
+   "volume30": {
+    "sip": 543338.0,
+    "iex": 29707.0,
+    "iexShare": 0.0546749905215538,
+    "iexBarAtEntry": true,
+    "sipBarAtEntry": true
+   },
+   "iexEntryPrice": 29.975,
+   "spreads": {
+    "sip": {
+     "quotes": 296,
+     "valid": 296,
+     "medianSpreadBps": 23.427042155319334,
+     "p90SpreadBps": 33.344448149382416,
+     "medianAskSize": 200.0
+    },
+    "iex": {
+     "quotes": 517,
+     "valid": 517,
+     "medianSpreadBps": 33.344448149382416,
+     "p90SpreadBps": 50.02501250625266,
+     "medianAskSize": 400.0
+    }
+   }
+  },
+  {
+   "symbol": "ABNB",
+   "name": "Airbnb, Inc.",
+   "cik": 1559720,
+   "accession": "0001193125-25-291024",
+   "stratum": "other",
+   "items": "5.02",
+   "acceptance": "2025-11-21T12:55:48-05:00",
+   "acceptanceJsonUtcCheckSeconds": 0.0,
+   "acceptancePhase": "regular hours",
+   "pressRelease": false,
+   "statedTimes": [],
+   "release": null,
+   "releaseSource": "unverified (no matching headline)",
+   "newsNearby": 2,
+   "releaseMinusAcceptanceMin": null,
+   "receipt": "2025-11-21T12:56:48-05:00",
+   "actionable": "2025-11-21T12:58:00-05:00",
+   "delayFromFirstPublicMin": 2.2,
+   "sector": "SPY",
+   "formerNames": [
+    {
+     "name": "Airbnb, Inc.",
+     "from": "2012-10-24T00:00:00.000Z",
+     "to": "2026-11-06T00:00:00.000Z"
+    }
+   ],
+   "ledgerStatus": "examined",
+   "sip": {
+    "barsAround": 2176,
+    "refPrice": 115.53,
+    "entryPrice": 115.255,
+    "moveBeforeEntryPct": -0.2380334112351834,
+    "move60AfterEntryPct": -0.32102728731940866,
+    "moveToCloseAfterEntryPct": -0.5032319639061145,
+    "SPY60Pct": 0.3802915063179979
+   },
+   "volume30": {
+    "sip": 500338.0,
+    "iex": 39499.0,
+    "iexShare": 0.07894463342780281,
+    "iexBarAtEntry": true,
+    "sipBarAtEntry": true
+   },
+   "iexEntryPrice": 115.26,
+   "spreads": {
+    "sip": {
+     "quotes": 228,
+     "valid": 227,
+     "medianSpreadBps": 7.813517385076477,
+     "p90SpreadBps": 13.019138133056085,
+     "medianAskSize": 100.0
+    },
+    "iex": {
+     "quotes": 60,
+     "valid": 60,
+     "medianSpreadBps": 18.223629973533036,
+     "p90SpreadBps": 466.5761791652528,
+     "medianAskSize": 100.0
+    }
+   }
+  }
+ ]
+}

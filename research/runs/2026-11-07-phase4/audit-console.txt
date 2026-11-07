@@ -1,0 +1,52 @@
+120 companies, 566 earnings 8-Ks, 1089 other 8-Ks in window
+ 1/50 CCL    earnings items=2.02,9.01    acc=2025-12-19 09:17 pre-market    release=09:16 before=2.422270426608808 spread=10.43296817944745
+ 2/50 RDDT   earnings items=2.02,9.01    acc=2026-04-30 16:08 after hours   release=16:12 before=6.344757293922809 spread=48.076923076923755
+ 3/50 PFE    earnings items=2.02,9.01    acc=2026-05-05 07:01 pre-market    release=06:45 before=0.4645826492910565 spread=18.793459875963435
+ 4/50 AAL    earnings items=2.02,7.01,9.01 acc=2026-04-23 07:01 pre-market    release=07:01 before=0.985916697307343 spread=8.456659619450138
+ 5/50 PCAR   earnings items=2.02,9.01    acc=2026-07-28 08:05 pre-market    release=08:00 before=-1.8670649738610878 spread=66.66666666666633
+ 6/50 MTD    earnings items=2.02,9.01    acc=2026-05-07 16:33 after hours   release=16:31 before=-9.782534545096222 spread=93.77250121401936
+ 7/50 BAC    earnings items=2.02,7.01,9.01 acc=2026-07-14 06:45 pre-market    release=06:46 before=-0.6677796327211993 spread=3.3534540576787424
+ 8/50 ANET   earnings items=2.02,9.01    acc=2025-11-04 16:08 after hours   release=16:11 before=5.627332759115711 spread=45.851682823020525
+ 9/50 HD     earnings items=2.02,9.01    acc=2026-02-24 06:07 pre-market    release=06:01 before=2.6687722068693187 spread=19.41549151849558
+10/50 CCI    earnings items=2.02,7.01,9.01 acc=2025-10-22 16:17 after hours   release=— before=1.3868986693961194 spread=68.23198876179077
+11/50 ABBV   earnings items=2.02,9.01    acc=2026-10-30 07:51 pre-market    release=07:47 before=-2.9900332225913595 spread=39.023722315407056
+12/50 SJM    earnings items=2.02,9.01    acc=2026-06-09 07:05 pre-market    release=07:01 before=-0.2080968596292032 spread=66.35337479672349
+13/50 TSLA   earnings items=2.02,9.01    acc=2026-10-02 09:04 pre-market    release=— before=0.5127067533655882 spread=3.5562364076539903
+14/50 EXPD   earnings items=2.02,9.01    acc=2026-02-24 11:48 regular hours release=08:31 before=-3.755806237558057 spread=211.31784693729367
+15/50 ZTS    earnings items=2.02,9.01    acc=2026-08-06 07:06 pre-market    release=07:00 before=8.72413793103448 spread=103.30315052846329
+16/50 URI    earnings items=2.02,7.01,9.01 acc=2026-10-21 16:25 after hours   release=16:17 before=0.2431818181818146 spread=99.69442105571866
+17/50 META   earnings items=2.02,9.01    acc=2025-10-29 16:08 after hours   release=16:07 before=-5.483687943262405 spread=5.876193130880696
+18/50 DOCU   earnings items=2.02,9.01    acc=2026-06-04 16:07 after hours   release=16:06 before=-1.08871502715846 spread=43.89465283320009
+19/50 EMR    earnings items=2.02,9.01    acc=2026-02-03 16:05 after hours   release=16:07 before=5.146239670108588 spread=75.70326878459727
+20/50 EIX    earnings items=2.02,7.01,9.01 acc=2026-07-30 16:07 after hours   release=16:05 before=-2.4112790549981056 spread=78.68852459016318
+21/50 GOOG   earnings items=2.02,9.01    acc=2026-07-22 16:01 after hours   release=16:03 before=-6.547170904036593 spread=4.014142131509331
+22/50 TXT    earnings items=2.02,9.01    acc=2026-01-28 06:33 pre-market    release=06:30 before=-4.831223628691983 spread=58.54089578616018
+23/50 LCID   earnings items=2.02,9.01    acc=2026-08-04 16:07 after hours   release=16:16 before=-5.344987312200433 spread=14.65201465201434
+24/50 TRV    earnings items=2.02,9.01    acc=2026-10-16 06:58 pre-market    release=06:57 before=-3.215972186186511 spread=44.37672093458358
+25/50 KHC    earnings items=2.02,9.01    acc=2025-10-29 07:01 pre-market    release=07:00 before=-2.024612941643511 spread=8.00000000000125
+26/50 DLTR   other    items=5.03,5.07,9.01 acc=2026-06-23 07:37 pre-market    release=— before=-0.0881756458866012 spread=47.27715548187232
+27/50 DHR    other    items=1.01,2.03,9.01 acc=2026-04-17 08:28 pre-market    release=— before=0.650221901124981 spread=53.9055882126453
+28/50 TXT    other    items=7.01,8.01    acc=2025-10-17 08:30 pre-market    release=— before=-0.5511328842620955 spread=107.74251114780384
+29/50 GOOG   other    items=8.01,9.01    acc=2026-05-11 16:45 after hours   release=— before=-0.34998113835398303 spread=4.420923973110794
+30/50 PG     other    items=7.01,9.01    acc=2026-04-24 10:02 regular hours release=— before=-0.06020872357506146 spread=2.674333088185602
+31/50 KEY    other    items=7.01,9.01    acc=2026-09-25 17:04 after hours   release=— before=-0.5337214944201807 spread=4.876859302609882
+32/50 USB    other    items=8.01,9.01    acc=2026-06-24 17:30 after hours   release=— before=0.9981700216270095 spread=11.529276126163268
+33/50 CCL    other    items=1.01,3.03,9.01 acc=2026-02-12 16:45 after hours   release=— before=-1.3012656985871396 spread=9.31532370749919
+34/50 UNG    other    items=7.01,9.01    acc=2025-09-29 08:52 pre-market    release=— before=0.7228915662650603 spread=7.977662544874182
+35/50 JBLU   other    items=7.01         acc=2026-06-01 07:00 pre-market    release=— before=-3.4795262392013027 spread=19.175455417065745
+36/50 ANF    other    items=5.07         acc=2026-06-04 16:32 after hours   release=— before=2.1547759821311185 spread=167.20257234726833
+37/50 ENTG   other    items=8.01         acc=2026-10-14 07:05 pre-market    release=— before=-1.4414694894146929 spread=87.81628075938885
+38/50 OXY    other    items=7.01,9.01    acc=2026-02-19 07:11 pre-market    release=— before=3.8900203665987787 spread=5.900285180450612
+39/50 COF    other    items=7.01,9.01    acc=2026-06-08 16:05 after hours   release=— before=0.9867509285437226 spread=13.15212626041104
+40/50 WDAY   other    items=1.01,1.02,2.03,9.01 acc=2026-10-01 17:22 after hours   release=— before=0.9115281501340444 spread=108.49909584086758
+41/50 KHC    other    items=5.02         acc=2026-06-18 08:01 pre-market    release=— before=-0.4753673292999139 spread=8.691873098652575
+42/50 DD     other    items=1.01,2.01,5.02,7.01,8.01,9.01 acc=2025-11-03 06:30 pre-market    release=06:09 before=-3.3976389288799314 spread=94.92732126965304
+43/50 C      other    items=5.02,5.07,9.01 acc=2026-05-21 16:15 after hours   release=— before=1.0254766864284504 spread=11.076825698235666
+44/50 PH     other    items=8.01,9.01    acc=2026-09-10 16:11 after hours   release=— before=1.853179784660819 spread=71.34938606953112
+45/50 TMUS   other    items=8.01,9.01    acc=2026-02-19 16:32 after hours   release=— before=-0.25081281932188837 spread=33.54610259516372
+46/50 SCHW   other    items=5.03,9.01    acc=2026-06-01 17:00 after hours   release=— before=-0.5803470813612766 spread=13.573126774939006
+47/50 CTVA   other    items=8.01,9.01    acc=2026-09-10 07:53 pre-market    release=— before=-0.15929203539823966 spread=42.45283018867917
+48/50 SNAP   other    items=8.01,9.01    acc=2026-07-09 16:13 after hours   release=— before=2.3394936438414726 spread=41.841004184101386
+49/50 LUV    other    items=1.01,2.03,8.01,9.01 acc=2025-11-03 16:06 after hours   release=— before=-0.41528239202658357 spread=23.427042155319334
+50/50 ABNB   other    items=5.02         acc=2025-11-21 12:55 regular hours release=— before=-0.2380334112351834 spread=7.813517385076477
+SEC requests: 0
