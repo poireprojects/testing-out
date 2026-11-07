@@ -1,5 +1,10 @@
 # Phase 4: event-driven intraday alpha, feasibility and proof (2026-11-07)
 
+> **Corrections (closeout):** this report and its result files are the original record and are kept unchanged.
+> Three measurement defects (stop timing, per-trade fee rounding, the ML acceptance flag) are corrected
+> separately in [`corrected/CORRECTIONS.md`](corrected/CORRECTIONS.md). The decision is unchanged, and the
+> corrected numbers are not independent evidence.
+
 **Decision: NO-GO.**
 
 Real-time reaction to company disclosures is **not feasible** for this app. The verifiable news comes out

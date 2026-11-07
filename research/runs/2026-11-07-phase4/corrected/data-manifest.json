@@ -1,0 +1,12 @@
+{
+ "file": "minute_entry_window.json",
+ "source": "Alpaca historical SIP 1-minute bars, 10:00-10:14 ET, raw prices",
+ "symbolDays": 137,
+ "days": 106,
+ "firstDay": "2023-01-19",
+ "lastDay": "2026-10-30",
+ "sha256": "5aa8fd7f71f9e8246a22b733ffb9f5e137700664418495865be435facbfdd6e6",
+ "why": "only symbol-days whose 10:00 15-minute bar reached the stop (2x-cost stop, the highest computed)",
+ "ledger": "all days inside the examined period 2022-12-01..2026-10-30; nothing from the vault (2020-07-27..2022-10-31)",
+ "notCommitted": "market data is not committed; this manifest records what was used"
+}

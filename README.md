@@ -12,6 +12,12 @@ Alpaca. Real-money trading stays locked until you explicitly authorize it.
 > is built to *measure* whether a strategy has an edge after costs — and to refuse real money until there is
 > evidence. It's not financial advice.
 
+> **Project status (2026-11-07): research closed.** No strategy has shown a profit after costs (13 pre-registered
+> hypotheses, four research phases). What the app does now, what runs without placing orders, and which
+> credentials to rotate: [`docs/OPERATIONAL-STATUS.md`](docs/OPERATIONAL-STATUS.md). What would justify reopening
+> research: [`research/REOPENING-CRITERIA.md`](research/REOPENING-CRITERIA.md). Pushes that change only research,
+> tests or docs no longer publish a new installer.
+
 ---
 
 ## 1. Install it (no terminal needed)

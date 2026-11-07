@@ -15,6 +15,19 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  changes:
+    # Release gate: installers and the "latest" release are built only when something that can change the
+    # desktop app differs from the last published build. Research-only commits still run the test suite.
+    runs-on: ubuntu-latest
+    outputs:
+      app: ${{ steps.gate.outputs.app }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - id: gate
+        run: python3 packaging/app_changed.py
+
   test:
     runs-on: ubuntu-latest
     timeout-minutes: 30
@@ -33,7 +46,8 @@ jobs:
         run: python -m pytest -q -rs
 
   windows:
-    needs: test
+    needs: [test, changes]
+    if: needs.changes.outputs.app == 'true'
     runs-on: windows-latest
     timeout-minutes: 45
     steps:
@@ -98,7 +112,8 @@ jobs:
   windows-uninstall-test:
     # Real install -> launch (tray) -> uninstall (keep data) -> reinstall -> live-position block ->
     # clean uninstall -> reinstall, on a real Windows machine.
-    needs: windows
+    needs: [windows, changes]
+    if: needs.changes.outputs.app == 'true'
     runs-on: windows-latest
     timeout-minutes: 30
     steps:
@@ -124,7 +139,8 @@ jobs:
 
   uninstall-repro-previous:
     # Evidence of the original bug: the same test against the previously published installer (build 9).
-    needs: test
+    needs: [test, changes]
+    if: needs.changes.outputs.app == 'true'
     runs-on: windows-latest
     continue-on-error: true
     timeout-minutes: 12   # the old installer can hang on the newer failure scenarios; it's evidence only
@@ -144,7 +160,8 @@ jobs:
         run: ./packaging/windows/test_uninstall.ps1 -Installer old\dontknowwhatimdoing-windows-setup.exe
 
   macos:
-    needs: test
+    needs: [test, changes]
+    if: needs.changes.outputs.app == 'true'
     runs-on: macos-latest
     timeout-minutes: 45
     steps:
@@ -177,8 +194,8 @@ jobs:
     # Rolling "latest" release: published as soon as the test suite, the Windows build and the real Windows
     # install/uninstall test pass. The Mac disk image is attached by `latest-mac` when its build finishes,
     # so a slow or unavailable macOS runner never holds back a tested Windows installer.
-    if: github.event_name != 'pull_request' && !startsWith(github.ref, 'refs/tags/')
-    needs: [test, windows, windows-uninstall-test]
+    if: github.event_name != 'pull_request' && !startsWith(github.ref, 'refs/tags/') && needs.changes.outputs.app == 'true'
+    needs: [test, changes, windows, windows-uninstall-test]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/download-artifact@v4
@@ -199,8 +216,8 @@ jobs:
             --notes "Newest build of don’t know what im doing (commit ${GITHUB_SHA::7}). Windows: run the setup file (tested: install, launch, uninstall, reinstall, clean uninstall). Mac: the .dmg is attached here once the Mac build finishes."
 
   latest-mac:
-    if: github.event_name != 'pull_request' && !startsWith(github.ref, 'refs/tags/')
-    needs: [latest, macos]
+    if: github.event_name != 'pull_request' && !startsWith(github.ref, 'refs/tags/') && needs.changes.outputs.app == 'true'
+    needs: [changes, latest, macos]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/download-artifact@v4
