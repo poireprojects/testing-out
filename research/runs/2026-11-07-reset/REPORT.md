@@ -285,7 +285,7 @@ Nothing changes until approved.
 
 **For merger arbitrage (rank 2):**
 * It would need:
-  * a deal registry built on `dkapp/research/events.py`
+  * a deal registry built on `stockpilot/research/events.py`
   * a deal-terms parser (cash price per share)
   * completion and termination tracking (8-K Items 2.01 and 1.02, delisting)
   * per-deal and aggregate break-risk limits
