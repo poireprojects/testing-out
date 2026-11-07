@@ -3,7 +3,7 @@ from datetime import timedelta
 
 import pytest
 
-from dkapp.broker.explain import explain_rejection, with_raw
+from stockpilot.broker.explain import explain_rejection, with_raw
 from tests.harness import enter, make_rig
 
 
@@ -89,8 +89,8 @@ def test_refused_stop_is_highly_visible_and_retried(rig):
 
 
 def test_unprotected_real_money_position_blocks_new_live_entries():
-    from dkapp.risk.engine import RiskEngine
-    from dkapp.config import AppSettings
+    from stockpilot.risk.engine import RiskEngine
+    from stockpilot.config import AppSettings
     from tests.test_risk_and_sizing import ctx, proposal
     s = AppSettings()
     c = ctx(mode="live", live_authorized=True, unprotected_symbols=["NVDA"])
@@ -131,13 +131,13 @@ def test_rejected_entry_is_explained_in_the_activity_log(rig):
 def test_diagnostics_bundle_has_logs_and_status_but_no_secrets(tmp_path, monkeypatch):
     import logging
     import zipfile
-    from dkapp import credentials, diagnostics, paths
-    from dkapp.config import AppSettings
-    from dkapp.storage.db import Database
+    from stockpilot import credentials, diagnostics, paths
+    from stockpilot.config import AppSettings
+    from stockpilot.storage.db import Database
     secret = "PKABCDEF1234567890XYZ"
     monkeypatch.setattr(credentials, "load_alpaca_keys", lambda env: (secret, "s" * 40) if env == "paper" else None)
     monkeypatch.setattr(credentials, "load_anthropic_key", lambda: None)
-    (paths.log_dir() / "dk.log").write_text(f"2026 INFO something api_key={secret} happened\nkey id {secret}\n")
+    (paths.log_dir() / "stockpilot.log").write_text(f"2026 INFO something api_key={secret} happened\nkey id {secret}\n")
     db = Database(paths.database_file("paper"), "paper")
     db.insert("orders", trade_id=1, purpose="entry", client_order_id="x1", symbol="AAPL", side="buy", type="limit",
               status="rejected", reject_reason="insufficient buying power", created_at="2026-11-04T15:00:00+00:00")
@@ -146,7 +146,7 @@ def test_diagnostics_bundle_has_logs_and_status_but_no_secrets(tmp_path, monkeyp
                             dest_dir=tmp_path)
     with zipfile.ZipFile(out) as z:
         names = z.namelist()
-        assert "summary.txt" in names and "logs/dk.log" in names
+        assert "summary.txt" in names and "logs/stockpilot.log" in names
         blob = "".join(z.read(n).decode("utf-8", "replace") for n in names)
     assert secret not in blob
     summary = zipfile.ZipFile(out).read("summary.txt").decode()
