@@ -1,6 +1,6 @@
 """Filesystem locations. Everything is stored locally on this computer.
 
-Set the environment variable ``DK_HOME`` to redirect all data (used by tests).
+Set the environment variable ``STOCKPILOT_HOME`` to redirect all data (used by tests).
 """
 from __future__ import annotations
 
@@ -14,7 +14,7 @@ from . import APP_ID
 
 
 def _root_override() -> Path | None:
-    v = os.environ.get("DK_HOME")
+    v = os.environ.get("STOCKPILOT_HOME")
     return Path(v) if v else None
 
 
@@ -54,7 +54,7 @@ def resource_dir() -> Path:
     """Bundled read-only resources (QML, fonts, icons). Works in PyInstaller builds."""
     base = getattr(sys, "_MEIPASS", None)
     if base:
-        return Path(base) / "dkapp"
+        return Path(base) / "stockpilot"
     return Path(__file__).resolve().parent
 
 
