@@ -4,9 +4,9 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from dkapp.analysis import indicators as ind
-from dkapp.analysis.features import Baseline, feature_frame, latest_features
-from dkapp.clock import ET
+from stockpilot.analysis import indicators as ind
+from stockpilot.analysis.features import Baseline, feature_frame, latest_features
+from stockpilot.clock import ET
 
 
 def make_bars(closes, start=None, volume=1000.0):
