@@ -32,11 +32,11 @@ import pandas as pd
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
-from dkapp.clock import ET, MarketCalendar  # noqa: E402
-from dkapp.data.universe import curated_universe  # noqa: E402
-from dkapp.research.events import (Edgar, EventTimes, json_acceptance, match_release, recent_filings,  # noqa: E402
+from stockpilot.clock import ET, MarketCalendar  # noqa: E402
+from stockpilot.data.universe import curated_universe  # noqa: E402
+from stockpilot.research.events import (Edgar, EventTimes, json_acceptance, match_release, recent_filings,  # noqa: E402
                                    sector_etf, session_phase, stated_times)
-from dkapp.research.ledger import EXAMINED, DataLedger  # noqa: E402
+from stockpilot.research.ledger import EXAMINED, DataLedger  # noqa: E402
 
 WINDOW = (date(2025, 9, 2), date(2026, 10, 30))
 SEED = 20261107
