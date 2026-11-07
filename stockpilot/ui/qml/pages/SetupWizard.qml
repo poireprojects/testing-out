@@ -1,7 +1,7 @@
 import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls.Basic
-import Dk 1.0
+import Sp 1.0
 
 // Guided first-run setup: AI and brokerage, no terminal, no settings hunting.
 Popup {
@@ -62,7 +62,7 @@ Popup {
                 }
             }
             Item { Layout.fillWidth: true }
-            DkButton { compact: true; kind: "ghost"; text: "skip setup"; visible: wiz.step < 3; onClicked: wiz.finish() }
+            SpButton { compact: true; kind: "ghost"; text: "skip setup"; visible: wiz.step < 3; onClicked: wiz.finish() }
         }
 
         StackLayout {
@@ -72,7 +72,7 @@ Popup {
             // ---------------------------------------------------------- 0 hello
             ColumnLayout {
                 spacing: 14
-                Txt { text: "hi — welcome to don’t know what im doing."; font.family: Theme.display; font.pixelSize: 24; font.weight: Font.Medium; wrapMode: Text.WordWrap; Layout.fillWidth: true }
+                Txt { text: "hi — welcome to StockPilot."; font.family: Theme.display; font.pixelSize: 24; font.weight: Font.Medium; wrapMode: Text.WordWrap; Layout.fillWidth: true }
                 Txt {
                     text: "two quick steps and you’re set: give me an AI to think with, and (optionally) a free practice brokerage account. you can skip either and do it later."
                     color: Theme.textDim; font.pixelSize: 14; wrapMode: Text.WordWrap; elide: Text.ElideNone; Layout.fillWidth: true; lineHeight: 1.3
@@ -138,30 +138,30 @@ Popup {
                         Txt { visible: (wiz.su.error || "") !== ""; text: wiz.su.error || ""; color: Theme.coral; font.pixelSize: 12; wrapMode: Text.WordWrap; Layout.fillWidth: true }
                         RowLayout {
                             visible: wiz.su.done !== true
-                            DkButton {
+                            SpButton {
                                 kind: "primary"; iconName: "bolt"
                                 text: wiz.su.busy ? "working…" : "set it up for me"
                                 enabled: wiz.su.checked && !wiz.su.busy && (wiz.su.canAutoInstall || wiz.su.installed)
                                 onClicked: app.setupLocalAI()
                             }
-                            DkButton {
+                            SpButton {
                                 visible: wiz.su.checked && !wiz.su.canAutoInstall && !wiz.su.installed
                                 kind: "secondary"; text: "get Ollama"; onClicked: app.openUrl("https://ollama.com/download")
                             }
-                            DkButton { kind: "ghost"; compact: true; text: "check again"; enabled: !wiz.su.busy; onClicked: app.checkSetup() }
+                            SpButton { kind: "ghost"; compact: true; text: "check again"; enabled: !wiz.su.busy; onClicked: app.checkSetup() }
                         }
                     }
                 }
-                DkButton { kind: "ghost"; compact: true; text: wiz.showCloud ? "hide cloud option" : "or use Claude in the cloud (paid, about $0.001 per decision) →"; onClicked: wiz.showCloud = !wiz.showCloud }
+                SpButton { kind: "ghost"; compact: true; text: wiz.showCloud ? "hide cloud option" : "or use Claude in the cloud (paid, about $0.001 per decision) →"; onClicked: wiz.showCloud = !wiz.showCloud }
                 ColumnLayout {
                     visible: wiz.showCloud
                     Layout.fillWidth: true
                     spacing: 8
                     RowLayout {
                         Layout.fillWidth: true
-                        DkField { id: cloudKey; Layout.fillWidth: true; secret: true; placeholderText: wiz.creds.anthropicSaved ? "key saved ✓" : "paste your Anthropic API key" }
-                        DkButton { kind: "secondary"; text: "get a key"; onClicked: app.openUrl("https://console.anthropic.com/settings/keys") }
-                        DkButton { kind: "primary"; text: "connect"; enabled: cloudKey.text.length > 10; onClicked: { wiz.keyMsg = "checking…"; app.saveAnthropicKey(cloudKey.text) } }
+                        SpField { id: cloudKey; Layout.fillWidth: true; secret: true; placeholderText: wiz.creds.anthropicSaved ? "key saved ✓" : "paste your Anthropic API key" }
+                        SpButton { kind: "secondary"; text: "get a key"; onClicked: app.openUrl("https://console.anthropic.com/settings/keys") }
+                        SpButton { kind: "primary"; text: "connect"; enabled: cloudKey.text.length > 10; onClicked: { wiz.keyMsg = "checking…"; app.saveAnthropicKey(cloudKey.text) } }
                     }
                     Txt { visible: wiz.keyMsg !== ""; text: wiz.keyMsg; color: wiz.keyMsg === "checking…" ? Theme.textDim : wiz.keyOk ? Theme.lime : Theme.coral; font.pixelSize: 12; wrapMode: Text.WordWrap; Layout.fillWidth: true }
                     Txt { text: "uses the low-cost Haiku model with a $5/month spending cap. change either in settings."; color: Theme.textMuted; font.pixelSize: 12; wrapMode: Text.WordWrap; Layout.fillWidth: true }
@@ -188,17 +188,17 @@ Popup {
                         Rectangle { width: 24; height: 24; radius: 12; color: Theme.limeSoft
                             Txt { anchors.centerIn: parent; text: modelData.n; color: Theme.lime; font.pixelSize: 12; font.weight: Font.Bold } }
                         Txt { text: modelData.t; font.pixelSize: 13; Layout.fillWidth: true; wrapMode: Text.WordWrap }
-                        DkButton { visible: modelData.b !== ""; compact: true; kind: "secondary"; text: modelData.b; onClicked: app.openUrl(modelData.u) }
+                        SpButton { visible: modelData.b !== ""; compact: true; kind: "secondary"; text: modelData.b; onClicked: app.openUrl(modelData.u) }
                     }
                 }
                 RowLayout {
                     Layout.fillWidth: true
                     spacing: 10
-                    DkField { id: keyField; Layout.fillWidth: true; placeholderText: "API key ID" }
-                    DkField { id: secretField; Layout.fillWidth: true; placeholderText: "secret key"; secret: true }
+                    SpField { id: keyField; Layout.fillWidth: true; placeholderText: "API key ID" }
+                    SpField { id: secretField; Layout.fillWidth: true; placeholderText: "secret key"; secret: true }
                 }
                 RowLayout {
-                    DkButton {
+                    SpButton {
                         kind: "primary"; iconName: "plug"; text: "connect"
                         enabled: keyField.text.length > 5 && secretField.text.length > 5 && wiz.brokerMsg !== "testing…"
                         onClicked: { wiz.brokerMsg = "testing…"; app.saveAlpacaKeys("paper", keyField.text, secretField.text) }
@@ -241,12 +241,12 @@ Popup {
                         RowLayout {
                             Layout.fillWidth: true
                             Txt { text: "start automatically when i log in (in the tray)"; color: Theme.textDim; font.pixelSize: 13; Layout.fillWidth: true }
-                            DkSwitch { checked: wiz.cfg.automation ? wiz.cfg.automation.launch_at_login : false; onToggled: app.setSetting("automation.launch_at_login", checked) }
+                            SpSwitch { checked: wiz.cfg.automation ? wiz.cfg.automation.launch_at_login : false; onToggled: app.setSetting("automation.launch_at_login", checked) }
                         }
                         RowLayout {
                             Layout.fillWidth: true
                             Txt { text: "keep the computer awake while the market is open"; color: Theme.textDim; font.pixelSize: 13; Layout.fillWidth: true }
-                            DkSwitch { checked: wiz.cfg.automation ? wiz.cfg.automation.keep_awake_during_market : true; onToggled: app.setSetting("automation.keep_awake_during_market", checked) }
+                            SpSwitch { checked: wiz.cfg.automation ? wiz.cfg.automation.keep_awake_during_market : true; onToggled: app.setSetting("automation.keep_awake_during_market", checked) }
                         }
                         Txt {
                             Layout.fillWidth: true
@@ -267,17 +267,17 @@ Popup {
         // navigation
         RowLayout {
             Layout.fillWidth: true
-            DkButton { visible: wiz.step > 0 && wiz.step < 3; kind: "ghost"; text: "back"; onClicked: wiz.step-- }
+            SpButton { visible: wiz.step > 0 && wiz.step < 3; kind: "ghost"; text: "back"; onClicked: wiz.step-- }
             Item { Layout.fillWidth: true }
-            DkButton { visible: wiz.step === 1 && !wiz.aiReady; kind: "ghost"; text: "skip for now"; onClicked: wiz.step++ }
-            DkButton { visible: wiz.step === 2 && !wiz.creds.paperSaved; kind: "ghost"; text: "stay in demo"; onClicked: wiz.step++ }
-            DkButton {
+            SpButton { visible: wiz.step === 1 && !wiz.aiReady; kind: "ghost"; text: "skip for now"; onClicked: wiz.step++ }
+            SpButton { visible: wiz.step === 2 && !wiz.creds.paperSaved; kind: "ghost"; text: "stay in demo"; onClicked: wiz.step++ }
+            SpButton {
                 visible: wiz.step < 3 && !(wiz.step === 1 && !wiz.aiReady) && !(wiz.step === 2 && !wiz.creds.paperSaved)
                 kind: "primary"; iconName: "arrowRight"; text: wiz.step === 0 ? "let’s go" : "next"
                 onClicked: wiz.step++
             }
-            DkButton { visible: wiz.step === 3 && wiz.creds.paperSaved && app.mode === "demo"; kind: "secondary"; text: "switch to paper"; onClicked: { app.setMode("paper", false); wiz.finish() } }
-            DkButton { visible: wiz.step === 3; kind: "primary"; iconName: "check"; text: "done"; onClicked: wiz.finish() }
+            SpButton { visible: wiz.step === 3 && wiz.creds.paperSaved && app.mode === "demo"; kind: "secondary"; text: "switch to paper"; onClicked: { app.setMode("paper", false); wiz.finish() } }
+            SpButton { visible: wiz.step === 3; kind: "primary"; iconName: "check"; text: "done"; onClicked: wiz.finish() }
         }
     }
 }
