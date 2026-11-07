@@ -4,10 +4,10 @@ from datetime import date, datetime, timedelta, timezone
 
 import pytest
 
-from dkapp.ai.schema import parse_select, select_schema
-from dkapp.decision import (REGIME_FIT, Evidence, OpportunityRanker, Regime, breadth_pct, classify_regime,
+from stockpilot.ai.schema import parse_select, select_schema
+from stockpilot.decision import (REGIME_FIT, Evidence, OpportunityRanker, Regime, breadth_pct, classify_regime,
                             cost_aware_bracket)
-from dkapp.models import Signal
+from stockpilot.models import Signal
 from tests.harness import ScriptedAI, make_rig
 
 T = datetime(2026, 11, 4, 15, 0, tzinfo=timezone.utc)
@@ -223,9 +223,9 @@ def _shadow(db, verdict, rets, signal_ids=None):
 
 
 def test_approach_comparison_needs_samples_then_reports_honestly(tmp_path):
-    from dkapp.config import AppSettings
-    from dkapp.performance import performance_report
-    from dkapp.storage.db import Database
+    from stockpilot.config import AppSettings
+    from stockpilot.performance import performance_report
+    from stockpilot.storage.db import Database
     db = Database(tmp_path / "p.db", "paper")
     _shadow(db, "approved", [0.1] * 10)
     rep = performance_report(db, AppSettings())
@@ -240,9 +240,9 @@ def test_approach_comparison_needs_samples_then_reports_honestly(tmp_path):
 
 
 def test_ai_that_matches_the_ranker_adds_nothing(tmp_path):
-    from dkapp.config import AppSettings
-    from dkapp.performance import performance_report
-    from dkapp.storage.db import Database
+    from stockpilot.config import AppSettings
+    from stockpilot.performance import performance_report
+    from stockpilot.storage.db import Database
     db = Database(tmp_path / "p.db", "paper")
     _shadow(db, "approved", [0.05] * 40)
     _shadow(db, "skipped", [-0.1] * 40)
@@ -251,8 +251,8 @@ def test_ai_that_matches_the_ranker_adds_nothing(tmp_path):
 
 
 def test_confidence_calibration_flags_meaningless_confidence(tmp_path):
-    from dkapp.performance import confidence_calibration
-    from dkapp.storage.db import Database
+    from stockpilot.performance import confidence_calibration
+    from stockpilot.storage.db import Database
     db = Database(tmp_path / "p.db", "paper")
     ids = []
     for k in range(60):
