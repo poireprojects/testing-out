@@ -1,6 +1,6 @@
 """Run the real app in PAPER mode against the real Alpaca paper account and screenshot it over time.
 
-    ALPACA_PAPER_KEY=... ALPACA_PAPER_SECRET=... DK_HOME=/tmp/dk python scripts/live_paper_shots.py OUT_DIR \
+    ALPACA_PAPER_KEY=... ALPACA_PAPER_SECRET=... STOCKPILOT_HOME=/tmp/stockpilot python scripts/live_paper_shots.py OUT_DIR \
         --minutes 30 --every 5 --mode ai_confirm
 
 Paper mode only (refuses anything else). Keys are put in an in-memory credential store for this process
@@ -55,7 +55,7 @@ class MemoryKeyring(KeyringBackend):
 
 keyring.set_keyring(MemoryKeyring())
 
-from dkapp import credentials, paths, preload  # noqa: E402
+from stockpilot import credentials, paths, preload  # noqa: E402
 
 preload.preload()
 key, secret = os.environ["ALPACA_PAPER_KEY"], os.environ["ALPACA_PAPER_SECRET"]
@@ -68,13 +68,13 @@ from PySide6.QtQml import QQmlApplicationEngine  # noqa: E402
 from PySide6.QtQuickControls2 import QQuickStyle  # noqa: E402
 from PySide6.QtWidgets import QApplication  # noqa: E402
 
-from dkapp.config import load_settings, save_settings  # noqa: E402
-from dkapp.log import setup_logging  # noqa: E402
+from stockpilot.config import load_settings, save_settings  # noqa: E402
+from stockpilot.log import setup_logging  # noqa: E402
 
 setup_logging()
 QQuickStyle.setStyle("Basic")
 app = QApplication(sys.argv)
-from dkapp.ui.app import _load_fonts  # noqa: E402
+from stockpilot.ui.app import _load_fonts  # noqa: E402
 
 _load_fonts()
 s = load_settings()
@@ -88,8 +88,8 @@ s.automation.autopilot = not a.no_autopilot
 save_settings(s)
 assert s.broker.mode == "paper"
 
-from dkapp.ui.charts import LineChart  # noqa: E402,F401
-from dkapp.ui.controller import AppController  # noqa: E402
+from stockpilot.ui.charts import LineChart  # noqa: E402,F401
+from stockpilot.ui.controller import AppController  # noqa: E402
 
 ctl = AppController(s)
 eng = QQmlApplicationEngine()
@@ -99,11 +99,11 @@ ctx.setContextProperty("app", ctl)
 ctx.setContextProperty("initialGeometry", {"x": 0, "y": 0, "width": 1440, "height": a.height, "maximized": False, "page": 0})
 ctx.setContextProperty("trayAvailable", False)
 ctx.setContextProperty("profileName", "")
-from dkapp.ui.chrome import WindowChrome  # noqa: E402
+from stockpilot.ui.chrome import WindowChrome  # noqa: E402
 _chrome = WindowChrome()
 ctx.setContextProperty("chrome", _chrome)
 ctx.setContextProperty("startMinimized", False)
-ctx.setContextProperty("iconUrl", QUrl.fromLocalFile(str(paths.assets_dir() / "icons" / "dk.png")))
+ctx.setContextProperty("iconUrl", QUrl.fromLocalFile(str(paths.assets_dir() / "icons" / "stockpilot.png")))
 eng.load(QUrl.fromLocalFile(str(paths.qml_dir() / "Main.qml")))
 win = eng.rootObjects()[0]
 _chrome.attach(win)
