@@ -20,15 +20,15 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
-from dkapp.ai.engine import AIEngine  # noqa: E402
-from dkapp.ai.providers import AIUnavailable, ProviderResult  # noqa: E402
-from dkapp.backtest.ai_replay import AIModes, PromptBuilder, _key  # noqa: E402
-from dkapp.backtest.engine import BTConfig, replay_portfolio, risk_adjusted, run_day, summarize  # noqa: E402
-from dkapp.backtest.runner import DEFAULT_BACKTEST_SYMBOLS, HistoryCache, historical_days  # noqa: E402
-from dkapp.clock import MarketCalendar  # noqa: E402
-from dkapp.config import AppSettings  # noqa: E402
-from dkapp.storage.db import Database  # noqa: E402
-from dkapp.strategies import ALL_STRATEGIES  # noqa: E402
+from stockpilot.ai.engine import AIEngine  # noqa: E402
+from stockpilot.ai.providers import AIUnavailable, ProviderResult  # noqa: E402
+from stockpilot.backtest.ai_replay import AIModes, PromptBuilder, _key  # noqa: E402
+from stockpilot.backtest.engine import BTConfig, replay_portfolio, risk_adjusted, run_day, summarize  # noqa: E402
+from stockpilot.backtest.runner import DEFAULT_BACKTEST_SYMBOLS, HistoryCache, historical_days  # noqa: E402
+from stockpilot.clock import MarketCalendar  # noqa: E402
+from stockpilot.config import AppSettings  # noqa: E402
+from stockpilot.storage.db import Database  # noqa: E402
+from stockpilot.strategies import ALL_STRATEGIES  # noqa: E402
 
 
 class Recorded:
