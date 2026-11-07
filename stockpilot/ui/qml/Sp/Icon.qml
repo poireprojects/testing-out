@@ -1,5 +1,5 @@
 import QtQuick
-import DkCharts 1.0
+import SpCharts 1.0
 
 Item {
     id: root
