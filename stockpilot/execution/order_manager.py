@@ -77,7 +77,14 @@ class OrderManager:
 
     @property
     def prefix(self) -> str:
-        return f"dk{self.mode[0]}{self.tag}-"
+        return f"sp{self.mode[0]}{self.tag}-"
+
+    @property
+    def prefixes(self) -> tuple[str, str]:
+        """This database's order-id prefix, and the one the app used under its previous name (same tag), so
+        orders placed before the rename are still recognised as ours."""
+        from ..legacy import order_prefix
+        return self.prefix, order_prefix(self.mode, self.tag)
 
     # ------------------------------------------------------------ ids
     def client_order_id(self, trade_id: int, purpose: str) -> str:
