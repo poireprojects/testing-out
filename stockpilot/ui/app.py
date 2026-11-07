@@ -24,7 +24,7 @@ def _app_icon():
     from PySide6.QtGui import QIcon, QPixmap
     from .icon import render_icon
     icon = QIcon()
-    png = paths.assets_dir() / "icons" / "dk.png"
+    png = paths.assets_dir() / "icons" / "stockpilot.png"
     if png.exists():
         icon.addFile(str(png))
     else:
@@ -116,7 +116,7 @@ def main(argv: list[str] | None = None) -> int:
         import tempfile
         from pathlib import Path as _P
         from . import chrome as _chrome_mod
-        os.environ.setdefault("DK_HOME", tempfile.mkdtemp(prefix="dk-chrometest-"))
+        os.environ.setdefault("STOCKPILOT_HOME", tempfile.mkdtemp(prefix="stockpilot-chrometest-"))
         _P(chrome_test_dir).mkdir(parents=True, exist_ok=True)
         _chrome_mod.PROGRESS = _P(chrome_test_dir) / "progress.txt"
         _chrome_mod.mark("started")
@@ -125,14 +125,29 @@ def main(argv: list[str] | None = None) -> int:
     if self_test:
         # Packaging smoke test: isolated data folder, offscreen rendering, quit after loading the UI.
         import tempfile
-        os.environ.setdefault("DK_HOME", tempfile.mkdtemp(prefix="dk-selftest-"))
+        os.environ.setdefault("STOCKPILOT_HOME", tempfile.mkdtemp(prefix="stockpilot-selftest-"))
         os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
     if sys.platform == "win32":
         try:  # own taskbar entry + correct attribution for Windows notifications
             import ctypes
-            ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID("com.dontknowwhatimdoing.app")  # type: ignore[attr-defined]
+            ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID("com.stockpilot.app")  # type: ignore[attr-defined]
         except Exception:
             pass
+    # An installation of the app under its previous name is moved over before anything touches the data
+    # folders. If that version is still running, refuse: two copies must never trade the same account.
+    from .. import legacy
+    migrated: dict = {}
+    if not self_test and not chrome_test_dir:
+        if legacy.previous_copy_running():
+            from PySide6.QtWidgets import QApplication as _QA, QMessageBox
+            _app = _QA.instance() or _QA(argv)
+            QMessageBox.information(None, APP_NAME, "An older version of StockPilot is still running. Quit it from its "
+                                                    "tray icon (right-click → quit), then open StockPilot again.")
+            return 0
+        try:
+            migrated = legacy.migrate()
+        except Exception as exc:  # never lose data silently: keep the old folders and say so in the log
+            migrated = {"error": str(exc)}
     # Single-instance lock always lives in the main data folder, so a test copy and the main
     # app never run (and trade) at the same time.
     lock_dir = paths.data_dir()
@@ -142,6 +157,8 @@ def main(argv: list[str] | None = None) -> int:
         profiles.activate(profile, fresh)
     setup_logging()
     log.info("starting %s %s%s", APP_NAME, __version__, f" (test copy '{profile}')" if profile else "")
+    if migrated:
+        log.info("previous installation: %s", migrated)
 
     from PySide6.QtCore import QCoreApplication, QLockFile, Qt, QUrl
     from PySide6.QtGui import QGuiApplication
@@ -187,7 +204,7 @@ def main(argv: list[str] | None = None) -> int:
     settings = load_settings()
     if self_test or chrome_test_dir:
         settings.first_run_done = True
-    from .charts import LineChart  # noqa: F401  (registers DkCharts QML types)
+    from .charts import LineChart  # noqa: F401  (registers SpCharts QML types)
     from .controller import AppController
 
     tray_holder: dict = {}
@@ -211,7 +228,7 @@ def main(argv: list[str] | None = None) -> int:
     ctx.setContextProperty("initialGeometry", _valid_geometry(settings.window))
     ctx.setContextProperty("trayAvailable", tray.available)
     ctx.setContextProperty("profileName", profile or "")
-    ctx.setContextProperty("iconUrl", QUrl.fromLocalFile(str(paths.assets_dir() / "icons" / "dk.png")))
+    ctx.setContextProperty("iconUrl", QUrl.fromLocalFile(str(paths.assets_dir() / "icons" / "stockpilot.png")))
     ctx.setContextProperty("startMinimized", "--minimized" in argv or settings.automation.start_minimized)
     qml_warnings: list[str] = []
     engine.warnings.connect(lambda ws: qml_warnings.extend(w.toString() for w in ws))
@@ -232,8 +249,8 @@ def main(argv: list[str] | None = None) -> int:
         mark("attached")
         from pathlib import Path as _P
         from .chrome import self_test as chrome_self_test
-        if os.environ.get("DK_CHROME_TEST_SIZE"):
-            cw, ch = (int(v) for v in os.environ["DK_CHROME_TEST_SIZE"].split("x"))
+        if os.environ.get("STOCKPILOT_CHROME_TEST_SIZE"):
+            cw, ch = (int(v) for v in os.environ["STOCKPILOT_CHROME_TEST_SIZE"].split("x"))
             window.setProperty("width", cw)
             window.setProperty("height", ch)
         window.show()
@@ -287,7 +304,7 @@ def main(argv: list[str] | None = None) -> int:
                 return
             c.write(b"ok:%d" % os.getpid())  # the uninstaller waits for this process to fully exit
             c.flush()
-            if os.environ.get("DK_TEST_IGNORE_QUIT") == "1":
+            if os.environ.get("STOCKPILOT_TEST_IGNORE_QUIT") == "1":
                 log.warning("test hook: ignoring the quit request (simulates a hung app)")
                 return
             c.waitForBytesWritten(1000)
