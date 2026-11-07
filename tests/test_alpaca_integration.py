@@ -17,7 +17,7 @@ from datetime import datetime, timedelta, timezone
 
 import pytest
 
-from dkapp.credentials import AlpacaKeys
+from stockpilot.credentials import AlpacaKeys
 
 pytestmark = pytest.mark.integration
 KEY, SECRET = os.environ.get("ALPACA_PAPER_KEY"), os.environ.get("ALPACA_PAPER_SECRET")
@@ -34,7 +34,7 @@ def cid(tag: str) -> str:
 
 @pytest.fixture(scope="module")
 def broker():
-    from dkapp.broker.alpaca_broker import AlpacaBroker
+    from stockpilot.broker.alpaca_broker import AlpacaBroker
     if (KEY or "").upper().startswith("AK"):
         pytest.fail("refusing to run: that looks like a LIVE key id (live keys start with AK)")
     b = AlpacaBroker(AlpacaKeys(KEY, SECRET), paper=True)
@@ -68,8 +68,8 @@ def position_qty(broker, symbol):
 # ---------------------------------------------------------------- account, data, guards
 @needs_keys
 def test_paper_account_is_used_and_sizing_never_borrows(broker):
-    from dkapp.config import AppSettings
-    from dkapp.risk.sizing import SizingInputs, spendable_cash
+    from stockpilot.config import AppSettings
+    from stockpilot.risk.sizing import SizingInputs, spendable_cash
     acct = broker.get_account()
     assert acct.is_paper and acct.status == "active" and not acct.trading_blocked
     assert acct.multiplier >= 1
@@ -99,7 +99,7 @@ def test_unknown_order_is_confirmed_not_found(broker):
 
 @needs_keys
 def test_market_data_snapshot_and_bars():
-    from dkapp.data.alpaca_data import AlpacaMarketData
+    from stockpilot.data.alpaca_data import AlpacaMarketData
     md = AlpacaMarketData(AlpacaKeys(KEY, SECRET), feed="iex")
     try:
         snaps = md.get_snapshots([SYMBOL, "AAPL"])
@@ -115,9 +115,9 @@ def test_market_data_snapshot_and_bars():
 @needs_keys
 @needs_orders
 def test_fractional_limit_order_submit_lookup_duplicate_cancel(broker):
-    from dkapp.broker.base import DuplicateOrder
-    from dkapp.execution.order_manager import is_working
-    from dkapp.models import OrderRequest
+    from stockpilot.broker.base import DuplicateOrder
+    from stockpilot.execution.order_manager import is_working
+    from stockpilot.models import OrderRequest
     c = cid("limit")
     req = OrderRequest(SYMBOL, "buy", "limit", c, qty=TINY_QTY, limit_price=100.00)  # far below the market
     o = broker.submit_order(req)
@@ -138,9 +138,9 @@ def test_fractional_limit_order_submit_lookup_duplicate_cancel(broker):
 @needs_keys
 @needs_orders
 def test_rejections_are_mapped_and_explained(broker):
-    from dkapp.broker.base import OrderRejected
-    from dkapp.broker.explain import explain_rejection
-    from dkapp.models import OrderRequest
+    from stockpilot.broker.base import OrderRejected
+    from stockpilot.broker.explain import explain_rejection
+    from stockpilot.models import OrderRequest
     with pytest.raises(OrderRejected) as e1:
         broker.submit_order(OrderRequest("ZZZZQX", "buy", "market", cid("bad-symbol"), qty=1))
     assert explain_rejection(str(e1.value))
@@ -153,8 +153,8 @@ def test_fractional_buy_broker_stop_and_safe_exit(broker, market_open):
     raise it (cancel, then a higher one), then cancel and sell — ending exactly where we started."""
     if not market_open:
         pytest.skip("market is closed: fractional orders queue until the open")
-    from dkapp.execution.order_manager import WORKING_STATES, is_working
-    from dkapp.models import OrderRequest
+    from stockpilot.execution.order_manager import WORKING_STATES, is_working
+    from stockpilot.models import OrderRequest
     before = position_qty(broker, SYMBOL)
     buy = broker.submit_order(OrderRequest(SYMBOL, "buy", "market", cid("buy"), qty=TINY_QTY))
     buy = wait_for(broker, buy.id, {"filled"})
@@ -188,14 +188,14 @@ def test_engine_order_paths_against_the_real_paper_broker(broker, market_open, t
     """The app's own code (order manager + engine protection + exit) end to end on the paper account."""
     if not market_open:
         pytest.skip("market is closed")
-    from dkapp.ai.engine import AIEngine
-    from dkapp.clock import MarketCalendar, RealClock, session_state
-    from dkapp.config import AppSettings
-    from dkapp.data.demo_data import DemoMarket, DemoMarketData
-    from dkapp.engine.trading_engine import TradingEngine
-    from dkapp.execution.order_manager import is_working
-    from dkapp.models import OrderRequest
-    from dkapp.storage.db import Database
+    from stockpilot.ai.engine import AIEngine
+    from stockpilot.clock import MarketCalendar, RealClock, session_state
+    from stockpilot.config import AppSettings
+    from stockpilot.data.demo_data import DemoMarket, DemoMarketData
+    from stockpilot.engine.trading_engine import TradingEngine
+    from stockpilot.execution.order_manager import is_working
+    from stockpilot.models import OrderRequest
+    from stockpilot.storage.db import Database
     from tests.harness import ScriptedAI
     s = AppSettings()
     s.ai.decision_mode = "rules"
