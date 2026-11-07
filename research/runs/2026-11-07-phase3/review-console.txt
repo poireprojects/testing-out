@@ -1,0 +1,669 @@
+/tmp/claude-0/-home-user-testing-out/5431bc25-11e9-5e33-8430-7076a05d5632/scratchpad/venv-research/lib/python3.13/site-packages/alphalens/utils.py:373: UserWarning: Factor dates do not conform to the inferred trading calendar (<CustomBusinessDay>); retaining their observed frequency.
+  warnings.warn(
+Dropped 0.1% entries from factor data: 0.1% in forward returns computation and 0.0% in binning phase (set max_loss=0 to see potentially suppressed Exceptions).
+max_loss is 50.0%, not exceeded: OK!
+{
+ "note": "development data only; exploratory",
+ "costs": {
+  "$100": {
+   "spreadSlippagePct": 0.13,
+   "feesPct": 0.03,
+   "perFullRebalancePct": 0.16,
+   "annualDragPct": {
+    "daily": 40.32,
+    "weekly": 8.32,
+    "monthly": 1.92,
+    "quarterly": 0.64
+   }
+  },
+  "$1,000": {
+   "spreadSlippagePct": 0.13,
+   "feesPct": 0.005,
+   "perFullRebalancePct": 0.135,
+   "annualDragPct": {
+    "daily": 34.02,
+    "weekly": 7.0200000000000005,
+    "monthly": 1.62,
+    "quarterly": 0.54
+   }
+  },
+  "$10,000": {
+   "spreadSlippagePct": 0.13,
+   "feesPct": 0.0024000000000000002,
+   "perFullRebalancePct": 0.13240000000000002,
+   "annualDragPct": {
+    "daily": 33.3648,
+    "weekly": 6.884800000000001,
+    "monthly": 1.5888000000000002,
+    "quarterly": 0.5296000000000001
+   }
+  }
+ },
+ "industries49": {
+  "1926-2005": {
+   "mom_12_1|21d": {
+    "n": 939,
+    "meanIC": 0.07432331336981045,
+    "icIR": 0.24700892799593183,
+    "tStat": 7.569120983879685,
+    "positiveShare": 0.617678381256656,
+    "quintiles": {
+     "n": 939,
+     "topPct": 1.2797451359867953,
+     "bottomPct": 0.5435980144049206,
+     "allPct": 0.8845863211926153,
+     "topMinusAllPct": 0.3951588147941802,
+     "topMinusBottomPct": 0.7361471215818747
+    }
+   },
+   "mom_6_1|21d": {
+    "n": 939,
+    "meanIC": 0.047454175428476485,
+    "icIR": 0.16387827534113625,
+    "tStat": 5.0217395085696515,
+    "positiveShare": 0.5899893503727369,
+    "quintiles": {
+     "n": 939,
+     "topPct": 1.0809078595168018,
+     "bottomPct": 0.6686515976786236,
+     "allPct": 0.8845863211926153,
+     "topMinusAllPct": 0.19632153832418645,
+     "topMinusBottomPct": 0.41225626183817815
+    }
+   },
+   "mom_1m|21d": {
+    "n": 939,
+    "meanIC": 0.04367373184953922,
+    "icIR": 0.16545081142685178,
+    "tStat": 5.0699268999359,
+    "positiveShare": 0.5867944621938233,
+    "quintiles": {
+     "n": 939,
+     "topPct": 1.0606389003331353,
+     "bottomPct": 0.5989320332957392,
+     "allPct": 0.8845863211926153,
+     "topMinusAllPct": 0.17605257914051997,
+     "topMinusBottomPct": 0.46170686703739594
+    }
+   },
+   "vol_63 (low first)|21d": {
+    "n": 939,
+    "meanIC": 0.019593995742898974,
+    "icIR": 0.07396906035453957,
+    "tStat": 2.266641823151548,
+    "positiveShare": 0.5282215122470714,
+    "quintiles": {
+     "n": 939,
+     "topPct": 0.8449317388243872,
+     "bottomPct": 0.9329270085097584,
+     "allPct": 0.9271325883186238,
+     "topMinusAllPct": -0.08220084949423671,
+     "topMinusBottomPct": -0.08799526968537122
+    }
+   },
+   "trend_200|21d": {
+    "n": 939,
+    "meanIC": 0.06815145715386135,
+    "icIR": 0.22715737765039784,
+    "tStat": 6.960807804667798,
+    "positiveShare": 0.6166134185303515,
+    "quintiles": {
+     "n": 939,
+     "topPct": 1.1771831370470776,
+     "bottomPct": 0.5762925254864708,
+     "allPct": 0.8845863211926153,
+     "topMinusAllPct": 0.2925968158544624,
+     "topMinusBottomPct": 0.6008906115606067
+    }
+   },
+   "mom_12_1|63d": {
+    "n": 937,
+    "meanIC": 0.11482523231277814,
+    "icIR": 0.38735555273614586,
+    "tStat": 6.84571719662951,
+    "positiveShare": 0.6606189967982924,
+    "quintiles": {
+     "n": 937,
+     "topPct": 4.2916784686329414,
+     "bottomPct": 1.8528127790369961,
+     "allPct": 3.0259976457574034,
+     "topMinusAllPct": 1.2656808228755378,
+     "topMinusBottomPct": 2.4388656895959455
+    }
+   },
+   "mom_6_1|63d": {
+    "n": 937,
+    "meanIC": 0.07699663498083695,
+    "icIR": 0.26795645011359154,
+    "tStat": 4.735582246164195,
+    "positiveShare": 0.6168623265741728,
+    "quintiles": {
+     "n": 937,
+     "topPct": 3.6363805987891524,
+     "bottomPct": 2.3029085552403346,
+     "allPct": 3.0259976457574034,
+     "topMinusAllPct": 0.6103829530317492,
+     "topMinusBottomPct": 1.3334720435488174
+    }
+   },
+   "mom_1m|63d": {
+    "n": 937,
+    "meanIC": 0.04721408675634681,
+    "icIR": 0.17795389617024468,
+    "tStat": 3.1449711734213346,
+    "positiveShare": 0.5944503735325507,
+    "quintiles": {
+     "n": 937,
+     "topPct": 3.3286703799141213,
+     "bottomPct": 2.6058224561254755,
+     "allPct": 3.0259976457574034,
+     "topMinusAllPct": 0.30267273415671814,
+     "topMinusBottomPct": 0.7228479237886462
+    }
+   },
+   "vol_63 (low first)|63d": {
+    "n": 937,
+    "meanIC": 0.011558043627319506,
+    "icIR": 0.04178810237337272,
+    "tStat": 0.7385192467520233,
+    "positiveShare": 0.503735325506937,
+    "quintiles": {
+     "n": 937,
+     "topPct": 2.766426033338663,
+     "bottomPct": 3.4531402261040887,
+     "allPct": 3.211020022910078,
+     "topMinusAllPct": -0.44459398957141466,
+     "topMinusBottomPct": -0.6867141927654254
+    }
+   },
+   "trend_200|63d": {
+    "n": 937,
+    "meanIC": 0.09850890315509422,
+    "icIR": 0.33875502938785124,
+    "tStat": 5.986802341529335,
+    "positiveShare": 0.6616862326574173,
+    "quintiles": {
+     "n": 937,
+     "topPct": 3.808574619036474,
+     "bottomPct": 2.0717653325933876,
+     "allPct": 3.0259976457574034,
+     "topMinusAllPct": 0.7825769732790712,
+     "topMinusBottomPct": 1.7368092864430866
+    }
+   },
+   "rev_1w (losers first)|5d": {
+    "n": 4086,
+    "meanIC": 0.01254653188939924,
+    "icIR": 0.052126738824327515,
+    "tStat": 3.3320363946508964,
+    "positiveShare": 0.5097895252080274,
+    "quintiles": {
+     "n": 4086,
+     "topPct": 0.3284620770389933,
+     "bottomPct": 0.19068427457606865,
+     "allPct": 0.25858544471244854,
+     "topMinusAllPct": 0.06987663232654481,
+     "topMinusBottomPct": 0.13777780246292476
+    }
+   },
+   "longOnlyTop10_vs_equalWeight": {
+    "grossExcessPerYearPct": 4.741905777530162,
+    "turnoverPerMonth": 0.21829787234042555,
+    "costPerYearPct": 0.3405446808510639,
+    "netExcessPerYearPct": 4.401361096679098
+   },
+   "alphalensCheck_mom_12_1_21d": {
+    "alphalensMeanIC": 0.07640716753643235,
+    "oursSameTimingMeanIC": 0.07640716753643235,
+    "alphalensQuintileMeanPct": {
+     "1": -0.37429378560296367,
+     "2": -0.155754327396739,
+     "3": -0.01864674714737804,
+     "4": 0.17969681780863292,
+     "5": 0.3793632868712233
+    }
+   }
+  },
+  "2022-2026": {
+   "mom_12_1|21d": {
+    "n": 32,
+    "meanIC": 0.024942602040816317,
+    "icIR": 0.09376130899989678,
+    "tStat": 0.5303940592540343,
+    "positiveShare": 0.59375,
+    "quintiles": {
+     "n": 32,
+     "topPct": 1.4700946957575742,
+     "bottomPct": 1.0775367529833921,
+     "allPct": 1.4720832288140064,
+     "topMinusAllPct": -0.0019885330564321877,
+     "topMinusBottomPct": 0.3925579427741819
+    }
+   },
+   "mom_6_1|21d": {
+    "n": 32,
+    "meanIC": -0.04506377551020409,
+    "icIR": -0.1694378454873948,
+    "tStat": -0.9584851962702027,
+    "positiveShare": 0.40625,
+    "quintiles": {
+     "n": 32,
+     "topPct": 0.8847171743420309,
+     "bottomPct": 1.816050489216904,
+     "allPct": 1.4720832288140064,
+     "topMinusAllPct": -0.5873660544719754,
+     "topMinusBottomPct": -0.9313333148748733
+    }
+   },
+   "mom_1m|21d": {
+    "n": 32,
+    "meanIC": 0.012614795918367352,
+    "icIR": 0.06050758107584986,
+    "tStat": 0.342282567135426,
+    "positiveShare": 0.40625,
+    "quintiles": {
+     "n": 32,
+     "topPct": 1.9930865816152548,
+     "bottomPct": 1.4309044303364038,
+     "allPct": 1.4720832288140064,
+     "topMinusAllPct": 0.5210033528012481,
+     "topMinusBottomPct": 0.5621821512788507
+    }
+   },
+   "vol_63 (low first)|21d": {
+    "n": 32,
+    "meanIC": -0.11378507653061223,
+    "icIR": -0.36566487749677257,
+    "tStat": -2.0685129161577285,
+    "positiveShare": 0.3125,
+    "quintiles": {
+     "n": 32,
+     "topPct": 0.4518549118400132,
+     "bottomPct": 2.7932536667939045,
+     "allPct": 1.4720832288140064,
+     "topMinusAllPct": -1.0202283169739932,
+     "topMinusBottomPct": -2.3413987549538913
+    }
+   },
+   "trend_200|21d": {
+    "n": 32,
+    "meanIC": -0.016310586734693877,
+    "icIR": -0.06585636733918371,
+    "tStat": -0.3725398714387926,
+    "positiveShare": 0.5625,
+    "quintiles": {
+     "n": 32,
+     "topPct": 1.441147423197344,
+     "bottomPct": 1.7138379762310931,
+     "allPct": 1.4720832288140064,
+     "topMinusAllPct": -0.03093580561666228,
+     "topMinusBottomPct": -0.2726905530337491
+    }
+   },
+   "mom_12_1|63d": {
+    "n": 31,
+    "meanIC": 0.02548057932850559,
+    "icIR": 0.11055496378907491,
+    "tStat": 0.3553844868920203,
+    "positiveShare": 0.5483870967741935,
+    "quintiles": {
+     "n": 31,
+     "topPct": 3.678689789551274,
+     "bottomPct": 3.3962251373967787,
+     "allPct": 3.6144122253501125,
+     "topMinusAllPct": 0.06427756420116254,
+     "topMinusBottomPct": 0.2824646521544965
+    }
+   },
+   "mom_6_1|63d": {
+    "n": 31,
+    "meanIC": -0.02147136273864385,
+    "icIR": -0.09413803311762033,
+    "tStat": -0.3026114382377064,
+    "positiveShare": 0.4838709677419355,
+    "quintiles": {
+     "n": 31,
+     "topPct": 2.825635504941211,
+     "bottomPct": 3.985707001442961,
+     "allPct": 3.6144122253501125,
+     "topMinusAllPct": -0.7887767204089017,
+     "topMinusBottomPct": -1.1600714965017505
+    }
+   },
+   "mom_1m|63d": {
+    "n": 31,
+    "meanIC": -0.04590520078999341,
+    "icIR": -0.1828320650848823,
+    "tStat": -0.5877228611965796,
+    "positiveShare": 0.41935483870967744,
+    "quintiles": {
+     "n": 31,
+     "topPct": 3.2565428955996247,
+     "bottomPct": 4.8428922694566365,
+     "allPct": 3.6144122253501125,
+     "topMinusAllPct": -0.3578693297504881,
+     "topMinusBottomPct": -1.586349373857012
+    }
+   },
+   "vol_63 (low first)|63d": {
+    "n": 31,
+    "meanIC": -0.12017116524028966,
+    "icIR": -0.3686875368796796,
+    "tStat": -1.1851646151994468,
+    "positiveShare": 0.3548387096774194,
+    "quintiles": {
+     "n": 31,
+     "topPct": 1.4070796689526575,
+     "bottomPct": 5.812798078142108,
+     "allPct": 3.6144122253501125,
+     "topMinusAllPct": -2.2073325563974553,
+     "topMinusBottomPct": -4.40571840918945
+    }
+   },
+   "trend_200|63d": {
+    "n": 31,
+    "meanIC": -0.03541474654377881,
+    "icIR": -0.15940961744706322,
+    "tStat": -0.5124302262009891,
+    "positiveShare": 0.41935483870967744,
+    "quintiles": {
+     "n": 31,
+     "topPct": 3.1874692492064787,
+     "bottomPct": 4.110011002238377,
+     "allPct": 3.6144122253501125,
+     "topMinusAllPct": -0.4269429761436334,
+     "topMinusBottomPct": -0.9225417530318984
+    }
+   },
+   "rev_1w (losers first)|5d": {
+    "n": 143,
+    "meanIC": -0.015998287426858857,
+    "icIR": -0.0672892875651089,
+    "tStat": -0.8046628459211027,
+    "positiveShare": 0.4825174825174825,
+    "quintiles": {
+     "n": 143,
+     "topPct": 0.187055524672023,
+     "bottomPct": 0.3782785802134936,
+     "allPct": 0.2841982145385212,
+     "topMinusAllPct": -0.09714268986649806,
+     "topMinusBottomPct": -0.1912230555414706
+    }
+   },
+   "longOnlyTop10_vs_equalWeight": {
+    "grossExcessPerYearPct": -0.023862396677186253,
+    "turnoverPerMonth": 0.24848484848484853,
+    "costPerYearPct": 0.38763636363636367,
+    "netExcessPerYearPct": -0.4114987603135499
+   }
+  }
+ },
+ "market": {
+  "1926-2005": {
+   "turnOfMonth": {
+    "tomDays": 3816,
+    "otherDays": 17304,
+    "tomMeanBps": 14.76153039832285,
+    "otherMeanBps": 0.16533749422098945,
+    "diffTStat": 8.162494683118737,
+    "shareOfExcessReturnFromTom": 0.9516649490632021,
+    "byDecade": {
+     "1920s": {
+      "tomBps": 22.25,
+      "otherBps": 1.3417721518987347
+     },
+     "1930s": {
+      "tomBps": 17.849999999999998,
+      "otherBps": -1.9366028708133964
+     },
+     "1940s": {
+      "tomBps": 17.045833333333334,
+      "otherBps": 0.5926989335520917
+     },
+     "1950s": {
+      "tomBps": 20.264583333333338,
+      "otherBps": 2.7379603399433425
+     },
+     "1960s": {
+      "tomBps": 11.250000000000002,
+      "otherBps": -0.37132901941264407
+     },
+     "1970s": {
+      "tomBps": 9.316666666666668,
+      "otherBps": -1.8592375366568916
+     },
+     "1980s": {
+      "tomBps": 15.445833333333331,
+      "otherBps": 0.42724609375
+     },
+     "1990s": {
+      "tomBps": 12.704166666666666,
+      "otherBps": 3.1953124999999996
+     },
+     "2000s": {
+      "tomBps": 9.482638888888888,
+      "otherBps": -2.9188524590163936
+     }
+    }
+   },
+   "conditions": {
+    "trend_12m_excess": {
+     "negative": {
+      "months": 298,
+      "nextMonthExcessPct": 0.2542442613783464,
+      "sdPct": 6.626484464990846,
+      "sharpeAnn": 0.1329102876696251
+     },
+     "positive": {
+      "months": 644,
+      "nextMonthExcessPct": 0.6771555769402292,
+      "sdPct": 4.197213705500955,
+      "sharpeAnn": 0.5588792690502787
+     }
+    },
+    "vol_63": {
+     "low": {
+      "months": 317,
+      "nextMonthExcessPct": 0.494921587449199,
+      "sdPct": 3.505815003483211,
+      "sharpeAnn": 0.489032840793341
+     },
+     "mid": {
+      "months": 316,
+      "nextMonthExcessPct": 0.29294631175298175,
+      "sdPct": 4.369958156896296,
+      "sharpeAnn": 0.23222094016865766
+     },
+     "high": {
+      "months": 317,
+      "nextMonthExcessPct": 0.8614202162037876,
+      "sdPct": 6.775924513832187,
+      "sharpeAnn": 0.440389670246813
+     }
+    },
+    "breadth_200": {
+     "low": {
+      "months": 319,
+      "nextMonthExcessPct": 0.683617443113195,
+      "sdPct": 6.578235548078773,
+      "sharpeAnn": 0.359993233978432
+     },
+     "mid": {
+      "months": 316,
+      "nextMonthExcessPct": 0.18333919600804935,
+      "sdPct": 4.417804572736873,
+      "sharpeAnn": 0.1437604571575892
+     },
+     "high": {
+      "months": 309,
+      "nextMonthExcessPct": 0.7808494810417704,
+      "sdPct": 3.7993690722680005,
+      "sharpeAnn": 0.7119450353480881
+     }
+    }
+   }
+  },
+  "2022-2026": {
+   "turnOfMonth": {
+    "tomDays": 188,
+    "otherDays": 793,
+    "tomMeanBps": 4.398936170212766,
+    "otherMeanBps": 6.442622950819673,
+    "diffTStat": -0.24913751570585202,
+    "shareOfExcessReturnFromTom": 0.13931940700808626,
+    "byDecade": {
+     "2020s": {
+      "tomBps": 4.398936170212766,
+      "otherBps": 6.442622950819673
+     }
+    }
+   },
+   "conditions": {
+    "trend_12m_excess": {
+     "positive": {
+      "months": 33,
+      "nextMonthExcessPct": 1.4751721939859253,
+      "sdPct": 3.4308548737645808,
+      "sharpeAnn": 1.489467368284724
+     }
+    },
+    "vol_63": {
+     "low": {
+      "months": 14,
+      "nextMonthExcessPct": -0.30511428092877485,
+      "sdPct": 3.7261605318434463,
+      "sharpeAnn": -0.2836557535120634
+     },
+     "mid": {
+      "months": 14,
+      "nextMonthExcessPct": 1.73944176505408,
+      "sdPct": 4.117078660456764,
+      "sharpeAnn": 1.4635627649371659
+     },
+     "high": {
+      "months": 14,
+      "nextMonthExcessPct": 2.3031935466485987,
+      "sdPct": 2.830538005957653,
+      "sharpeAnn": 2.8187208467532687
+     }
+    },
+    "breadth_200": {
+     "low": {
+      "months": 12,
+      "nextMonthExcessPct": 1.7536319350656477,
+      "sdPct": 4.71567262863202,
+      "sharpeAnn": 1.2882063062932119
+     },
+     "mid": {
+      "months": 14,
+      "nextMonthExcessPct": 1.3652014819845144,
+      "sdPct": 3.35247389249363,
+      "sharpeAnn": 1.4106587583932984
+     },
+     "high": {
+      "months": 10,
+      "nextMonthExcessPct": 0.7210524205879534,
+      "sdPct": 3.710566742738744,
+      "sharpeAnn": 0.6731583146013185
+     }
+    }
+   }
+  }
+ },
+ "stocks": {
+  "symbols": 505,
+  "from": "2022-11-01",
+  "to": "2026-11-05",
+  "mom_12_1|21d": {
+   "n": 34,
+   "meanIC": 0.024019762503572434,
+   "icIR": 0.12013547544382204,
+   "tStat": 0.7005041781772952,
+   "positiveShare": 0.6176470588235294,
+   "quintiles": {
+    "n": 34,
+    "topPct": 2.2045337666928315,
+    "bottomPct": 1.1704270907958025,
+    "allPct": 1.425427771449466,
+    "topMinusAllPct": 0.7791059952433659,
+    "topMinusBottomPct": 1.0341066758970292
+   }
+  },
+  "mom_1m|21d": {
+   "n": 34,
+   "meanIC": 0.03226261313185356,
+   "icIR": 0.20330610786758144,
+   "tStat": 1.185468134904097,
+   "positiveShare": 0.5294117647058824,
+   "quintiles": {
+    "n": 34,
+    "topPct": 2.145324778753258,
+    "bottomPct": 0.8632099686834073,
+    "allPct": 1.425427771449466,
+    "topMinusAllPct": 0.7198970073037922,
+    "topMinusBottomPct": 1.2821148100698505
+   }
+  },
+  "vol_63 (low first)|21d": {
+   "n": 34,
+   "meanIC": -0.03232202314821246,
+   "icIR": -0.15573748338916346,
+   "tStat": -0.9080977738664813,
+   "positiveShare": 0.38235294117647056,
+   "quintiles": {
+    "n": 34,
+    "topPct": 0.6595447798559706,
+    "bottomPct": 2.5164479379845814,
+    "allPct": 1.4240816512844516,
+    "topMinusAllPct": -0.7645368714284809,
+    "topMinusBottomPct": -1.8569031581286108
+   }
+  },
+  "trend_200|21d": {
+   "n": 34,
+   "meanIC": 0.017113153690977975,
+   "icIR": 0.095626468052433,
+   "tStat": 0.5575933350876978,
+   "positiveShare": 0.5882352941176471,
+   "quintiles": {
+    "n": 34,
+    "topPct": 1.9735554412924374,
+    "bottomPct": 1.2285016569131735,
+    "allPct": 1.425427771449466,
+    "topMinusAllPct": 0.5481276698429709,
+    "topMinusBottomPct": 0.7450537843792636
+   }
+  },
+  "liquidity (log $vol)|21d": {
+   "n": 34,
+   "meanIC": 0.02265585820044141,
+   "icIR": 0.19473554517503644,
+   "tStat": 1.1354935961321113,
+   "positiveShare": 0.5882352941176471,
+   "quintiles": {
+    "n": 34,
+    "topPct": 1.818564566432698,
+    "bottomPct": 1.7267810204386849,
+    "allPct": 1.4278985183512698,
+    "topMinusAllPct": 0.39066604808142774,
+    "topMinusBottomPct": 0.0917835459940126
+   }
+  },
+  "rev_1w (losers first)|5d": {
+   "n": 148,
+   "meanIC": -0.005794463896524225,
+   "icIR": -0.0365813036763633,
+   "tStat": -0.4450307666240864,
+   "positiveShare": 0.46621621621621623,
+   "quintiles": {
+    "n": 148,
+    "topPct": 0.30870937230739565,
+    "bottomPct": 0.4012890267201039,
+    "allPct": 0.32796110224738995,
+    "topMinusAllPct": -0.01925172993999435,
+    "topMinusBottomPct": -0.09257965441270827
+   }
+  }
+ }
+}
+trials: 36

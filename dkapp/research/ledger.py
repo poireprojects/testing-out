@@ -22,6 +22,10 @@ RESERVED = "reserved"      # registered as a holdout before any result was compu
 FORWARD = "forward"        # after forward_from: observed live in paper/shadow, never backtested before
 
 
+class ReservedData(PermissionError):
+    """Refused: the requested days are a reserved holdout (or the holdout was already used)."""
+
+
 @dataclass
 class Period:
     start: date

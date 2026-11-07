@@ -1,0 +1,6 @@
+# Research-only tools (not shipped with the app). Install into a separate venv:
+#   python -m venv .venv-research && .venv-research/bin/pip install -r requirements-research.txt
+numpy>=2.0
+pandas>=2.2
+matplotlib>=3.8
+alphalens-reloaded==0.5.1

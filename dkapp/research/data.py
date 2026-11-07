@@ -12,7 +12,7 @@ from typing import Optional
 from ..backtest.engine import DayInput
 from ..backtest.runner import DEFAULT_BACKTEST_SYMBOLS, HistoryCache, historical_days
 from ..clock import MarketCalendar
-from .ledger import RESERVED, DataLedger
+from .ledger import RESERVED, DataLedger, ReservedData  # noqa: F401  (ReservedData re-exported)
 
 HOLDOUT_MARKER = Path(__file__).resolve().parents[2] / "research" / "HOLDOUT_USED.json"
 
@@ -39,10 +39,6 @@ def sessions_between(start: date, end: date) -> list[date]:
             out.append(d)
         d += timedelta(days=1)
     return out
-
-
-class ReservedData(PermissionError):
-    pass
 
 
 def load_range(cache_dir: Path, start: date, end: date, purpose: str = "development",

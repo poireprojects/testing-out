@@ -1,0 +1,144 @@
+{
+ "source": "https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/ftp/",
+ "downloaded": "2026-11-07T00:12:41Z",
+ "files": {
+  "ff3_daily": {
+   "file": "F-F_Research_Data_Factors_daily_CSV.zip",
+   "columns": [
+    "Mkt-RF",
+    "SMB",
+    "HML",
+    "RF"
+   ],
+   "vaultRowsDropped": 572,
+   "dev": {
+    "rows": 22101,
+    "first": "1926-07-01",
+    "last": "2026-09-30",
+    "sha256": "ceb832e391f610c597f65c1fccdc94d6a7d0187e1d1e584eb599264bed3377e6"
+   },
+   "holdA": {
+    "rows": 3665,
+    "first": "2006-01-03",
+    "last": "2020-07-24",
+    "sha256": "43797ab9e80787c7b82a6382a75bd6096c8dfa448bda9a92e605b1b3b105961f"
+   }
+  },
+  "mom_daily": {
+   "file": "F-F_Momentum_Factor_daily_CSV.zip",
+   "columns": [
+    "Mom"
+   ],
+   "vaultRowsDropped": 572,
+   "dev": {
+    "rows": 22000,
+    "first": "1926-11-03",
+    "last": "2026-09-30",
+    "sha256": "947ef9a9a4c5ecbf389ea0c7e92b6c583828baa72f3afbc9d7d8952f4077a1ca"
+   },
+   "holdA": {
+    "rows": 3665,
+    "first": "2006-01-03",
+    "last": "2020-07-24",
+    "sha256": "05b3080ce6fb10b5220d23c5559c3898d88e2b395386a7e52c767cc81bf7702d"
+   }
+  },
+  "ind12_daily": {
+   "file": "12_Industry_Portfolios_daily_CSV.zip",
+   "columns": [
+    "NoDur",
+    "Durbl",
+    "Manuf",
+    "Enrgy",
+    "Chems",
+    "BusEq",
+    "Telcm",
+    "Utils",
+    "Shops",
+    "Hlth",
+    "Money",
+    "Other"
+   ],
+   "vaultRowsDropped": 572,
+   "dev": {
+    "rows": 22101,
+    "first": "1926-07-01",
+    "last": "2026-09-30",
+    "sha256": "824fc9c8f77812cbf8cfea9b7128acde5005bbabd3af125a419e829847880c0e"
+   },
+   "holdA": {
+    "rows": 3665,
+    "first": "2006-01-03",
+    "last": "2020-07-24",
+    "sha256": "f3235f4ad809e7390e462a2821aba2ab5afa04eb22c9ff1b46b5e70077a7b5b2"
+   }
+  },
+  "ind49_daily": {
+   "file": "49_Industry_Portfolios_daily_CSV.zip",
+   "columns": [
+    "Agric",
+    "Food",
+    "Soda",
+    "Beer",
+    "Smoke",
+    "Toys",
+    "Fun",
+    "Books",
+    "Hshld",
+    "Clths",
+    "Hlth",
+    "MedEq",
+    "Drugs",
+    "Chems",
+    "Rubbr",
+    "Txtls",
+    "BldMt",
+    "Cnstr",
+    "Steel",
+    "FabPr",
+    "Mach",
+    "ElcEq",
+    "Autos",
+    "Aero",
+    "Ships",
+    "Guns",
+    "Gold",
+    "Mines",
+    "Coal",
+    "Oil",
+    "Util",
+    "Telcm",
+    "PerSv",
+    "BusSv",
+    "Hardw",
+    "Softw",
+    "Chips",
+    "LabEq",
+    "Paper",
+    "Boxes",
+    "Trans",
+    "Whlsl",
+    "Rtail",
+    "Meals",
+    "Banks",
+    "Insur",
+    "RlEst",
+    "Fin",
+    "Other"
+   ],
+   "vaultRowsDropped": 572,
+   "dev": {
+    "rows": 22101,
+    "first": "1926-07-01",
+    "last": "2026-09-30",
+    "sha256": "58627438d9ec0e1e156aa1cef323524495c420b6661c2311f6db83a841502358"
+   },
+   "holdA": {
+    "rows": 3665,
+    "first": "2006-01-03",
+    "last": "2020-07-24",
+    "sha256": "9d6bb01836478102afa7a2cb117a1f7961d172590c83cdea37f6a0cddc0ce90c"
+   }
+  }
+ }
+}

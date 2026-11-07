@@ -1,0 +1,13 @@
+French series vs Alpaca IEX ETF closes (price only, split-corrected), 2022-11-01 .. 2026-09-30
+series   etf    days   corr  FF ann  ETF ann  TE ann
+market   SPY     980  0.994   20.7%    19.2%    1.9%
+Enrgy    XLE     980  0.990   10.5%     8.1%    3.4%
+BusEq    XLK     980  0.965   34.3%    33.6%    6.5%
+Utils    XLU     980  0.974   10.2%     4.3%    3.8%
+Hlth     XLV     980  0.938   12.2%     6.3%    5.3%
+Money    XLF     980  0.968   13.9%    12.2%    4.4%
+NoDur    XLP     980  0.903    4.6%     2.8%    5.7%
+Manuf    XLI     980  0.935   20.2%    15.8%    7.7%
+Chems    XLB     980  0.804    2.2%     7.2%   10.5%
+Telcm    XLC     980  0.612    5.2%    24.1%   15.5%
+Shops    XLY     980  0.877   15.9%    11.5%   10.4%
