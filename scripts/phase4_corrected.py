@@ -35,10 +35,10 @@ sys.path.insert(0, str(ROOT))
 sys.path.insert(0, str(ROOT / "scripts"))
 
 import phase4_test as orig  # noqa: E402  (the frozen evaluation; imported, never modified)
-from dkapp.clock import ET  # noqa: E402
-from dkapp.quant.model import LogisticL2, Standardizer  # noqa: E402
-from dkapp.research.stats import holm  # noqa: E402
-from dkapp.risk.fees import CostModel  # noqa: E402
+from stockpilot.clock import ET  # noqa: E402
+from stockpilot.quant.model import LogisticL2, Standardizer  # noqa: E402
+from stockpilot.research.stats import holm  # noqa: E402
+from stockpilot.risk.fees import CostModel  # noqa: E402
 
 MIN_TRADES = 100                       # pre-registered criterion 1 and the INSUFFICIENT EVIDENCE threshold
 MINUTE_FILE = "minute_entry_window.json"
