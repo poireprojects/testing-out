@@ -36,7 +36,9 @@ function AppsEntries { @(Get-ChildItem $UninstRoot -ErrorAction SilentlyContinue
 Write-Host "`n== install the previous version"
 $p = Start-Process $OldInstaller "/VERYSILENT /SUPPRESSMSGBOXES /NORESTART /SP- /TASKS=desktopicon /LOG=`"$env:RUNNER_TEMP\old-install.log`"" -Wait -PassThru
 Check "[previous] installed (exit $($p.ExitCode))" (($p.ExitCode -eq 0) -and (Test-Path $OldExe))
+if (-not (Test-Path $RunKey)) { New-Item -Path $RunKey -Force | Out-Null }     # missing on a fresh machine
 New-ItemProperty -Path $RunKey -Name $OldId -Value "`"$OldExe`" --minimized" -PropertyType String -Force | Out-Null
+Check "[previous] launch-at-login entry set up" ([bool](Get-ItemProperty $RunKey -ErrorAction SilentlyContinue).$OldId)
 python -c "import keyring; keyring.set_password('$OldId','alpaca-paper-key-id','PKUPGRADETEST')"
 Start-Process $OldExe "--minimized" | Out-Null
 $ok = $false
