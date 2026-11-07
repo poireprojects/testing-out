@@ -16,7 +16,7 @@ from typing import Optional, Protocol
 
 import pandas as pd
 
-from dkapp.risk.fees import CostModel
+from stockpilot.risk.fees import CostModel
 
 from .risk import Quote
 
