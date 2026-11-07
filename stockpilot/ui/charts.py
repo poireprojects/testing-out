@@ -1,4 +1,4 @@
-"""Custom-painted, interactive financial charts for QML (import DkCharts 1.0)."""
+"""Custom-painted, interactive financial charts for QML (import SpCharts 1.0)."""
 from __future__ import annotations
 
 import math
@@ -9,7 +9,7 @@ from PySide6.QtGui import QBrush, QColor, QFont, QFontMetricsF, QLinearGradient,
 from PySide6.QtQml import QmlElement
 from PySide6.QtQuick import QQuickPaintedItem
 
-QML_IMPORT_NAME = "DkCharts"
+QML_IMPORT_NAME = "SpCharts"
 QML_IMPORT_MAJOR_VERSION = 1
 
 
