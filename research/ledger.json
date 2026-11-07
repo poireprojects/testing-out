@@ -92,6 +92,13 @@
    "status": "examined",
    "by": "phase 3 holdout A run (2026-11-07, commit 7e7edbc)",
    "note": "Holdout A was used once for P3-H2 (research/HOLDOUT_P3_USED.json). From now on these days are development data only. The only untouched history left is the vault (2020-07-27 to 2022-10-31), still never downloaded."
+  },
+  {
+   "start": "2022-12-01",
+   "end": "2026-10-30",
+   "status": "examined",
+   "by": "phase 4 earnings-event study (2026-11-07)",
+   "note": "Already examined by earlier phases. Phase 4 used it for the earnings-event development and evaluation folds; neither fold is unseen. The vault (2020-07-27 to 2022-10-31) was not opened."
   }
  ]
 }

@@ -1,0 +1,26 @@
+{
+ "criteria": {
+  "1. >= 100 filled trades": true,
+  "2. mean net > 0 (Holm p < 0.05)": false,
+  "3. beats price-only comparable (Holm p < 0.05)": false,
+  "4. beats sector ETF (point estimate)": false,
+  "5. positive in >= 3 of 4 half-years": false,
+  "6. positive with 2x costs": false,
+  "7. top-5 trades < 50% of profit": false,
+  "8. development fold also > 0": false
+ },
+ "holm": {
+  "ML net > 0": 0.0,
+  "H1 beats price-only (B3)": 0.9792,
+  "H1 net > 0": 0.9964
+ },
+ "rawP": {
+  "H1 net > 0": 0.9964,
+  "H1 beats price-only (B3)": 0.4896,
+  "ML net > 0": 0.0
+ },
+ "mlKept": true,
+ "decision": "NO-GO"
+}
+dev H1 {'n': 805, 'meanPct': -0.29905593631631033, 'grossPct': 0.029101681773475892, 'p': 0.9974, 'winRate': 0.40993788819875776} | B3 paired {'n': 805, 'meanExcessPct': -0.18274678819235934, 'ci90': [-0.4203332791935579, 0.047767975089435415], 'p': 0.9006} | B2 {'n': 2650, 'meanPct': -0.33242356829668207}
+eval H1 {'n': 974, 'meanPct': -0.2722351370954723, 'grossPct': 0.08593358830168482, 'p': 0.9964, 'winRate': 0.43634496919917864} | B3 paired {'n': 974, 'meanExcessPct': -0.005573760966334693, 'ci90': [-0.24718388563047264, 0.2355478621084899], 'p': 0.4896} | B2 {'n': 2965, 'meanPct': -0.2970013023634047}

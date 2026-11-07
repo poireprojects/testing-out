@@ -204,6 +204,20 @@ It used 80 years of survivorship-free academic data (Ken French) and an untouche
 * The only reliably positive return in the data is owning the market itself, about 9% a year with 55–84%
   drawdowns. That is investing, not an edge.
 
+**Phase 4** (`research/runs/2026-11-07-phase4/REPORT.md`) asked whether time-stamped company news (SEC 8-K filings,
+earnings releases) gives an intraday edge that price-only rules lack.
+
+* Data audit of 50 disclosures:
+  * SEC acceptance times are exact, but often later than the first public release (by over an hour for 7.6% of
+    earnings releases).
+  * Release times can be verified only for earnings, and those come out before the open or after the close.
+  * The free IEX feed shows neither the real price nor the real spread.
+* The one testable rule was frozen before testing: buy at 10:00 after an earnings beat on both EPS and sales,
+  if the stock is outperforming its sector.
+  * It lost **−0.27% per trade** after measured costs (974 trades, 2024-11 → 2026-10).
+  * It did no better than a price-only look-alike, so the news added nothing.
+* **Decision: NO-GO.** No app changes.
+
 * New evidence now comes from **forward** observation:
   * The app records every eligible setup, taken or not, at the moment it sees it, in an append-only,
     hash-chained table. It scores each one after the close against prices that came later.

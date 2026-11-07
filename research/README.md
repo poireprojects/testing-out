@@ -9,6 +9,8 @@
 * `COSTS.md` — verified fees and the economics of small accounts.
 * `runs/` — later research runs, each in its own dated folder. Nothing here is overwritten.
   * `runs/2026-11-06-round1/` — round 1 (holdout 2026-05-01 → 08-26).
+  * `runs/2026-11-07-phase4/` — phase 4, event-driven feasibility audit and the earnings-day test
+    (`PREREGISTRATION-2026-11-07-phase4.md`). NO-GO. Raw data not committed; see `data-manifest.json`.
   * `runs/2026-11-07-phase3/` — phase 3, multi-day rules on Ken French academic data (holdout A 2006-01-03 →
     2020-07-24, used once; `PREREGISTRATION-2026-11-07-phase3.md`). Research tools: `requirements-research.txt`.
   * `runs/2026-11-07-phase2/` — phase 2 (holdout 2023-09-01 → 2025-08-29). `REPORT.md` covers the design and

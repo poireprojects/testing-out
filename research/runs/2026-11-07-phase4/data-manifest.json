@@ -1,0 +1,40 @@
+{
+ "companies.json": {
+  "bytes": 920577,
+  "sha256": "3f776e02f1bb54cdb6b911051786b1aad6ae720c8acbc8eed92da588994768bb"
+ },
+ "events.json": {
+  "bytes": 2508590,
+  "sha256": "44c691eb68c70b684cfa6e77f71ac52e7e4d625ec8ddafd1a10d17ff43c9ce3c"
+ },
+ "plan.json": {
+  "bytes": 2422741,
+  "sha256": "85e6aba7f3ea16612c8cba1295eaa792a34fa2c6341e2111a22603d3a0adda21"
+ },
+ "quotes_0of4.json": {
+  "bytes": 626913,
+  "sha256": "183a0e4ef256a7df0542cb978b9ac3e244e363a47fb5ae1d0ac318e1e50bd309"
+ },
+ "quotes_1of4.json": {
+  "bytes": 590679,
+  "sha256": "9604769fae45dd7f12c3fd35abbc27b248d76ac22f7319f5a65746f655c68f82"
+ },
+ "quotes_2of4.json": {
+  "bytes": 575366,
+  "sha256": "08c550442c7b0f3e7929445d540d9723385d1e5ab2b7e582d269455f3602ac2e"
+ },
+ "quotes_3of4.json": {
+  "bytes": 601445,
+  "sha256": "824dcb8da2e9af8ad3d31a6811685ba79ea146f5ff3816ea7ea34b581b1a9c79"
+ },
+ "bars15": {
+  "files": 457
+ },
+ "counts": {
+  "item202Filings": 6916,
+  "verifiedFlashes": 5671,
+  "releasedBeforeOpen": 5667,
+  "newsFailures": 0
+ },
+ "note": "raw data not committed (vendor news headlines; Alpaca market data terms); hashes let a re-download be checked"
+}

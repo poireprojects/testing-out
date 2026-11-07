@@ -1,0 +1,13 @@
+{
+ "note": "post-hoc diagnostic of the pre-registered ML model (not a new test)",
+ "evalEvents": 2965,
+ "baseRateWin": 0.43608768971332207,
+ "auc": 0.5210972220680365,
+ "brier": 0.24619237624442422,
+ "brierBaseRate": 0.24607628983446964,
+ "maxPredicted": 0.5026857575620364,
+ "pAbove05": 2,
+ "topDecileNetPct": -0.17024904677588748,
+ "topQuintileNetPct": -0.17603473771296227,
+ "allNetPct": -0.2970013023634047
+}
