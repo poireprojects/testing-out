@@ -69,6 +69,49 @@ for the constant base rate. That is worse than always saying 49%. Its probabilit
   3.22% by 10:00, and declines the trade because the expected move does not cover the cost.
 
 
+## Version 2 (2026-11-07, later): corrections before any paid model or new forward evaluation
+
+The v1 ledgers are unchanged. Registration v1 is suspended (amendment in the pre-registration).
+
+1. **Scoring by the target session** (`evaluate.py`, evaluation protocol v2).
+   * Predictions are scored on the decision's recorded session: a decision written on Saturday for Monday is
+     scored on Monday.
+   * The score comes from the ledger's own market-outcome records, so it can be recomputed from the ledger
+     alone.
+   * Regression tests cover weekend, after-hours, pre-open and holiday decisions.
+2. **Unattended forward scoring** (`scoring.py`; the `score` command; the `daemon` scores finished sessions).
+   * Once a session's prices exist, the scorer:
+     * computes the pre-registered mechanical baselines **as of 10:00**, recording each input's end time (the
+       ledger refuses any input that ended later);
+     * records each event's 10:00:30 → 15:45 outcome;
+     * puts every recorded decision through the same risk controller at 10:00:30 and simulates it.
+   * It holds no model and cannot call one: a recorded AI decision is executed exactly as written.
+   * Missing prices leave a session pending, with nothing half-written; after five days it is marked
+     unscorable.
+   * Prices need the owner's rotated key (`ALPACA_DATA_KEY_ID` / `ALPACA_DATA_SECRET`); the exposed key is
+     refused.
+3. **Answer audit and output contract v2** (`decision.py`, `research/runs/2026-11-07-phase5/audit/AUDIT.md`).
+   * Facts cite numbered sentences and the system inserts the text. Reported figures cite the release with a
+     unit. Trade fields are fixed choices.
+   * Verification is unchanged or stricter.
+   * With the 3B model, v2 removed the formatting failures but valid answers fell from 8 to 2 of 30. The small
+     model is ruled out as the researcher.
+4. **A capable model, under a fixed budget** (`providers.py`, `research/runs/2026-11-07-phase5/dev-eval/PLAN.md`).
+   * Recommended: Claude Opus 5.5 at effort `low`, structured outputs, no refusal fallback.
+   * Sample: 160 pre-specified development events on 40 dates.
+   * **Hard ceiling $12.50** (worst case $12.48; expected $5–7), enforced by the program, the account's
+     prepaid credit and a dedicated key.
+   * **Nothing paid has been activated.**
+
+| replay of the same 30 events, local 3B model | contract v1 | contract v2 |
+|---|---:|---:|
+| valid answers | 8 | 2 |
+| format-only failures | 12 | 1 |
+| genuine factual errors (all caught) | 1 | 7 |
+| Brier score (constant base rate: 0.249) | 0.369 | 0.333 |
+
+Files: `research/runs/2026-11-07-phase5/replay-v2-3b/`; each run's `results_protocol_v2.json`.
+
 ## 1. Architecture
 
 ```
@@ -295,8 +338,11 @@ The project's 13 rejected hypotheses and the regulators' population data on reta
 SEC_USER_AGENT="name email" python -m autotrader replay DATA_DIR OUT_DIR --last 30 --llm ollama
 # one forward cycle: observe new 8-K filings, decide, record (prices scored later)
 SEC_USER_AGENT="name email" python -m autotrader forward OUT_DIR --llm ollama
-# unattended forward loop (stops on the kill switch: create OUT_DIR/KILL)
+# unattended forward loop (stops on the kill switch: create OUT_DIR/KILL); scores finished sessions when a
+# rotated market-data key is set (ALPACA_DATA_KEY_ID, ALPACA_DATA_SECRET)
 SEC_USER_AGENT="name email" python -m autotrader daemon OUT_DIR --llm ollama
+python -m autotrader score OUT_DIR                     # score finished sessions once
+python -m autotrader evaluate OUT_DIR/ledger.jsonl     # Q1-Q3 from the ledger (protocol v2)
 python -m autotrader report OUT_DIR/ledger.jsonl [--day YYYY-MM-DD]
 python -m autotrader verify OUT_DIR/ledger.jsonl
 ```

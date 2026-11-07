@@ -209,7 +209,7 @@ def audit_answer_v2(raw: str, items: dict[str, str], kinds: dict[str, str]) -> l
             if r.get("metric") == "revenue" and r.get("unit") == "usd_millions" and abs(v) < 100:
                 out.append("reported_wrong_unit")
         elif any({f"{abs(v) / k:g}", f"{abs(v) / k:.2f}", f"{abs(v) / k:.3f}"} & nums(sents.get(ref, ""))
-                 for k in (1e9, 1e6, 1e3, 1e-3)):
+                 for k in (1e12, 1e9, 1e6, 1e3, 1e-3)):
             out.append("reported_wrong_unit")             # e.g. 2.155e9 written for "$2.155 billion"
         elif forms & rel_nums:
             out.append("reported_wrong_sentence")

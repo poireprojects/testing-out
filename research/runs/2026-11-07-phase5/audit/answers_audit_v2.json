@@ -1,0 +1,581 @@
+{
+ "summary": {
+  "answers": 30,
+  "validV1": 2,
+  "byClass": {
+   "misattributed": 20,
+   "clean": 2,
+   "factual_error": 7,
+   "format_only": 1
+  },
+  "invalidV1ByClass": {
+   "misattributed": 20,
+   "factual_error": 7,
+   "format_only": 1
+  },
+  "findings": {
+   "claim_number_elsewhere": 44,
+   "reported_wrong_unit": 13,
+   "reported_value_absent": 9,
+   "truncated_output": 1,
+   "reported_wrong_sentence": 7
+  }
+ },
+ "answers": [
+  {
+   "ledger": "research/runs/2026-11-07-phase5/replay-v2-3b/ledger.jsonl",
+   "event": "AMZN",
+   "validV1": false,
+   "contract": "2",
+   "v1Problems": [
+    "fact 1: claim states numbers not in its cited sentences (184)",
+    "reported revenue=2.019e+11 does not appear in E1.S4"
+   ],
+   "auditFindings": [
+    [
+     "claim_number_elsewhere",
+     1
+    ],
+    [
+     "reported_wrong_unit",
+     1
+    ]
+   ],
+   "class": "misattributed"
+  },
+  {
+   "ledger": "research/runs/2026-11-07-phase5/replay-v2-3b/ledger.jsonl",
+   "event": "MPWR",
+   "validV1": true,
+   "contract": "2",
+   "v1Problems": [],
+   "auditFindings": [],
+   "class": "clean"
+  },
+  {
+   "ledger": "research/runs/2026-11-07-phase5/replay-v2-3b/ledger.jsonl",
+   "event": "INTC",
+   "validV1": true,
+   "contract": "2",
+   "v1Problems": [],
+   "auditFindings": [],
+   "class": "clean"
+  },
+  {
+   "ledger": "research/runs/2026-11-07-phase5/replay-v2-3b/ledger.jsonl",
+   "event": "RIVN",
+   "validV1": false,
+   "contract": "2",
+   "v1Problems": [
+    "reported revenue=2.155e+09 does not appear in E1.S25"
+   ],
+   "auditFindings": [
+    [
+     "reported_wrong_unit",
+     1
+    ]
+   ],
+   "class": "misattributed"
+  },
+  {
+   "ledger": "research/runs/2026-11-07-phase5/replay-v2-3b/ledger.jsonl",
+   "event": "GILD",
+   "validV1": false,
+   "contract": "2",
+   "v1Problems": [
+    "fact 1: claim states numbers not in its cited sentences (13, 2025, 8.3)"
+   ],
+   "auditFindings": [
+    [
+     "claim_number_elsewhere",
+     3
+    ]
+   ],
+   "class": "misattributed"
+  },
+  {
+   "ledger": "research/runs/2026-11-07-phase5/replay-v2-3b/ledger.jsonl",
+   "event": "DXCM",
+   "validV1": false,
+   "contract": "2",
+   "v1Problems": [
+    "fact 2: claim states numbers not in its cited sentences (1.344, 11)",
+    "reported revenue=1.344e+09 does not appear in E1.S3",
+    "reported revenue=1.346e+08 does not appear in E1.S4"
+   ],
+   "auditFindings": [
+    [
+     "claim_number_elsewhere",
+     2
+    ],
+    [
+     "reported_value_absent",
+     1
+    ],
+    [
+     "reported_wrong_unit",
+     1
+    ]
+   ],
+   "class": "factual_error"
+  },
+  {
+   "ledger": "research/runs/2026-11-07-phase5/replay-v2-3b/ledger.jsonl",
+   "event": "FSLR",
+   "validV1": false,
+   "contract": "2",
+   "v1Problems": [
+    "fact 2: claim states numbers not in its cited sentences (3, 571)",
+    "fact 3: claim states numbers not in its cited sentences (2026, 3)",
+    "fact 4: claim states numbers not in its cited sentences (3)",
+    "reported revenue=1.23e+09 does not appear in E1.S3",
+    "reported revenue=1.23e+09 does not appear in E1.S6"
+   ],
+   "auditFindings": [
+    [
+     "claim_number_elsewhere",
+     5
+    ],
+    [
+     "reported_value_absent",
+     1
+    ],
+    [
+     "reported_wrong_unit",
+     1
+    ]
+   ],
+   "class": "factual_error"
+  },
+  {
+   "ledger": "research/runs/2026-11-07-phase5/replay-v2-3b/ledger.jsonl",
+   "event": "RMD",
+   "validV1": false,
+   "contract": "2",
+   "v1Problems": [
+    "not JSON: Invalid JSON: control character (\\u0000-\\u001F) found while parsing a string at line 2 column 0"
+   ],
+   "auditFindings": [
+    [
+     "truncated_output",
+     1
+    ]
+   ],
+   "class": "format_only"
+  },
+  {
+   "ledger": "research/runs/2026-11-07-phase5/replay-v2-3b/ledger.jsonl",
+   "event": "SBUX",
+   "validV1": false,
+   "contract": "2",
+   "v1Problems": [
+    "fact 1: claim states numbers not in its cited sentences (9.1)"
+   ],
+   "auditFindings": [
+    [
+     "claim_number_elsewhere",
+     1
+    ]
+   ],
+   "class": "misattributed"
+  },
+  {
+   "ledger": "research/runs/2026-11-07-phase5/replay-v2-3b/ledger.jsonl",
+   "event": "EIX",
+   "validV1": false,
+   "contract": "2",
+   "v1Problems": [
+    "reported revenue=738 does not appear in E1.S4",
+    "reported revenue 901 million is not within 3x of the latest filed quarter (4,886 million): wrong unit or period"
+   ],
+   "auditFindings": [
+    [
+     "reported_wrong_sentence",
+     1
+    ]
+   ],
+   "class": "misattributed"
+  },
+  {
+   "ledger": "research/runs/2026-11-07-phase5/replay-v2-3b/ledger.jsonl",
+   "event": "SYK",
+   "validV1": false,
+   "contract": "2",
+   "v1Problems": [
+    "fact 2: claim states numbers not in its cited sentences (2027, 4)"
+   ],
+   "auditFindings": [
+    [
+     "claim_number_elsewhere",
+     2
+    ]
+   ],
+   "class": "misattributed"
+  },
+  {
+   "ledger": "research/runs/2026-11-07-phase5/replay-v2-3b/ledger.jsonl",
+   "event": "TWLO",
+   "validV1": false,
+   "contract": "2",
+   "v1Problems": [
+    "fact 1: claim states numbers not in its cited sentences (3)",
+    "fact 2: claim states numbers not in its cited sentences (1.00, 3)",
+    "fact 3: claim states numbers not in its cited sentences (3, 369.6, 389.2)"
+   ],
+   "auditFindings": [
+    [
+     "claim_number_elsewhere",
+     8
+    ]
+   ],
+   "class": "misattributed"
+  },
+  {
+   "ledger": "research/runs/2026-11-07-phase5/replay-v2-3b/ledger.jsonl",
+   "event": "MDLZ",
+   "validV1": false,
+   "contract": "2",
+   "v1Problems": [
+    "fact 2: claim states numbers not in its cited sentences (34.3, 50.2)",
+    "reported revenue=1.963e+07 does not appear in E1.S11"
+   ],
+   "auditFindings": [
+    [
+     "claim_number_elsewhere",
+     2
+    ],
+    [
+     "reported_value_absent",
+     1
+    ]
+   ],
+   "class": "factual_error"
+  },
+  {
+   "ledger": "research/runs/2026-11-07-phase5/replay-v2-3b/ledger.jsonl",
+   "event": "RBLX",
+   "validV1": false,
+   "contract": "2",
+   "v1Problems": [
+    "reported revenue=1300 does not appear in E1.S4"
+   ],
+   "auditFindings": [
+    [
+     "reported_value_absent",
+     1
+    ]
+   ],
+   "class": "factual_error"
+  },
+  {
+   "ledger": "research/runs/2026-11-07-phase5/replay-v2-3b/ledger.jsonl",
+   "event": "ILMN",
+   "validV1": false,
+   "contract": "2",
+   "v1Problems": [
+    "reported revenue=1.13e+09 does not appear in E1.S3",
+    "reported revenue=1.17e+09 does not appear in E1.S4"
+   ],
+   "auditFindings": [
+    [
+     "reported_wrong_unit",
+     2
+    ]
+   ],
+   "class": "misattributed"
+  },
+  {
+   "ledger": "research/runs/2026-11-07-phase5/replay-v2-3b/ledger.jsonl",
+   "event": "PINS",
+   "validV1": false,
+   "contract": "2",
+   "v1Problems": [
+    "reported revenue=1.174e+09 does not appear in E1.S4"
+   ],
+   "auditFindings": [
+    [
+     "reported_wrong_unit",
+     1
+    ]
+   ],
+   "class": "misattributed"
+  },
+  {
+   "ledger": "research/runs/2026-11-07-phase5/replay-v2-3b/ledger.jsonl",
+   "event": "RDDT",
+   "validV1": false,
+   "contract": "2",
+   "v1Problems": [
+    "fact 1: claim states numbers not in its cited sentences (74)"
+   ],
+   "auditFindings": [
+    [
+     "claim_number_elsewhere",
+     1
+    ]
+   ],
+   "class": "misattributed"
+  },
+  {
+   "ledger": "research/runs/2026-11-07-phase5/replay-v2-3b/ledger.jsonl",
+   "event": "RSG",
+   "validV1": false,
+   "contract": "2",
+   "v1Problems": [
+    "fact 1: claim states numbers not in its cited sentences (592)",
+    "fact 2: claim states numbers not in its cited sentences (2.1, 9.7)"
+   ],
+   "auditFindings": [
+    [
+     "claim_number_elsewhere",
+     3
+    ]
+   ],
+   "class": "misattributed"
+  },
+  {
+   "ledger": "research/runs/2026-11-07-phase5/replay-v2-3b/ledger.jsonl",
+   "event": "AJG",
+   "validV1": false,
+   "contract": "2",
+   "v1Problems": [
+    "fact 4: claim states numbers not in its cited sentences (2026)",
+    "reported revenue 3 million is not within 3x of the latest filed quarter (4,003 million): wrong unit or period",
+    "reported revenue=3 does not appear in E1.S14"
+   ],
+   "auditFindings": [
+    [
+     "claim_number_elsewhere",
+     1
+    ],
+    [
+     "reported_wrong_sentence",
+     1
+    ],
+    [
+     "reported_wrong_unit",
+     1
+    ]
+   ],
+   "class": "misattributed"
+  },
+  {
+   "ledger": "research/runs/2026-11-07-phase5/replay-v2-3b/ledger.jsonl",
+   "event": "DLR",
+   "validV1": false,
+   "contract": "2",
+   "v1Problems": [
+    "fact 3: claim states numbers not in its cited sentences (3.2, 9.8)",
+    "reported revenue=1.587e+09 does not appear in E1.S11",
+    "reported revenue=1.635e+09 does not appear in E1.S14"
+   ],
+   "auditFindings": [
+    [
+     "claim_number_elsewhere",
+     2
+    ],
+    [
+     "reported_value_absent",
+     2
+    ]
+   ],
+   "class": "factual_error"
+  },
+  {
+   "ledger": "research/runs/2026-11-07-phase5/replay-v2-3b/ledger.jsonl",
+   "event": "CVX",
+   "validV1": false,
+   "contract": "2",
+   "v1Problems": [
+    "fact 3: claim states numbers not in its cited sentences (143)",
+    "fact 4: claim states numbers not in its cited sentences (10.4)",
+    "reported revenue=9240 does not appear in E1.S8",
+    "reported revenue=12272 does not appear in E1.S8"
+   ],
+   "auditFindings": [
+    [
+     "claim_number_elsewhere",
+     2
+    ],
+    [
+     "reported_value_absent",
+     2
+    ]
+   ],
+   "class": "factual_error"
+  },
+  {
+   "ledger": "research/runs/2026-11-07-phase5/replay-v2-3b/ledger.jsonl",
+   "event": "LYB",
+   "validV1": false,
+   "contract": "2",
+   "v1Problems": [
+    "fact 1: claim states numbers not in its cited sentences (2.54)",
+    "fact 2: claim states numbers not in its cited sentences (1.4, 1.5)",
+    "fact 4: claim states numbers not in its cited sentences (1.01)",
+    "reported revenue=9177 does not appear in E1.S7"
+   ],
+   "auditFindings": [
+    [
+     "claim_number_elsewhere",
+     4
+    ],
+    [
+     "reported_wrong_sentence",
+     1
+    ]
+   ],
+   "class": "misattributed"
+  },
+  {
+   "ledger": "research/runs/2026-11-07-phase5/replay-v2-3b/ledger.jsonl",
+   "event": "REGN",
+   "validV1": false,
+   "contract": "2",
+   "v1Problems": [
+    "fact 3: claim states numbers not in its cited sentences (51, 550)",
+    "reported revenue=3754 does not appear in E1.S1"
+   ],
+   "auditFindings": [
+    [
+     "claim_number_elsewhere",
+     2
+    ],
+    [
+     "reported_wrong_sentence",
+     1
+    ]
+   ],
+   "class": "misattributed"
+  },
+  {
+   "ledger": "research/runs/2026-11-07-phase5/replay-v2-3b/ledger.jsonl",
+   "event": "KVUE",
+   "validV1": false,
+   "contract": "2",
+   "v1Problems": [
+    "fact 2: claim states numbers not in its cited sentences (4, 5)",
+    "reported revenue=0 does not appear in E1.S9"
+   ],
+   "auditFindings": [
+    [
+     "claim_number_elsewhere",
+     2
+    ],
+    [
+     "reported_value_absent",
+     1
+    ]
+   ],
+   "class": "factual_error"
+  },
+  {
+   "ledger": "research/runs/2026-11-07-phase5/replay-v2-3b/ledger.jsonl",
+   "event": "EXC",
+   "validV1": false,
+   "contract": "2",
+   "v1Problems": [
+    "reported revenue=5 does not appear in E1.S2",
+    "reported revenue=7 does not appear in E1.S4"
+   ],
+   "auditFindings": [
+    [
+     "reported_wrong_sentence",
+     2
+    ]
+   ],
+   "class": "misattributed"
+  },
+  {
+   "ledger": "research/runs/2026-11-07-phase5/replay-v2-3b/ledger.jsonl",
+   "event": "CL",
+   "validV1": false,
+   "contract": "2",
+   "v1Problems": [
+    "reported revenue=5 does not appear in E1.S4"
+   ],
+   "auditFindings": [
+    [
+     "reported_wrong_sentence",
+     1
+    ]
+   ],
+   "class": "misattributed"
+  },
+  {
+   "ledger": "research/runs/2026-11-07-phase5/replay-v2-3b/ledger.jsonl",
+   "event": "CHD",
+   "validV1": false,
+   "contract": "2",
+   "v1Problems": [
+    "reported revenue=1.602e+09 does not appear in E1.S10"
+   ],
+   "auditFindings": [
+    [
+     "reported_wrong_unit",
+     1
+    ]
+   ],
+   "class": "misattributed"
+  },
+  {
+   "ledger": "research/runs/2026-11-07-phase5/replay-v2-3b/ledger.jsonl",
+   "event": "GD",
+   "validV1": false,
+   "contract": "2",
+   "v1Problems": [
+    "fact 3: claim states numbers not in its cited sentences (4.4, 7)",
+    "reported revenue=1.46e+10 does not appear in E1.S3"
+   ],
+   "auditFindings": [
+    [
+     "claim_number_elsewhere",
+     2
+    ],
+    [
+     "reported_wrong_unit",
+     1
+    ]
+   ],
+   "class": "misattributed"
+  },
+  {
+   "ledger": "research/runs/2026-11-07-phase5/replay-v2-3b/ledger.jsonl",
+   "event": "D",
+   "validV1": false,
+   "contract": "2",
+   "v1Problems": [
+    "fact 4: claim states numbers not in its cited sentences (2026)",
+    "reported revenue=1.2e+09 does not appear in E1.S6",
+    "reported revenue=1.1e+09 does not appear in E1.S8"
+   ],
+   "auditFindings": [
+    [
+     "claim_number_elsewhere",
+     1
+    ],
+    [
+     "reported_wrong_unit",
+     2
+    ]
+   ],
+   "class": "misattributed"
+  },
+  {
+   "ledger": "research/runs/2026-11-07-phase5/replay-v2-3b/ledger.jsonl",
+   "event": "ABBV",
+   "validV1": false,
+   "contract": "2",
+   "v1Problems": [
+    "reported revenue=1.7404e+13 does not appear in E1.S15"
+   ],
+   "auditFindings": [
+    [
+     "reported_wrong_unit",
+     1
+    ]
+   ],
+   "class": "misattributed"
+  }
+ ]
+}

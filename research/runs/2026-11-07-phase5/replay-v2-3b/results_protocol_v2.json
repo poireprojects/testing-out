@@ -1,0 +1,64 @@
+{
+ "mode": "replay",
+ "protocol": "2",
+ "countsAsEvidence": false,
+ "Q1_understanding": {
+  "answers": 30,
+  "valid": 2,
+  "modelFailures": 0,
+  "schemaFailures": 1,
+  "quoteNotFound": 0,
+  "numbersNotInQuote": 26,
+  "reportedNotInEvidence": 28,
+  "extraction": {
+   "revenue_usd_millions": {
+    "correct": 0,
+    "checked": 1,
+    "accuracy": 0.0
+   }
+  }
+ },
+ "Q2_prediction": {
+  "n": 29,
+  "noTargetSession": 0,
+  "noPrices": 0,
+  "baseRate": 0.4904,
+  "brierModel": 0.3331172413793103,
+  "brierBaseRate": 0.24909905655172415,
+  "upRate": 0.4482758620689655
+ },
+ "Q3_trading": {
+  "no_trade": {
+   "events": 30,
+   "proposed": 0,
+   "trades": 0,
+   "meanNetPct": null,
+   "totalPnlUsd": 0,
+   "winners": 0
+  },
+  "rule_p4h1": {
+   "events": 30,
+   "proposed": 11,
+   "trades": 2,
+   "meanNetPct": -1.7944317486893622,
+   "totalPnlUsd": -0.717772699475745,
+   "winners": 0
+  },
+  "price_only": {
+   "events": 30,
+   "proposed": 15,
+   "trades": 2,
+   "meanNetPct": -1.7944317486893622,
+   "totalPnlUsd": -0.717772699475745,
+   "winners": 0
+  },
+  "llm": {
+   "events": 30,
+   "proposed": 0,
+   "trades": 0,
+   "meanNetPct": null,
+   "totalPnlUsd": 0,
+   "winners": 0
+  }
+ }
+}
