@@ -1,6 +1,6 @@
-# don’t know what im doing
+# StockPilot
 
-<img src="dkapp/assets/icons/dk.png" width="96" align="right" alt="dk. app icon">
+<img src="stockpilot/assets/icons/stockpilot.png" width="96" align="right" alt="StockPilot app icon">
 
 A personal desktop app that scans ~400 U.S. stocks during market hours, finds day-trade setups with simple
 rule-based strategies, asks an AI for a second opinion, and places trades by itself **only when a separate set of
@@ -29,13 +29,19 @@ Alpaca. Real-money trading stays locked until you explicitly authorize it.
 
 Download the file for your computer and open it:
 
-* **Windows 10/11:** [dontknowwhatimdoing-windows-setup.exe](https://github.com/poireprojects/testing-out/releases/latest/download/dontknowwhatimdoing-windows-setup.exe)
+* **Windows 10/11:** [StockPilot-windows-setup.exe](https://github.com/poireprojects/testing-out/releases/latest/download/StockPilot-windows-setup.exe)
   Double-click it. It installs for your user only (no admin needed), adds a Start menu entry and an optional
   desktop shortcut, then opens the app. If Windows SmartScreen says "unknown publisher", click
   **More info → Run anyway** (the app isn't code-signed; signing certificates cost money).
-* **Mac (Apple Silicon):** [dontknowwhatimdoing-macos.dmg](https://github.com/poireprojects/testing-out/releases/latest/download/dontknowwhatimdoing-macos.dmg)
+* **Mac (Apple Silicon):** [StockPilot-macos.dmg](https://github.com/poireprojects/testing-out/releases/latest/download/StockPilot-macos.dmg)
   Open it and drag the app into **Applications**. The first time only: **right-click the app → Open → Open**
   (it isn't notarized by Apple).
+
+**Already have an earlier version (from before the app was called StockPilot)?** Install this one over it; nothing
+is lost. The Windows installer closes the earlier version only if its own safety check says it is safe (never with
+open positions), then removes its program files and shortcuts. StockPilot carries over your settings, trade
+history, saved keys and launch-at-login. On a Mac, drag StockPilot into Applications: the first time it opens, it
+does the same and moves the earlier app to the Trash.
 
 These links always point to the newest build (the **latest** release on GitHub). If the repository is private,
 sign in to GitHub first.
@@ -57,19 +63,19 @@ Run the guided setup again any time from **settings → about & diagnostics**.
 Install Python 3.12 from python.org, then double-click:
 
 * Windows: `packaging\windows\BUILD-INSTALLER.bat` → installer appears in `dist\installer`.
-* macOS: `packaging/macos/BUILD-APP.command` → `dist/dontknowwhatimdoing-macos.dmg`.
+* macOS: `packaging/macos/BUILD-APP.command` → `dist/StockPilot-macos.dmg`.
 * Linux: `packaging/linux/build_linux.sh` → adds the app to your applications menu.
 </details>
 
 ## Testing it over and over (works on Windows Home)
 
-* **Fresh test copy:** the Start menu has **don’t know what im doing (fresh test)**. It's a separate copy of the app
+* **Fresh test copy:** the Start menu has **StockPilot (fresh test)**. It's a separate copy of the app
   that erases itself every time you open it, so each launch is a brand-new first run: guided setup, no saved keys, no
   history. Your main copy is never touched. (Quit the main copy first, using the tray icon → quit. Only one copy runs
   at a time, so two copies never trade the same account.) On a Mac, run the app with `--profile test --fresh`.
 * **Start over:** settings → **start over** erases the main copy's settings, trade history and saved keys, then
   reopens the guided setup. Your Alpaca account itself isn't changed.
-* **Uninstall:** Windows Settings → Apps → *don’t know what im doing* → Uninstall. It works even while the app is
+* **Uninstall:** Windows Settings → Apps → *StockPilot* → Uninstall. It works even while the app is
   hidden in the tray: the uninstaller asks the app to quit, waits until it has fully exited, and removes the program,
   shortcuts and launch-at-login entry. It then asks **"Keep your settings, trade history, logs and saved API keys?"**
   — **Yes** (the default) keeps them so a reinstall picks up where you left off; **No** deletes all of it, including
@@ -114,7 +120,7 @@ invalid answer, **no AI-dependent trade happens** — or switch *who decides ent
    whose stop would have to be too wide, or that don't suit the market are passed over, and **not trading at all is
    a normal outcome** when nothing clears the bar. The AI Activity page shows every comparison and why each setup
    won or lost.
-4. **Statistical model (shadow).** A small, calibrated model (`dkapp/quant`) estimates every candidate's chance of
+4. **Statistical model (shadow).** A small, calibrated model (`stockpilot/quant`) estimates every candidate's chance of
    making money and its expected result after costs, with an uncertainty band, from the same point-in-time
    features used in research. It ships at **shadow** stage: it shows its estimate on every setup (AI Activity) and
    never changes a trade. It could only ever *block* paper trades, and only if a pre-registered test said it
@@ -414,7 +420,7 @@ They also cover the research tooling:
 
 ## Where things live
 
-* Settings and data: `%LOCALAPPDATA%\dontknowwhatimdoing` (Windows) · `~/Library/Application Support/dontknowwhatimdoing` (macOS)
+* Settings and data: `%LOCALAPPDATA%\StockPilot` (Windows) · `~/Library/Application Support/StockPilot` (macOS)
 * Databases (one per mode: `trading_demo.db`, `trading_paper.db`, `trading_live.db`) and logs: open them from
   **settings → about & diagnostics**.
 * Secrets: only in the OS credential store.
@@ -422,7 +428,7 @@ They also cover the research tooling:
 ## Project layout
 
 ```
-dkapp/
+stockpilot/
   scanner.py          two-stage market scanner
   strategies/         the five rule-based strategies
   analysis/           indicators + causal feature frame
@@ -443,5 +449,5 @@ docs/                 operational status and published results
 tests/                automated tests
 ```
 
-Fonts: Space Grotesk and Inter, both under the SIL Open Font License (licenses in `dkapp/assets/fonts`).
+Fonts: Space Grotesk and Inter, both under the SIL Open Font License (licenses in `stockpilot/assets/fonts`).
 For personal use only.
