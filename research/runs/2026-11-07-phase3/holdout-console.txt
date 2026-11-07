@@ -1,0 +1,12 @@
+{
+ "P3-H2": {
+  "verdict": "rejected",
+  "reasons": [
+   "primary +0.038%/month, Holm p=0.403",
+   "negative with 2x costs",
+   "Sharpe -0.08 below half of buy-and-hold's 0.48"
+  ],
+  "holmP": 0.4026
+ }
+}
+exit 0

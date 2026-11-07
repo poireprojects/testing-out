@@ -85,6 +85,13 @@
    "status": "reserved",
    "by": "phase 3 (registered 2026-11-07, before download)",
    "note": "PHASE-3 HOLDOUT A: the same academic return series, post-publication for the phase-3 mechanisms. Split into separate files at download; development code may not load these rows. Single use after the phase-3 rules are frozen; marker research/HOLDOUT_P3_USED.json."
+  },
+  {
+   "start": "2006-01-03",
+   "end": "2020-07-24",
+   "status": "examined",
+   "by": "phase 3 holdout A run (2026-11-07, commit 7e7edbc)",
+   "note": "Holdout A was used once for P3-H2 (research/HOLDOUT_P3_USED.json). From now on these days are development data only. The only untouched history left is the vault (2020-07-27 to 2022-10-31), still never downloaded."
   }
  ]
 }

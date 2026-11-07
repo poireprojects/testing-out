@@ -1,0 +1,13 @@
+{
+ "firstUsed": "2026-11-07T00:26:50.671663+00:00",
+ "commit": "7e7edbcaa3928a1d77600849b29913ac37780c6f",
+ "days": [
+  "2006-01-03",
+  "2020-07-24"
+ ],
+ "usedFor": [
+  "P3-H2 (turn of the month): the only hypothesis that passed development"
+ ],
+ "outcome": "P3-H2 rejected: +0.038% per window net, Holm p=0.403; negative with 2x costs; Sharpe -0.08 vs buy-and-hold 0.48",
+ "disclosure": "the holdout run also read the 12-industry holdout file into memory (the loader opens both files), but no P3-H1 statistic was computed or looked at; P3-H1 had already been rejected at development"
+}
