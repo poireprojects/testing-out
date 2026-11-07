@@ -1,0 +1,28 @@
+{
+ "dev": {
+  "trades": 805,
+  "tradesPerDay": 3.2329317269076303,
+  "feesPerTradeAsCharged": 0.1,
+  "feesPerTradeDailyAggregated": 0.030931677018633544,
+  "netAsReported": -0.29905593631631033,
+  "netWithDailyAggregation": -0.2299876133349438,
+  "p": 0.9864,
+  "ci90": [
+   -0.3943171836308697,
+   -0.06239584041937114
+  ]
+ },
+ "eval": {
+  "trades": 974,
+  "tradesPerDay": 3.7751937984496124,
+  "feesPerTradeAsCharged": 0.11375770020533882,
+  "feesPerTradeDailyAggregated": 0.029620123203285414,
+  "netAsReported": -0.2722351370954723,
+  "netWithDailyAggregation": -0.18809756009341883,
+  "p": 0.9668,
+  "ci90": [
+   -0.3393670443752598,
+   -0.024712586091147928
+  ]
+ }
+}

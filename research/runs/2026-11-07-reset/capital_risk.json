@@ -1,0 +1,1074 @@
+{
+ "capitalFixes": [
+  {
+   "strategy": "R1 rules + ranker (intraday, 30 min)",
+   "grossPct": 0.042,
+   "spreadSlipPct": 0.13,
+   "byCapital": {
+    "$100": {
+     "position": 20.0,
+     "feesPct": 0.053571428571428575,
+     "impactPct": 0.0008854377448471462,
+     "netPct": -0.14245686631627572
+    },
+    "$500": {
+     "position": 100.0,
+     "feesPct": 0.010714285714285714,
+     "impactPct": 0.0019798989873223327,
+     "netPct": -0.10069418470160804
+    },
+    "$1,000": {
+     "position": 200.0,
+     "feesPct": 0.005357142857142857,
+     "impactPct": 0.0027999999999999995,
+     "netPct": -0.09615714285714284
+    },
+    "$5,000": {
+     "position": 1000.0,
+     "feesPct": 0.0010714285714285715,
+     "impactPct": 0.006260990336999411,
+     "netPct": -0.09533241890842797
+    },
+    "$10,000": {
+     "position": 2000.0,
+     "feesPct": 0.0005357142857142857,
+     "impactPct": 0.008854377448471461,
+     "netPct": -0.09739009173418575
+    },
+    "$25,000": {
+     "position": 5000.0,
+     "feesPct": 0.00021428571428571427,
+     "impactPct": 0.013999999999999999,
+     "netPct": -0.1022142857142857
+    },
+    "$50,000": {
+     "position": 10000.0,
+     "feesPct": 0.00010714285714285714,
+     "impactPct": 0.019798989873223326,
+     "netPct": -0.10790613273036619
+    },
+    "$100,000": {
+     "position": 20000.0,
+     "feesPct": 5.357142857142857e-05,
+     "impactPct": 0.027999999999999997,
+     "netPct": -0.11605357142857142
+    }
+   },
+   "bestPossibleNetPct": -0.088,
+   "capitalFixesIt": false
+  },
+  {
+   "strategy": "R1 H2 relative strength (intraday)",
+   "grossPct": 0.073,
+   "spreadSlipPct": 0.13,
+   "byCapital": {
+    "$100": {
+     "position": 20.0,
+     "feesPct": 0.07894736842105263,
+     "impactPct": 0.0008854377448471462,
+     "netPct": -0.1368328061658998
+    },
+    "$500": {
+     "position": 100.0,
+     "feesPct": 0.015789473684210527,
+     "impactPct": 0.0019798989873223327,
+     "netPct": -0.07476937267153287
+    },
+    "$1,000": {
+     "position": 200.0,
+     "feesPct": 0.007894736842105263,
+     "impactPct": 0.0027999999999999995,
+     "netPct": -0.06769473684210527
+    },
+    "$5,000": {
+     "position": 1000.0,
+     "feesPct": 0.0015789473684210526,
+     "impactPct": 0.006260990336999411,
+     "netPct": -0.06483993770542047
+    },
+    "$10,000": {
+     "position": 2000.0,
+     "feesPct": 0.0007894736842105263,
+     "impactPct": 0.008854377448471461,
+     "netPct": -0.066643851132682
+    },
+    "$25,000": {
+     "position": 5000.0,
+     "feesPct": 0.00031578947368421053,
+     "impactPct": 0.013999999999999999,
+     "netPct": -0.07131578947368422
+    },
+    "$50,000": {
+     "position": 10000.0,
+     "feesPct": 0.00015789473684210527,
+     "impactPct": 0.019798989873223326,
+     "netPct": -0.07695688461006545
+    },
+    "$100,000": {
+     "position": 20000.0,
+     "feesPct": 7.894736842105263e-05,
+     "impactPct": 0.027999999999999997,
+     "netPct": -0.08507894736842106
+    }
+   },
+   "bestPossibleNetPct": -0.05700000000000001,
+   "capitalFixesIt": false
+  },
+  {
+   "strategy": "P2 H1 momentum to close",
+   "grossPct": -0.016,
+   "spreadSlipPct": 0.13,
+   "byCapital": {
+    "$100": {
+     "position": 20.0,
+     "feesPct": 0.0625,
+     "impactPct": 0.0008854377448471462,
+     "netPct": -0.20938543774484716
+    },
+    "$500": {
+     "position": 100.0,
+     "feesPct": 0.0125,
+     "impactPct": 0.0019798989873223327,
+     "netPct": -0.16047989898732237
+    },
+    "$1,000": {
+     "position": 200.0,
+     "feesPct": 0.00625,
+     "impactPct": 0.0027999999999999995,
+     "netPct": -0.15505000000000002
+    },
+    "$5,000": {
+     "position": 1000.0,
+     "feesPct": 0.00125,
+     "impactPct": 0.006260990336999411,
+     "netPct": -0.15351099033699944
+    },
+    "$10,000": {
+     "position": 2000.0,
+     "feesPct": 0.000625,
+     "impactPct": 0.008854377448471461,
+     "netPct": -0.15547937744847146
+    },
+    "$25,000": {
+     "position": 5000.0,
+     "feesPct": 0.00025,
+     "impactPct": 0.013999999999999999,
+     "netPct": -0.16025
+    },
+    "$50,000": {
+     "position": 10000.0,
+     "feesPct": 0.000125,
+     "impactPct": 0.019798989873223326,
+     "netPct": -0.16592398987322332
+    },
+    "$100,000": {
+     "position": 20000.0,
+     "feesPct": 6.25e-05,
+     "impactPct": 0.027999999999999997,
+     "netPct": -0.1740625
+    }
+   },
+   "bestPossibleNetPct": -0.14600000000000002,
+   "capitalFixesIt": false
+  },
+  {
+   "strategy": "P2 H2 gap stocks in play",
+   "grossPct": 0.092,
+   "spreadSlipPct": 0.2,
+   "byCapital": {
+    "$100": {
+     "position": 20.0,
+     "feesPct": 0.15,
+     "impactPct": 0.0017708754896942924,
+     "netPct": -0.2597708754896943
+    },
+    "$500": {
+     "position": 100.0,
+     "feesPct": 0.03,
+     "impactPct": 0.0039597979746446655,
+     "netPct": -0.14195979797464467
+    },
+    "$1,000": {
+     "position": 200.0,
+     "feesPct": 0.015,
+     "impactPct": 0.005599999999999999,
+     "netPct": -0.12860000000000002
+    },
+    "$5,000": {
+     "position": 1000.0,
+     "feesPct": 0.0029999999999999996,
+     "impactPct": 0.012521980673998822,
+     "netPct": -0.12352198067399883
+    },
+    "$10,000": {
+     "position": 2000.0,
+     "feesPct": 0.0014999999999999998,
+     "impactPct": 0.017708754896942923,
+     "netPct": -0.12720875489694294
+    },
+    "$25,000": {
+     "position": 5000.0,
+     "feesPct": 0.0006000000000000001,
+     "impactPct": 0.027999999999999997,
+     "netPct": -0.1366
+    },
+    "$50,000": {
+     "position": 10000.0,
+     "feesPct": 0.00030000000000000003,
+     "impactPct": 0.03959797974644665,
+     "netPct": -0.14789797974644667
+    },
+    "$100,000": {
+     "position": 20000.0,
+     "feesPct": 0.00015000000000000001,
+     "impactPct": 0.055999999999999994,
+     "netPct": -0.16415000000000002
+    }
+   },
+   "bestPossibleNetPct": -0.10800000000000001,
+   "capitalFixesIt": false
+  },
+  {
+   "strategy": "P2 H3 passive limit entry",
+   "grossPct": -0.052,
+   "spreadSlipPct": 0.065,
+   "byCapital": {
+    "$100": {
+     "position": 20.0,
+     "feesPct": 0.06521739130434784,
+     "impactPct": 0.0008854377448471462,
+     "netPct": -0.18310282904919498
+    },
+    "$500": {
+     "position": 100.0,
+     "feesPct": 0.013043478260869566,
+     "impactPct": 0.0019798989873223327,
+     "netPct": -0.1320233772481919
+    },
+    "$1,000": {
+     "position": 200.0,
+     "feesPct": 0.006521739130434783,
+     "impactPct": 0.0027999999999999995,
+     "netPct": -0.1263217391304348
+    },
+    "$5,000": {
+     "position": 1000.0,
+     "feesPct": 0.0013043478260869566,
+     "impactPct": 0.006260990336999411,
+     "netPct": -0.12456533816308636
+    },
+    "$10,000": {
+     "position": 2000.0,
+     "feesPct": 0.0006521739130434783,
+     "impactPct": 0.008854377448471461,
+     "netPct": -0.12650655136151492
+    },
+    "$25,000": {
+     "position": 5000.0,
+     "feesPct": 0.00026086956521739134,
+     "impactPct": 0.013999999999999999,
+     "netPct": -0.13126086956521738
+    },
+    "$50,000": {
+     "position": 10000.0,
+     "feesPct": 0.00013043478260869567,
+     "impactPct": 0.019798989873223326,
+     "netPct": -0.13692942465583202
+    },
+    "$100,000": {
+     "position": 20000.0,
+     "feesPct": 6.521739130434783e-05,
+     "impactPct": 0.027999999999999997,
+     "netPct": -0.14506521739130435
+    }
+   },
+   "bestPossibleNetPct": -0.11699999999999999,
+   "capitalFixesIt": false
+  },
+  {
+   "strategy": "P2 H4 ETFs overnight",
+   "grossPct": 0.052,
+   "spreadSlipPct": 0.13,
+   "byCapital": {
+    "$100": {
+     "position": 20.0,
+     "feesPct": 0.0375,
+     "impactPct": 0.00017708754896942925,
+     "netPct": -0.11567708754896945
+    },
+    "$500": {
+     "position": 100.0,
+     "feesPct": 0.0075,
+     "impactPct": 0.0003959797974644666,
+     "netPct": -0.08589597979746448
+    },
+    "$1,000": {
+     "position": 200.0,
+     "feesPct": 0.00375,
+     "impactPct": 0.00056,
+     "netPct": -0.08231000000000002
+    },
+    "$5,000": {
+     "position": 1000.0,
+     "feesPct": 0.0007499999999999999,
+     "impactPct": 0.001252198067399882,
+     "netPct": -0.0800021980673999
+    },
+    "$10,000": {
+     "position": 2000.0,
+     "feesPct": 0.00037499999999999995,
+     "impactPct": 0.0017708754896942924,
+     "netPct": -0.0801458754896943
+    },
+    "$25,000": {
+     "position": 5000.0,
+     "feesPct": 0.00015000000000000001,
+     "impactPct": 0.0027999999999999995,
+     "netPct": -0.08095000000000001
+    },
+    "$50,000": {
+     "position": 10000.0,
+     "feesPct": 7.500000000000001e-05,
+     "impactPct": 0.0039597979746446655,
+     "netPct": -0.08203479797464469
+    },
+    "$100,000": {
+     "position": 20000.0,
+     "feesPct": 3.7500000000000003e-05,
+     "impactPct": 0.005599999999999999,
+     "netPct": -0.0836375
+    }
+   },
+   "bestPossibleNetPct": -0.07800000000000001,
+   "capitalFixesIt": false
+  },
+  {
+   "strategy": "P4 earnings-day continuation",
+   "grossPct": 0.086,
+   "spreadSlipPct": 0.244,
+   "byCapital": {
+    "$100": {
+     "position": 20.0,
+     "feesPct": 0.039473684210526314,
+     "impactPct": 0.0017708754896942924,
+     "netPct": -0.1992445597002206
+    },
+    "$500": {
+     "position": 100.0,
+     "feesPct": 0.007894736842105263,
+     "impactPct": 0.0039597979746446655,
+     "netPct": -0.16985453481674992
+    },
+    "$1,000": {
+     "position": 200.0,
+     "feesPct": 0.003947368421052632,
+     "impactPct": 0.005599999999999999,
+     "netPct": -0.16754736842105264
+    },
+    "$5,000": {
+     "position": 1000.0,
+     "feesPct": 0.0007894736842105263,
+     "impactPct": 0.012521980673998822,
+     "netPct": -0.17131145435820935
+    },
+    "$10,000": {
+     "position": 2000.0,
+     "feesPct": 0.00039473684210526315,
+     "impactPct": 0.017708754896942923,
+     "netPct": -0.17610349173904818
+    },
+    "$25,000": {
+     "position": 5000.0,
+     "feesPct": 0.00015789473684210527,
+     "impactPct": 0.027999999999999997,
+     "netPct": -0.1861578947368421
+    },
+    "$50,000": {
+     "position": 10000.0,
+     "feesPct": 7.894736842105263e-05,
+     "impactPct": 0.03959797974644665,
+     "netPct": -0.1976769271148677
+    },
+    "$100,000": {
+     "position": 20000.0,
+     "feesPct": 3.9473684210526316e-05,
+     "impactPct": 0.055999999999999994,
+     "netPct": -0.21403947368421053
+    }
+   },
+   "bestPossibleNetPct": -0.158,
+   "capitalFixesIt": false
+  }
+ ],
+ "costDrag": {
+  "intraday, 2 round trips/day, liquid stocks": {
+   "$100": {
+    "costPerRoundTripPct": 0.16875219806739988,
+    "yearlyDragPctOfCapital": 33.750439613479976
+   },
+   "$500": {
+    "costPerRoundTripPct": 0.1403,
+    "yearlyDragPctOfCapital": 28.060000000000002
+   },
+   "$1,000": {
+    "costPerRoundTripPct": 0.13770979797464467,
+    "yearlyDragPctOfCapital": 27.541959594928933
+   },
+   "$5,000": {
+    "costPerRoundTripPct": 0.13960437744847146,
+    "yearlyDragPctOfCapital": 27.920875489694293
+   },
+   "$10,000": {
+    "costPerRoundTripPct": 0.1428969806739988,
+    "yearlyDragPctOfCapital": 28.57939613479976
+   },
+   "$25,000": {
+    "costPerRoundTripPct": 0.14994898987322333,
+    "yearlyDragPctOfCapital": 29.989797974644667
+   },
+   "$50,000": {
+    "costPerRoundTripPct": 0.158075,
+    "yearlyDragPctOfCapital": 31.615
+   },
+   "$100,000": {
+    "costPerRoundTripPct": 0.16963547974644666,
+    "yearlyDragPctOfCapital": 33.92709594928933
+   }
+  },
+  "intraday on news stocks (phase 4 costs)": {
+   "$100": {
+    "costPerRoundTripPct": 0.2840043961347997,
+    "yearlyDragPctOfCapital": 56.80087922695994
+   },
+   "$500": {
+    "costPerRoundTripPct": 0.2571,
+    "yearlyDragPctOfCapital": 51.42
+   },
+   "$1,000": {
+    "costPerRoundTripPct": 0.25566959594928934,
+    "yearlyDragPctOfCapital": 51.13391918985787
+   },
+   "$5,000": {
+    "costPerRoundTripPct": 0.2624587548969429,
+    "yearlyDragPctOfCapital": 52.491750979388584
+   },
+   "$10,000": {
+    "costPerRoundTripPct": 0.26941896134799764,
+    "yearlyDragPctOfCapital": 53.88379226959953
+   },
+   "$25,000": {
+    "costPerRoundTripPct": 0.28374797974644667,
+    "yearlyDragPctOfCapital": 56.749595949289336
+   },
+   "$50,000": {
+    "costPerRoundTripPct": 0.300075,
+    "yearlyDragPctOfCapital": 60.01499999999999
+   },
+   "$100,000": {
+    "costPerRoundTripPct": 0.3232334594928933,
+    "yearlyDragPctOfCapital": 64.64669189857865
+   }
+  },
+  "swing, ~1 round trip/week": {
+   "$100": {
+    "costPerRoundTripPct": 0.19140000000000001,
+    "yearlyDragPctOfCapital": 4.785
+   },
+   "$500": {
+    "costPerRoundTripPct": 0.1451304951684997,
+    "yearlyDragPctOfCapital": 3.628262379212493
+   },
+   "$1,000": {
+    "costPerRoundTripPct": 0.14042718872423574,
+    "yearlyDragPctOfCapital": 3.5106797181058935
+   },
+   "$5,000": {
+    "costPerRoundTripPct": 0.14109949493661167,
+    "yearlyDragPctOfCapital": 3.527487373415292
+   },
+   "$10,000": {
+    "costPerRoundTripPct": 0.1446,
+    "yearlyDragPctOfCapital": 3.615
+   },
+   "$25,000": {
+    "costPerRoundTripPct": 0.15237594362117865,
+    "yearlyDragPctOfCapital": 3.809398590529466
+   },
+   "$50,000": {
+    "costPerRoundTripPct": 0.16142495168499707,
+    "yearlyDragPctOfCapital": 4.035623792124927
+   },
+   "$100,000": {
+    "costPerRoundTripPct": 0.17433188724235732,
+    "yearlyDragPctOfCapital": 4.358297181058933
+   }
+  },
+  "monthly rebalance of ETFs, 50% turnover": {
+   "$100": {
+    "costPerRoundTripPct": 0.09028,
+    "yearlyDragPctOfCapital": 0.5416799999999999
+   },
+   "$500": {
+    "costPerRoundTripPct": 0.04262609903369994,
+    "yearlyDragPctOfCapital": 0.25575659420219965
+   },
+   "$1,000": {
+    "costPerRoundTripPct": 0.03688543774484714,
+    "yearlyDragPctOfCapital": 0.22131262646908284
+   },
+   "$5,000": {
+    "costPerRoundTripPct": 0.033179898987322334,
+    "yearlyDragPctOfCapital": 0.199079393923934
+   },
+   "$10,000": {
+    "costPerRoundTripPct": 0.0334,
+    "yearlyDragPctOfCapital": 0.2004
+   },
+   "$25,000": {
+    "costPerRoundTripPct": 0.03466718872423573,
+    "yearlyDragPctOfCapital": 0.20800313234541437
+   },
+   "$50,000": {
+    "costPerRoundTripPct": 0.03638099033699941,
+    "yearlyDragPctOfCapital": 0.21828594202199647
+   },
+   "$100,000": {
+    "costPerRoundTripPct": 0.03891437744847146,
+    "yearlyDragPctOfCapital": 0.23348626469082878
+   }
+  }
+ },
+ "income": {
+  "capitalNeeded": {
+   "4% sustainable withdrawal (spending rule, diversified portfolio)": {
+    "$1,000/month": 300000.0,
+    "$3,000/month": 900000.0,
+    "$5,000/month": 1500000.0
+   },
+   "7% (long-run real-ish equity return; US 1926-2020 nominal was ~9-10%)": {
+    "$1,000/month": 171428.57142857142,
+    "$3,000/month": 514285.71428571426,
+    "$5,000/month": 857142.857142857
+   },
+   "10% (equity nominal long-run, with 50-84% historical drawdowns)": {
+    "$1,000/month": 120000.0,
+    "$3,000/month": 360000.0,
+    "$5,000/month": 600000.0
+   },
+   "20% (top-decile hedge fund year; not sustained by any verifiable retail record)": {
+    "$1,000/month": 60000.0,
+    "$3,000/month": 180000.0,
+    "$5,000/month": 300000.0
+   },
+   "60%/yr = 5%/month (claimed by many bot vendors; no verified long record)": {
+    "$1,000/month": 20000.0,
+    "$3,000/month": 60000.0,
+    "$5,000/month": 100000.0
+   }
+  },
+  "requiredReturnByCapital": {
+   "$100": {
+    "$1,000/month": 12000.0,
+    "$3,000/month": 36000.0,
+    "$5,000/month": 60000.0
+   },
+   "$500": {
+    "$1,000/month": 2400.0,
+    "$3,000/month": 7200.0,
+    "$5,000/month": 12000.0
+   },
+   "$1,000": {
+    "$1,000/month": 1200.0,
+    "$3,000/month": 3600.0,
+    "$5,000/month": 6000.0
+   },
+   "$5,000": {
+    "$1,000/month": 240.0,
+    "$3,000/month": 720.0,
+    "$5,000/month": 1200.0
+   },
+   "$10,000": {
+    "$1,000/month": 120.0,
+    "$3,000/month": 360.0,
+    "$5,000/month": 600.0
+   },
+   "$25,000": {
+    "$1,000/month": 48.0,
+    "$3,000/month": 144.0,
+    "$5,000/month": 240.0
+   },
+   "$50,000": {
+    "$1,000/month": 24.0,
+    "$3,000/month": 72.0,
+    "$5,000/month": 120.0
+   },
+   "$100,000": {
+    "$1,000/month": 12.0,
+    "$3,000/month": 36.0,
+    "$5,000/month": 60.0
+   }
+  }
+ },
+ "monteCarlo": [
+  {
+   "edgeR": -0.07,
+   "riskPerTrade": 0.0025,
+   "tradesPerYear": 250,
+   "impliedAnnualSharpe": -0.8359800712264055,
+   "annualReturnMedianPct": -4.508731555296691,
+   "annualReturnMeanPct": -4.261222847423958,
+   "annualReturnP05Pct": -12.135279478939562,
+   "annualReturnP95Pct": 4.389129080848859,
+   "monthReturnP05Pct": -2.6031475803118145,
+   "monthReturnMedianPct": -0.4419950364811409,
+   "monthReturnP95Pct": 2.2267453548843212,
+   "pLosingMonth": 0.6160966666666666,
+   "pLosingYear": 0.80564,
+   "maxDrawdown5yMedianPct": 24.08104944995294,
+   "maxDrawdown5yP95Pct": 35.97119055353797,
+   "pDrawdown25": 0.4564,
+   "pDrawdown50": 0.0002,
+   "pDrawdown90": 0.0,
+   "longestLosingStreakMedian": 8.0,
+   "longestLosingStreakP95": 12.0,
+   "endingWealth5yMedian": 0.7976300340318287
+  },
+  {
+   "edgeR": -0.07,
+   "riskPerTrade": 0.005,
+   "tradesPerYear": 250,
+   "impliedAnnualSharpe": -0.8359800712264055,
+   "annualReturnMedianPct": -9.05444661827428,
+   "annualReturnMeanPct": -8.339071469727823,
+   "annualReturnP05Pct": -22.970306918671756,
+   "annualReturnP95Pct": 8.624403518289132,
+   "monthReturnP05Pct": -5.151461494941974,
+   "monthReturnMedianPct": -0.9014881017445131,
+   "monthReturnP95Pct": 4.467235717797553,
+   "pLosingMonth": 0.6189933333333333,
+   "pLosingYear": 0.81348,
+   "maxDrawdown5yMedianPct": 42.963487277160866,
+   "maxDrawdown5yP95Pct": 59.44928296031294,
+   "pDrawdown25": 0.9376,
+   "pDrawdown50": 0.2666,
+   "pDrawdown90": 0.0,
+   "longestLosingStreakMedian": 8.0,
+   "longestLosingStreakP95": 12.0,
+   "endingWealth5yMedian": 0.6278341908664378
+  },
+  {
+   "edgeR": -0.07,
+   "riskPerTrade": 0.01,
+   "tradesPerYear": 250,
+   "impliedAnnualSharpe": -0.8359800712264055,
+   "annualReturnMedianPct": -18.178188348615098,
+   "annualReturnMeanPct": -15.975775553651708,
+   "annualReturnP05Pct": -41.21720979948459,
+   "annualReturnP95Pct": 16.487133274501716,
+   "monthReturnP05Pct": -10.087480919301123,
+   "monthReturnMedianPct": -1.8735846229018638,
+   "monthReturnP95Pct": 8.987192292021884,
+   "pLosingMonth": 0.6243933333333334,
+   "pLosingYear": 0.82792,
+   "maxDrawdown5yMedianPct": 68.89491475441709,
+   "maxDrawdown5yP95Pct": 84.30664034909212,
+   "pDrawdown25": 0.9992,
+   "pDrawdown50": 0.896,
+   "pDrawdown90": 0.0036,
+   "longestLosingStreakMedian": 8.0,
+   "longestLosingStreakP95": 12.0,
+   "endingWealth5yMedian": 0.3733483777031607
+  },
+  {
+   "edgeR": -0.07,
+   "riskPerTrade": 0.02,
+   "tradesPerYear": 250,
+   "impliedAnnualSharpe": -0.8359800712264055,
+   "annualReturnMedianPct": -35.79453043222968,
+   "annualReturnMeanPct": -29.37276734196155,
+   "annualReturnP05Pct": -66.68490072177282,
+   "annualReturnP95Pct": 29.07977498438899,
+   "monthReturnP05Pct": -19.339767518796176,
+   "monthReturnMedianPct": -4.0145390149965765,
+   "monthReturnP95Pct": 18.149775352137677,
+   "pLosingMonth": 0.6351566666666667,
+   "pLosingYear": 0.85276,
+   "maxDrawdown5yMedianPct": 91.90349860842258,
+   "maxDrawdown5yP95Pct": 97.93844516398251,
+   "pDrawdown25": 1.0,
+   "pDrawdown50": 0.9982,
+   "pDrawdown90": 0.605,
+   "longestLosingStreakMedian": 8.0,
+   "longestLosingStreakP95": 12.0,
+   "endingWealth5yMedian": 0.11250482001992239
+  },
+  {
+   "edgeR": -0.07,
+   "riskPerTrade": 0.05,
+   "tradesPerYear": 250,
+   "impliedAnnualSharpe": -0.8359800712264055,
+   "annualReturnMedianPct": -75.56191324747381,
+   "annualReturnMeanPct": -57.90105068530755,
+   "annualReturnP05Pct": -95.13387677315399,
+   "annualReturnP95Pct": 34.348485701034576,
+   "monthReturnP05Pct": -42.53650833464601,
+   "monthReturnMedianPct": -11.763003691074857,
+   "monthReturnP95Pct": 46.18104786576409,
+   "pLosingMonth": 0.6668466666666667,
+   "pLosingYear": 0.91396,
+   "maxDrawdown5yMedianPct": 99.95111147980164,
+   "maxDrawdown5yP95Pct": 99.9984829106754,
+   "pDrawdown25": 1.0,
+   "pDrawdown50": 1.0,
+   "pDrawdown90": 0.9972,
+   "longestLosingStreakMedian": 8.0,
+   "longestLosingStreakP95": 12.0,
+   "endingWealth5yMedian": 0.0009289649716831029
+  },
+  {
+   "edgeR": 0.0,
+   "riskPerTrade": 0.0025,
+   "tradesPerYear": 250,
+   "impliedAnnualSharpe": 0.0,
+   "annualReturnMedianPct": -0.2793256840425751,
+   "annualReturnMeanPct": 0.022742802948097725,
+   "annualReturnP05Pct": -8.930704142725503,
+   "annualReturnP95Pct": 9.913869288239642,
+   "monthReturnP05Pct": -2.458589437324937,
+   "monthReturnMedianPct": -0.11015844889997184,
+   "monthReturnP95Pct": 2.8338183669085715,
+   "pLosingMonth": 0.5269966666666667,
+   "pLosingYear": 0.51844,
+   "maxDrawdown5yMedianPct": 13.508691393016786,
+   "maxDrawdown5yP95Pct": 24.46073694377785,
+   "pDrawdown25": 0.0426,
+   "pDrawdown50": 0.0,
+   "pDrawdown90": 0.0,
+   "longestLosingStreakMedian": 8.0,
+   "longestLosingStreakP95": 12.0,
+   "endingWealth5yMedian": 0.9912425025378497
+  },
+  {
+   "edgeR": 0.0,
+   "riskPerTrade": 0.005,
+   "tradesPerYear": 250,
+   "impliedAnnualSharpe": 0.0,
+   "annualReturnMedianPct": -0.875495036714391,
+   "annualReturnMeanPct": 0.04887081232959357,
+   "annualReturnP05Pct": -17.29386370870286,
+   "annualReturnP95Pct": 20.364077303532106,
+   "monthReturnP05Pct": -4.8704746073301095,
+   "monthReturnMedianPct": -0.24402697016619457,
+   "monthReturnP95Pct": 5.7005837806416855,
+   "pLosingMonth": 0.5299533333333334,
+   "pLosingYear": 0.52976,
+   "maxDrawdown5yMedianPct": 25.684073551273055,
+   "maxDrawdown5yP95Pct": 43.578906204239395,
+   "pDrawdown25": 0.529,
+   "pDrawdown50": 0.0138,
+   "pDrawdown90": 0.0,
+   "longestLosingStreakMedian": 8.0,
+   "longestLosingStreakP95": 12.0,
+   "endingWealth5yMedian": 0.9665949155561127
+  },
+  {
+   "edgeR": 0.0,
+   "riskPerTrade": 0.01,
+   "tradesPerYear": 250,
+   "impliedAnnualSharpe": 0.0,
+   "annualReturnMedianPct": -2.9717949078431394,
+   "annualReturnMeanPct": 0.11198211884839743,
+   "annualReturnP05Pct": -32.33385086438635,
+   "annualReturnP95Pct": 42.70952843602274,
+   "monthReturnP05Pct": -9.555045869224271,
+   "monthReturnMedianPct": -0.580356958272582,
+   "monthReturnP95Pct": 11.539015787176623,
+   "pLosingMonth": 0.5358033333333333,
+   "pLosingYear": 0.55208,
+   "maxDrawdown5yMedianPct": 46.215614684628555,
+   "maxDrawdown5yP95Pct": 69.66166482380031,
+   "pDrawdown25": 0.9702,
+   "pDrawdown50": 0.4084,
+   "pDrawdown90": 0.0,
+   "longestLosingStreakMedian": 8.0,
+   "longestLosingStreakP95": 12.0,
+   "endingWealth5yMedian": 0.8762500917187204
+  },
+  {
+   "edgeR": 0.0,
+   "riskPerTrade": 0.02,
+   "tradesPerYear": 250,
+   "impliedAnnualSharpe": 0.0,
+   "annualReturnMedianPct": -10.427174535416306,
+   "annualReturnMeanPct": 0.28760070627402873,
+   "annualReturnP05Pct": -56.04307611815492,
+   "annualReturnP95Pct": 92.04538316598348,
+   "monthReturnP05Pct": -18.38994202003617,
+   "monthReturnMedianPct": -1.510097843016961,
+   "monthReturnP95Pct": 23.59552506553144,
+   "pLosingMonth": 0.5469733333333333,
+   "pLosingYear": 0.5946,
+   "maxDrawdown5yMedianPct": 74.34153679572894,
+   "maxDrawdown5yP95Pct": 92.26450966283448,
+   "pDrawdown25": 1.0,
+   "pDrawdown50": 0.9412,
+   "pDrawdown90": 0.0938,
+   "longestLosingStreakMedian": 8.0,
+   "longestLosingStreakP95": 12.0,
+   "endingWealth5yMedian": 0.5979542245724847
+  },
+  {
+   "edgeR": 0.0,
+   "riskPerTrade": 0.05,
+   "tradesPerYear": 250,
+   "impliedAnnualSharpe": 0.0,
+   "annualReturnMedianPct": -46.632292966264046,
+   "annualReturnMeanPct": 1.4218336589577887,
+   "annualReturnP05Pct": -90.61296746909856,
+   "annualReturnP95Pct": 237.1004899923501,
+   "monthReturnP05Pct": -40.9024722213259,
+   "monthReturnMedianPct": -6.233597082430031,
+   "monthReturnP95Pct": 62.20464641631666,
+   "pLosingMonth": 0.5818466666666666,
+   "pLosingYear": 0.71356,
+   "maxDrawdown5yMedianPct": 98.85520605891757,
+   "maxDrawdown5yP95Pct": 99.95772344635968,
+   "pDrawdown25": 1.0,
+   "pDrawdown50": 1.0,
+   "pDrawdown90": 0.9256,
+   "longestLosingStreakMedian": 8.0,
+   "longestLosingStreakP95": 12.0,
+   "endingWealth5yMedian": 0.04678822024632183
+  },
+  {
+   "edgeR": 0.05,
+   "riskPerTrade": 0.0025,
+   "tradesPerYear": 250,
+   "impliedAnnualSharpe": 0.5142426107625756,
+   "annualReturnMedianPct": 2.839937672081072,
+   "annualReturnMeanPct": 3.1991244850780878,
+   "annualReturnP05Pct": -6.573528691330188,
+   "annualReturnP95Pct": 14.027062182180853,
+   "monthReturnP05Pct": -2.355411000465052,
+   "monthReturnMedianPct": 0.12921787364025272,
+   "monthReturnP95Pct": 3.2724426269492284,
+   "pLosingMonth": 0.46946666666666664,
+   "pLosingYear": 0.319,
+   "maxDrawdown5yMedianPct": 9.927847747621875,
+   "maxDrawdown5yP95Pct": 17.870036846690546,
+   "pDrawdown25": 0.0044,
+   "pDrawdown50": 0.0,
+   "pDrawdown90": 0.0,
+   "longestLosingStreakMedian": 8.0,
+   "longestLosingStreakP95": 12.0,
+   "endingWealth5yMedian": 1.1576898470265793
+  },
+  {
+   "edgeR": 0.05,
+   "riskPerTrade": 0.005,
+   "tradesPerYear": 250,
+   "impliedAnnualSharpe": 0.5142426107625756,
+   "annualReturnMedianPct": 5.377895890241813,
+   "annualReturnMeanPct": 6.504321981633679,
+   "annualReturnP05Pct": -12.972814310263042,
+   "annualReturnP95Pct": 29.47355082155585,
+   "monthReturnP05Pct": -4.670317840441762,
+   "monthReturnMedianPct": 0.23242469630880835,
+   "monthReturnP95Pct": 6.5979912719725515,
+   "pLosingMonth": 0.47224333333333335,
+   "pLosingYear": 0.32996,
+   "maxDrawdown5yMedianPct": 19.123502602358794,
+   "maxDrawdown5yP95Pct": 33.0388404180991,
+   "pDrawdown25": 0.2178,
+   "pDrawdown50": 0.0004,
+   "pDrawdown90": 0.0,
+   "longestLosingStreakMedian": 8.0,
+   "longestLosingStreakP95": 12.0,
+   "endingWealth5yMedian": 1.3160760922027048
+  },
+  {
+   "edgeR": 0.05,
+   "riskPerTrade": 0.01,
+   "tradesPerYear": 250,
+   "impliedAnnualSharpe": 0.5142426107625756,
+   "annualReturnMedianPct": 9.505530859170165,
+   "annualReturnMeanPct": 13.448597408424797,
+   "annualReturnP05Pct": -25.17291040923299,
+   "annualReturnP95Pct": 64.79398266464342,
+   "monthReturnP05Pct": -9.176916927197283,
+   "monthReturnMedianPct": 0.35980048254394825,
+   "monthReturnP95Pct": 13.404510210292313,
+   "pLosingMonth": 0.47864666666666666,
+   "pLosingYear": 0.35136,
+   "maxDrawdown5yMedianPct": 35.491216612022406,
+   "maxDrawdown5yP95Pct": 56.51180032405663,
+   "pDrawdown25": 0.8894,
+   "pDrawdown50": 0.131,
+   "pDrawdown90": 0.0,
+   "longestLosingStreakMedian": 8.0,
+   "longestLosingStreakP95": 12.0,
+   "endingWealth5yMedian": 1.6108119387311663
+  },
+  {
+   "edgeR": 0.05,
+   "riskPerTrade": 0.02,
+   "tradesPerYear": 250,
+   "impliedAnnualSharpe": 0.5142426107625756,
+   "annualReturnMedianPct": 13.452197968965883,
+   "annualReturnMeanPct": 28.79336235333913,
+   "annualReturnP05Pct": -46.60770670801014,
+   "annualReturnP95Pct": 154.10048737844932,
+   "monthReturnP05Pct": -17.716849061005927,
+   "monthReturnMedianPct": 0.3083277966431264,
+   "monthReturnP95Pct": 27.623492626267826,
+   "pLosingMonth": 0.49079666666666666,
+   "pLosingYear": 0.39464,
+   "maxDrawdown5yMedianPct": 60.68422614642457,
+   "maxDrawdown5yP95Pct": 83.65525183520627,
+   "pDrawdown25": 1.0,
+   "pDrawdown50": 0.7914,
+   "pDrawdown90": 0.0118,
+   "longestLosingStreakMedian": 8.0,
+   "longestLosingStreakP95": 12.0,
+   "endingWealth5yMedian": 1.961933636552181
+  },
+  {
+   "edgeR": 0.05,
+   "riskPerTrade": 0.05,
+   "tradesPerYear": 250,
+   "impliedAnnualSharpe": 0.5142426107625756,
+   "annualReturnMedianPct": -7.349695925047362,
+   "annualReturnMeanPct": 89.75923679379927,
+   "annualReturnP05Pct": -85.1372702419255,
+   "annualReturnP95Pct": 546.8100428097946,
+   "monthReturnP05Pct": -39.70889839401409,
+   "monthReturnMedianPct": -2.135611399275017,
+   "monthReturnP95Pct": 74.62715941978217,
+   "pLosingMonth": 0.52625,
+   "pLosingYear": 0.52548,
+   "maxDrawdown5yMedianPct": 94.8750561798696,
+   "maxDrawdown5yP95Pct": 99.67632303221473,
+   "pDrawdown25": 1.0,
+   "pDrawdown50": 1.0,
+   "pDrawdown90": 0.7242,
+   "longestLosingStreakMedian": 8.0,
+   "longestLosingStreakP95": 12.0,
+   "endingWealth5yMedian": 0.7439157830463676
+  },
+  {
+   "edgeR": 0.1,
+   "riskPerTrade": 0.0025,
+   "tradesPerYear": 250,
+   "impliedAnnualSharpe": 0.9717856082664184,
+   "annualReturnMedianPct": 6.075656235540117,
+   "annualReturnMeanPct": 6.47597923507323,
+   "annualReturnP05Pct": -4.164364187420809,
+   "annualReturnP95Pct": 18.327516695205446,
+   "monthReturnP05Pct": -2.2526390986029545,
+   "monthReturnMedianPct": 0.36797295012825915,
+   "monthReturnP95Pct": 3.7140323382100835,
+   "pLosingMonth": 0.41823333333333335,
+   "pLosingYear": 0.17192,
+   "maxDrawdown5yMedianPct": 8.123457715065246,
+   "maxDrawdown5yP95Pct": 14.084254917462028,
+   "pDrawdown25": 0.0,
+   "pDrawdown50": 0.0,
+   "pDrawdown90": 0.0,
+   "longestLosingStreakMedian": 8.0,
+   "longestLosingStreakP95": 12.0,
+   "endingWealth5yMedian": 1.351994196002262
+  },
+  {
+   "edgeR": 0.1,
+   "riskPerTrade": 0.005,
+   "tradesPerYear": 250,
+   "impliedAnnualSharpe": 0.9717856082664184,
+   "annualReturnMedianPct": 12.04972454532921,
+   "annualReturnMeanPct": 13.374609017169004,
+   "annualReturnP05Pct": -8.451789288232767,
+   "annualReturnP95Pct": 39.33870634034701,
+   "monthReturnP05Pct": -4.470305145484986,
+   "monthReturnMedianPct": 0.7067484861928319,
+   "monthReturnP95Pct": 7.499808376091926,
+   "pLosingMonth": 0.42123333333333335,
+   "pLosingYear": 0.17944,
+   "maxDrawdown5yMedianPct": 15.756572448913008,
+   "maxDrawdown5yP95Pct": 26.47028145776916,
+   "pDrawdown25": 0.0732,
+   "pDrawdown50": 0.0,
+   "pDrawdown90": 0.0,
+   "longestLosingStreakMedian": 8.0,
+   "longestLosingStreakP95": 12.0,
+   "endingWealth5yMedian": 1.7911185572901687
+  },
+  {
+   "edgeR": 0.1,
+   "riskPerTrade": 0.01,
+   "tradesPerYear": 250,
+   "impliedAnnualSharpe": 0.9717856082664184,
+   "annualReturnMedianPct": 23.58270066806195,
+   "annualReturnMeanPct": 28.554273880334417,
+   "annualReturnP05Pct": -17.274197431485952,
+   "annualReturnP95Pct": 90.42209845463046,
+   "monthReturnP05Pct": -8.800748850348455,
+   "monthReturnMedianPct": 1.3023886980933264,
+   "monthReturnP95Pct": 15.297283797942828,
+   "pLosingMonth": 0.4273033333333333,
+   "pLosingYear": 0.19608,
+   "maxDrawdown5yMedianPct": 29.589502309084498,
+   "maxDrawdown5yP95Pct": 46.94807775914634,
+   "pDrawdown25": 0.7388,
+   "pDrawdown50": 0.0292,
+   "pDrawdown90": 0.0,
+   "longestLosingStreakMedian": 8.0,
+   "longestLosingStreakP95": 12.0,
+   "endingWealth5yMedian": 2.956941360065761
+  },
+  {
+   "edgeR": 0.1,
+   "riskPerTrade": 0.02,
+   "tradesPerYear": 250,
+   "impliedAnnualSharpe": 0.9717856082664184,
+   "annualReturnMedianPct": 43.576808400247515,
+   "annualReturnMeanPct": 65.36320623790563,
+   "annualReturnP05Pct": -35.03429126158275,
+   "annualReturnP95Pct": 236.4258643973661,
+   "monthReturnP05Pct": -17.042246710350188,
+   "monthReturnMedianPct": 2.157805069492791,
+   "monthReturnP95Pct": 31.774045549771113,
+   "pLosingMonth": 0.4393566666666667,
+   "pLosingYear": 0.23036,
+   "maxDrawdown5yMedianPct": 52.278048828937294,
+   "maxDrawdown5yP95Pct": 73.93215593969927,
+   "pDrawdown25": 1.0,
+   "pDrawdown50": 0.5806,
+   "pDrawdown90": 0.0006,
+   "longestLosingStreakMedian": 8.0,
+   "longestLosingStreakP95": 12.0,
+   "endingWealth5yMedian": 6.405797569912856
+  },
+  {
+   "edgeR": 0.1,
+   "riskPerTrade": 0.05,
+   "tradesPerYear": 250,
+   "impliedAnnualSharpe": 0.9717856082664184,
+   "annualReturnMedianPct": 60.380251714888225,
+   "annualReturnMeanPct": 254.58340142833816,
+   "annualReturnP05Pct": -76.56931930499331,
+   "annualReturnP95Pct": 1136.9623867061591,
+   "monthReturnP05Pct": -38.52079777097675,
+   "monthReturnMedianPct": 2.128794016189972,
+   "monthReturnP95Pct": 87.88032662679677,
+   "pLosingMonth": 0.47496,
+   "pLosingYear": 0.34696,
+   "maxDrawdown5yMedianPct": 88.89618306504848,
+   "maxDrawdown5yP95Pct": 98.43819830229481,
+   "pDrawdown25": 1.0,
+   "pDrawdown50": 1.0,
+   "pDrawdown90": 0.4524,
+   "longestLosingStreakMedian": 8.0,
+   "longestLosingStreakP95": 12.0,
+   "endingWealth5yMedian": 11.582895871228777
+  }
+ ]
+}
