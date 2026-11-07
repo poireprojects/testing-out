@@ -21,10 +21,10 @@ import pandas as pd
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
-from dkapp.research.academic import load_series, market_total_return, price_index, segments  # noqa: E402
-from dkapp.research.factors import (forward_returns, ic_summary, momentum, month_ends, quantile_spread,  # noqa: E402
+from stockpilot.research.academic import load_series, market_total_return, price_index, segments  # noqa: E402
+from stockpilot.research.factors import (forward_returns, ic_summary, momentum, month_ends, quantile_spread,  # noqa: E402
                                     rank_ic, top_k_turnover, trend, volatility, week_ends, breadth)
-from dkapp.risk.fees import CostModel  # noqa: E402
+from stockpilot.risk.fees import CostModel  # noqa: E402
 
 SPREAD_BPS, SLIP_BPS = 3.0, 5.0          # the app's standard cost model (quoted spread, slippage per side)
 PER_SIDE = (SPREAD_BPS / 2 + SLIP_BPS) / 1e4
