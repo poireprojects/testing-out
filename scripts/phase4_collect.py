@@ -102,20 +102,35 @@ def stage_events(data: Path) -> None:
     (data / "companies.json").write_text(json.dumps(companies, indent=1))
     print(f"{len(companies)} operating companies; {sum(len(c['filings']) for c in companies.values())} Item 2.02 8-Ks", flush=True)
     events, k = [], 0
+    ncache = data / "news_cache"
+    ncache.mkdir(exist_ok=True)
     for s, c in companies.items():
         for f in c["filings"]:
             acc = datetime.fromisoformat(f["acceptance"])
             start = acc - timedelta(hours=18)
             guard(start.date())
-            pace()
-            try:
-                res = nc.get_news(NewsRequest(symbols=s, start=start, end=acc + timedelta(minutes=15), limit=50, include_content=False))
-                items = res.data.get("news", [])
-            except Exception as exc:
-                print("  news error", s, str(exc)[:100], flush=True)
-                continue
-            news = sorted([{"created": n.created_at.astimezone(ET).isoformat(), "headline": n.headline} for n in items],
-                          key=lambda x: x["created"])
+            cpath = ncache / f"{f['accession']}.json"
+            if cpath.exists():
+                news = json.loads(cpath.read_text())
+            else:
+                news = None
+                for attempt in range(6):                    # rate limits: wait and retry, never drop a filing
+                    pace()
+                    try:
+                        res = nc.get_news(NewsRequest(symbols=s, start=start, end=acc + timedelta(minutes=15), limit=50,
+                                                      include_content=False))
+                        items = res.data.get("news", [])
+                        news = sorted([{"created": n.created_at.astimezone(ET).isoformat(), "headline": n.headline}
+                                       for n in items], key=lambda x: x["created"])
+                        break
+                    except Exception as exc:
+                        print("  news retry", s, attempt + 1, str(exc)[:80], flush=True)
+                        time.sleep(5 * (attempt + 1))
+                if news is None:
+                    print("  news FAILED (kept as a gap, reported)", s, f["accession"], flush=True)
+                    events.append({"symbol": s, **f, "flash": None, "newsFailed": True})
+                    continue
+                cpath.write_text(json.dumps(news))
             rel, src, _ = match_release(news, acc, f["items"], c["name"], s)
             ev = {"symbol": s, **f, "flash": None}
             if rel is not None:
