@@ -16,7 +16,7 @@ log = logging.getLogger(__name__)
 def _command() -> list[str]:
     if getattr(sys, "frozen", False):
         return [sys.executable, "--minimized"]
-    return [sys.executable, "-m", "dkapp", "--minimized"]
+    return [sys.executable, "-m", "stockpilot", "--minimized"]
 
 
 def is_enabled() -> bool:
