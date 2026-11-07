@@ -47,6 +47,15 @@ def pace(s=None):
     _last[0] = time.monotonic()
 
 
+def shard(items: list) -> list:
+    """SHARD=k/N: this worker takes every N-th item starting at k (parallel workers, same rate budget)."""
+    sh = os.environ.get("SHARD")
+    if not sh:
+        return items
+    k, n = (int(x) for x in sh.split("/"))
+    return items[k::n]
+
+
 def guard(d: date) -> None:
     if d <= VAULT_END:
         raise SystemExit(f"refusing: {d} is in the vault")
@@ -157,7 +166,7 @@ def stage_bars(data: Path) -> None:
     from alpaca.data.requests import StockBarsRequest
     from alpaca.data.timeframe import TimeFrame, TimeFrameUnit
     companies = json.loads((data / "companies.json").read_text())
-    syms = sorted(set(companies) | set(SECTORS) | {"SPY"})
+    syms = shard(sorted(set(companies) | set(SECTORS) | {"SPY"}))
     out = data / "bars15"
     out.mkdir(exist_ok=True)
     guard(BARS_FROM)
@@ -307,9 +316,10 @@ def stage_quotes(data: Path) -> None:
             need[r["day"]].update({r["B3"]["symbol"], r["B3"]["sector"]})
         if "B4" in r:
             need.setdefault(r["B4"]["day"], set()).update({r["symbol"], r["sector"]})
-    qpath = data / "quotes.json"
+    tag = os.environ.get("SHARD", "").replace("/", "of")
+    qpath = data / (f"quotes_{tag}.json" if tag else "quotes.json")
     got = json.loads(qpath.read_text()) if qpath.exists() else {}
-    days = sorted(need)
+    days = shard(sorted(need))
     for k, dstr in enumerate(days):
         d = date.fromisoformat(dstr)
         guard(d)

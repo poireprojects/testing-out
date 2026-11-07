@@ -37,7 +37,9 @@ def _ceil_cent(x):
 class Data:
     def __init__(self, d: Path):
         self.d = d
-        self.q = json.loads((d / "quotes.json").read_text())
+        self.q = {}
+        for f in sorted(d.glob("quotes*.json")):          # one file per parallel collection worker
+            self.q.update(json.loads(f.read_text()))
         self._bars = {}
 
     def bars(self, s: str, day: date) -> pd.DataFrame:
