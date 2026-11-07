@@ -126,7 +126,11 @@ def _move_autostart() -> bool:
     try:
         if sys.platform == "win32":
             import winreg
-            with winreg.OpenKey(winreg.HKEY_CURRENT_USER, _RUN_KEY, 0, winreg.KEY_READ | winreg.KEY_SET_VALUE) as k:
+            try:
+                k = winreg.OpenKey(winreg.HKEY_CURRENT_USER, _RUN_KEY, 0, winreg.KEY_READ | winreg.KEY_SET_VALUE)
+            except FileNotFoundError:                        # no launch-at-login entries at all
+                return False
+            with k:
                 try:
                     winreg.QueryValueEx(k, PREVIOUS_APP_ID)
                     winreg.DeleteValue(k, PREVIOUS_APP_ID)
