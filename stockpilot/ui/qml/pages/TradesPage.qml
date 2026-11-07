@@ -1,7 +1,7 @@
 import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls.Basic
-import Dk 1.0
+import Sp 1.0
 
 Item {
     id: page
@@ -107,7 +107,7 @@ Item {
                             RowLayout {
                                 Txt { text: "held " + model.heldMinutes + " min"; color: Theme.textMuted; font.pixelSize: 12 }
                                 Item { Layout.fillWidth: true }
-                                DkButton { compact: true; kind: "danger"; text: "sell now"; iconName: "down"; visible: model.status === "open"; onClicked: app.closePosition(model.tradeId) }
+                                SpButton { compact: true; kind: "danger"; text: "sell now"; iconName: "down"; visible: model.status === "open"; onClicked: app.closePosition(model.tradeId) }
                             }
                         }
                     }
