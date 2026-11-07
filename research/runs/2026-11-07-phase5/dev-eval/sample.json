@@ -1,0 +1,968 @@
+{
+ "about": "pre-specified development sample for the phase-5 model evaluation (examined data: not evidence)",
+ "rule": "40 equal spans of trading days, one seeded day per span with >= 4 scorable events, 4 seeded events per day; 2026-10-30 excluded (used by the demonstration)",
+ "seed": 20261107,
+ "events": [
+  {
+   "day": "2023-01-13",
+   "symbol": "JPM",
+   "accession": "0000019617-23-000063",
+   "fold": "dev"
+  },
+  {
+   "day": "2023-01-13",
+   "symbol": "BAC",
+   "accession": "0000070858-23-000005",
+   "fold": "dev"
+  },
+  {
+   "day": "2023-01-13",
+   "symbol": "C",
+   "accession": "0001104659-23-003663",
+   "fold": "dev"
+  },
+  {
+   "day": "2023-01-13",
+   "symbol": "DAL",
+   "accession": "0001683168-23-000172",
+   "fold": "dev"
+  },
+  {
+   "day": "2023-02-03",
+   "symbol": "GILD",
+   "accession": "0000882095-23-000003",
+   "fold": "dev"
+  },
+  {
+   "day": "2023-02-03",
+   "symbol": "CTSH",
+   "accession": "0001058290-23-000019",
+   "fold": "dev"
+  },
+  {
+   "day": "2023-02-03",
+   "symbol": "CLX",
+   "accession": "0000021076-23-000005",
+   "fold": "dev"
+  },
+  {
+   "day": "2023-02-03",
+   "symbol": "AON",
+   "accession": "0001628280-23-002143",
+   "fold": "dev"
+  },
+  {
+   "day": "2023-02-28",
+   "symbol": "SRE",
+   "accession": "0001032208-23-000005",
+   "fold": "dev"
+  },
+  {
+   "day": "2023-02-28",
+   "symbol": "AZO",
+   "accession": "0001171843-23-001223",
+   "fold": "dev"
+  },
+  {
+   "day": "2023-02-28",
+   "symbol": "NCLH",
+   "accession": "0001171843-23-001224",
+   "fold": "dev"
+  },
+  {
+   "day": "2023-02-28",
+   "symbol": "TGT",
+   "accession": "0000027419-23-000010",
+   "fold": "dev"
+  },
+  {
+   "day": "2023-04-25",
+   "symbol": "BIIB",
+   "accession": "0000875045-23-000012",
+   "fold": "dev"
+  },
+  {
+   "day": "2023-04-25",
+   "symbol": "GM",
+   "accession": "0001467858-23-000074",
+   "fold": "dev"
+  },
+  {
+   "day": "2023-04-25",
+   "symbol": "DOW",
+   "accession": "0001751788-23-000113",
+   "fold": "dev"
+  },
+  {
+   "day": "2023-04-25",
+   "symbol": "HAL",
+   "accession": "0000045012-23-000024",
+   "fold": "dev"
+  },
+  {
+   "day": "2023-05-01",
+   "symbol": "WEC",
+   "accession": "0000107815-23-000142",
+   "fold": "dev"
+  },
+  {
+   "day": "2023-05-01",
+   "symbol": "NCLH",
+   "accession": "0001171843-23-002707",
+   "fold": "dev"
+  },
+  {
+   "day": "2023-05-01",
+   "symbol": "SOFI",
+   "accession": "0001818874-23-000076",
+   "fold": "dev"
+  },
+  {
+   "day": "2023-05-01",
+   "symbol": "GPN",
+   "accession": "0001123360-23-000017",
+   "fold": "dev"
+  },
+  {
+   "day": "2023-07-13",
+   "symbol": "CAG",
+   "accession": "0001437749-23-019832",
+   "fold": "dev"
+  },
+  {
+   "day": "2023-07-13",
+   "symbol": "FAST",
+   "accession": "0000815556-23-000039",
+   "fold": "dev"
+  },
+  {
+   "day": "2023-07-13",
+   "symbol": "DAL",
+   "accession": "0001683168-23-004828",
+   "fold": "dev"
+  },
+  {
+   "day": "2023-07-13",
+   "symbol": "CTAS",
+   "accession": "0000723254-23-000021",
+   "fold": "dev"
+  },
+  {
+   "day": "2023-08-10",
+   "symbol": "APP",
+   "accession": "0001751008-23-000061",
+   "fold": "dev"
+  },
+  {
+   "day": "2023-08-10",
+   "symbol": "TTD",
+   "accession": "0001157523-23-001303",
+   "fold": "dev"
+  },
+  {
+   "day": "2023-08-10",
+   "symbol": "ILMN",
+   "accession": "0001110803-23-000060",
+   "fold": "dev"
+  },
+  {
+   "day": "2023-08-10",
+   "symbol": "WYNN",
+   "accession": "0001174922-23-000133",
+   "fold": "dev"
+  },
+  {
+   "day": "2023-08-25",
+   "symbol": "WDAY",
+   "accession": "0001327811-23-000149",
+   "fold": "dev"
+  },
+  {
+   "day": "2023-08-25",
+   "symbol": "INTU",
+   "accession": "0000896878-23-000031",
+   "fold": "dev"
+  },
+  {
+   "day": "2023-08-25",
+   "symbol": "MRVL",
+   "accession": "0001835632-23-000036",
+   "fold": "dev"
+  },
+  {
+   "day": "2023-08-25",
+   "symbol": "AFRM",
+   "accession": "0001820953-23-000015",
+   "fold": "dev"
+  },
+  {
+   "day": "2023-10-19",
+   "symbol": "ZION",
+   "accession": "0000109380-23-000170",
+   "fold": "dev"
+  },
+  {
+   "day": "2023-10-19",
+   "symbol": "BX",
+   "accession": "0001193125-23-258911",
+   "fold": "dev"
+  },
+  {
+   "day": "2023-10-19",
+   "symbol": "KMI",
+   "accession": "0001506307-23-000116",
+   "fold": "dev"
+  },
+  {
+   "day": "2023-10-19",
+   "symbol": "NFLX",
+   "accession": "0001065280-23-000272",
+   "fold": "dev"
+  },
+  {
+   "day": "2023-11-09",
+   "symbol": "APP",
+   "accession": "0001751008-23-000070",
+   "fold": "dev"
+  },
+  {
+   "day": "2023-11-09",
+   "symbol": "TDG",
+   "accession": "0001260221-23-000077",
+   "fold": "dev"
+  },
+  {
+   "day": "2023-11-09",
+   "symbol": "FICO",
+   "accession": "0001157523-23-001687",
+   "fold": "dev"
+  },
+  {
+   "day": "2023-11-09",
+   "symbol": "HUBS",
+   "accession": "0000950170-23-061164",
+   "fold": "dev"
+  },
+  {
+   "day": "2024-01-12",
+   "symbol": "DAL",
+   "accession": "0001683168-24-000244",
+   "fold": "dev"
+  },
+  {
+   "day": "2024-01-12",
+   "symbol": "WFC",
+   "accession": "0000072971-24-000004",
+   "fold": "dev"
+  },
+  {
+   "day": "2024-01-12",
+   "symbol": "C",
+   "accession": "0001104659-24-003564",
+   "fold": "dev"
+  },
+  {
+   "day": "2024-01-12",
+   "symbol": "UNH",
+   "accession": "0000731766-24-000023",
+   "fold": "dev"
+  },
+  {
+   "day": "2024-01-31",
+   "symbol": "BSX",
+   "accession": "0000885725-24-000011",
+   "fold": "dev"
+  },
+  {
+   "day": "2024-01-31",
+   "symbol": "ADP",
+   "accession": "0000008670-24-000002",
+   "fold": "dev"
+  },
+  {
+   "day": "2024-01-31",
+   "symbol": "MDLZ",
+   "accession": "0001103982-24-000011",
+   "fold": "dev"
+  },
+  {
+   "day": "2024-01-31",
+   "symbol": "OTIS",
+   "accession": "0001781335-24-000005",
+   "fold": "dev"
+  },
+  {
+   "day": "2024-02-23",
+   "symbol": "EIX",
+   "accession": "0000827052-24-000012",
+   "fold": "dev"
+  },
+  {
+   "day": "2024-02-23",
+   "symbol": "EOG",
+   "accession": "0000821189-24-000009",
+   "fold": "dev"
+  },
+  {
+   "day": "2024-02-23",
+   "symbol": "INTU",
+   "accession": "0000896878-24-000009",
+   "fold": "dev"
+  },
+  {
+   "day": "2024-02-23",
+   "symbol": "BKNG",
+   "accession": "0001075531-24-000011",
+   "fold": "dev"
+  },
+  {
+   "day": "2024-04-18",
+   "symbol": "ELV",
+   "accession": "0001193125-24-099824",
+   "fold": "dev"
+  },
+  {
+   "day": "2024-04-18",
+   "symbol": "CSX",
+   "accession": "0000277948-24-000030",
+   "fold": "dev"
+  },
+  {
+   "day": "2024-04-18",
+   "symbol": "ALLY",
+   "accession": "0001193125-24-099895",
+   "fold": "dev"
+  },
+  {
+   "day": "2024-04-18",
+   "symbol": "LVS",
+   "accession": "0001300514-24-000064",
+   "fold": "dev"
+  },
+  {
+   "day": "2024-05-01",
+   "symbol": "DD",
+   "accession": "0001666700-24-000011",
+   "fold": "dev"
+  },
+  {
+   "day": "2024-05-01",
+   "symbol": "SBUX",
+   "accession": "0000829224-24-000023",
+   "fold": "dev"
+  },
+  {
+   "day": "2024-05-01",
+   "symbol": "SYK",
+   "accession": "0000310764-24-000062",
+   "fold": "dev"
+  },
+  {
+   "day": "2024-05-01",
+   "symbol": "EIX",
+   "accession": "0000827052-24-000034",
+   "fold": "dev"
+  },
+  {
+   "day": "2024-05-31",
+   "symbol": "MDB",
+   "accession": "0001441816-24-000108",
+   "fold": "dev"
+  },
+  {
+   "day": "2024-05-31",
+   "symbol": "NTAP",
+   "accession": "0000950170-24-066567",
+   "fold": "dev"
+  },
+  {
+   "day": "2024-05-31",
+   "symbol": "ULTA",
+   "accession": "0001558370-24-008776",
+   "fold": "dev"
+  },
+  {
+   "day": "2024-05-31",
+   "symbol": "ZS",
+   "accession": "0001713683-24-000072",
+   "fold": "dev"
+  },
+  {
+   "day": "2024-07-23",
+   "symbol": "HCA",
+   "accession": "0001193125-24-182591",
+   "fold": "dev"
+  },
+  {
+   "day": "2024-07-23",
+   "symbol": "PCAR",
+   "accession": "0000950170-24-085443",
+   "fold": "dev"
+  },
+  {
+   "day": "2024-07-23",
+   "symbol": "ARE",
+   "accession": "0001035443-24-000228",
+   "fold": "dev"
+  },
+  {
+   "day": "2024-07-23",
+   "symbol": "CMCSA",
+   "accession": "0001166691-24-000046",
+   "fold": "dev"
+  },
+  {
+   "day": "2024-08-07",
+   "symbol": "LYFT",
+   "accession": "0001759509-24-000096",
+   "fold": "dev"
+  },
+  {
+   "day": "2024-08-07",
+   "symbol": "RDDT",
+   "accession": "0001713445-24-000052",
+   "fold": "dev"
+  },
+  {
+   "day": "2024-08-07",
+   "symbol": "FTNT",
+   "accession": "0001262039-24-000032",
+   "fold": "dev"
+  },
+  {
+   "day": "2024-08-07",
+   "symbol": "EMR",
+   "accession": "0000032604-24-000035",
+   "fold": "dev"
+  },
+  {
+   "day": "2024-10-16",
+   "symbol": "ABT",
+   "accession": "0001628280-24-042893",
+   "fold": "dev"
+  },
+  {
+   "day": "2024-10-16",
+   "symbol": "MS",
+   "accession": "0000895421-24-000484",
+   "fold": "dev"
+  },
+  {
+   "day": "2024-10-16",
+   "symbol": "UAL",
+   "accession": "0000100517-24-000132",
+   "fold": "dev"
+  },
+  {
+   "day": "2024-10-16",
+   "symbol": "JBHT",
+   "accession": "0001437749-24-031253",
+   "fold": "dev"
+  },
+  {
+   "day": "2024-10-23",
+   "symbol": "BKR",
+   "accession": "0001701605-24-000129",
+   "fold": "dev"
+  },
+  {
+   "day": "2024-10-23",
+   "symbol": "APH",
+   "accession": "0001558370-24-013493",
+   "fold": "dev"
+  },
+  {
+   "day": "2024-10-23",
+   "symbol": "ENPH",
+   "accession": "0001463101-24-000140",
+   "fold": "dev"
+  },
+  {
+   "day": "2024-10-23",
+   "symbol": "T",
+   "accession": "0000732717-24-000056",
+   "fold": "dev"
+  },
+  {
+   "day": "2024-12-04",
+   "symbol": "OKTA",
+   "accession": "0001660134-24-000165",
+   "fold": "eval"
+  },
+  {
+   "day": "2024-12-04",
+   "symbol": "DLTR",
+   "accession": "0000935703-24-000057",
+   "fold": "eval"
+  },
+  {
+   "day": "2024-12-04",
+   "symbol": "MRVL",
+   "accession": "0001835632-24-000197",
+   "fold": "eval"
+  },
+  {
+   "day": "2024-12-04",
+   "symbol": "CHWY",
+   "accession": "0001766502-24-000052",
+   "fold": "eval"
+  },
+  {
+   "day": "2025-02-04",
+   "symbol": "WEC",
+   "accession": "0000107815-25-000095",
+   "fold": "eval"
+  },
+  {
+   "day": "2025-02-04",
+   "symbol": "MPC",
+   "accession": "0001510295-25-000005",
+   "fold": "eval"
+  },
+  {
+   "day": "2025-02-04",
+   "symbol": "PLTR",
+   "accession": "0001321655-25-000007",
+   "fold": "eval"
+  },
+  {
+   "day": "2025-02-04",
+   "symbol": "CLX",
+   "accession": "0000021076-25-000010",
+   "fold": "eval"
+  },
+  {
+   "day": "2025-02-14",
+   "symbol": "PANW",
+   "accession": "0001327567-25-000006",
+   "fold": "eval"
+  },
+  {
+   "day": "2025-02-14",
+   "symbol": "AMAT",
+   "accession": "0000006951-25-000005",
+   "fold": "eval"
+  },
+  {
+   "day": "2025-02-14",
+   "symbol": "ROKU",
+   "accession": "0001428439-25-000008",
+   "fold": "eval"
+  },
+  {
+   "day": "2025-02-14",
+   "symbol": "WYNN",
+   "accession": "0001174922-25-000038",
+   "fold": "eval"
+  },
+  {
+   "day": "2025-04-15",
+   "symbol": "JNJ",
+   "accession": "0000200406-25-000110",
+   "fold": "eval"
+  },
+  {
+   "day": "2025-04-15",
+   "symbol": "PNC",
+   "accession": "0001628280-25-017763",
+   "fold": "eval"
+  },
+  {
+   "day": "2025-04-15",
+   "symbol": "BAC",
+   "accession": "0000070858-25-000187",
+   "fold": "eval"
+  },
+  {
+   "day": "2025-04-15",
+   "symbol": "C",
+   "accession": "0001104659-25-034974",
+   "fold": "eval"
+  },
+  {
+   "day": "2025-05-05",
+   "symbol": "CMI",
+   "accession": "0000026172-25-000010",
+   "fold": "eval"
+  },
+  {
+   "day": "2025-05-05",
+   "symbol": "ZBH",
+   "accession": "0000950170-25-063124",
+   "fold": "eval"
+  },
+  {
+   "day": "2025-05-05",
+   "symbol": "TSN",
+   "accession": "0000100493-25-000055",
+   "fold": "eval"
+  },
+  {
+   "day": "2025-05-05",
+   "symbol": "ON",
+   "accession": "0001140361-25-017228",
+   "fold": "eval"
+  },
+  {
+   "day": "2025-05-30",
+   "symbol": "ZS",
+   "accession": "0001713683-25-000078",
+   "fold": "eval"
+  },
+  {
+   "day": "2025-05-30",
+   "symbol": "PATH",
+   "accession": "0001734722-25-000026",
+   "fold": "eval"
+  },
+  {
+   "day": "2025-05-30",
+   "symbol": "GAP",
+   "accession": "0000039911-25-000075",
+   "fold": "eval"
+  },
+  {
+   "day": "2025-05-30",
+   "symbol": "MRVL",
+   "accession": "0001835632-25-000115",
+   "fold": "eval"
+  },
+  {
+   "day": "2025-07-22",
+   "symbol": "LMT",
+   "accession": "0001628280-25-035502",
+   "fold": "eval"
+  },
+  {
+   "day": "2025-07-22",
+   "symbol": "GM",
+   "accession": "0001467858-25-000119",
+   "fold": "eval"
+  },
+  {
+   "day": "2025-07-22",
+   "symbol": "NOC",
+   "accession": "0001133421-25-000047",
+   "fold": "eval"
+  },
+  {
+   "day": "2025-07-22",
+   "symbol": "KO",
+   "accession": "0000021344-25-000054",
+   "fold": "eval"
+  },
+  {
+   "day": "2025-08-28",
+   "symbol": "BBY",
+   "accession": "0000764478-25-000035",
+   "fold": "eval"
+  },
+  {
+   "day": "2025-08-28",
+   "symbol": "DKS",
+   "accession": "0001089063-25-000105",
+   "fold": "eval"
+  },
+  {
+   "day": "2025-08-28",
+   "symbol": "BURL",
+   "accession": "0001579298-25-000007",
+   "fold": "eval"
+  },
+  {
+   "day": "2025-08-28",
+   "symbol": "CRWD",
+   "accession": "0001535527-25-000023",
+   "fold": "eval"
+  },
+  {
+   "day": "2025-09-04",
+   "symbol": "CRM",
+   "accession": "0001108524-25-000083",
+   "fold": "eval"
+  },
+  {
+   "day": "2025-09-04",
+   "symbol": "HPE",
+   "accession": "0001645590-25-000096",
+   "fold": "eval"
+  },
+  {
+   "day": "2025-09-04",
+   "symbol": "GTLB",
+   "accession": "0001653482-25-000008",
+   "fold": "eval"
+  },
+  {
+   "day": "2025-09-04",
+   "symbol": "AEO",
+   "accession": "0000950170-25-112837",
+   "fold": "eval"
+  },
+  {
+   "day": "2025-10-22",
+   "symbol": "COF",
+   "accession": "0000927628-25-000267",
+   "fold": "eval"
+  },
+  {
+   "day": "2025-10-22",
+   "symbol": "MCO",
+   "accession": "0001628280-25-045770",
+   "fold": "eval"
+  },
+  {
+   "day": "2025-10-22",
+   "symbol": "CME",
+   "accession": "0001156375-25-000204",
+   "fold": "eval"
+  },
+  {
+   "day": "2025-10-22",
+   "symbol": "EQT",
+   "accession": "0000033213-25-000047",
+   "fold": "eval"
+  },
+  {
+   "day": "2025-11-07",
+   "symbol": "ABNB",
+   "accession": "0001193125-25-269432",
+   "fold": "eval"
+  },
+  {
+   "day": "2025-11-07",
+   "symbol": "MCHP",
+   "accession": "0000827054-25-000182",
+   "fold": "eval"
+  },
+  {
+   "day": "2025-11-07",
+   "symbol": "MNST",
+   "accession": "0001104659-25-107778",
+   "fold": "eval"
+  },
+  {
+   "day": "2025-11-07",
+   "symbol": "ED",
+   "accession": "0001047862-25-000139",
+   "fold": "eval"
+  },
+  {
+   "day": "2026-01-20",
+   "symbol": "FITB",
+   "accession": "0000035527-26-000013",
+   "fold": "eval"
+  },
+  {
+   "day": "2026-01-20",
+   "symbol": "FAST",
+   "accession": "0000815556-26-000003",
+   "fold": "eval"
+  },
+  {
+   "day": "2026-01-20",
+   "symbol": "USB",
+   "accession": "0000036104-26-000005",
+   "fold": "eval"
+  },
+  {
+   "day": "2026-01-20",
+   "symbol": "KEY",
+   "accession": "0000091576-26-000006",
+   "fold": "eval"
+  },
+  {
+   "day": "2026-02-04",
+   "symbol": "EMR",
+   "accession": "0000032604-26-000006",
+   "fold": "eval"
+  },
+  {
+   "day": "2026-02-04",
+   "symbol": "EFX",
+   "accession": "0000033185-26-000004",
+   "fold": "eval"
+  },
+  {
+   "day": "2026-02-04",
+   "symbol": "J",
+   "accession": "0001628280-26-005001",
+   "fold": "eval"
+  },
+  {
+   "day": "2026-02-04",
+   "symbol": "CLX",
+   "accession": "0000021076-26-000008",
+   "fold": "eval"
+  },
+  {
+   "day": "2026-03-04",
+   "symbol": "GTLB",
+   "accession": "0001628280-26-013795",
+   "fold": "eval"
+  },
+  {
+   "day": "2026-03-04",
+   "symbol": "CRWD",
+   "accession": "0001535527-26-000007",
+   "fold": "eval"
+  },
+  {
+   "day": "2026-03-04",
+   "symbol": "ROST",
+   "accession": "0000745732-26-000003",
+   "fold": "eval"
+  },
+  {
+   "day": "2026-03-04",
+   "symbol": "ANF",
+   "accession": "0001018840-26-000006",
+   "fold": "eval"
+  },
+  {
+   "day": "2026-05-01",
+   "symbol": "ROKU",
+   "accession": "0001628280-26-028851",
+   "fold": "eval"
+  },
+  {
+   "day": "2026-05-01",
+   "symbol": "AJG",
+   "accession": "0000354190-26-000132",
+   "fold": "eval"
+  },
+  {
+   "day": "2026-05-01",
+   "symbol": "SYK",
+   "accession": "0000310764-26-000025",
+   "fold": "eval"
+  },
+  {
+   "day": "2026-05-01",
+   "symbol": "DXCM",
+   "accession": "0001093557-26-000072",
+   "fold": "eval"
+  },
+  {
+   "day": "2026-05-21",
+   "symbol": "NVDA",
+   "accession": "0001045810-26-000051",
+   "fold": "eval"
+  },
+  {
+   "day": "2026-05-21",
+   "symbol": "INTU",
+   "accession": "0000896878-26-000024",
+   "fold": "eval"
+  },
+  {
+   "day": "2026-05-21",
+   "symbol": "WMT",
+   "accession": "0000104169-26-000095",
+   "fold": "eval"
+  },
+  {
+   "day": "2026-05-21",
+   "symbol": "DE",
+   "accession": "0001104659-26-064747",
+   "fold": "eval"
+  },
+  {
+   "day": "2026-07-14",
+   "symbol": "FAST",
+   "accession": "0000815556-26-000037",
+   "fold": "eval"
+  },
+  {
+   "day": "2026-07-14",
+   "symbol": "C",
+   "accession": "0001104659-26-083383",
+   "fold": "eval"
+  },
+  {
+   "day": "2026-07-14",
+   "symbol": "GS",
+   "accession": "0000886982-26-000294",
+   "fold": "eval"
+  },
+  {
+   "day": "2026-07-14",
+   "symbol": "WFC",
+   "accession": "0000072971-26-000288",
+   "fold": "eval"
+  },
+  {
+   "day": "2026-07-23",
+   "symbol": "TXN",
+   "accession": "0000097476-26-000148",
+   "fold": "eval"
+  },
+  {
+   "day": "2026-07-23",
+   "symbol": "RTX",
+   "accession": "0000101829-26-000025",
+   "fold": "eval"
+  },
+  {
+   "day": "2026-07-23",
+   "symbol": "KMI",
+   "accession": "0001506307-26-000063",
+   "fold": "eval"
+  },
+  {
+   "day": "2026-07-23",
+   "symbol": "AMP",
+   "accession": "0000820027-26-000038",
+   "fold": "eval"
+  },
+  {
+   "day": "2026-08-26",
+   "symbol": "SJM",
+   "accession": "0000091419-26-000079",
+   "fold": "eval"
+  },
+  {
+   "day": "2026-08-26",
+   "symbol": "ZM",
+   "accession": "0001585521-26-000119",
+   "fold": "eval"
+  },
+  {
+   "day": "2026-08-26",
+   "symbol": "INTU",
+   "accession": "0000896878-26-000029",
+   "fold": "eval"
+  },
+  {
+   "day": "2026-08-26",
+   "symbol": "ANF",
+   "accession": "0001018840-26-000041",
+   "fold": "eval"
+  },
+  {
+   "day": "2026-10-16",
+   "symbol": "CFG",
+   "accession": "0000759944-26-000206",
+   "fold": "eval"
+  },
+  {
+   "day": "2026-10-16",
+   "symbol": "TRV",
+   "accession": "0000086312-26-000180",
+   "fold": "eval"
+  },
+  {
+   "day": "2026-10-16",
+   "symbol": "MTB",
+   "accession": "0000036270-26-000057",
+   "fold": "eval"
+  },
+  {
+   "day": "2026-10-16",
+   "symbol": "JBHT",
+   "accession": "0001437749-26-032715",
+   "fold": "eval"
+  }
+ ],
+ "sha256": "e825d6d63dc824801fb9ce4bae18e92af293ba50bae081469dbb211bf738f68b"
+}

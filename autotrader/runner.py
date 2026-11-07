@@ -41,8 +41,9 @@ def first_entry_session(accepted: datetime, cal: MarketCalendar) -> date:
 
 class Autonomy:
     def __init__(self, ledger: Ledger, policy: OwnerPolicy, deciders: list, controller: RiskController,
-                 prices=None, redact: bool = True):
+                 prices=None, redact: bool = True, clock: Callable[[], datetime] = utcnow):
         self.ledger, self.policy, self.deciders, self.controller = ledger, policy, deciders, controller
+        self.clock = clock                              # wall clock for when a forward decision is written
         self.prices, self.redact = prices, redact
         self.health = Health()
         self.portfolios = {d.name: SimPortfolio() for d in deciders}
@@ -87,14 +88,14 @@ class Autonomy:
             self.stopped = True
         return self.stopped
 
-    # ------------------------------------------------------------------ one session (replay, or forward scoring)
+    # ------------------------------------------------------------------ one session (replay)
     def run_session(self, day: date, rows: list, build: Callable[[object], EvidencePack]) -> list[dict]:
-        """Decide every event of one session at its decision time, enter at decision + 30 s, exit the same day."""
+        """Replay: decide every event of one session at its decision time, then execute it on that session."""
         self.stopped = False
         self.health.data_failures = 0
         self.model_down.clear()
         self.start_cycle(f"session {day.isoformat()}")
-        opened: dict[str, list[dict]] = {d.name: [] for d in self.deciders}
+        entries: list[tuple[dict, EvidencePack]] = []
         for row in rows:
             if self.halted():
                 break
@@ -107,35 +108,58 @@ class Autonomy:
                 self.health.data_failures += 1
                 self.safety("data", f"{type(exc).__name__}: {exc}", consecutive=self.health.data_failures)
                 continue
+            pack.structured["session"] = day.isoformat()
             self.ledger.append("evidence", pack.record(redact=self.redact))
             for dec in self.deciders:
-                d = self.decide(dec, pack)
+                d = self.decide(dec, pack) | {"session": day.isoformat()}
                 rec = self.ledger.record_decision(pack.event_id, dec.name, pack.sha256, pack.decision_time, d)
-                entry_t = pack.decision_time + ENTRY_LATENCY
-                pf = self.portfolios[dec.name]
-                pf.roll(day)
-                q = self.prices.quote(d["instrument"], entry_t) if d["action"] == "long" and self.prices else None
-                v = self.controller.check(d, pack, q, pf, self.health, entry_t)
-                self.ledger.append("risk", {"decision_seq": rec["seq"], "decider": dec.name, "event_id": pack.event_id,
-                                            **v})
-                if v.get("error"):
-                    self.safety("risk_controller", "; ".join(v["reasons"]), event_id=pack.event_id)
-                if not v["approved"]:
-                    continue
-                px = fill_entry(q)
-                qty = v["notional"] / px
-                pf.open.append(SimPosition(v["symbol"], qty, px, v["stop_price"], entry_t))
-                pf.trades_today += 1
-                exit_t = datetime.combine(day, datetime.strptime(d["exit"]["exit_time"], "%H:%M").time(), ET)
-                opened[dec.name].append({"decision_seq": rec["seq"], "decider": dec.name, "event_id": pack.event_id,
-                                         "symbol": v["symbol"], "entry_time": entry_t, "entry_mid": q.mid,
-                                         "entry_px": px, "entry_hs_bps": q.spread_bps / 2, "notional": v["notional"],
-                                         "stop_price": v["stop_price"], "target_price": v.get("target_price"),
-                                         "exit_time": exit_t})
+                entries.append((rec, pack))
+        return self.execute(day, entries)
+
+    # ------------------------------------------------------------------ execution of recorded decisions
+    def record_market_outcomes(self, day: date, packs: list[EvidencePack]) -> None:
+        """What each event's stock did from 10:00:30 to 15:45 on its session: scores every prediction."""
+        t_in, t_out = datetime.combine(day, ENTRY_TIME, ET), datetime.combine(day, dtime(15, 45), ET)
+        done = {m["payload"]["event_id"] for m in self.ledger.of_type("market_outcome")}
+        for p in packs:
+            if p.event_id in done or self.prices is None:
+                continue
+            a, b = self.prices.quote(p.symbol, t_in), self.prices.quote(p.symbol, t_out)
+            if a is not None and b is not None:
+                self.ledger.record_market_outcome(p.event_id, day.isoformat(), p.symbol, a.mid, b.mid, t_in)
+                done.add(p.event_id)
+
+    def execute(self, day: date, entries: list[tuple[dict, EvidencePack]]) -> list[dict]:
+        """Risk-check and simulate already-recorded decisions on their target session. Entry is at 10:00:30 of
+        `day` whatever the decision time; no decider is consulted here."""
+        packs = list({p.event_id: p for _, p in entries}.values())
+        self.record_market_outcomes(day, packs)
+        entry_t = datetime.combine(day, ENTRY_TIME, ET)
+        opened: dict[str, list[dict]] = {}
+        for rec, pack in entries:
+            d, name = rec["payload"]["decision"], rec["payload"]["decider"]
+            if rec["payload"].get("decision_time") and datetime.fromisoformat(rec["payload"]["decision_time"]) > entry_t:
+                raise LedgerError(f"decision {rec['seq']} was made after its entry time")
+            pf = self.portfolios.setdefault(name, SimPortfolio())
+            pf.roll(day)
+            q = self.prices.quote(d["instrument"], entry_t) if d["action"] == "long" and self.prices else None
+            v = self.controller.check(d, pack, q, pf, self.health, entry_t)
+            self.ledger.append("risk", {"decision_seq": rec["seq"], "decider": name, "event_id": pack.event_id, **v})
+            if v.get("error"):
+                self.safety("risk_controller", "; ".join(v["reasons"]), event_id=pack.event_id)
+            if not v["approved"]:
+                continue
+            px = fill_entry(q)
+            pf.open.append(SimPosition(v["symbol"], v["notional"] / px, px, v["stop_price"], entry_t))
+            pf.trades_today += 1
+            exit_t = datetime.combine(day, datetime.strptime(d["exit"]["exit_time"], "%H:%M").time(), ET)
+            opened.setdefault(name, []).append({
+                "decision_seq": rec["seq"], "decider": name, "event_id": pack.event_id, "symbol": v["symbol"],
+                "entry_time": entry_t, "entry_mid": q.mid, "entry_px": px, "entry_hs_bps": q.spread_bps / 2,
+                "notional": v["notional"], "stop_price": v["stop_price"], "target_price": v.get("target_price"),
+                "exit_time": exit_t})
         results = []
         for name, ops in opened.items():
-            if not ops:
-                continue
             pf = self.portfolios[name]
             for o in complete_day(ops, self.prices, lambda dd, t: t):
                 if o["scored"]:
@@ -157,7 +181,7 @@ class Autonomy:
     # ------------------------------------------------------------------ forward: observe and decide now
     def forward_cycle(self, observer, now: Optional[datetime] = None, calendar: Optional[MarketCalendar] = None) -> int:
         """Observe new filings and record each decider's decision now, before the session they apply to."""
-        now = now or utcnow()
+        now = now or self.clock()
         cal = calendar or MarketCalendar()
         if self.halted():
             return 0
@@ -190,15 +214,16 @@ class Autonomy:
             self.ledger.append("evidence", pack.record(redact=self.redact))
             for dec in self.deciders:
                 d = self.decide(dec, pack) | {"session": session.isoformat()}
-                self.ledger.record_decision(pack.event_id, dec.name, pack.sha256, pack.decision_time, d, now=utcnow())
+                self.ledger.record_decision(pack.event_id, dec.name, pack.sha256, pack.decision_time, d, now=self.clock())
             n += 1
         self.ledger.append("heartbeat", {"filings_seen": len(filings), "decided": n, "skipped_already_traded": stale,
                                          "model_down": sorted(self.model_down)})
         return n
 
     def run_forever(self, observer, poll_seconds: int = 300, max_cycles: Optional[int] = None,
-                    sleep: Callable[[float], None] = _time.sleep) -> None:
-        """Unattended forward observation. Ordinary errors back off and retry; unsafe conditions stop the loop."""
+                    sleep: Callable[[float], None] = _time.sleep, scorer=None) -> None:
+        """Unattended forward observation and, when a scorer is given, scoring of finished sessions. Ordinary
+        errors back off and retry; unsafe conditions stop the loop."""
         cycles, backoff = 0, poll_seconds
         while max_cycles is None or cycles < max_cycles:
             cycles += 1
@@ -206,6 +231,8 @@ class Autonomy:
                 return
             try:
                 self.forward_cycle(observer)
+                if scorer is not None:
+                    scorer.run()
                 backoff = poll_seconds
             except LedgerError:
                 raise                                   # cannot record: stop

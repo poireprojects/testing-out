@@ -95,3 +95,41 @@ Real money is a separate, later decision. It is not reachable from this registra
 ## What failing means
 
 The process stays a research tool. The repository's reopening criteria (`research/REOPENING-CRITERIA.md`) apply.
+
+---
+
+## Amendment 1 (2026-11-07, later the same day): registration v1 suspended
+
+Appended; nothing above has been edited.
+
+**Status: suspended before any evidence was collected.** No forward result exists under v1, and none will be
+claimed.
+
+**Why:**
+* **The scoring process didn't exist.** The forward command recorded decisions but nothing executed and scored a
+  finished session.
+* **Evaluation protocol v1 scored predictions on the date of the decision timestamp.** That is wrong for any
+  decision written after the close, before the open, or on a weekend or holiday: a decision written on Saturday
+  2026-11-07 targets Monday 2026-11-09. No v1 forward decision was ever scored, so no result was affected.
+* **The registered model failed the understanding test badly enough** that the prediction and trading questions
+  could not be answered. In development, 8 of 30 answers were valid; in the first forward cycle, 2 of 10.
+
+**What stays:**
+* The v1 forward ledger (`research/runs/2026-11-07-phase5/forward/`) and the aborted dry run are kept, unchanged
+  and verifiable, as records.
+
+**What changed** (all labelled version 2):
+* **Evaluation protocol v2** (`autotrader/evaluate.py`, `autotrader/scoring.py`):
+  * predictions are scored on the recorded target session;
+  * an unattended scorer executes recorded decisions once a session's prices exist;
+  * the mechanical baselines are computed as of 10:00 from inputs whose end times are recorded and checked.
+* **Output contract v2** (`autotrader/decision.py`):
+  * facts cite numbered sentences instead of copying text;
+  * reported figures cite the company's release, with a unit;
+  * trade fields are fixed choices.
+  * Verification is unchanged or stricter (`tests/test_autotrader_v2.py`).
+
+**What must happen before a new registration:** a new forward registration (v2, with a new six-month clock) will
+be written only after the fixed-cost development evaluation in
+`research/runs/2026-11-07-phase5/dev-eval/PLAN.md` passes its reliability gate, and the owner has approved the
+model, the price data and the host.

@@ -116,6 +116,22 @@ class Ledger:
                                         "decision_time": decision_time.isoformat(), "mode": self.mode,
                                         "decision": decision}, now)
 
+    def record_asof_decision(self, event_id: str, decider: str, pack_sha256: str, asof: datetime, decision: dict,
+                             inputs: list[dict], now: Optional[datetime] = None) -> dict:
+        """A mechanical baseline computed after the fact from data that existed at `asof` (evaluation protocol v2).
+        Every input must declare when it ended; any input ending after `asof` is refused (no look-ahead). It is
+        labelled as-of, so it is never mistaken for a decision made in real time."""
+        late = [i for i in inputs if datetime.fromisoformat(i["ended"]) > asof]
+        if late:
+            raise LedgerError(f"look-ahead: as-of {asof.isoformat()} decision uses data ending later: "
+                              + ", ".join(f"{i['source']} {i['ended']}" for i in late[:3]))
+        key = (event_id, decider)
+        if key in self.decisions:
+            raise DuplicateDecision(f"{decider} already decided {event_id} (record {self.decisions[key]['seq']})")
+        return self.append("decision", {"event_id": event_id, "decider": decider, "pack_sha256": pack_sha256,
+                                        "decision_time": asof.isoformat(), "mode": self.mode, "asof": True,
+                                        "inputs": inputs, "decision": decision}, now)
+
     def record_outcome(self, decision_seq: int, outcome: dict, data_from: datetime,
                        now: Optional[datetime] = None) -> dict:
         dec = next((r for r in self.records if r["seq"] == decision_seq and r["type"] == "decision"), None)
@@ -126,9 +142,27 @@ class Ledger:
         as_of = datetime.fromisoformat(dec["payload"]["decision_time"])
         if data_from <= as_of:
             raise LedgerError("look-ahead: the outcome uses prices from before the decision")
-        if self.mode == "forward" and data_from <= datetime.fromisoformat(dec["recorded_at"]):
+        if self.mode == "forward" and not dec["payload"].get("asof") \
+                and data_from <= datetime.fromisoformat(dec["recorded_at"]):
             raise LedgerError("a forward outcome must use prices that did not exist when the decision was written")
         return self.append("outcome", {"decision_seq": decision_seq, "data_from": data_from.isoformat(), **outcome}, now)
+
+    def record_market_outcome(self, event_id: str, session: str, symbol: str, entry_mid: float, exit_mid: float,
+                              data_from: datetime, now: Optional[datetime] = None) -> dict:
+        """What the event's stock did from 10:00:30 to 15:45 on the target session (scores every prediction).
+        Refused if any real-time decision on this event was written after these prices existed."""
+        for (ev, _), r in self.decisions.items():
+            if ev != event_id or r["payload"].get("asof"):
+                continue
+            if data_from <= datetime.fromisoformat(r["payload"]["decision_time"]):
+                raise LedgerError("look-ahead: market outcome starts before the decision time")
+            if self.mode == "forward" and data_from <= datetime.fromisoformat(r["recorded_at"]):
+                raise LedgerError("a forward market outcome must use prices that did not exist when the decision was written")
+        if any(m["payload"]["event_id"] == event_id for m in self.of_type("market_outcome")):
+            raise LedgerError(f"{event_id} already has a market outcome")
+        return self.append("market_outcome", {"event_id": event_id, "session": session, "symbol": symbol,
+                                              "entry_mid": entry_mid, "exit_mid": exit_mid,
+                                              "up": int(exit_mid > entry_mid), "data_from": data_from.isoformat()}, now)
 
     def of_type(self, type_: str) -> list[dict]:
         return [r for r in self.records if r["type"] == type_]

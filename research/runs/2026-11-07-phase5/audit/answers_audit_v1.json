@@ -1,0 +1,678 @@
+{
+ "summary": {
+  "answers": 40,
+  "validV1": 10,
+  "byClass": {
+   "format_only": 16,
+   "clean": 11,
+   "misattributed": 11,
+   "factual_error": 2
+  },
+  "invalidV1ByClass": {
+   "format_only": 16,
+   "misattributed": 11,
+   "clean": 1,
+   "factual_error": 2
+  },
+  "findings": {
+   "quote_near_verbatim": 15,
+   "truncated_output": 4,
+   "claim_number_derived": 2,
+   "out_of_range_field": 7,
+   "claim_number_elsewhere": 19,
+   "text_too_short_or_long": 2,
+   "quote_too_long": 5,
+   "reported_other_source": 2,
+   "reported_wrong_unit": 3,
+   "reported_wrong_period": 2,
+   "list_too_long": 2
+  }
+ },
+ "answers": [
+  {
+   "ledger": "research/runs/2026-11-07-phase5/replay/ledger.jsonl",
+   "event": "AMZN",
+   "validV1": false,
+   "contract": "1",
+   "v1Problems": [
+    "fact 3: quote not found verbatim in E3"
+   ],
+   "auditFindings": [
+    [
+     "quote_near_verbatim",
+     1
+    ]
+   ],
+   "class": "format_only"
+  },
+  {
+   "ledger": "research/runs/2026-11-07-phase5/replay/ledger.jsonl",
+   "event": "MPWR",
+   "validV1": false,
+   "contract": "1",
+   "v1Problems": [
+    "not JSON: Invalid JSON: EOF while parsing a string at line 1 column 4708"
+   ],
+   "auditFindings": [
+    [
+     "truncated_output",
+     1
+    ]
+   ],
+   "class": "format_only"
+  },
+  {
+   "ledger": "research/runs/2026-11-07-phase5/replay/ledger.jsonl",
+   "event": "INTC",
+   "validV1": false,
+   "contract": "1",
+   "v1Problems": [
+    "schema: entry.max_spread_bps: Input should be less than or equal to 100"
+   ],
+   "auditFindings": [
+    [
+     "claim_number_derived",
+     1
+    ],
+    [
+     "out_of_range_field",
+     1
+    ]
+   ],
+   "class": "format_only"
+  },
+  {
+   "ledger": "research/runs/2026-11-07-phase5/replay/ledger.jsonl",
+   "event": "RIVN",
+   "validV1": true,
+   "contract": "1",
+   "v1Problems": [],
+   "auditFindings": [],
+   "class": "clean"
+  },
+  {
+   "ledger": "research/runs/2026-11-07-phase5/replay/ledger.jsonl",
+   "event": "GILD",
+   "validV1": false,
+   "contract": "1",
+   "v1Problems": [
+    "fact 1: quote not found verbatim in E1",
+    "fact 2: claim states numbers not in its quote (8.2)"
+   ],
+   "auditFindings": [
+    [
+     "claim_number_elsewhere",
+     1
+    ],
+    [
+     "quote_near_verbatim",
+     1
+    ]
+   ],
+   "class": "misattributed"
+  },
+  {
+   "ledger": "research/runs/2026-11-07-phase5/replay/ledger.jsonl",
+   "event": "DXCM",
+   "validV1": false,
+   "contract": "1",
+   "v1Problems": [
+    "fact 2: quote not found verbatim in E2",
+    "fact 5: claim states numbers not in its quote (0.27)"
+   ],
+   "auditFindings": [
+    [
+     "claim_number_derived",
+     1
+    ],
+    [
+     "claim_number_elsewhere",
+     1
+    ],
+    [
+     "quote_near_verbatim",
+     1
+    ]
+   ],
+   "class": "misattributed"
+  },
+  {
+   "ledger": "research/runs/2026-11-07-phase5/replay/ledger.jsonl",
+   "event": "FSLR",
+   "validV1": false,
+   "contract": "1",
+   "v1Problems": [
+    "fact 3: quote not found verbatim in E3"
+   ],
+   "auditFindings": [
+    [
+     "quote_near_verbatim",
+     1
+    ]
+   ],
+   "class": "format_only"
+  },
+  {
+   "ledger": "research/runs/2026-11-07-phase5/replay/ledger.jsonl",
+   "event": "RMD",
+   "validV1": false,
+   "contract": "1",
+   "v1Problems": [
+    "schema: facts.0.claim: String should have at least 3 characters"
+   ],
+   "auditFindings": [
+    [
+     "quote_near_verbatim",
+     1
+    ],
+    [
+     "text_too_short_or_long",
+     1
+    ]
+   ],
+   "class": "format_only"
+  },
+  {
+   "ledger": "research/runs/2026-11-07-phase5/replay/ledger.jsonl",
+   "event": "SBUX",
+   "validV1": true,
+   "contract": "1",
+   "v1Problems": [],
+   "auditFindings": [],
+   "class": "clean"
+  },
+  {
+   "ledger": "research/runs/2026-11-07-phase5/replay/ledger.jsonl",
+   "event": "EIX",
+   "validV1": false,
+   "contract": "1",
+   "v1Problems": [
+    "schema: facts.0.quote: String should have at most 400 characters"
+   ],
+   "auditFindings": [
+    [
+     "quote_too_long",
+     1
+    ],
+    [
+     "reported_other_source",
+     2
+    ]
+   ],
+   "class": "misattributed"
+  },
+  {
+   "ledger": "research/runs/2026-11-07-phase5/replay/ledger.jsonl",
+   "event": "SYK",
+   "validV1": false,
+   "contract": "1",
+   "v1Problems": [
+    "fact 2: quote not found verbatim in E2",
+    "reported revenue_usd_millions=6.5 does not appear in the evidence"
+   ],
+   "auditFindings": [
+    [
+     "quote_near_verbatim",
+     1
+    ],
+    [
+     "reported_wrong_unit",
+     1
+    ]
+   ],
+   "class": "misattributed"
+  },
+  {
+   "ledger": "research/runs/2026-11-07-phase5/replay/ledger.jsonl",
+   "event": "TWLO",
+   "validV1": false,
+   "contract": "1",
+   "v1Problems": [
+    "fact 3: quote not found verbatim in E3"
+   ],
+   "auditFindings": [
+    [
+     "claim_number_elsewhere",
+     1
+    ],
+    [
+     "quote_near_verbatim",
+     1
+    ]
+   ],
+   "class": "misattributed"
+  },
+  {
+   "ledger": "research/runs/2026-11-07-phase5/replay/ledger.jsonl",
+   "event": "MDLZ",
+   "validV1": false,
+   "contract": "1",
+   "v1Problems": [
+    "reported revenue_usd_millions=9967 does not appear in the evidence"
+   ],
+   "auditFindings": [],
+   "class": "clean"
+  },
+  {
+   "ledger": "research/runs/2026-11-07-phase5/replay/ledger.jsonl",
+   "event": "RBLX",
+   "validV1": false,
+   "contract": "1",
+   "v1Problems": [
+    "schema: entry.max_spread_bps: Input should be less than or equal to 100"
+   ],
+   "auditFindings": [
+    [
+     "out_of_range_field",
+     1
+    ],
+    [
+     "quote_near_verbatim",
+     2
+    ]
+   ],
+   "class": "format_only"
+  },
+  {
+   "ledger": "research/runs/2026-11-07-phase5/replay/ledger.jsonl",
+   "event": "ILMN",
+   "validV1": false,
+   "contract": "1",
+   "v1Problems": [
+    "reported revenue_usd_millions=1.17 does not appear in the evidence"
+   ],
+   "auditFindings": [
+    [
+     "reported_wrong_unit",
+     1
+    ]
+   ],
+   "class": "misattributed"
+  },
+  {
+   "ledger": "research/runs/2026-11-07-phase5/replay/ledger.jsonl",
+   "event": "PINS",
+   "validV1": false,
+   "contract": "1",
+   "v1Problems": [
+    "fact 2: quote not found verbatim in E2"
+   ],
+   "auditFindings": [
+    [
+     "quote_near_verbatim",
+     1
+    ]
+   ],
+   "class": "format_only"
+  },
+  {
+   "ledger": "research/runs/2026-11-07-phase5/replay/ledger.jsonl",
+   "event": "RDDT",
+   "validV1": false,
+   "contract": "1",
+   "v1Problems": [
+    "schema: entry.max_spread_bps: Input should be less than or equal to 100"
+   ],
+   "auditFindings": [
+    [
+     "out_of_range_field",
+     1
+    ],
+    [
+     "quote_near_verbatim",
+     1
+    ]
+   ],
+   "class": "format_only"
+  },
+  {
+   "ledger": "research/runs/2026-11-07-phase5/replay/ledger.jsonl",
+   "event": "RSG",
+   "validV1": true,
+   "contract": "1",
+   "v1Problems": [],
+   "auditFindings": [],
+   "class": "clean"
+  },
+  {
+   "ledger": "research/runs/2026-11-07-phase5/replay/ledger.jsonl",
+   "event": "AJG",
+   "validV1": false,
+   "contract": "1",
+   "v1Problems": [
+    "not JSON: Invalid JSON: EOF while parsing a string at line 1 column 4385"
+   ],
+   "auditFindings": [
+    [
+     "truncated_output",
+     1
+    ]
+   ],
+   "class": "format_only"
+  },
+  {
+   "ledger": "research/runs/2026-11-07-phase5/replay/ledger.jsonl",
+   "event": "DLR",
+   "validV1": false,
+   "contract": "1",
+   "v1Problems": [
+    "not JSON: Invalid JSON: EOF while parsing a string at line 1 column 5378"
+   ],
+   "auditFindings": [
+    [
+     "truncated_output",
+     1
+    ]
+   ],
+   "class": "format_only"
+  },
+  {
+   "ledger": "research/runs/2026-11-07-phase5/replay/ledger.jsonl",
+   "event": "CVX",
+   "validV1": true,
+   "contract": "1",
+   "v1Problems": [],
+   "auditFindings": [],
+   "class": "clean"
+  },
+  {
+   "ledger": "research/runs/2026-11-07-phase5/replay/ledger.jsonl",
+   "event": "LYB",
+   "validV1": true,
+   "contract": "1",
+   "v1Problems": [],
+   "auditFindings": [],
+   "class": "clean"
+  },
+  {
+   "ledger": "research/runs/2026-11-07-phase5/replay/ledger.jsonl",
+   "event": "REGN",
+   "validV1": false,
+   "contract": "1",
+   "v1Problems": [
+    "reported revenue_usd_millions=5.1 does not appear in the evidence"
+   ],
+   "auditFindings": [
+    [
+     "reported_wrong_unit",
+     1
+    ]
+   ],
+   "class": "misattributed"
+  },
+  {
+   "ledger": "research/runs/2026-11-07-phase5/replay/ledger.jsonl",
+   "event": "KVUE",
+   "validV1": false,
+   "contract": "1",
+   "v1Problems": [
+    "reported revenue_usd_millions=3.839 does not appear in the evidence"
+   ],
+   "auditFindings": [
+    [
+     "reported_wrong_period",
+     1
+    ]
+   ],
+   "class": "factual_error"
+  },
+  {
+   "ledger": "research/runs/2026-11-07-phase5/replay/ledger.jsonl",
+   "event": "EXC",
+   "validV1": true,
+   "contract": "1",
+   "v1Problems": [],
+   "auditFindings": [],
+   "class": "clean"
+  },
+  {
+   "ledger": "research/runs/2026-11-07-phase5/replay/ledger.jsonl",
+   "event": "CL",
+   "validV1": false,
+   "contract": "1",
+   "v1Problems": [
+    "schema: facts.0.quote: String should have at most 400 characters"
+   ],
+   "auditFindings": [
+    [
+     "claim_number_elsewhere",
+     11
+    ],
+    [
+     "quote_too_long",
+     1
+    ]
+   ],
+   "class": "misattributed"
+  },
+  {
+   "ledger": "research/runs/2026-11-07-phase5/replay/ledger.jsonl",
+   "event": "CHD",
+   "validV1": false,
+   "contract": "1",
+   "v1Problems": [
+    "not JSON: Invalid JSON: EOF while parsing a string at line 1 column 6628"
+   ],
+   "auditFindings": [
+    [
+     "truncated_output",
+     1
+    ]
+   ],
+   "class": "format_only"
+  },
+  {
+   "ledger": "research/runs/2026-11-07-phase5/replay/ledger.jsonl",
+   "event": "GD",
+   "validV1": false,
+   "contract": "1",
+   "v1Problems": [
+    "fact 2: quote not found verbatim in E2"
+   ],
+   "auditFindings": [
+    [
+     "quote_near_verbatim",
+     1
+    ]
+   ],
+   "class": "format_only"
+  },
+  {
+   "ledger": "research/runs/2026-11-07-phase5/replay/ledger.jsonl",
+   "event": "D",
+   "validV1": true,
+   "contract": "1",
+   "v1Problems": [],
+   "auditFindings": [],
+   "class": "clean"
+  },
+  {
+   "ledger": "research/runs/2026-11-07-phase5/replay/ledger.jsonl",
+   "event": "ABBV",
+   "validV1": true,
+   "contract": "1",
+   "v1Problems": [],
+   "auditFindings": [],
+   "class": "clean"
+  },
+  {
+   "ledger": "research/runs/2026-11-07-phase5/forward/ledger.jsonl",
+   "event": "KLAC",
+   "validV1": true,
+   "contract": "1",
+   "v1Problems": [],
+   "auditFindings": [],
+   "class": "clean"
+  },
+  {
+   "ledger": "research/runs/2026-11-07-phase5/forward/ledger.jsonl",
+   "event": "PSA",
+   "validV1": false,
+   "contract": "1",
+   "v1Problems": [
+    "schema: facts.0.quote: String should have at most 400 characters"
+   ],
+   "auditFindings": [
+    [
+     "quote_near_verbatim",
+     1
+    ],
+    [
+     "quote_too_long",
+     1
+    ]
+   ],
+   "class": "format_only"
+  },
+  {
+   "ledger": "research/runs/2026-11-07-phase5/forward/ledger.jsonl",
+   "event": "O",
+   "validV1": false,
+   "contract": "1",
+   "v1Problems": [
+    "schema: facts.0.quote: String should have at most 400 characters; facts.0.claim: String should have at most 300 characters; entry.max_spread_bps: Input should be less than or equal to 100"
+   ],
+   "auditFindings": [
+    [
+     "claim_number_elsewhere",
+     2
+    ],
+    [
+     "out_of_range_field",
+     1
+    ],
+    [
+     "quote_near_verbatim",
+     1
+    ],
+    [
+     "quote_too_long",
+     1
+    ],
+    [
+     "text_too_short_or_long",
+     1
+    ]
+   ],
+   "class": "misattributed"
+  },
+  {
+   "ledger": "research/runs/2026-11-07-phase5/forward/ledger.jsonl",
+   "event": "TRV",
+   "validV1": false,
+   "contract": "1",
+   "v1Problems": [
+    "schema: facts.0.quote: String should have at most 400 characters; entry.max_spread_bps: Input should be less than or equal to 100"
+   ],
+   "auditFindings": [
+    [
+     "claim_number_elsewhere",
+     1
+    ],
+    [
+     "out_of_range_field",
+     1
+    ],
+    [
+     "quote_near_verbatim",
+     1
+    ],
+    [
+     "quote_too_long",
+     1
+    ]
+   ],
+   "class": "misattributed"
+  },
+  {
+   "ledger": "research/runs/2026-11-07-phase5/forward/ledger.jsonl",
+   "event": "WEC",
+   "validV1": false,
+   "contract": "1",
+   "v1Problems": [
+    "fact 1: quote not found verbatim in E1",
+    "reported revenue_usd_millions=3434 does not appear in the evidence"
+   ],
+   "auditFindings": [
+    [
+     "reported_wrong_period",
+     1
+    ]
+   ],
+   "class": "factual_error"
+  },
+  {
+   "ledger": "research/runs/2026-11-07-phase5/forward/ledger.jsonl",
+   "event": "PEG",
+   "validV1": true,
+   "contract": "1",
+   "v1Problems": [],
+   "auditFindings": [],
+   "class": "clean"
+  },
+  {
+   "ledger": "research/runs/2026-11-07-phase5/forward/ledger.jsonl",
+   "event": "ROKU",
+   "validV1": false,
+   "contract": "1",
+   "v1Problems": [
+    "schema: interpretations: List should have at most 6 items after validation, not 9; uncertainties: List should have at most 6 items after validation, not 7"
+   ],
+   "auditFindings": [
+    [
+     "list_too_long",
+     2
+    ]
+   ],
+   "class": "format_only"
+  },
+  {
+   "ledger": "research/runs/2026-11-07-phase5/forward/ledger.jsonl",
+   "event": "MOH",
+   "validV1": false,
+   "contract": "1",
+   "v1Problems": [
+    "fact 1: quote not found verbatim in E1"
+   ],
+   "auditFindings": [
+    [
+     "claim_number_elsewhere",
+     2
+    ]
+   ],
+   "class": "misattributed"
+  },
+  {
+   "ledger": "research/runs/2026-11-07-phase5/forward/ledger.jsonl",
+   "event": "DAL",
+   "validV1": false,
+   "contract": "1",
+   "v1Problems": [
+    "schema: entry.max_spread_bps: Input should be less than or equal to 100"
+   ],
+   "auditFindings": [
+    [
+     "out_of_range_field",
+     1
+    ]
+   ],
+   "class": "format_only"
+  },
+  {
+   "ledger": "research/runs/2026-11-07-phase5/forward/ledger.jsonl",
+   "event": "ASTS",
+   "validV1": false,
+   "contract": "1",
+   "v1Problems": [
+    "schema: entry.max_spread_bps: Input should be less than or equal to 100"
+   ],
+   "auditFindings": [
+    [
+     "out_of_range_field",
+     1
+    ]
+   ],
+   "class": "format_only"
+  }
+ ]
+}

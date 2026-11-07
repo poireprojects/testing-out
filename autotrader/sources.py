@@ -299,34 +299,66 @@ class EdgarObserver:
 
 
 class AlpacaPrices:
-    """Historical/real-time prices with the owner's own (rotated) Alpaca key. Not used in this container."""
+    """Historical consolidated (SIP) prices with the owner's own, rotated Alpaca key: read-only market data, free
+    on the Basic plan for data older than 15 minutes. The exposed key is refused. Results are cached per run."""
 
-    def __init__(self, key_id: str, secret: str):
+    def __init__(self, key_id: str, secret: str, client=None):
         refuse_exposed_key(key_id)
-        from alpaca.data.historical import StockHistoricalDataClient
-        self.c = StockHistoricalDataClient(key_id, secret)
+        if client is None:
+            from alpaca.data.historical import StockHistoricalDataClient
+            client = StockHistoricalDataClient(key_id, secret)
+        self.c = client
+        self._cache: dict = {}
+
+    def _memo(self, key, fn):
+        if key not in self._cache:
+            self._cache[key] = fn()
+        return self._cache[key]
 
     def quote(self, s: str, t: datetime) -> Optional[Quote]:
-        from alpaca.data.enums import DataFeed
-        from alpaca.data.requests import StockQuotesRequest
-        df = self.c.get_stock_quotes(StockQuotesRequest(symbol_or_symbols=s, start=t, end=t + timedelta(seconds=60),
-                                                        feed=DataFeed.SIP)).df
-        if df is None or df.empty:
-            return None
-        ok = df[(df["bid_price"] > 0) & (df["ask_price"] > df["bid_price"])]
-        if ok.empty:
-            return None
-        return Quote(s, float(statistics.median(ok["bid_price"])), float(statistics.median(ok["ask_price"])), t)
+        def fetch():
+            from alpaca.data.enums import DataFeed
+            from alpaca.data.requests import StockQuotesRequest
+            df = self.c.get_stock_quotes(StockQuotesRequest(symbol_or_symbols=s, start=t, end=t + timedelta(seconds=60),
+                                                            feed=DataFeed.SIP)).df
+            if df is None or df.empty:
+                return None
+            ok = df[(df["bid_price"] > 0) & (df["ask_price"] > df["bid_price"])]
+            if ok.empty:
+                return None
+            return Quote(s, float(statistics.median(ok["bid_price"])), float(statistics.median(ok["ask_price"])), t,
+                         self.prev_close(s, t.astimezone(ET).date()))
+        return self._memo(("q", s, t.isoformat()), fetch)
 
     def bars15(self, s: str, day: date) -> pd.DataFrame:
-        from alpaca.data.enums import DataFeed
-        from alpaca.data.requests import StockBarsRequest
-        from alpaca.data.timeframe import TimeFrame, TimeFrameUnit
-        st = datetime.combine(day, dtime(9, 30), ET)
-        df = self.c.get_stock_bars(StockBarsRequest(symbol_or_symbols=s, start=st, end=st + timedelta(hours=6, minutes=30),
-                                                    timeframe=TimeFrame(15, TimeFrameUnit.Minute), feed=DataFeed.SIP)).df
-        if df is None or df.empty:
-            return pd.DataFrame()
-        df = df.xs(s, level=0) if isinstance(df.index, pd.MultiIndex) else df
-        df.index = pd.to_datetime(df.index).tz_convert(ET)
-        return df[["open", "high", "low", "close", "volume"]].astype(float)
+        def fetch():
+            from alpaca.data.enums import DataFeed
+            from alpaca.data.requests import StockBarsRequest
+            from alpaca.data.timeframe import TimeFrame, TimeFrameUnit
+            st = datetime.combine(day, dtime(9, 30), ET)
+            df = self.c.get_stock_bars(StockBarsRequest(symbol_or_symbols=s, start=st,
+                                                        end=st + timedelta(hours=6, minutes=30),
+                                                        timeframe=TimeFrame(15, TimeFrameUnit.Minute),
+                                                        feed=DataFeed.SIP)).df
+            if df is None or df.empty:
+                return pd.DataFrame()
+            df = df.xs(s, level=0) if isinstance(df.index, pd.MultiIndex) else df
+            df.index = pd.to_datetime(df.index).tz_convert(ET)
+            return df[["open", "high", "low", "close", "volume"]].astype(float)
+        return self._memo(("b", s, day.isoformat()), fetch)
+
+    def prev_close(self, s: str, day: date) -> Optional[float]:
+        """The last regular-session close before `day` (daily bars over the previous two weeks)."""
+        def fetch():
+            from alpaca.data.enums import DataFeed
+            from alpaca.data.requests import StockBarsRequest
+            from alpaca.data.timeframe import TimeFrame
+            df = self.c.get_stock_bars(StockBarsRequest(symbol_or_symbols=s, timeframe=TimeFrame.Day, feed=DataFeed.SIP,
+                                                        start=datetime.combine(day - timedelta(days=14), dtime(0), ET),
+                                                        end=datetime.combine(day, dtime(0), ET))).df
+            if df is None or df.empty:
+                return None
+            df = df.xs(s, level=0) if isinstance(df.index, pd.MultiIndex) else df
+            before = df[pd.to_datetime(df.index).tz_convert(ET).date < day]
+            return float(before["close"].iloc[-1]) if not before.empty else None
+        return self._memo(("pc", s, day.isoformat()), fetch)
