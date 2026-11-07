@@ -1,7 +1,7 @@
 # Build 15 review: fixes, tests and what's still limited
 
 Build 15 is commit `086e143`. The fixes are in commits `2b03bd4`, `ee61a4a`, `1d934ac`, `8348ae5`, `571cb41` and `a5a4f98` on `claude/ai-day-trading-app-i8p65e`. The tested installer is **build 20**:
-https://github.com/poireprojects/testing-out/releases/download/build-20/dontknowwhatimdoing-windows-setup.exe
+https://github.com/poireprojects/testing-out/releases/tag/build-20 (its Windows setup file)
 (sha256 `87ec4539dba1dfc6b670117c8566f743d82d904c021c3a04680951c33914da90`).
 
 Live trading was not turned on and no money was spent. Every broker call went to the Alpaca **paper** account. The AI ran on a free local model, and nothing was purchased.
@@ -20,7 +20,7 @@ Live trading was not turned on and no money was spent. Every broker call went to
 
 ---
 
-## 1. Protective stops (`dkapp/engine/trading_engine.py`, `dkapp/execution/order_manager.py`)
+## 1. Protective stops (`stockpilot/engine/trading_engine.py`, `stockpilot/execution/order_manager.py`)
 
 **Problem in build 15.** `_ensure_protection` returned as soon as *any* "active" stop row existed:
 
@@ -50,9 +50,9 @@ That included `pending_submit`, a stop the app sent that the broker never answer
 * `trading_engine.py:355` `_is_unprotected()` and `unprotected()`: positions that are open or closing count as unprotected until fully covered by confirmed stops.
 * **New live entries are blocked.** `risk/engine.py:145` refuses real-money trades while any position "has no broker-confirmed stop order". `risk/engine.py:149` pauses real-money entries for the rest of the day after the broker refuses stops on two positions, and one refusal blocks that symbol.
 * **Unprotected positions are handled.** In live mode, `trading_engine.py:652` `_guard_unprotected()` sells a position that has had no confirmed stop for `risk.unprotected_live_exit_minutes`, which defaults to 10 and can be set from 1 to 60. Paper positions are watched but not sold.
-* **Recovery.** `trading_engine.py:666` `_sweep_stray_orders()` deals with orders the app lost track of. If a stop the app sent turns up live at the broker for a position it still holds, the app adopts it. Any other leftover order of its own is canceled, so a stray sell can't open a short. Orders the app didn't place are never touched. Each database has a random tag inside every `client_order_id` (`dk{mode}{tag}-…`, `order_manager.py:66`), so two copies of the app on one account never touch each other's orders.
+* **Recovery.** `trading_engine.py:666` `_sweep_stray_orders()` deals with orders the app lost track of. If a stop the app sent turns up live at the broker for a position it still holds, the app adopts it. Any other leftover order of its own is canceled, so a stray sell can't open a short. Orders the app didn't place are never touched. Each database has a random tag inside every `client_order_id` (`sp{mode}{tag}-…`, `order_manager.py:66`), so two copies of the app on one account never touch each other's orders.
 
-**Tests** (`tests/test_protection.py`, 16 tests, using hooks in `dkapp/broker/sim_broker.py` that simulate submit timeouts, lost responses and failed lookups):
+**Tests** (`tests/test_protection.py`, 16 tests, using hooks in `stockpilot/broker/sim_broker.py` that simulate submit timeouts, lost responses and failed lookups):
 `only_acknowledged_live_states_count`, `healthy_stop_is_confirmed_protection`, `stop_that_never_reached_the_broker_is_not_protection` (timeout), `lost_response_stop_is_adopted_not_duplicated`, `lost_response_is_resolved_on_the_spot_when_lookup_works`, `stop_canceled_at_the_broker_is_replaced`, `raised_stop_replaces_an_older_lower_broker_stop`, `app_watched_stop_sells_safely_when_broker_stop_is_unconfirmed`, `restart_resolves_unconfirmed_stop` (recovery), `stray_sell_order_with_nothing_behind_it_is_canceled`, `orders_not_placed_by_the_app_are_never_touched`, `live_position_without_confirmed_stop_is_sold_after_the_limit`, `paper_position_without_stop_is_watched_not_sold`, `live_entries_pause_after_broker_refuses_stops`, `unconfirmed_stop_blocks_live_entries_via_risk_context`, `another_copys_orders_on_the_same_account_are_never_touched`.
 
 ## 2. Installer safety checks (`packaging/windows/installer.iss`)
@@ -74,7 +74,7 @@ InitializeUninstall: only RC_LIVE blocked; every other failure continued
 * `PrepareToInstall` (line 205, upgrade) and `InitializeUninstall` (line 236) block on `RC_LIVE` and on **every** unexpected exit code. When the program couldn't run, they fall back to the installer's own checks, `NothingRunning` and `FallbackCheck` (line 140). These block if a copy is running, if that couldn't be determined, or if any real-money database exists, including test copies.
 * `CurUninstallStepChanged` (line 268) runs before any file is removed. Every failure goes through `RefuseUninstall`, which shows a message and calls `Abort`, and the uninstall ends with nothing removed. Before files go, it checks again that nothing is running.
 * `MayForceClose` (line 172) allows a force-close only if a **fresh** `--check-live` returns "none open", the installer is not running silently, and the person answers Yes. The default button is No. `ForceClose` then checks that the app actually closed. The ifs are nested so that nothing relies on Pascal short-circuit evaluation.
-* `dkapp/maintenance.py`: the live check covers the main database and every test copy, and an unreadable database counts as open. `DK_TEST_MAINTENANCE_FAIL` and `DK_TEST_IGNORE_QUIT` (in `dkapp/ui/app.py`) let CI simulate a crashed check and a hung app.
+* `stockpilot/maintenance.py`: the live check covers the main database and every test copy, and an unreadable database counts as open. `STOCKPILOT_TEST_MAINTENANCE_FAIL` and `STOCKPILOT_TEST_IGNORE_QUIT` (in `stockpilot/ui/app.py`) let CI simulate a crashed check and a hung app.
 * Also fixed: in build 16 a continuation line starting with `#13#10` was parsed as a preprocessor directive and the installer didn't compile.
 
 **Tests.**
@@ -90,7 +90,7 @@ InitializeUninstall: only RC_LIVE blocked; every other failure continued
 
   All passed in build 20. The log shows `force-close refused: silent mode never force-closes a trading process` → `uninstall refused`.
 
-## 3. Alpaca limited margin under $2,000 and settlement (`dkapp/risk/sizing.py`, `dkapp/config.py`)
+## 3. Alpaca limited margin under $2,000 and settlement (`stockpilot/risk/sizing.py`, `stockpilot/config.py`)
 
 **Checked against Alpaca's current documentation.**
 
