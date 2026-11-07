@@ -4,10 +4,10 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from dkapp.analysis.features import Baseline, feature_frame
-from dkapp.backtest.engine import FrameView
-from dkapp.clock import ET
-from dkapp.strategies import ALL_STRATEGIES, Context
+from stockpilot.analysis.features import Baseline, feature_frame
+from stockpilot.backtest.engine import FrameView
+from stockpilot.clock import ET
+from stockpilot.strategies import ALL_STRATEGIES, Context
 
 OPEN = datetime(2026, 11, 4, 9, 30, tzinfo=ET)
 
