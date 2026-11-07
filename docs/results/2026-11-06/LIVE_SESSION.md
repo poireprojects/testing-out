@@ -20,7 +20,7 @@ Run during market hours (9:32 ET) against `paper-api.alpaca.markets` / `data.alp
 ## The app running live with the AI (9:47–10:37 ET)
 
 Real app, paper mode, autopilot on, decision mode "ai confirms", local model `llama3.2:3b` ($0).
-Screenshots are in `live-paper/`.
+Screenshots are in `live-paper/`. The app was renamed StockPilot after this session. In these screenshots only the corner with the app's name and logo was redrawn with the new ones; everything else is exactly as captured.
 
 | time (ET) | event |
 |---|---|
