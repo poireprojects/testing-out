@@ -2,7 +2,7 @@ import sys
 
 
 def main() -> int:
-    from dkapp.ui.app import main as run
+    from stockpilot.ui.app import main as run
     return run()
 
 
