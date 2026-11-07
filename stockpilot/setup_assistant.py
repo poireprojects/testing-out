@@ -111,7 +111,7 @@ def install(progress: Progress, client: Optional[httpx.Client] = None) -> str:
     url = OLLAMA_DOWNLOADS.get(sys.platform)
     if url is None:
         raise RuntimeError(f"automatic install isn't available on this system — get it from {OLLAMA_PAGE}")
-    tmp = Path(tempfile.mkdtemp(prefix="dk-ollama-"))
+    tmp = Path(tempfile.mkdtemp(prefix="stockpilot-ollama-"))
     dest = tmp / url.rsplit("/", 1)[-1]
     c = client or httpx.Client(timeout=60, follow_redirects=True)
     with c.stream("GET", url, follow_redirects=True) as r:
