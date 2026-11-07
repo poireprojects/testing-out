@@ -5,12 +5,12 @@ from types import SimpleNamespace
 import httpx
 import pytest
 
-from dkapp.ai.engine import AIEngine, build_entry_prompt
-from dkapp.ai.providers import AIUnavailable, AnthropicProvider, OllamaProvider, anthropic_cost
-from dkapp.ai.schema import ENTRY_SCHEMA, parse_entry, parse_exit
-from dkapp.config import AppSettings
-from dkapp.models import Signal
-from dkapp.storage.db import Database
+from stockpilot.ai.engine import AIEngine, build_entry_prompt
+from stockpilot.ai.providers import AIUnavailable, AnthropicProvider, OllamaProvider, anthropic_cost
+from stockpilot.ai.schema import ENTRY_SCHEMA, parse_entry, parse_exit
+from stockpilot.config import AppSettings
+from stockpilot.models import Signal
+from stockpilot.storage.db import Database
 from tests.harness import ScriptedAI
 
 GOOD = {"action": "buy", "confidence": 0.8, "evidence_quality": "strong", "stop_loss_pct": 1.0,
