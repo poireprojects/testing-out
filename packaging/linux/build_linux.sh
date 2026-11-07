@@ -4,17 +4,17 @@ set -euo pipefail
 cd "$(dirname "$0")/../.."
 [ -d .venv ] || python3.12 -m venv .venv
 .venv/bin/python -m pip install -r requirements-dev.txt
-.venv/bin/pyinstaller packaging/dk.spec --noconfirm --clean
-DEST="$HOME/.local/share/dontknowwhatimdoing"
-rm -rf "$DEST" && mkdir -p "$DEST" && cp -R dist/dontknowwhatimdoing/. "$DEST/"
+.venv/bin/pyinstaller packaging/stockpilot.spec --noconfirm --clean
+DEST="$HOME/.local/share/StockPilot"
+rm -rf "$DEST" && mkdir -p "$DEST" && cp -R dist/StockPilot/. "$DEST/"
 mkdir -p "$HOME/.local/share/applications" "$HOME/.local/share/icons"
-cp dkapp/assets/icons/dk.png "$HOME/.local/share/icons/dontknowwhatimdoing.png"
-cat > "$HOME/.local/share/applications/dontknowwhatimdoing.desktop" <<DESK
+cp stockpilot/assets/icons/stockpilot.png "$HOME/.local/share/icons/StockPilot.png"
+cat > "$HOME/.local/share/applications/StockPilot.desktop" <<DESK
 [Desktop Entry]
 Type=Application
-Name=don’t know what im doing
-Exec=$DEST/dontknowwhatimdoing
-Icon=$HOME/.local/share/icons/dontknowwhatimdoing.png
+Name=StockPilot
+Exec=$DEST/StockPilot
+Icon=$HOME/.local/share/icons/StockPilot.png
 Categories=Finance;Office;
 DESK
-echo "Installed. Find 'don’t know what im doing' in your applications menu."
+echo "Installed. Find 'StockPilot' in your applications menu."
