@@ -20,9 +20,9 @@ sys.path.insert(0, str(ROOT / "scripts"))
 import numpy as np  # noqa: E402
 
 import research_round1 as r1  # noqa: E402
-from dkapp.quant.features import FEATURE_VERSION  # noqa: E402
-from dkapp.quant.model import QuantModel  # noqa: E402
-from dkapp.quant.registry import ModelCard  # noqa: E402
+from stockpilot.quant.features import FEATURE_VERSION  # noqa: E402
+from stockpilot.quant.model import QuantModel  # noqa: E402
+from stockpilot.quant.registry import ModelCard  # noqa: E402
 
 
 def main(cache: Path) -> int:
@@ -58,7 +58,7 @@ def main(cache: Path) -> int:
         notes=("Calibrated win probabilities (better than the base rate), but no skill at predicting the size of "
                "the result: on the unseen holdout it found no candidate with a positive expected result after "
                "costs and took no trades. Shown for information; it can't gate trades."))
-    out = ROOT / "dkapp" / "assets" / "models"
+    out = ROOT / "stockpilot" / "assets" / "models"
     out.mkdir(parents=True, exist_ok=True)
     card.fingerprint = m.fingerprint()
     from datetime import datetime, timezone
