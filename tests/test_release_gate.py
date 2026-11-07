@@ -19,7 +19,7 @@ import app_changed as gate  # noqa: E402
     "research/runs/2026-11-07-phase4/corrected/results_corrected.json", "research/ledger.json",
     "scripts/phase4_corrected.py", "tests/test_events.py", "docs/results/x.md", "README.md",
     ".github/workflows/build.yml", "dkapp/research/events.py", "dkapp/research/phase2.py",
-    "requirements-research.txt", "packaging/app_changed.py",
+    "requirements-research.txt", "packaging/app_changed.py", "autotrader/runner.py", "autotrader/owner_policy.json",
 ])
 def test_research_test_and_doc_paths_do_not_release(path):
     assert not gate.is_app_path(path)
@@ -77,6 +77,13 @@ def test_research_modules_listed_as_non_app_are_never_imported_by_the_app():
     for p in listed:
         mod = p.removesuffix(".py").replace("/", ".")
         assert mod not in reach, f"{mod} is imported by the app: remove {p} from NON_APP"
+
+
+def test_the_app_never_imports_the_research_prototype():
+    for p in (ROOT / "dkapp").rglob("*.py"):
+        assert "autotrader" not in p.read_text(encoding="utf-8"), p
+    spec = (ROOT / "packaging" / "dk.spec").read_text(encoding="utf-8")
+    assert "autotrader" not in spec and 'collect_submodules("dkapp")' in spec
 
 
 def test_launcher_entry_point_is_the_one_the_graph_starts_from():

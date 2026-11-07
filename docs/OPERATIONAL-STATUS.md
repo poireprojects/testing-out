@@ -74,7 +74,15 @@ Nothing else needs rotating for this project:
 * The SEC contact email was passed at run time only and is not stored.
 * Any AI provider key you entered yourself is not affected by this project.
 
-## 5. Releases
+## 5. Phase 5 prototype (simulation only)
+
+`autotrader/` is a separate research package: an autonomous research-and-decision loop (SEC filings, a language
+model or simple baselines, the app's own risk engine, simulated execution, a hash-chained ledger and a daily
+report). It is not part of the desktop app, is never imported or bundled by it, and cannot place an order: its
+owner policy permits only `simulate`, and the exposed paper key is refused in code. See
+`research/PHASE5-AUTONOMOUS.md`.
+
+## 6. Releases
 
 * **Pushes that only change research, tests or documentation no longer publish an installer.**
   `packaging/app_changed.py` compares each push with the newest published build. The test suite still runs

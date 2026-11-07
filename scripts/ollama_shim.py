@@ -21,9 +21,10 @@ def main() -> int:
     ap.add_argument("--name", default="llama3.2:3b")
     ap.add_argument("--port", type=int, default=11434)
     ap.add_argument("--threads", type=int, default=4)
+    ap.add_argument("--ctx", type=int, default=4096)
     a = ap.parse_args()
     from llama_cpp import Llama
-    llm = Llama(model_path=a.model, n_ctx=4096, n_threads=a.threads, verbose=False, seed=11)
+    llm = Llama(model_path=a.model, n_ctx=a.ctx, n_threads=a.threads, verbose=False, seed=11)
     lock = threading.Lock()
 
     class H(BaseHTTPRequestHandler):

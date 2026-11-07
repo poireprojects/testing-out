@@ -1,0 +1,11 @@
+{
+  "about": "Owner-set boundaries of the autonomous trader. The AI cannot read or write this file through any interface; changing it is an owner action and every cycle records its SHA-256 in the ledger. Risk limits are the desktop app's own defaults (dkapp.config.RiskSettings: $100 capital, $20 per position, 2 positions, $2 daily loss).",
+  "mode": "simulate",
+  "long_only": true,
+  "instruments": "the event's own stock or its sector ETF, only if in the app's curated universe",
+  "decision_time": "10:00",
+  "exit_by": "15:45",
+  "max_consecutive_model_failures": 3,
+  "max_consecutive_data_failures": 3,
+  "kill_switch_file": "KILL"
+}

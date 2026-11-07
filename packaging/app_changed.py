@@ -23,6 +23,7 @@ import sys
 
 NON_APP = [
     "research/*", "scripts/*", "tests/*", "docs/*", "screenshots/*", ".github/*",
+    "autotrader/*",          # phase-5 research prototype: outside dkapp, never imported by the app or bundled
     "README.md", "requirements-research.txt", ".gitignore", "packaging/app_changed.py",
     # dkapp research modules that are bundled but never imported by the app (tests/test_release_gate.py
     # checks this against the app's import graph, so this list can't silently go stale)

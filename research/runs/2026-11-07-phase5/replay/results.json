@@ -1,0 +1,72 @@
+{
+ "mode": "replay",
+ "independentEvidence": false,
+ "Q1_understanding": {
+  "answers": 30,
+  "valid": 8,
+  "modelFailures": 0,
+  "schemaFailures": 10,
+  "quoteNotFound": 8,
+  "numbersNotInQuote": 2,
+  "reportedNotInEvidence": 5,
+  "extraction": {
+   "eps_diluted": {
+    "correct": 2,
+    "checked": 2,
+    "accuracy": 1.0
+   },
+   "revenue_usd_millions": {
+    "correct": 1,
+    "checked": 2,
+    "accuracy": 0.5
+   }
+  }
+ },
+ "Q2_prediction": {
+  "n": 20,
+  "baseRate": 0.49037372593431483,
+  "brierModel": 0.36868504199999996,
+  "brierBaseRate": 0.24913003774581916,
+  "upRate": 0.45
+ },
+ "Q3_trading": {
+  "no_trade": {
+   "events": 30,
+   "proposed": 0,
+   "trades": 0,
+   "meanNetPct": null,
+   "totalPnlUsd": 0,
+   "winners": 0
+  },
+  "rule_p4h1": {
+   "events": 30,
+   "proposed": 11,
+   "trades": 2,
+   "meanNetPct": -1.7944317486893622,
+   "totalPnlUsd": -0.717772699475745,
+   "winners": 0
+  },
+  "price_only": {
+   "events": 30,
+   "proposed": 15,
+   "trades": 2,
+   "meanNetPct": -1.7944317486893622,
+   "totalPnlUsd": -0.717772699475745,
+   "winners": 0
+  },
+  "llm": {
+   "events": 30,
+   "proposed": 0,
+   "trades": 0,
+   "meanNetPct": null,
+   "totalPnlUsd": 0,
+   "winners": 0
+  }
+ },
+ "events": 30,
+ "window": [
+  "2026-10-01",
+  "2026-10-30",
+  30
+ ]
+}
