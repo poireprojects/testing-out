@@ -16,11 +16,11 @@ from datetime import date, datetime, time as dtime
 from pathlib import Path
 from typing import Optional
 
-from dkapp.clock import ET, MarketCalendar, session_state
-from dkapp.data.universe import is_safe_symbol
-from dkapp.models import AccountInfo
-from dkapp.risk.engine import EntryProposal, OpenRisk, RiskContext, RiskEngine
-from dkapp.risk.fees import CostModel
+from stockpilot.clock import ET, MarketCalendar, session_state
+from stockpilot.data.universe import is_safe_symbol
+from stockpilot.models import AccountInfo
+from stockpilot.risk.engine import EntryProposal, OpenRisk, RiskContext, RiskEngine
+from stockpilot.risk.fees import CostModel
 
 from .evidence import EvidencePack
 from .policy import OwnerPolicy
