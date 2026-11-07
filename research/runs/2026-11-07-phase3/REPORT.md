@@ -29,7 +29,7 @@ Each package was read at source level (PyPI wheels/sdists and the Lean repositor
 | project | licence | what it does well | used? |
 |---|---|---|---|
 | **alphalens-reloaded** 0.5.1 | Apache-2.0 | Factor tear sheets: rank IC and its t-stat, mean return by quantile, IC decay, factor turnover (rank autocorrelation). It does **not** model costs | **Adopted** (research-only environment, `requirements-research.txt`). It independently reproduced our IC exactly (+0.0764 vs +0.0764) |
-| **Deflated Sharpe ratio / probabilistic Sharpe** (Bailey & López de Prado 2012, 2014) | method | Corrects a Sharpe ratio for the number of strategies tried, for sample length, skew and fat tails | **Adopted** (`dkapp/research/stats.py`, no dependency). It decided H1's fate |
+| **Deflated Sharpe ratio / probabilistic Sharpe** (Bailey & López de Prado 2012, 2014) | method | Corrects a Sharpe ratio for the number of strategies tried, for sample length, skew and fat tails | **Adopted** (`stockpilot/research/stats.py`, no dependency). It decided H1's fate |
 | qlib 0.9.7 (Microsoft) | MIT | Separates signal evaluation (IC, Rank IC, ICIR, long-short) from portfolio backtesting. Its `TopkDropoutStrategy(topk, n_drop)` caps turnover. Exchange costs (`open_cost`, `close_cost`, `min_cost`), limit thresholds, rolling retraining | Not adopted. Its dependencies are heavy (mlflow, redis, pymongo, cvxpy, gym) and its defaults suit Chinese A-shares (5-yuan minimum cost). We borrowed the IC/ICIR reporting and the turnover-capping idea |
 | pybroker 2.0.2 | Apache-2.0 **+ Commons Clause** | BCa bootstrap confidence intervals for Sharpe and profit factor, `walkforward(windows, lookahead, train_size)`, `buy_delay` | Not adopted. The licence restricts selling, and its default fill price is the bar midpoint (optimistic). Our day/month-block bootstrap is already more conservative for autocorrelated returns |
 | QuantConnect Lean | Apache-2.0 | `EquityFillModel` (stop fills at the open when the price gaps through), `VolumeShareSlippageModel` (quadratic impact), `DelayedSettlementModel` (T+N cash settlement) | Not adopted (C# engine). We copied the T+1 settlement idea as a sensitivity (`buy_delay=1`). Lean's `AlpacaFeeModel` charges US equities **nothing**, so it ignores the SEC/TAF/CAT fees and the daily cent rounding our cost model includes |
@@ -180,17 +180,17 @@ What the table shows:
 ## G. What was implemented
 
 **Research tooling:**
-* `dkapp/research/academic.py`: ledger-enforcing loaders and a one-time holdout marker.
-* `dkapp/research/factors.py`: point-in-time factors and IC.
-* `dkapp/research/portfolio.py`: a long-only daily portfolio simulator with spread, slippage, per-type daily
+* `stockpilot/research/academic.py`: ledger-enforcing loaders and a one-time holdout marker.
+* `stockpilot/research/factors.py`: point-in-time factors and IC.
+* `stockpilot/research/portfolio.py`: a long-only daily portfolio simulator with spread, slippage, per-type daily
   cent-rounded fees, a $1 minimum, a T+1 option, and no leverage.
-* `dkapp/research/phase3.py`: the frozen rules.
+* `stockpilot/research/phase3.py`: the frozen rules.
 * Deflated Sharpe ratio, probabilistic Sharpe ratio and a moving-block bootstrap.
 * `scripts/download_phase3.py`: vault rows are dropped in memory and never written.
 * The review, development, ML and report scripts.
 
 **App:**
-* `dkapp/research/daily_shadow.py`: forward shadow records for multi-day rules (H1 on sector ETFs, H2 on SPY,
+* `stockpilot/research/daily_shadow.py`: forward shadow records for multi-day rules (H1 on sector ETFs, H2 on SPY,
   and an SPY benchmark).
   * Each decision is recorded in its own window from that day's adjusted closes. It is never backfilled; a
     missed window is counted as missed.
