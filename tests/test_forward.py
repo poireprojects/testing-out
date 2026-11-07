@@ -7,9 +7,9 @@ from datetime import date, datetime, timedelta, timezone
 import numpy as np
 import pytest
 
-from dkapp.research.forward import Bars, ForwardLedger, outcomes_for
-from dkapp.risk.fees import CostModel
-from dkapp.storage.db import Database
+from stockpilot.research.forward import Bars, ForwardLedger, outcomes_for
+from stockpilot.risk.fees import CostModel
+from stockpilot.storage.db import Database
 
 OPEN = datetime(2026, 11, 9, 14, 30, tzinfo=timezone.utc)
 
@@ -106,8 +106,8 @@ def test_engine_records_taken_and_rejected_candidates_and_scores_them_after_the_
 
 def test_gap_observer_records_qualifying_stocks_in_play_once_per_day(tmp_path, monkeypatch):
     import pandas as pd
-    from dkapp.analysis.features import Baseline
-    from dkapp.scanner import ScanRow
+    from stockpilot.analysis.features import Baseline
+    from stockpilot.scanner import ScanRow
     from tests.harness import make_rig
     rig = make_rig(tmp_path, mode="paper", start_offset_min=6)
     rig.run_until(rig.clock.now() + timedelta(seconds=30), step_seconds=30)
@@ -145,7 +145,7 @@ def test_shipped_phase2_summary_matches_the_committed_holdout_results():
     from pathlib import Path
     root = Path(__file__).resolve().parents[1]
     hold = json.loads((root / "research/runs/2026-11-07-phase2/holdout.json").read_text())
-    shipped = json.loads((root / "dkapp/assets/research/phase2-summary.json").read_text())
+    shipped = json.loads((root / "stockpilot/assets/research/phase2-summary.json").read_text())
     rows = {r["key"]: r for r in shipped["rows"]}
     assert rows["no_trade"]["trades"] == 0
     for k, r in rows.items():
