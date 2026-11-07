@@ -19,7 +19,7 @@ import pytest
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
 
-from dkapp.clock import ET  # noqa: E402
+from stockpilot.clock import ET  # noqa: E402
 
 DAY = "2026-03-10"
 RUN = ROOT / "research" / "runs" / "2026-11-07-phase4"
