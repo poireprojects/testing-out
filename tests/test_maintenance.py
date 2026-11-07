@@ -1,6 +1,6 @@
-from dkapp import credentials, maintenance, paths
-from dkapp.config import AppSettings, save_settings
-from dkapp.storage.db import Database
+from stockpilot import credentials, maintenance, paths
+from stockpilot.config import AppSettings, save_settings
+from stockpilot.storage.db import Database
 
 
 def _live_trade(status="open"):
@@ -43,19 +43,19 @@ def test_clean_uninstall_deletes_data_and_all_keys(monkeypatch):
     credentials.save_alpaca_keys("paper", "PK", "S")
     credentials.save_anthropic_key("sk-ant-x")
     (paths.data_dir() / "profiles" / "test").mkdir(parents=True)
-    credentials.SERVICE = "dontknowwhatimdoing-profile-test"
+    credentials.SERVICE = "StockPilot-profile-test"
     credentials.save_alpaca_keys("paper", "PROFILEKEY", "S")
-    credentials.SERVICE = "dontknowwhatimdoing"
+    credentials.SERVICE = "StockPilot"
     disabled = []
-    from dkapp.platform_utils import autostart
+    from stockpilot.platform_utils import autostart
     monkeypatch.setattr(autostart, "set_enabled", lambda on: (disabled.append(on), (True, "off"))[1])
     assert maintenance.run(["app", "--uninstall-prepare", "--delete-data"]) == maintenance.OK
     assert disabled == [False]
     assert not paths.database_file("paper").exists() and not paths.settings_file().exists()
     assert credentials.load_alpaca_keys("paper") is None and credentials.load_anthropic_key() is None
-    credentials.SERVICE = "dontknowwhatimdoing-profile-test"
+    credentials.SERVICE = "StockPilot-profile-test"
     assert credentials.load_alpaca_keys("paper") is None
-    credentials.SERVICE = "dontknowwhatimdoing"
+    credentials.SERVICE = "StockPilot"
 
 
 def test_shutdown_running_when_nothing_runs():
@@ -93,8 +93,8 @@ def test_gives_up_if_the_process_never_exits():
 
 
 def test_test_copy_live_positions_block_too():
-    from dkapp import paths
-    from dkapp.storage.db import Database
+    from stockpilot import paths
+    from stockpilot.storage.db import Database
     prof = paths.data_dir() / "profiles" / "test"
     prof.mkdir(parents=True)
     db = Database(prof / "trading_live.db", "live")
@@ -106,7 +106,7 @@ def test_test_copy_live_positions_block_too():
 
 
 def test_unreadable_live_database_counts_as_open():
-    from dkapp import paths
+    from stockpilot import paths
     paths.data_dir().mkdir(parents=True, exist_ok=True)
     (paths.data_dir() / "trading_live.db").write_bytes(b"this is not a database")
     assert maintenance.open_live_positions(), "uncertain must mean blocked"
@@ -115,7 +115,7 @@ def test_unreadable_live_database_counts_as_open():
 
 
 def test_failure_hook_reports_error_not_success(monkeypatch):
-    monkeypatch.setenv("DK_TEST_MAINTENANCE_FAIL", "1")
+    monkeypatch.setenv("STOCKPILOT_TEST_MAINTENANCE_FAIL", "1")
     for cmd in ("--check-live", "--shutdown-running", "--uninstall-prepare"):
         assert maintenance.run(["app", cmd]) == maintenance.ERROR
 
