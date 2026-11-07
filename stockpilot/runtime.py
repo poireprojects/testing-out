@@ -115,7 +115,7 @@ class Runtime:
     def start(self) -> None:
         if self.engine is None:
             self.build()
-        self._thread = threading.Thread(target=self.engine.run, args=(self._stop,), name=f"dk-engine-{self.mode}",
+        self._thread = threading.Thread(target=self.engine.run, args=(self._stop,), name=f"stockpilot-engine-{self.mode}",
                                         daemon=True)
         self._thread.start()
 
