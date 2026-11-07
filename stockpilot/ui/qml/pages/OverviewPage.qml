@@ -2,10 +2,10 @@ import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls.Basic
 import QtQuick.Shapes
-import Dk 1.0
-import DkCharts 1.0
+import Sp 1.0
+import SpCharts 1.0
 
-DkScroll {
+SpScroll {
     id: page
     signal navigate(int page)
     readonly property var st: app.state
@@ -27,8 +27,8 @@ DkScroll {
             icon: "plug"
             subtitle: page.st.notConfigured || ""
             RowLayout {
-                DkButton { text: "open settings"; kind: "primary"; iconName: "arrowRight"; onClicked: page.navigate(5) }
-                DkButton { text: "back to demo mode"; kind: "secondary"; onClicked: app.setMode("demo", true) }
+                SpButton { text: "open settings"; kind: "primary"; iconName: "arrowRight"; onClicked: page.navigate(5) }
+                SpButton { text: "back to demo mode"; kind: "secondary"; onClicked: app.setMode("demo", true) }
             }
         }
 
@@ -189,7 +189,7 @@ DkScroll {
                             color: st.ai && st.ai.healthy === false && st.ai.decisionMode !== "rules" ? Theme.coral : Theme.text
                         }
                     }
-                    DkButton {
+                    SpButton {
                         visible: st.ai && st.ai.decisionMode !== "rules" && st.ai.healthy === false
                         compact: true
                         kind: "secondary"
@@ -269,7 +269,7 @@ DkScroll {
                 title: "open positions"
                 tip: "position"
                 headerRight: [
-                    DkButton { compact: true; kind: "ghost"; text: "all trades →"; onClicked: page.navigate(3) }
+                    SpButton { compact: true; kind: "ghost"; text: "all trades →"; onClicked: page.navigate(3) }
                 ]
                 EmptyState {
                     visible: page.positions.length === 0
@@ -310,7 +310,7 @@ DkScroll {
                               Layout.maximumWidth: 130 }
                     }
                 }
-                DkButton { compact: true; kind: "ghost"; text: "change safety rules →"; onClicked: page.navigate(5) }
+                SpButton { compact: true; kind: "ghost"; text: "change safety rules →"; onClicked: page.navigate(5) }
             }
         }
 
@@ -319,7 +319,7 @@ DkScroll {
             Layout.fillWidth: true
             title: "latest activity"
             icon: "sparkle"
-            headerRight: [ DkButton { compact: true; kind: "ghost"; text: "everything →"; onClicked: page.navigate(2) } ]
+            headerRight: [ SpButton { compact: true; kind: "ghost"; text: "everything →"; onClicked: page.navigate(2) } ]
             EmptyState {
                 visible: app.activityModel.count === 0
                 Layout.fillWidth: true
@@ -398,7 +398,7 @@ DkScroll {
                 Txt { text: Theme.signedMoney(model.pnl); font.family: Theme.display; font.pixelSize: 16; font.weight: Font.Medium; color: Theme.pnlColor(model.pnl); Layout.alignment: Qt.AlignRight }
                 Txt { text: Theme.signedPct(model.pnlPct); font.pixelSize: 12; color: Theme.pnlColor(model.pnl); Layout.alignment: Qt.AlignRight }
             }
-            DkButton {
+            SpButton {
                 compact: true; kind: "danger"; text: "sell"; visible: model.status === "open"
                 onClicked: app.closePosition(model.tradeId)
                 ToolTip.visible: hovered; ToolTip.text: "sell this position now at market"; ToolTip.delay: 300
