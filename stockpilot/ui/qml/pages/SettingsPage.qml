@@ -1,9 +1,9 @@
 import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls.Basic
-import Dk 1.0
+import Sp 1.0
 
-DkScroll {
+SpScroll {
     id: page
     maxContentWidth: 980
     readonly property var cfg: app.settings
@@ -83,7 +83,7 @@ DkScroll {
                         Icon { name: "lock"; size: 16; color: page.live.authorized ? Theme.coral : Theme.textDim }
                         Txt { text: page.live.authorized ? "real-money trading is authorized" : "real-money trading is locked"; font.weight: Font.DemiBold; font.pixelSize: 14 }
                         Item { Layout.fillWidth: true }
-                        DkButton { visible: page.live.authorized; compact: true; kind: "danger"; text: "revoke"; onClicked: app.revokeLive() }
+                        SpButton { visible: page.live.authorized; compact: true; kind: "danger"; text: "revoke"; onClicked: app.revokeLive() }
                     }
                     Txt { text: page.live.message; color: Theme.textDim; font.pixelSize: 13; wrapMode: Text.WordWrap; Layout.fillWidth: true }
                     ColumnLayout {
@@ -101,7 +101,7 @@ DkScroll {
                             delegate: RowLayout {
                                 Layout.fillWidth: true
                                 spacing: 10
-                                DkSwitch {
+                                SpSwitch {
                                     checked: page.acks.indexOf(modelData) >= 0
                                     onToggled: {
                                         var a = page.acks.slice()
@@ -117,8 +117,8 @@ DkScroll {
                         Txt { text: "type: " + page.live.phrase; color: Theme.textMuted; font.pixelSize: 12 }
                         RowLayout {
                             Layout.fillWidth: true
-                            DkField { id: phrase; Layout.fillWidth: true; placeholderText: page.live.phrase }
-                            DkButton {
+                            SpField { id: phrase; Layout.fillWidth: true; placeholderText: page.live.phrase }
+                            SpButton {
                                 kind: "danger"; text: "authorize live trading"
                                 enabled: phrase.text.toLowerCase().trim() === page.live.phrase && page.acks.length === (page.live.acks || []).length && page.creds.liveSaved
                                 onClicked: { page.authMsg = app.authorizeLive(phrase.text, page.acks); if (page.authMsg === "") { phrase.text = ""; page.acks = [] } }
@@ -147,14 +147,14 @@ DkScroll {
                         Txt { text: modelData.label; font.pixelSize: 14; font.weight: Font.Medium }
                         Pill { text: modelData.saved ? "SAVED" : "NOT SET"; kind: modelData.saved ? "lime" : "neutral" }
                         Item { Layout.fillWidth: true }
-                        DkButton { visible: modelData.saved; compact: true; kind: "ghost"; text: "remove"; onClicked: app.deleteAlpacaKeys(modelData.env) }
+                        SpButton { visible: modelData.saved; compact: true; kind: "ghost"; text: "remove"; onClicked: app.deleteAlpacaKeys(modelData.env) }
                     }
                     RowLayout {
                         Layout.fillWidth: true
                         spacing: 10
-                        DkField { id: kf; Layout.fillWidth: true; placeholderText: "API key ID"; Component.onCompleted: if (modelData.env === "paper") paperKey = kf; else liveKey = kf }
-                        DkField { id: sf; Layout.fillWidth: true; placeholderText: "secret key"; secret: true; Component.onCompleted: if (modelData.env === "paper") paperSecret = sf; else liveSecret = sf }
-                        DkButton { text: "test & save"; kind: "primary"; enabled: kf.text.length > 5 && sf.text.length > 5; onClicked: { if (modelData.env === "paper") page.paperMsg = "testing…"; else page.liveMsg = "testing…"; app.saveAlpacaKeys(modelData.env, kf.text, sf.text) } }
+                        SpField { id: kf; Layout.fillWidth: true; placeholderText: "API key ID"; Component.onCompleted: if (modelData.env === "paper") paperKey = kf; else liveKey = kf }
+                        SpField { id: sf; Layout.fillWidth: true; placeholderText: "secret key"; secret: true; Component.onCompleted: if (modelData.env === "paper") paperSecret = sf; else liveSecret = sf }
+                        SpButton { text: "test & save"; kind: "primary"; enabled: kf.text.length > 5 && sf.text.length > 5; onClicked: { if (modelData.env === "paper") page.paperMsg = "testing…"; else page.liveMsg = "testing…"; app.saveAlpacaKeys(modelData.env, kf.text, sf.text) } }
                     }
                     Txt {
                         readonly property string m: modelData.env === "paper" ? page.paperMsg : page.liveMsg
@@ -192,18 +192,18 @@ DkScroll {
                 spacing: 12
                 SettingRow {
                     label: "ollama address"
-                    DkField { width: 260; text: page.cfg.ai.ollama_url; onEditingFinished: page.set("ai.ollama_url", text) }
+                    SpField { width: 260; text: page.cfg.ai.ollama_url; onEditingFinished: page.set("ai.ollama_url", text) }
                 }
                 SettingRow {
                     label: "model"
                     help: app.ollamaModels.length ? "installed models on this computer" : "no models found — is Ollama running?"
-                    DkCombo {
+                    SpCombo {
                         width: 260
                         model: app.ollamaModels.length ? app.ollamaModels : [page.cfg.ai.ollama_model]
                         currentIndex: Math.max(0, (app.ollamaModels.length ? app.ollamaModels : [page.cfg.ai.ollama_model]).indexOf(page.cfg.ai.ollama_model))
                         onActivated: (i) => page.set("ai.ollama_model", currentText)
                     }
-                    DkButton { compact: true; kind: "ghost"; iconName: "refresh"; text: ""; onClicked: app.refreshOllamaModels() }
+                    SpButton { compact: true; kind: "ghost"; iconName: "refresh"; text: ""; onClicked: app.refreshOllamaModels() }
                 }
             }
             ColumnLayout {
@@ -213,8 +213,8 @@ DkScroll {
                 SettingRow {
                     label: "Anthropic API key"
                     help: page.creds.anthropicSaved ? "saved in your secure credential store." : "create one at console.anthropic.com. stored securely, never in files."
-                    DkField { id: anthropicKey; width: 260; secret: true; placeholderText: page.creds.anthropicSaved ? "••••••• saved" : "sk-ant-…" }
-                    DkButton { compact: true; kind: "primary"; text: "test & save"; enabled: anthropicKey.text.length > 10; onClicked: { page.keyMsg = "testing…"; app.saveAnthropicKey(anthropicKey.text) } }
+                    SpField { id: anthropicKey; width: 260; secret: true; placeholderText: page.creds.anthropicSaved ? "••••••• saved" : "sk-ant-…" }
+                    SpButton { compact: true; kind: "primary"; text: "test & save"; enabled: anthropicKey.text.length > 10; onClicked: { page.keyMsg = "testing…"; app.saveAnthropicKey(anthropicKey.text) } }
                 }
                 Txt { visible: page.keyMsg !== ""; text: page.keyMsg; color: page.keyMsg === "testing…" ? Theme.textDim : page.aiOk ? Theme.lime : Theme.coral; font.pixelSize: 13; Layout.fillWidth: true; wrapMode: Text.WordWrap }
                 SettingRow {
@@ -225,7 +225,7 @@ DkScroll {
                         var per = (1800 * m.input + 900 * m.output) / 1e6
                         return "$" + m.input.toFixed(2) + " / $" + m.output.toFixed(2) + " per million tokens in/out · roughly " + Theme.money(per, 4) + " per decision"
                     }
-                    DkCombo {
+                    SpCombo {
                         width: 300
                         textRole: "label"
                         model: page.info.anthropicModels
@@ -236,22 +236,22 @@ DkScroll {
                 SettingRow {
                     label: "monthly budget"
                     help: "cloud AI stops (and AI-dependent trades pause) once this month's spend reaches the cap."
-                    DkNumber { value: page.cfg.ai.monthly_budget_usd; prefix: "$"; decimals: 2; step: 1; from: 0; to: 500; onCommitted: (v) => page.set("ai.monthly_budget_usd", v) }
+                    SpNumber { value: page.cfg.ai.monthly_budget_usd; prefix: "$"; decimals: 2; step: 1; from: 0; to: 500; onCommitted: (v) => page.set("ai.monthly_budget_usd", v) }
                 }
             }
             SettingRow {
                 label: "minimum confidence"
                 tip: "confidence"
                 help: "the AI must be at least this sure (and rate the evidence moderate or strong)."
-                DkNumber { value: Math.round(page.cfg.ai.min_confidence * 100); suffix: "%"; step: 5; from: 30; to: 95; onCommitted: (v) => page.set("ai.min_confidence", v / 100) }
+                SpNumber { value: Math.round(page.cfg.ai.min_confidence * 100); suffix: "%"; step: 5; from: 30; to: 95; onCommitted: (v) => page.set("ai.min_confidence", v / 100) }
             }
             SettingRow {
                 label: "ai checks open positions"
                 help: "every " + page.cfg.ai.review_interval_minutes + " minutes the AI can suggest selling early (it can only reduce risk)."
-                DkSwitch { checked: page.cfg.ai.review_open_positions; onToggled: page.set("ai.review_open_positions", checked) }
+                SpSwitch { checked: page.cfg.ai.review_open_positions; onToggled: page.set("ai.review_open_positions", checked) }
             }
             RowLayout {
-                DkButton { compact: true; kind: "secondary"; iconName: "refresh"; text: "test ai connection"; onClicked: { page.aiMsg = "checking…"; app.testAI() } }
+                SpButton { compact: true; kind: "secondary"; iconName: "refresh"; text: "test ai connection"; onClicked: { page.aiMsg = "checking…"; app.testAI() } }
                 Txt { text: page.aiMsg; color: page.aiMsg === "checking…" ? Theme.textDim : page.aiOk ? Theme.lime : Theme.coral; font.pixelSize: 13; Layout.fillWidth: true; wrapMode: Text.WordWrap }
             }
         }
@@ -264,35 +264,35 @@ DkScroll {
             tip: "risk engine"
             subtitle: "dollar amounts are at your starting capital and scale with the account when reinvesting. raising any limit pauses live trading until you re-authorize."
             SettingRow { label: "starting capital"; help: "the amount the limits below are based on."
-                DkNumber { value: page.cfg.risk.starting_capital; prefix: "$"; decimals: 0; step: 10; from: 10; to: 1000000; onCommitted: (v) => page.set("risk.starting_capital", v) } }
+                SpNumber { value: page.cfg.risk.starting_capital; prefix: "$"; decimals: 0; step: 10; from: 10; to: 1000000; onCommitted: (v) => page.set("risk.starting_capital", v) } }
             SettingRow { label: "max per trade"; tip: "position"; help: "the most any single position can be worth when bought."
-                DkNumber { value: page.cfg.risk.max_position_usd; prefix: "$"; decimals: 2; step: 1; from: 1; to: 100000; onCommitted: (v) => page.set("risk.max_position_usd", v) } }
+                SpNumber { value: page.cfg.risk.max_position_usd; prefix: "$"; decimals: 2; step: 1; from: 1; to: 100000; onCommitted: (v) => page.set("risk.max_position_usd", v) } }
             SettingRow { label: "positions at once"
-                DkNumber { value: page.cfg.risk.max_positions; step: 1; from: 1; to: 20; onCommitted: (v) => page.set("risk.max_positions", v) } }
+                SpNumber { value: page.cfg.risk.max_positions; step: 1; from: 1; to: 20; onCommitted: (v) => page.set("risk.max_positions", v) } }
             SettingRow { label: "daily loss limit"; tip: "daily loss limit"; help: "no new trades for the rest of the day once losses reach this."
-                DkNumber { value: page.cfg.risk.daily_loss_limit_usd; prefix: "$"; decimals: 2; step: 0.5; from: 0.5; to: 100000; onCommitted: (v) => page.set("risk.daily_loss_limit_usd", v) } }
+                SpNumber { value: page.cfg.risk.daily_loss_limit_usd; prefix: "$"; decimals: 2; step: 0.5; from: 0.5; to: 100000; onCommitted: (v) => page.set("risk.daily_loss_limit_usd", v) } }
             SettingRow { label: "when the daily limit hits"; help: "also sell open positions immediately (otherwise they keep their stops)."
-                DkSwitch { checked: page.cfg.risk.close_positions_on_daily_limit; onToggled: page.set("risk.close_positions_on_daily_limit", checked) } }
+                SpSwitch { checked: page.cfg.risk.close_positions_on_daily_limit; onToggled: page.set("risk.close_positions_on_daily_limit", checked) } }
             SettingRow { label: "risk per trade"; tip: "stop-loss"; help: "max loss if a stop is hit, as % of the account. positions are shrunk to fit."
-                DkNumber { value: page.cfg.risk.max_risk_per_trade_pct; suffix: "%"; decimals: 1; step: 0.1; from: 0.1; to: 10; onCommitted: (v) => page.set("risk.max_risk_per_trade_pct", v) } }
+                SpNumber { value: page.cfg.risk.max_risk_per_trade_pct; suffix: "%"; decimals: 1; step: 0.1; from: 0.1; to: 10; onCommitted: (v) => page.set("risk.max_risk_per_trade_pct", v) } }
             SettingRow { label: "stop-loss distance"; help: "allowed range below the entry price. setups needing a wider stop are skipped."
-                DkNumber { value: page.cfg.risk.min_stop_pct; suffix: "% min"; decimals: 1; step: 0.1; from: 0.1; to: 10; implicitWidth: 150; onCommitted: (v) => page.set("risk.min_stop_pct", v) }
-                DkNumber { value: page.cfg.risk.max_stop_pct; suffix: "% max"; decimals: 1; step: 0.1; from: 0.2; to: 20; implicitWidth: 150; onCommitted: (v) => page.set("risk.max_stop_pct", v) } }
+                SpNumber { value: page.cfg.risk.min_stop_pct; suffix: "% min"; decimals: 1; step: 0.1; from: 0.1; to: 10; implicitWidth: 150; onCommitted: (v) => page.set("risk.min_stop_pct", v) }
+                SpNumber { value: page.cfg.risk.max_stop_pct; suffix: "% max"; decimals: 1; step: 0.1; from: 0.2; to: 20; implicitWidth: 150; onCommitted: (v) => page.set("risk.max_stop_pct", v) } }
             SettingRow { label: "max spread"; tip: "spread"
-                DkNumber { value: page.cfg.risk.max_spread_bps; suffix: " bps"; decimals: 0; step: 5; from: 1; to: 500; onCommitted: (v) => page.set("risk.max_spread_bps", v) } }
+                SpNumber { value: page.cfg.risk.max_spread_bps; suffix: " bps"; decimals: 0; step: 5; from: 1; to: 500; onCommitted: (v) => page.set("risk.max_spread_bps", v) } }
             SettingRow { label: "max trades per day"
-                DkNumber { value: page.cfg.risk.max_trades_per_day; step: 1; from: 1; to: 100; onCommitted: (v) => page.set("risk.max_trades_per_day", v) } }
+                SpNumber { value: page.cfg.risk.max_trades_per_day; step: 1; from: 1; to: 100; onCommitted: (v) => page.set("risk.max_trades_per_day", v) } }
             SettingRow { label: "pause after losses in a row"; help: "take the rest of the day off after this many consecutive losing trades."
-                DkNumber { value: page.cfg.risk.max_consecutive_losses; step: 1; from: 1; to: 20; onCommitted: (v) => page.set("risk.max_consecutive_losses", v) } }
+                SpNumber { value: page.cfg.risk.max_consecutive_losses; step: 1; from: 1; to: 20; onCommitted: (v) => page.set("risk.max_consecutive_losses", v) } }
             SettingRow { label: "shrink size after losses"; help: "each consecutive loss cuts the next position by 25% (never below half). risk is never increased to win money back."
-                DkSwitch { checked: page.cfg.risk.reduce_size_after_losses; onToggled: page.set("risk.reduce_size_after_losses", checked) } }
+                SpSwitch { checked: page.cfg.risk.reduce_size_after_losses; onToggled: page.set("risk.reduce_size_after_losses", checked) } }
             SettingRow { label: "using money from today's sales"; tip: "settled cash"; help: page.cfg.risk.settlement_mode === "conservative" ? "only settled cash is spent, so money from a sale waits a business day (T+1) before it can buy again — fewer trades per day." : "alpaca accounts under $2,000 are limited-margin: money from a sale can buy again the same day. never more than the cash in the account — no borrowing."
                 Segmented { small: true; options: [{ value: "auto", label: "follow alpaca" }, { value: "conservative", label: "settled only" }]; current: page.cfg.risk.settlement_mode === "broker" ? "auto" : page.cfg.risk.settlement_mode; onPicked: (v) => page.set("risk.settlement_mode", v) } }
             SettingRow { label: "price range"; help: "skip stocks priced outside this range."
-                DkNumber { value: page.cfg.risk.min_price; prefix: "$"; decimals: 0; step: 1; from: 0; to: 1000; implicitWidth: 130; onCommitted: (v) => page.set("risk.min_price", v) }
-                DkNumber { value: page.cfg.risk.max_price; prefix: "$"; decimals: 0; step: 50; from: 1; to: 100000; implicitWidth: 150; onCommitted: (v) => page.set("risk.max_price", v) } }
+                SpNumber { value: page.cfg.risk.min_price; prefix: "$"; decimals: 0; step: 1; from: 0; to: 1000; implicitWidth: 130; onCommitted: (v) => page.set("risk.min_price", v) }
+                SpNumber { value: page.cfg.risk.max_price; prefix: "$"; decimals: 0; step: 50; from: 1; to: 100000; implicitWidth: 150; onCommitted: (v) => page.set("risk.max_price", v) } }
             SettingRow { label: "legacy day-trade guard"; tip: "pdt"; help: "the $25k pattern-day-trader rule was retired June 4, 2026. turn on only if your broker still enforces it."
-                DkSwitch { checked: page.cfg.risk.pdt_guard; onToggled: page.set("risk.pdt_guard", checked) } }
+                SpSwitch { checked: page.cfg.risk.pdt_guard; onToggled: page.set("risk.pdt_guard", checked) } }
             Txt { text: "always enforced and not configurable: no margin, no leverage, no short selling, no options, no crypto, no stale data, DAY orders only, every position closed before the market closes."; color: Theme.textMuted; font.pixelSize: 12; wrapMode: Text.WordWrap; Layout.fillWidth: true }
         }
 
@@ -314,7 +314,7 @@ DkScroll {
             SettingRow {
                 visible: page.cfg.compounding.mode === "fixed"
                 label: "trading allocation"
-                DkNumber { value: page.cfg.compounding.fixed_allocation_usd; prefix: "$"; decimals: 0; step: 10; from: 10; to: 1000000; onCommitted: (v) => page.set("compounding.fixed_allocation_usd", v) }
+                SpNumber { value: page.cfg.compounding.fixed_allocation_usd; prefix: "$"; decimals: 0; step: 10; from: 10; to: 1000000; onCommitted: (v) => page.set("compounding.fixed_allocation_usd", v) }
             }
         }
 
@@ -329,7 +329,7 @@ DkScroll {
                 delegate: SettingRow {
                     label: modelData.name
                     help: modelData.explain
-                    DkSwitch {
+                    SpSwitch {
                         checked: page.cfg.strategies.enabled[modelData.id] === true
                         onToggled: { var e = app.setStrategyEnabled(modelData.id, checked); if (e !== "") app.toast("warning", "not saved", e) }
                     }
@@ -338,7 +338,7 @@ DkScroll {
             SettingRow {
                 label: "paper can trade untested strategies"
                 help: "lets paper/demo trading gather forward-test evidence. never applies to real money."
-                DkSwitch { checked: page.cfg.strategies.paper_allow_unvalidated; onToggled: page.set("strategies.paper_allow_unvalidated", checked) }
+                SpSwitch { checked: page.cfg.strategies.paper_allow_unvalidated; onToggled: page.set("strategies.paper_allow_unvalidated", checked) }
             }
         }
 
@@ -348,18 +348,18 @@ DkScroll {
             title: "app behavior"
             icon: "settings"
             SettingRow { label: "keep running in the " + (Qt.platform.os === "osx" ? "menu bar" : "system tray"); help: "closing the window keeps trading going in the background."
-                DkSwitch { checked: page.cfg.automation.minimize_to_tray; onToggled: page.set("automation.minimize_to_tray", checked) } }
+                SpSwitch { checked: page.cfg.automation.minimize_to_tray; onToggled: page.set("automation.minimize_to_tray", checked) } }
             SettingRow { label: "launch when i log in"; help: "starts quietly in the tray so it's ready at the market open."
-                DkSwitch { checked: page.cfg.automation.launch_at_login; onToggled: page.set("automation.launch_at_login", checked) } }
+                SpSwitch { checked: page.cfg.automation.launch_at_login; onToggled: page.set("automation.launch_at_login", checked) } }
             SettingRow { label: "start minimized"
-                DkSwitch { checked: page.cfg.automation.start_minimized; onToggled: page.set("automation.start_minimized", checked) } }
+                SpSwitch { checked: page.cfg.automation.start_minimized; onToggled: page.set("automation.start_minimized", checked) } }
             SettingRow { label: "keep the computer awake during market hours"; help: "prevents idle sleep while the market is open. closing a laptop lid usually still sleeps it — and a sleeping computer can't trade."
-                DkSwitch { checked: page.cfg.automation.keep_awake_during_market; onToggled: page.set("automation.keep_awake_during_market", checked) } }
+                SpSwitch { checked: page.cfg.automation.keep_awake_during_market; onToggled: page.set("automation.keep_awake_during_market", checked) } }
             SectionLabel { text: "desktop notifications"; Layout.topMargin: 4 }
-            SettingRow { label: "completed trades"; DkSwitch { checked: page.cfg.automation.notify_trades; onToggled: page.set("automation.notify_trades", checked) } }
-            SettingRow { label: "important decisions"; DkSwitch { checked: page.cfg.automation.notify_decisions; onToggled: page.set("automation.notify_decisions", checked) } }
-            SettingRow { label: "errors"; DkSwitch { checked: page.cfg.automation.notify_errors; onToggled: page.set("automation.notify_errors", checked) } }
-            SettingRow { label: "risk-limit events"; DkSwitch { checked: page.cfg.automation.notify_risk; onToggled: page.set("automation.notify_risk", checked) } }
+            SettingRow { label: "completed trades"; SpSwitch { checked: page.cfg.automation.notify_trades; onToggled: page.set("automation.notify_trades", checked) } }
+            SettingRow { label: "important decisions"; SpSwitch { checked: page.cfg.automation.notify_decisions; onToggled: page.set("automation.notify_decisions", checked) } }
+            SettingRow { label: "errors"; SpSwitch { checked: page.cfg.automation.notify_errors; onToggled: page.set("automation.notify_errors", checked) } }
+            SettingRow { label: "risk-limit events"; SpSwitch { checked: page.cfg.automation.notify_risk; onToggled: page.set("automation.notify_risk", checked) } }
         }
 
         // ================================================================ data
@@ -373,11 +373,11 @@ DkScroll {
                 Segmented { small: true; options: [{ value: "iex", label: "IEX (free)" }, { value: "sip", label: "SIP (paid)" }]; current: page.cfg.data.feed; onPicked: (v) => page.set("data.feed", v) }
             }
             SettingRow { label: "stocks to scan"; help: "takes effect the next time the engine starts."
-                DkNumber { value: page.cfg.data.universe_size; step: 50; from: 50; to: 600; onCommitted: (v) => page.set("data.universe_size", v) } }
+                SpNumber { value: page.cfg.data.universe_size; step: 50; from: 50; to: 600; onCommitted: (v) => page.set("data.universe_size", v) } }
             SettingRow { label: "watch up close"; help: "how many top candidates get minute-by-minute analysis."
-                DkNumber { value: page.cfg.data.hotlist_size; step: 5; from: 5; to: 60; onCommitted: (v) => page.set("data.hotlist_size", v) } }
+                SpNumber { value: page.cfg.data.hotlist_size; step: 5; from: 5; to: 60; onCommitted: (v) => page.set("data.hotlist_size", v) } }
             SettingRow { label: "monthly data cost"; help: "only if you pay for a data plan — included in the cost report."
-                DkNumber { value: page.cfg.data.monthly_data_cost_usd; prefix: "$"; decimals: 2; step: 1; from: 0; to: 1000; onCommitted: (v) => page.set("data.monthly_data_cost_usd", v) } }
+                SpNumber { value: page.cfg.data.monthly_data_cost_usd; prefix: "$"; decimals: 2; step: 1; from: 0; to: 1000; onCommitted: (v) => page.set("data.monthly_data_cost_usd", v) } }
             SettingRow {
                 visible: app.mode === "demo"
                 label: "demo speed"; help: "how fast the simulated market runs."
@@ -394,15 +394,15 @@ DkScroll {
             RowLayout {
                 Layout.fillWidth: true
                 spacing: 10
-                DkField { id: resetConfirm; Layout.fillWidth: true; placeholderText: "type: start over" }
-                DkButton {
+                SpField { id: resetConfirm; Layout.fillWidth: true; placeholderText: "type: start over" }
+                SpButton {
                     kind: "danger"; iconName: "refresh"; text: "erase & start over"
                     enabled: resetConfirm.text.trim().toLowerCase() === "start over"
                     onClicked: { var e = app.factoryReset(resetConfirm.text); if (e !== "") app.toast("warning", "not reset", e); else resetConfirm.text = "" }
                 }
             }
             Txt {
-                text: Qt.platform.os === "windows" ? "tip: the Start menu also has “don’t know what im doing (fresh test)” — a separate copy that wipes itself every time you open it, without touching this one."
+                text: Qt.platform.os === "windows" ? "tip: the Start menu also has “StockPilot (fresh test)” — a separate copy that wipes itself every time you open it, without touching this one."
                                                    : "tip: launch the app with --profile test --fresh for a separate copy that wipes itself every launch."
                 color: Theme.textMuted; font.pixelSize: 12; wrapMode: Text.WordWrap; Layout.fillWidth: true
             }
@@ -419,10 +419,10 @@ DkScroll {
                 color: Theme.textMuted; font.pixelSize: 12; wrapMode: Text.WordWrap; Layout.fillWidth: true
             }
             RowLayout {
-                DkButton { compact: true; kind: "primary"; iconName: "bolt"; text: "run guided setup"; onClicked: app.openSetup() }
-                DkButton { compact: true; kind: "secondary"; iconName: "folder"; text: "open data folder"; onClicked: app.openDataFolder() }
-                DkButton { compact: true; kind: "secondary"; iconName: "folder"; text: "open logs"; onClicked: app.openLogsFolder() }
-                DkButton { compact: true; kind: "secondary"; iconName: "data"; text: "save diagnostics file"; onClicked: app.exportDiagnostics() }
+                SpButton { compact: true; kind: "primary"; iconName: "bolt"; text: "run guided setup"; onClicked: app.openSetup() }
+                SpButton { compact: true; kind: "secondary"; iconName: "folder"; text: "open data folder"; onClicked: app.openDataFolder() }
+                SpButton { compact: true; kind: "secondary"; iconName: "folder"; text: "open logs"; onClicked: app.openLogsFolder() }
+                SpButton { compact: true; kind: "secondary"; iconName: "data"; text: "save diagnostics file"; onClicked: app.exportDiagnostics() }
             }
             Txt {
                 text: "“save diagnostics file” puts a .zip on your desktop with the logs and a status summary — useful if something goes wrong. API keys are never included."
@@ -431,15 +431,15 @@ DkScroll {
         }
     }
 
-    DkDialog {
+    SpDialog {
         id: switchDialog
         title: "open positions in this mode"
         message: "switching modes stops the app from managing them. they keep any broker-side stop orders until today's close, and the app picks them back up when you switch back."
         RowLayout {
             Layout.fillWidth: true
-            DkButton { text: "cancel"; kind: "ghost"; onClicked: switchDialog.close() }
+            SpButton { text: "cancel"; kind: "ghost"; onClicked: switchDialog.close() }
             Item { Layout.fillWidth: true }
-            DkButton { text: "switch anyway"; kind: "primary"; onClicked: { switchDialog.close(); var e = app.setMode(page.pendingMode, true); page.modeMsg = e } }
+            SpButton { text: "switch anyway"; kind: "primary"; onClicked: { switchDialog.close(); var e = app.setMode(page.pendingMode, true); page.modeMsg = e } }
         }
     }
 }
