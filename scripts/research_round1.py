@@ -23,18 +23,18 @@ sys.path.insert(0, str(ROOT))
 
 import numpy as np  # noqa: E402
 
-from dkapp.backtest.engine import BTConfig, replay_portfolio, run_day  # noqa: E402
-from dkapp.quant.features import FEATURES, STRATEGY_FEATURES  # noqa: E402
-from dkapp.quant.model import QuantModel  # noqa: E402
-from dkapp.research.data import load_range  # noqa: E402
-from dkapp.research.dataset import (build_frames, dense_samples, h1_mean_reversion, h2_relative_strength,  # noqa: E402
+from stockpilot.backtest.engine import BTConfig, replay_portfolio, run_day  # noqa: E402
+from stockpilot.quant.features import FEATURES, STRATEGY_FEATURES  # noqa: E402
+from stockpilot.quant.model import QuantModel  # noqa: E402
+from stockpilot.research.data import load_range  # noqa: E402
+from stockpilot.research.dataset import (build_frames, dense_samples, h1_mean_reversion, h2_relative_strength,  # noqa: E402
                                     h3_market_intraday_momentum, random_select, slot_replay, strategy_samples)
-from dkapp.research.diagnose import HORIZONS, diagnose, fwd_gross, key, trade_paths  # noqa: E402
-from dkapp.research.economics import economics  # noqa: E402
-from dkapp.research.evaluate import evaluate, judge, model_metrics, walk_forward_predict  # noqa: E402
-from dkapp.research.ledger import DataLedger  # noqa: E402
-from dkapp.research.stats import holm  # noqa: E402
-from dkapp.strategies import ALL_STRATEGIES  # noqa: E402
+from stockpilot.research.diagnose import HORIZONS, diagnose, fwd_gross, key, trade_paths  # noqa: E402
+from stockpilot.research.economics import economics  # noqa: E402
+from stockpilot.research.evaluate import evaluate, judge, model_metrics, walk_forward_predict  # noqa: E402
+from stockpilot.research.ledger import DataLedger  # noqa: E402
+from stockpilot.research.stats import holm  # noqa: E402
+from stockpilot.strategies import ALL_STRATEGIES  # noqa: E402
 
 DEV_RANGES = [(date(2025, 9, 16), date(2026, 4, 30)), (date(2026, 9, 11), date(2026, 11, 5))]
 HOLDOUT = (date(2026, 5, 1), date(2026, 8, 26))
