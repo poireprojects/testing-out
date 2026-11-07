@@ -868,10 +868,10 @@ class TradingEngine:
             open_orders = self.broker.get_open_orders()
         except BrokerError:
             return
-        prefix = self.orders.prefix  # only orders this copy of the app placed (its own database tag)
+        prefixes = self.orders.prefixes  # only orders this copy of the app placed (its own database tag)
         for bo in open_orders:
             cid = bo.client_order_id or ""
-            if not cid.startswith(prefix):
+            if not cid.startswith(prefixes):
                 continue  # not placed by this app: never touched
             row = self.db.query_one("SELECT * FROM orders WHERE client_order_id=?", (cid,))
             if row is not None and row["status"] not in TERMINAL:
