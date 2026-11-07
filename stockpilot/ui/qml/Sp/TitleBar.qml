@@ -61,9 +61,9 @@ Rectangle {
                 mipmap: true
             }
             Row {
-                spacing: 4
-                Txt { text: "don’t know"; font.family: Theme.display; font.pixelSize: 14; font.weight: Font.Bold }
-                Txt { text: "what im doing"; font.family: Theme.display; font.pixelSize: 14; font.weight: Font.Bold; color: Theme.lime }
+                spacing: 0
+                Txt { text: "Stock"; font.family: Theme.display; font.pixelSize: 15; font.weight: Font.Bold }
+                Txt { text: "Pilot"; font.family: Theme.display; font.pixelSize: 15; font.weight: Font.Bold; color: Theme.lime }
             }
             Item { Layout.fillWidth: true }
         }
