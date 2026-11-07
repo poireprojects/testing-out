@@ -81,6 +81,45 @@ DkScroll {
                     }
                 }
             }
+            // multi-day strategies: shadow only (decided in their window, scored after the holding ends, no orders)
+            ColumnLayout {
+                readonly property var d: fwdCard.f.daily || ({})
+                visible: d.strategies !== undefined
+                Layout.fillWidth: true
+                Layout.topMargin: 10
+                spacing: 0
+                Txt {
+                    Layout.fillWidth: true; wrapMode: Text.WordWrap
+                    text: "multi-day rules (shadow only — the app never holds these overnight). each decision is recorded in its own "
+                          + "window from that day's closing prices; if the app wasn't running, it's counted as missed, never filled in later. "
+                          + "per holding = % after modeled costs."
+                    color: Theme.textDim; font.pixelSize: 12; Layout.bottomMargin: 6
+                }
+                RowLayout {
+                    Layout.fillWidth: true; spacing: 8
+                    SectionLabel { text: "rule"; font.pixelSize: 10; Layout.fillWidth: true }
+                    SectionLabel { text: "recorded · missed"; font.pixelSize: 10; Layout.preferredWidth: 120; horizontalAlignment: Text.AlignRight }
+                    SectionLabel { text: "scored"; font.pixelSize: 10; Layout.preferredWidth: 60; horizontalAlignment: Text.AlignRight }
+                    SectionLabel { text: "per holding"; font.pixelSize: 10; Layout.preferredWidth: 90; horizontalAlignment: Text.AlignRight }
+                    SectionLabel { text: "vs SPY"; font.pixelSize: 10; Layout.preferredWidth: 80; horizontalAlignment: Text.AlignRight }
+                }
+                Repeater {
+                    model: parent.d.strategies || []
+                    delegate: RowLayout {
+                        Layout.fillWidth: true; spacing: 8
+                        Layout.preferredHeight: 28
+                        Txt { text: modelData.hypothesis; font.pixelSize: 13; Layout.fillWidth: true; elide: Text.ElideRight }
+                        Txt { text: modelData.recorded + " · " + modelData.missed; font.pixelSize: 12; color: Theme.textDim
+                              Layout.preferredWidth: 120; horizontalAlignment: Text.AlignRight }
+                        Txt { text: modelData.scored; font.pixelSize: 12; color: Theme.textDim; Layout.preferredWidth: 60; horizontalAlignment: Text.AlignRight }
+                        Txt { text: modelData.netPct === null ? "—" : Theme.signedPct(modelData.netPct, 2); font.pixelSize: 13
+                              color: modelData.netPct === null ? Theme.textMuted : modelData.netPct > 0 ? Theme.lime : Theme.coral
+                              Layout.preferredWidth: 90; horizontalAlignment: Text.AlignRight }
+                        Txt { text: modelData.vsSpyPct === null ? "—" : Theme.signedPct(modelData.vsSpyPct, 2); font.pixelSize: 12
+                              color: Theme.textMuted; Layout.preferredWidth: 80; horizontalAlignment: Text.AlignRight }
+                    }
+                }
+            }
         }
 
         // ---------------- research evidence (historical, clearly separated from this account's own results)
@@ -209,6 +248,42 @@ DkScroll {
                 Layout.fillWidth: true
                 visible: text.length > 0
                 text: evidence2.r.trend || ""
+                color: Theme.textMuted; font.pixelSize: 11; wrapMode: Text.WordWrap
+            }
+        }
+
+        // ---------------- research phase 3 (historical; multi-day rules, simulation only)
+        Card {
+            id: evidence3
+            Layout.fillWidth: true
+            readonly property var r: app.research3 || ({})
+            visible: r.rows !== undefined
+            title: "phase 3: holding for days and weeks"
+            icon: "shield"
+            subtitle: "HISTORICAL RESEARCH — not this account. unseen holdout " + (r.holdout || "") + " · " + (r.source || "")
+            headerRight: [ Pill { text: "historical · holdout"; kind: "info" } ]
+
+            Txt {
+                Layout.fillWidth: true
+                text: evidence3.r.conclusion || ""
+                font.pixelSize: 15; font.weight: Font.DemiBold
+                wrapMode: Text.WordWrap
+            }
+            Txt {
+                Layout.fillWidth: true
+                text: evidence3.r.note || ""
+                color: Theme.textDim; font.pixelSize: 12; wrapMode: Text.WordWrap
+            }
+            EvidenceTable {
+                Layout.fillWidth: true
+                Layout.topMargin: 4
+                rows: evidence3.r.rows || []
+                moneyLabel: evidence3.r.moneyLabel || "$ on $100"
+            }
+            Txt {
+                Layout.fillWidth: true
+                visible: text.length > 0
+                text: evidence3.r.trend || ""
                 color: Theme.textMuted; font.pixelSize: 11; wrapMode: Text.WordWrap
             }
         }

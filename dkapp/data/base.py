@@ -23,7 +23,9 @@ class MarketData(Protocol):
 
     def get_intraday_bars(self, symbols: list[str], start: datetime, end: datetime) -> dict[str, pd.DataFrame]: ...
 
-    def get_daily_bars(self, symbols: list[str], start: datetime, end: datetime) -> dict[str, pd.DataFrame]: ...
+    def get_daily_bars(self, symbols: list[str], start: datetime, end: datetime,
+                       adjusted: bool = False) -> dict[str, pd.DataFrame]: ...
+    # adjusted=True: split- and dividend-adjusted closes (multi-day research); default raw prices
 
 
 def empty_bars() -> pd.DataFrame:

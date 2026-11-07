@@ -186,9 +186,33 @@ They were tested on a second untouched holdout: two years, 2023-09 → 2025-08, 
   * Passive limit orders save half the cost but fill mostly on the trades that go on to lose.
 * Every day of history used so far is recorded in `research/ledger.json`. The only untouched history left (2020-07 →
   2022-10) is reserved for one future test.
-* New evidence now comes from **forward** observation. The app records every eligible setup, taken or not, at the
-  moment it sees it, in an append-only, hash-chained table. It scores each one after the close against prices that
-  came later (Performance → *forward evidence*; `python scripts/forward_report.py`).
+**Phase 3** (`research/runs/2026-11-07-phase3/REPORT.md`) tried holding for days and weeks instead of minutes:
+
+* industry relative strength (hold the 3 strongest of 12 industries, monthly)
+* the turn-of-the-month effect (hold the market around each month-end)
+
+It used 80 years of survivorship-free academic data (Ken French) and an untouched 2006–2020 holdout.
+
+* Holding longer fixes the cost problem: monthly rebalancing costs under 2% a year, against about 35% for daily
+  trading.
+* Neither rule kept an edge:
+  * The turn of the month earned +0.52% per window in 1926–2005, then +0.04% (p = 0.40) in 2006–2020.
+  * Industry strength beat equal weight by only +0.13% a month, too little after correcting for the ideas
+    tried.
+* A small model that tried to pick the good months added nothing (AUC 0.52).
+* The last untouched history (2020-07 → 2022-10) was **not** used, because no candidate earned it.
+* The only reliably positive return in the data is owning the market itself, about 9% a year with 55–84%
+  drawdowns. That is investing, not an edge.
+
+* New evidence now comes from **forward** observation:
+  * The app records every eligible setup, taken or not, at the moment it sees it, in an append-only,
+    hash-chained table. It scores each one after the close against prices that came later.
+  * Multi-day rules (sector strength, turn of the month and an SPY benchmark) are recorded in **shadow only**:
+    * Each decision is made from that day's adjusted closes inside its own window.
+    * It is never backfilled; a window the app wasn't running for is counted as missed.
+    * It is scored after the holding ends.
+    * No orders, nothing held overnight.
+  * See Performance → *forward evidence*, or run `python scripts/forward_report.py`.
 * Nothing is promoted without:
   * ≥100 forward trades over ≥30 days
   * a multiple-testing-adjusted p < 0.05 after costs

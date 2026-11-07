@@ -310,8 +310,9 @@ class DemoMarketData:
             out[s] = pd.concat(frames) if frames else empty_bars()
         return out
 
-    def get_daily_bars(self, symbols: list[str], start: datetime, end: datetime) -> dict[str, pd.DataFrame]:
-        from ..clock import ET
+    def get_daily_bars(self, symbols: list[str], start: datetime, end: datetime,
+                       adjusted: bool = False) -> dict[str, pd.DataFrame]:
+        from ..clock import ET  # simulated prices have no splits or dividends: adjusted == raw
         self.requests_made += 1
         now = self.clock.now()
         end = min(end, now)

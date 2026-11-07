@@ -90,13 +90,14 @@ class AlpacaMarketData:
         return out
 
     # --------------------------------------------------------------------- bars
-    def _bars(self, symbols: list[str], start: datetime, end: datetime, timeframe) -> dict[str, pd.DataFrame]:
+    def _bars(self, symbols: list[str], start: datetime, end: datetime, timeframe,
+              adjustment: str = "raw") -> dict[str, pd.DataFrame]:
         from alpaca.data.requests import StockBarsRequest
 
         out: dict[str, pd.DataFrame] = {}
         for batch in _chunks(list(symbols), BARS_BATCH):
             req = StockBarsRequest(symbol_or_symbols=batch, timeframe=timeframe, start=start, end=end,
-                                   feed=self._feed, adjustment="raw", limit=None)
+                                   feed=self._feed, adjustment=adjustment, limit=None)
             res = self._call(self.client.get_stock_bars, req, cost=1)
             data = getattr(res, "data", {}) or {}
             for sym in batch:
@@ -122,9 +123,10 @@ class AlpacaMarketData:
         from alpaca.data.timeframe import TimeFrame
         return self._bars(symbols, start, end, TimeFrame.Minute)
 
-    def get_daily_bars(self, symbols: list[str], start: datetime, end: datetime) -> dict[str, pd.DataFrame]:
+    def get_daily_bars(self, symbols: list[str], start: datetime, end: datetime,
+                       adjusted: bool = False) -> dict[str, pd.DataFrame]:
         from alpaca.data.timeframe import TimeFrame
-        return self._bars(symbols, start, end, TimeFrame.Day)
+        return self._bars(symbols, start, end, TimeFrame.Day, adjustment="all" if adjusted else "raw")
 
 
 def convert_snapshot(symbol: str, snap) -> Optional[Snapshot]:

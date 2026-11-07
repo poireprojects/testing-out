@@ -45,6 +45,7 @@ from ..scanner import Scanner, load_baselines
 from ..analysis.features import Baseline, latest_features
 from .. import __version__ as APP_VERSION
 from ..quant.gate import NO_EDGE_TEXT, QuantGate
+from ..research.daily_shadow import HYPOTHESES as DAILY_HYPOTHESES, DailyShadow
 from ..research.forward import Bars, ForwardLedger
 from ..quant.registry import ModelRegistry
 from ..storage.db import Database, from_iso, to_iso, utcnow_iso
@@ -85,6 +86,7 @@ class Timers:
     persist: float = 0.0
     stray_sweep: float = 0.0
     forward_outcomes: float = 0.0
+    daily_shadow: float = 0.0
 
 
 @dataclass
@@ -142,6 +144,9 @@ class TradingEngine:
         except Exception:
             log.exception("forward research ledger unavailable")
             self.forward = None
+        # multi-day strategies: decisions recorded in their windows, scored after the holding ends (no orders)
+        self.daily_shadow: Optional[DailyShadow] = (DailyShadow(self.forward, calendar, APP_VERSION, mode)
+                                                    if self.forward is not None else None)
         self._fwd_seen: dict[tuple, datetime] = {}
         self._gap_scan_day: Optional[date] = None
         self._fwd_summary: tuple = (None, None)
@@ -469,14 +474,15 @@ class TradingEngine:
                 continue
             common = {"reason": "top 2 by relative volume" if rank <= 2 else f"rank {rank} (only 2 slots)",
                       "mode": self.mode, "appVersion": APP_VERSION, "features": {"gapPct": gap * 100, "rvol5": rv,
-                      "orRangePct": (orh - orl) / orh * 100, "rank": rank}, "observedOnly": True,
+                      "orRangePct": (orh - orl) / orh * 100, "rank": rank, "measuredAtMinute": round(minute, 1)},
+                      "observedOnly": True,
                       "preregistration": "research/PREREGISTRATION-2026-11-07-phase2.md"}
             dec = "would-take" if rank <= 2 else "would-pass"
             try:
-                self.forward.record(time=sess.session.open + timedelta(minutes=5), session_date=sess.session.day,
+                self.forward.record(time=now, session_date=sess.session.day,
                                     symbol=sym, hypothesis="P2-H2 gap stocks in play (ORB)", decision=dec, payload=common | {
                     "plan": {"kind": "orb", "triggerPrice": orh, "stopPrice": orl, "deadlineMin": 90, "spreadBps": 10.0}})
-                self.forward.record(time=sess.session.open + timedelta(minutes=5), session_date=sess.session.day,
+                self.forward.record(time=now, session_date=sess.session.day,
                                     symbol=sym, hypothesis="P2-H2b gap stocks in play (9:35)", decision=dec, payload=common | {
                     "plan": {"kind": "marketable", "stopPrice": orl, "spreadBps": 10.0}})
             except Exception:
@@ -506,6 +512,23 @@ class TradingEngine:
             self._fwd_summary = (None, None)
             log.info("forward ledger: scored %d observations from %s", n, day)
 
+    def _daily_shadow_tick(self, now: datetime) -> None:
+        """Record due multi-day shadow decisions and score finished holdings. Never places an order."""
+        if self.daily_shadow is None or not self.settings.quant.forward_ledger or self.data.is_demo:
+            return
+        try:
+            n = self.daily_shadow.record_due(now, self.data)
+            m = self.daily_shadow.score_due(now, self.data)
+        except DataUnavailable as exc:
+            log.info("daily shadow postponed: %s", exc)
+            return
+        except Exception:
+            log.exception("daily shadow failed")
+            return
+        if n or m:
+            self._fwd_summary = (None, None)
+            log.info("daily shadow: recorded %d decision(s), scored %d holding(s)", n, m)
+
     def _forward_status(self) -> dict:
         if self.forward is None:
             return {"available": False}
@@ -513,7 +536,9 @@ class TradingEngine:
         mono = self._mono()
         if cached is None or at is None or mono - at > 120:
             try:
-                cached = self.forward.summary()
+                cached = self.forward.summary(exclude=DAILY_HYPOTHESES)
+                if self.daily_shadow is not None:
+                    cached["daily"] = self.daily_shadow.status(self.clock.now())
             except Exception:
                 log.exception("forward summary failed")
                 cached = {"groups": [], "chainIntact": None}
@@ -555,6 +580,8 @@ class TradingEngine:
             self.reconcile(now)
         self.process_orders(now)
 
+        if self._due("daily_shadow", 900.0):
+            self._daily_shadow_tick(now)
         if not sess.is_open:
             self._warn_overnight(now)
             if self._due("forward_outcomes", 1800.0):

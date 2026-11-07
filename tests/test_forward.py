@@ -127,8 +127,11 @@ def test_gap_observer_records_qualifying_stocks_in_play_once_per_day(tmp_path, m
     monkeypatch.setattr(eng.data, "get_intraday_bars", lambda syms, a, b: {s: bars for s in syms})
     eng._record_gap_candidates(rig.clock.now(), eng.session)
     eng._record_gap_candidates(rig.clock.now(), eng.session)       # once a day
-    rows = rig.db.query("SELECT symbol, hypothesis, decision, payload FROM forward_observations")
+    rows = rig.db.query("SELECT symbol, hypothesis, decision, payload, time FROM forward_observations")
     assert {r["symbol"] for r in rows} == {"GAPX"} and len(rows) == 2
+    # stamped with the moment it was actually decided (the observer can run up to 15 minutes after 9:35),
+    # so outcomes are scored only from bars after that moment
+    assert {r["time"] for r in rows} == {rig.clock.now().isoformat()}
     import json
     plans = {r["hypothesis"]: json.loads(r["payload"])["plan"] for r in rows}
     orb = plans["P2-H2 gap stocks in play (ORB)"]

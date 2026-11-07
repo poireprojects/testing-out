@@ -157,12 +157,15 @@ class ForwardLedger:
         return n
 
     # ------------------------------------------------------------ reporting
-    def summary(self, plan: str = "plan") -> dict:
+    def summary(self, plan: str = "plan", exclude: tuple = ()) -> dict:
+        """Intraday groups by (hypothesis, decision). `exclude`: hypotheses reported elsewhere (multi-day shadow)."""
         rows = self.db.query("SELECT o.id, o.session_date, o.hypothesis, o.decision, o.payload, x.net_pct, x.gross_pct, "
                              "x.filled FROM forward_observations o LEFT JOIN forward_outcomes x "
                              "ON x.obs_id = o.id AND x.plan = ? ORDER BY o.id", (plan,))
         groups: dict[tuple, list] = {}
         for r in rows:
+            if r["hypothesis"] in exclude:
+                continue
             groups.setdefault((r["hypothesis"], r["decision"]), []).append(r)
         out = []
         for (hyp, dec), rs in sorted(groups.items()):

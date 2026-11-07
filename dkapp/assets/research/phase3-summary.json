@@ -1,0 +1,61 @@
+{
+ "round": "research phase 3",
+ "holdout": "2006-01-03 \u2192 2020-07-24 (used once)",
+ "source": "Ken French daily industry/market returns (survivorship-free, dividends included); costs as the app's",
+ "moneyLabel": "$/yr",
+ "rows": [
+  {
+   "key": "no_trade",
+   "label": "doing nothing (cash at 0%)",
+   "trades": 0,
+   "netPct": 0.0,
+   "lo": 0.0,
+   "hi": 0.0,
+   "pnl": 0.0,
+   "verdict": "baseline"
+  },
+  {
+   "key": "h2_hold",
+   "label": "turn of the month \u00b7 unseen 2006\u20132020",
+   "trades": 174,
+   "netPct": 0.03798504813339876,
+   "lo": -0.23597740686433152,
+   "hi": 0.3106836677428161,
+   "pnl": -0.30956425372281604,
+   "verdict": "rejected"
+  },
+  {
+   "key": "h2_dev",
+   "label": "turn of the month \u00b7 1926\u20132005 (development)",
+   "trades": 953,
+   "netPct": 0.5159257366489766,
+   "lo": 0.4069653201366074,
+   "hi": 0.6202864696879449,
+   "pnl": 5.693619516442827,
+   "verdict": "dev only"
+  },
+  {
+   "key": "h1_dev",
+   "label": "industry relative strength vs equal weight \u00b7 1927\u20132005",
+   "trades": 943,
+   "netPct": 0.13010502460114617,
+   "lo": 0.014737304648653556,
+   "hi": 0.24762676531575684,
+   "pnl": 1.501234215069804,
+   "verdict": "rejected"
+  },
+  {
+   "key": "mkt_hold",
+   "label": "owning the market \u00b7 2006\u20132020 (benchmark)",
+   "trades": 0,
+   "netPct": 0.0,
+   "lo": 0.0,
+   "hi": 0.0,
+   "pnl": 9.209514653998951,
+   "verdict": "benchmark"
+  }
+ ],
+ "conclusion": "No multi-day rule passed: the turn-of-the-month effect worked for 80 years and then disappeared, and industry relative strength was too weak to tell apart from luck.",
+ "note": "holding for weeks instead of minutes cuts the cost of trading from about 34\u201340% a year to under 2%, so costs stop being the problem; what's missing is an edge that survives on data it hasn't seen. the turn of the month earned +0.52% per monthly window in 1926\u20132005 and +0.04% in 2006\u20132020. owning the market itself returned 9.2% a year in 2006\u20132020, with a -55% worst drop. '$/yr' is dollars per year on a $100 account (industry row: per year above the equal-weight industries).",
+ "trend": "simulation only: both rules hold positions overnight, which the app does not do. both stay in the forward shadow record (above) so you can see whether anything changes \u2014 no orders, no backfilled decisions."
+}

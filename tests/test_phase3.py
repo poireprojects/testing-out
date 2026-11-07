@@ -135,3 +135,23 @@ def test_perf_metrics():
     p = perf(x)
     assert p["maxDrawdownPct"] == pytest.approx(-20.0, abs=0.01)
     assert p["years"] == pytest.approx(2.0)
+
+
+def test_shipped_phase3_summary_matches_the_committed_results():
+    from pathlib import Path
+    root = Path(__file__).resolve().parents[1]
+    run = root / "research/runs/2026-11-07-phase3"
+    hold = json.loads((run / "holdout.json").read_text())
+    dev = json.loads((run / "dev.json").read_text())
+    s = json.loads((root / "dkapp/assets/research/phase3-summary.json").read_text())
+    rows = {r["key"]: r for r in s["rows"]}
+    ho = hold["results"]["P3-H2"]
+    assert rows["h2_hold"]["netPct"] == pytest.approx(ho["primary"]["meanPct"]) and rows["h2_hold"]["trades"] == ho["windows"]
+    assert rows["h2_hold"]["verdict"] == hold["verdicts"]["P3-H2"]["verdict"] == "rejected"
+    assert rows["h1_dev"]["netPct"] == pytest.approx(dev["H1"]["1926-2005"]["primary"]["meanPct"])
+    assert dev["devVerdicts"]["P3-H1"]["pass"] is False and rows["h1_dev"]["verdict"] == "rejected"
+    # the vault was never opened
+    assert not (root / "research/HOLDOUT_VAULT_USED.json").exists()
+    ledger = json.loads((root / "research/ledger.json").read_text())
+    vault = [p for p in ledger["periods"] if p["start"] == "2020-07-27"]
+    assert vault and all(p["status"] == "reserved" for p in vault)

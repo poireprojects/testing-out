@@ -5,6 +5,7 @@ import QtQuick.Layouts
 ColumnLayout {
     id: root
     property var rows: []
+    property string moneyLabel: "$ on $100"
     spacing: 0
     RowLayout {
         Layout.fillWidth: true
@@ -13,7 +14,7 @@ ColumnLayout {
         SectionLabel { text: "trades"; font.pixelSize: 10; Layout.preferredWidth: 64; horizontalAlignment: Text.AlignRight }
         SectionLabel { text: "per trade"; font.pixelSize: 10; Layout.preferredWidth: 84; horizontalAlignment: Text.AlignRight }
         SectionLabel { text: "90% range"; font.pixelSize: 10; Layout.preferredWidth: 150; horizontalAlignment: Text.AlignRight }
-        SectionLabel { text: "$ on $100"; font.pixelSize: 10; Layout.preferredWidth: 80; horizontalAlignment: Text.AlignRight }
+        SectionLabel { text: root.moneyLabel; font.pixelSize: 10; Layout.preferredWidth: 80; horizontalAlignment: Text.AlignRight }
         SectionLabel { text: "verdict"; font.pixelSize: 10; Layout.preferredWidth: 110; horizontalAlignment: Text.AlignRight }
     }
     Repeater {
@@ -34,7 +35,7 @@ ColumnLayout {
                 Txt { text: modelData.trades > 0 ? Theme.signedPct(modelData.netPct, 3) : "—"; font.pixelSize: 13; font.weight: Font.DemiBold
                       color: modelData.trades === 0 ? Theme.textMuted : modelData.netPct > 0 ? Theme.lime : Theme.coral
                       Layout.preferredWidth: 84; horizontalAlignment: Text.AlignRight }
-                Txt { text: modelData.trades > 0 ? Theme.signedPct(modelData.lo, 2) + " … " + Theme.signedPct(modelData.hi, 2) : (modelData.key === "no_trade" ? "no risk" : "took no trades")
+                Txt { text: modelData.trades > 0 ? Theme.signedPct(modelData.lo, 2) + " … " + Theme.signedPct(modelData.hi, 2) : (modelData.key === "no_trade" ? "no risk" : modelData.verdict === "benchmark" ? "buy and hold" : "took no trades")
                       font.pixelSize: 12; color: Theme.textMuted; Layout.preferredWidth: 150; horizontalAlignment: Text.AlignRight }
                 Txt { text: Theme.signedMoney(modelData.pnl); font.pixelSize: 13
                       color: modelData.pnl < -0.005 ? Theme.coral : Theme.textDim

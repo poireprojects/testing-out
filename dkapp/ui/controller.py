@@ -398,6 +398,10 @@ class AppController(QObject):
         return self._research_file("phase2-summary.json")
     research2 = Property("QVariantMap", _g_research2, constant=True)
 
+    def _g_research3(self):
+        return self._research_file("phase3-summary.json")
+    research3 = Property("QVariantMap", _g_research3, constant=True)
+
     # ================================================================ slots: trading
     @Slot()
     def emergencyStop(self) -> None:
