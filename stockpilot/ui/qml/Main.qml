@@ -2,7 +2,7 @@ import QtQuick
 import QtQuick.Controls.Basic
 import QtQuick.Layouts
 import QtQuick.Window
-import Dk 1.0
+import Sp 1.0
 import "pages"
 
 ApplicationWindow {
@@ -124,10 +124,13 @@ ApplicationWindow {
                         smooth: true
                         mipmap: true
                     }
-                    ColumnLayout {
+                    // wordmark: "Stock" in the text color, "Pilot" in lime
+                    Row {
+                        objectName: "wordmark"
                         spacing: 0
-                        Txt { text: "don’t know"; font.family: Theme.display; font.pixelSize: 16; font.weight: Font.Bold; Layout.preferredHeight: 19 }
-                        Txt { text: "what im doing"; font.family: Theme.display; font.pixelSize: 16; font.weight: Font.Bold; color: Theme.lime; Layout.preferredHeight: 19 }
+                        Layout.alignment: Qt.AlignVCenter
+                        Txt { text: "Stock"; font.family: Theme.display; font.pixelSize: 20; font.weight: Font.Bold }
+                        Txt { text: "Pilot"; font.family: Theme.display; font.pixelSize: 20; font.weight: Font.Bold; color: Theme.lime }
                     }
                 }
                 Txt {
@@ -230,7 +233,7 @@ ApplicationWindow {
                 }
 
                 // emergency stop
-                DkButton {
+                SpButton {
                     Layout.fillWidth: true
                     Layout.topMargin: 14
                     implicitHeight: 46
@@ -283,7 +286,7 @@ ApplicationWindow {
                         font.weight: Font.Medium
                     }
                     Txt { text: root.st.clockText ? "sim time " + root.st.clockText : ""; color: Theme.amber; font.pixelSize: 12; opacity: 0.8 }
-                    DkButton { compact: true; kind: "ghost"; text: "connect alpaca →"; onClicked: root.page = 5 }
+                    SpButton { compact: true; kind: "ghost"; text: "connect alpaca →"; onClicked: root.page = 5 }
                 }
             }
 
@@ -332,7 +335,7 @@ ApplicationWindow {
                             Txt { text: modelData.title; font.pixelSize: 13; font.weight: Font.DemiBold; color: parent.parent.parent.crit ? Theme.limeInk : modelData.level === "warning" ? Theme.amber : Theme.text; Layout.fillWidth: true; wrapMode: Text.WordWrap }
                             Txt { text: modelData.detail; font.pixelSize: 12; color: parent.parent.parent.crit ? Theme.limeInk : Theme.textDim; Layout.fillWidth: true; wrapMode: Text.WordWrap; elide: Text.ElideNone }
                         }
-                        DkButton {
+                        SpButton {
                             visible: modelData.action === "trades" || modelData.action === "settings"
                             compact: true; kind: "ghost"
                             text: modelData.action === "trades" ? "see position →" : "open settings →"
@@ -391,7 +394,7 @@ ApplicationWindow {
                             Icon { name: "bolt"; size: 15; color: cfg.automation && cfg.automation.autopilot ? Theme.lime : Theme.textMuted }
                             Txt { text: "autopilot"; font.pixelSize: 13; font.weight: Font.Medium }
                             InfoTip { term: "autopilot" }
-                            DkSwitch {
+                            SpSwitch {
                                 checked: cfg.automation ? cfg.automation.autopilot : false
                                 onToggled: app.setAutopilot(checked)
                                 scale: 0.85
@@ -470,7 +473,7 @@ ApplicationWindow {
         z: 100
     }
 
-    DkDialog {
+    SpDialog {
         id: quitDialog
         title: "you still have open positions"
         message: "the market is open. if you quit, the app stops managing these trades. positions with a broker stop order stay protected until today's close; the app can't watch app-managed stops while it's closed."
@@ -478,10 +481,10 @@ ApplicationWindow {
             Layout.fillWidth: true
             Layout.topMargin: 6
             spacing: 10
-            DkButton { text: "cancel"; kind: "ghost"; onClicked: quitDialog.close() }
+            SpButton { text: "cancel"; kind: "ghost"; onClicked: quitDialog.close() }
             Item { Layout.fillWidth: true }
-            DkButton { text: "quit, keep positions"; kind: "secondary"; onClicked: { quitDialog.close(); app.quitApp(false) } }
-            DkButton { text: "sell everything & quit"; kind: "danger"; onClicked: { quitDialog.close(); app.quitApp(true) } }
+            SpButton { text: "quit, keep positions"; kind: "secondary"; onClicked: { quitDialog.close(); app.quitApp(false) } }
+            SpButton { text: "sell everything & quit"; kind: "danger"; onClicked: { quitDialog.close(); app.quitApp(true) } }
         }
     }
 
