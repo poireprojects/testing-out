@@ -5,15 +5,15 @@ from datetime import date
 
 import pytest
 
-from dkapp.ai.engine import AIEngine
-from dkapp.backtest.ai_replay import compare_modes
-from dkapp.backtest.engine import BTConfig, replay_portfolio, run_day
-from dkapp.backtest.runner import synthetic_days
-from dkapp.clock import MarketCalendar
-from dkapp.config import AppSettings
-from dkapp.data.demo_data import DemoMarket
-from dkapp.storage.db import Database
-from dkapp.strategies import ALL_STRATEGIES
+from stockpilot.ai.engine import AIEngine
+from stockpilot.backtest.ai_replay import compare_modes
+from stockpilot.backtest.engine import BTConfig, replay_portfolio, run_day
+from stockpilot.backtest.runner import synthetic_days
+from stockpilot.clock import MarketCalendar
+from stockpilot.config import AppSettings
+from stockpilot.data.demo_data import DemoMarket
+from stockpilot.storage.db import Database
+from stockpilot.strategies import ALL_STRATEGIES
 from tests.harness import ScriptedAI
 
 SYMS = ["SPY", "QQQ", "AAPL", "MSFT", "NVDA", "AMD", "TSLA", "META"]
@@ -64,7 +64,7 @@ def test_prompts_are_anonymised(history, tmp_path):
 
 
 def test_prompt_shows_only_bars_up_to_the_signal(history, tmp_path):
-    from dkapp.backtest.ai_replay import PromptBuilder
+    from stockpilot.backtest.ai_replay import PromptBuilder
     days, trades, cfg = history
     t = next(t for t in trades if not t.random_baseline and t.entry_i > 20)
     sig, ctx = PromptBuilder(days, cfg).build(t)
@@ -75,7 +75,7 @@ def test_prompt_shows_only_bars_up_to_the_signal(history, tmp_path):
 
 
 def test_prices_inside_explanations_are_rescaled_too(history):
-    from dkapp.backtest.ai_replay import PromptBuilder, _rescale_text
+    from stockpilot.backtest.ai_replay import PromptBuilder, _rescale_text
     assert _rescale_text("broke above $60.33 on 2x volume", 100 / 50.0) == "broke above $120.66 on 2x volume"
     days, trades, cfg = history
     pb = PromptBuilder(days, cfg)
