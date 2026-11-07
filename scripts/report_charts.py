@@ -38,10 +38,10 @@ def label(ax, bar, value, fmt):
 
 
 def gross_net(out: Path) -> dict:
-    from dkapp.backtest.engine import BTConfig, run_day
-    from dkapp.backtest.runner import DEFAULT_BACKTEST_SYMBOLS, HistoryCache, historical_days
-    from dkapp.clock import MarketCalendar
-    from dkapp.strategies import ALL_STRATEGIES
+    from stockpilot.backtest.engine import BTConfig, run_day
+    from stockpilot.backtest.runner import DEFAULT_BACKTEST_SYMBOLS, HistoryCache, historical_days
+    from stockpilot.clock import MarketCalendar
+    from stockpilot.strategies import ALL_STRATEGIES
     res = json.loads((out / "backtest.json").read_text())
 
     class CacheOnly:
