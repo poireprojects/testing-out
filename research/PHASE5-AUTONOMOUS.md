@@ -215,8 +215,18 @@ Passing it permits only a *proposal* to move to paper trading.
 * No outcome existed, and none could have: Monday had not happened.
 * It is kept as the record of that safe state, not as evidence.
 
-**The official forward ledger** starts in `research/runs/2026-11-07-phase5/forward/` with the model running. It
-is committed before Monday's open.
+**First forward cycle, 2026-11-07, model running:** `research/runs/2026-11-07-phase5/forward/` (ledger and
+daily report), committed before Monday's open.
+* The SEC feed showed 19 recent 8-Ks from universe companies.
+* 9 were skipped because the market had already traded on them.
+* 10 were decided for the session of **2026-11-09**: KLAC, PSA, O, TRV, WEC, PEG, ROKU, MOH, DAL, ASTS.
+* `llm`: 2 valid answers (KLAC, PEG), both no trade. 8 invalid answers, recorded as no trade:
+  * 6 broke the schema (quotes over 400 characters, too many list items, an out-of-range spread);
+  * 2 quoted text that is not in the filing.
+* **No trade was proposed, so there is nothing to execute on Monday.** Scoring the recorded probabilities (Q2)
+  needs Monday's prices, from a market-data key that was never exposed.
+
+The forward record confirms the replay: with this model, Q1 fails long before trading can be judged.
 
 
 ## 5. Can it run without routine intervention?
