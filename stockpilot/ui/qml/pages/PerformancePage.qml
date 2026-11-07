@@ -1,10 +1,10 @@
 import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls.Basic
-import Dk 1.0
-import DkCharts 1.0
+import Sp 1.0
+import SpCharts 1.0
 
-DkScroll {
+SpScroll {
     id: page
     readonly property var perf: app.performance || ({})
     readonly property var s: perf.stats || ({})
@@ -480,7 +480,7 @@ DkScroll {
                                 : "replays each strategy on real 1-minute history with spread, slippage and fees: first half to train, next quarter to validate, last quarter held out as an unseen test."
             headerRight: [
                 Segmented { small: true; options: [{ value: 20, label: "20 days" }, { value: 40, label: "40 days" }, { value: 60, label: "60 days" }]; current: page.btDays; onPicked: (v) => page.btDays = v },
-                DkButton { compact: true; kind: "primary"; iconName: "flask"; text: page.bt.running ? "running…" : "run backtest"; enabled: !page.bt.running; onClicked: app.runBacktest(page.btDays, 30) }
+                SpButton { compact: true; kind: "primary"; iconName: "flask"; text: page.bt.running ? "running…" : "run backtest"; enabled: !page.bt.running; onClicked: app.runBacktest(page.btDays, 30) }
             ]
             ColumnLayout {
                 visible: page.bt.running === true
