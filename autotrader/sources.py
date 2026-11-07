@@ -22,8 +22,8 @@ from typing import Optional
 
 import pandas as pd
 
-from dkapp.clock import ET
-from dkapp.research.events import Edgar, FairAccessError, sector_etf  # noqa: F401  (re-exported)
+from stockpilot.clock import ET
+from stockpilot.research.events import Edgar, FairAccessError, sector_etf  # noqa: F401  (re-exported)
 
 from .evidence import Evidence, EvidencePack, plain_text
 from .policy import refuse_exposed_key
