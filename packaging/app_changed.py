@@ -23,14 +23,14 @@ import sys
 
 NON_APP = [
     "research/*", "scripts/*", "tests/*", "docs/*", "screenshots/*", ".github/*",
-    "autotrader/*",          # phase-5 research prototype: outside dkapp, never imported by the app or bundled
+    "autotrader/*",          # phase-5 research prototype: outside stockpilot, never imported by the app or bundled
     "README.md", "requirements-research.txt", ".gitignore", "packaging/app_changed.py",
-    # dkapp research modules that are bundled but never imported by the app (tests/test_release_gate.py
+    # stockpilot research modules that are bundled but never imported by the app (tests/test_release_gate.py
     # checks this against the app's import graph, so this list can't silently go stale)
-    "dkapp/research/academic.py", "dkapp/research/data.py", "dkapp/research/dataset.py",
-    "dkapp/research/diagnose.py", "dkapp/research/economics.py", "dkapp/research/evaluate.py",
-    "dkapp/research/events.py", "dkapp/research/ledger.py", "dkapp/research/phase2.py",
-    "dkapp/research/portfolio.py",
+    "stockpilot/research/academic.py", "stockpilot/research/data.py", "stockpilot/research/dataset.py",
+    "stockpilot/research/diagnose.py", "stockpilot/research/economics.py", "stockpilot/research/evaluate.py",
+    "stockpilot/research/events.py", "stockpilot/research/ledger.py", "stockpilot/research/phase2.py",
+    "stockpilot/research/portfolio.py",
 ]
 
 
