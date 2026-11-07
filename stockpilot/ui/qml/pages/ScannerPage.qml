@@ -1,8 +1,8 @@
 import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls.Basic
-import Dk 1.0
-import DkCharts 1.0
+import Sp 1.0
+import SpCharts 1.0
 
 Item {
     id: page
