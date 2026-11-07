@@ -1,0 +1,30 @@
+{
+ "testWindows": 719,
+ "years": "1946-2005 (walk-forward, refit every January)",
+ "heldShare": 1.0,
+ "netPerMonthPct": {
+  "allWindows": 0.47846079019906795,
+  "mlFiltered": 0.47846079019906795
+ },
+ "sharpePerMonth": {
+  "allWindows": 0.25592236123877815,
+  "mlFiltered": 0.25592236123877815
+ },
+ "improvement": {
+  "n": 719,
+  "days": 719,
+  "mean": 0.0,
+  "lo": 0.0,
+  "hi": 0.0,
+  "p": 1.0,
+  "p12moBlocks": 1.0
+ },
+ "directional": {
+  "auc": 0.521686858801296,
+  "brier": 0.23036217021762123,
+  "brierBaseRate": 0.2292784175208575,
+  "baseRate": 0.6439499304589708
+ },
+ "skippedWindowsNetPct": null,
+ "kept": false
+}

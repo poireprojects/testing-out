@@ -1,0 +1,14 @@
+done 1926-2005
+done 2022-2026
+{
+ "P3-H1": {
+  "pass": false,
+  "reasons": [
+   "deflated Sharpe 0.00 <= 0.95"
+  ]
+ },
+ "P3-H2": {
+  "pass": true,
+  "reasons": []
+ }
+}
