@@ -106,7 +106,7 @@ class AIEngine:
         self.db = db
         self._now = now
         self.provider: AIProvider = provider or build_provider(settings)
-        self._pool = ThreadPoolExecutor(max_workers=1, thread_name_prefix="dk-ai")
+        self._pool = ThreadPoolExecutor(max_workers=1, thread_name_prefix="stockpilot-ai")
         self._lock = threading.Lock()
         self._last_asked: dict[tuple[str, str], datetime] = {}
         self.healthy: Optional[bool] = None
