@@ -212,7 +212,7 @@ The two missing sessions (2025-01-09 and 2025-03-10) are 2 of 501 holdout days.
 * **Forward evidence, not more history.** From this release on, the app records every eligible candidate, taken or
   rejected, at the moment it is seen. It also records the gap-stock (H2) candidates each morning as a shadow
   observer. Each record is in an append-only, hash-chained table, and is scored after the close against bars that
-  started after the decision (`dkapp/research/forward.py`, Performance → *forward evidence*). Outcomes never feed
+  started after the decision (`stockpilot/research/forward.py`, Performance → *forward evidence*). Outcomes never feed
   back into predictions.
 * **The vault is the last clean test.** Any new idea must be pre-registered and tested once on 2020-07-27 →
   2022-10-31. After that, only forward data is unseen.
