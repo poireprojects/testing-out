@@ -1,14 +1,14 @@
 """Install/uninstall maintenance commands, run by the Windows installer and uninstaller.
 
-    dontknowwhatimdoing.exe --check-live                         (read-only)
-    dontknowwhatimdoing.exe --uninstall-prepare [--delete-data]
-    dontknowwhatimdoing.exe --shutdown-running
+    StockPilot.exe --check-live                         (read-only)
+    StockPilot.exe --uninstall-prepare [--delete-data]
+    StockPilot.exe --shutdown-running
 
 Exit codes (read by packaging/windows/installer.iss):
     0  done
     3  blocked: open LIVE positions must be resolved in the app first (nothing was changed)
     4  a running copy didn't shut down in time
-    5  unexpected error (details in %TEMP%\\dontknowwhatimdoing-uninstall.log)
+    5  unexpected error (details in %TEMP%\\StockPilot-uninstall.log)
 
 Order matters: everything here runs *before* any program file is removed, so the app is
 never left running from deleted files and data is never deleted while still open.
@@ -136,7 +136,7 @@ def _wait_exited(pids: list[int], timeout: float) -> bool:
 
 def shutdown_running(timeout: float = 45.0) -> int:
     """Ask a running copy (e.g. hidden in the tray) to quit gracefully, then wait for it to exit."""
-    timeout = float(os.environ.get("DK_SHUTDOWN_TIMEOUT", timeout))  # shortened by the Windows CI test
+    timeout = float(os.environ.get("STOCKPILOT_SHUTDOWN_TIMEOUT", timeout))  # shortened by the Windows CI test
     if _lock_free(0.5):
         return OK if _wait_exited([], 10) else STILL_RUNNING  # nothing holds the lock; make sure none is exiting
     from PySide6.QtCore import QCoreApplication
@@ -226,9 +226,21 @@ def run(argv: list[str]) -> int | None:
     """Returns an exit code if argv is a maintenance command, else None (normal app start)."""
     if not any(c in argv for c in COMMANDS):
         return None
-    if os.environ.get("DK_TEST_MAINTENANCE_FAIL") == "1":
+    if os.environ.get("STOCKPILOT_TEST_MAINTENANCE_FAIL") == "1":
         # regression-test hook (Windows CI): behave like a crashed safety check; the installer must refuse
         _log("test hook: simulating a failed safety check")
+        return ERROR
+    from . import legacy
+    if legacy.previous_copy_running():
+        # the app's previous version is open: its files are in use and it may hold positions; never guess
+        _log("the previous version is still running; refusing until it is closed")
+        return STILL_RUNNING
+    try:
+        moved = legacy.migrate()
+        if moved:
+            _log(f"moved the previous installation: {moved}")
+    except Exception:
+        _log(traceback.format_exc())
         return ERROR
     try:
         if "--check-live" in argv:  # read-only: used before the uninstall is confirmed
