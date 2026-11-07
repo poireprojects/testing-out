@@ -1,27 +1,27 @@
 # -*- mode: python ; coding: utf-8 -*-
-# PyInstaller build spec for "don’t know what im doing".
-#   pyinstaller packaging/dk.spec --noconfirm --clean
+# PyInstaller build spec for "StockPilot".
+#   pyinstaller packaging/stockpilot.spec --noconfirm --clean
 import sys
 from pathlib import Path
 
 from PyInstaller.utils.hooks import collect_submodules
 
 ROOT = Path(SPECPATH).resolve().parent
-APP_DISPLAY = "don’t know what im doing"
-EXE_NAME = "dontknowwhatimdoing"
-VERSION = "1.0.0"
+APP_DISPLAY = "StockPilot"
+EXE_NAME = "StockPilot"
+VERSION = "1.1.0"
 
 datas = [
-    (str(ROOT / "dkapp" / "assets"), "dkapp/assets"),
-    (str(ROOT / "dkapp" / "ui" / "qml"), "dkapp/ui/qml"),
+    (str(ROOT / "stockpilot" / "assets"), "stockpilot/assets"),
+    (str(ROOT / "stockpilot" / "ui" / "qml"), "stockpilot/ui/qml"),
 ]
 hiddenimports = (
-    ["dkapp.ui.charts", "dkapp.ui.controller", "dkapp.ui.models", "PySide6.QtQuick", "PySide6.QtQml",
+    ["stockpilot.ui.charts", "stockpilot.ui.controller", "stockpilot.ui.models", "PySide6.QtQuick", "PySide6.QtQml",
      "PySide6.QtQuickControls2", "PySide6.QtNetwork", "PySide6.QtSvg"]
     + collect_submodules("keyring.backends")
     + collect_submodules("alpaca")
-    + collect_submodules("dkapp")
-    # imported dynamically (by anyio / by dkapp.preload), so PyInstaller can't see them statically
+    + collect_submodules("stockpilot")
+    # imported dynamically (by anyio / by stockpilot.preload), so PyInstaller can't see them statically
     + ["anyio._backends._asyncio", "asyncio.windows_events", "asyncio.proactor_events", "asyncio.windows_utils",
        "sniffio", "msgpack", "websockets"]
 )
@@ -34,9 +34,9 @@ excludes = [
 ]
 
 if sys.platform == "win32":
-    icon = str(ROOT / "dkapp" / "assets" / "icons" / "dk.ico")
+    icon = str(ROOT / "stockpilot" / "assets" / "icons" / "stockpilot.ico")
 elif sys.platform == "darwin":
-    icon = str(ROOT / "dkapp" / "assets" / "icons" / "dk.icns")
+    icon = str(ROOT / "stockpilot" / "assets" / "icons" / "stockpilot.icns")
 else:
     icon = None
 
@@ -87,7 +87,7 @@ if sys.platform == "darwin":
         coll,
         name=f"{APP_DISPLAY}.app",
         icon=icon,
-        bundle_identifier="com.dontknowwhatimdoing.app",
+        bundle_identifier="com.stockpilot.app",
         version=VERSION,
         info_plist={
             "CFBundleName": APP_DISPLAY,
