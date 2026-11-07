@@ -12,11 +12,11 @@ def test_qml_loads_all_pages_without_errors(qapp=None):
     from PySide6.QtQuickControls2 import QQuickStyle
     from PySide6.QtWidgets import QApplication
 
-    from dkapp import paths
-    from dkapp.config import AppSettings
-    from dkapp.ui.app import _load_fonts
-    from dkapp.ui.charts import LineChart  # noqa: F401
-    from dkapp.ui.controller import AppController
+    from stockpilot import paths
+    from stockpilot.config import AppSettings
+    from stockpilot.ui.app import _load_fonts
+    from stockpilot.ui.charts import LineChart  # noqa: F401
+    from stockpilot.ui.controller import AppController
 
     QQuickStyle.setStyle("Basic")
     app = QApplication.instance() or QApplication([])
@@ -34,11 +34,11 @@ def test_qml_loads_all_pages_without_errors(qapp=None):
     ctx.setContextProperty("initialGeometry", {"x": 0, "y": 0, "width": 1300, "height": 820, "maximized": False, "page": 0})
     ctx.setContextProperty("trayAvailable", False)
     ctx.setContextProperty("profileName", "")
-    from dkapp.ui.chrome import WindowChrome  # noqa: E402
+    from stockpilot.ui.chrome import WindowChrome  # noqa: E402
     _chrome = WindowChrome()
     ctx.setContextProperty("chrome", _chrome)
     ctx.setContextProperty("startMinimized", False)
-    ctx.setContextProperty("iconUrl", QUrl.fromLocalFile(str(paths.assets_dir() / "icons" / "dk.png")))
+    ctx.setContextProperty("iconUrl", QUrl.fromLocalFile(str(paths.assets_dir() / "icons" / "stockpilot.png")))
     eng.load(QUrl.fromLocalFile(str(paths.qml_dir() / "Main.qml")))
     assert eng.rootObjects(), "\n".join(warnings)
     win = eng.rootObjects()[0]
@@ -68,7 +68,7 @@ def test_charts_paint_with_data():
     from PySide6.QtGui import QImage, QPainter
     from PySide6.QtWidgets import QApplication
 
-    from dkapp.ui.charts import BarChart, CandleChart, LineChart, Ring, Sparkline
+    from stockpilot.ui.charts import BarChart, CandleChart, LineChart, Ring, Sparkline
 
     QApplication.instance() or QApplication([])
     for item, setup in [
@@ -89,7 +89,7 @@ def test_charts_paint_with_data():
 
 
 def test_model_roles_do_not_shadow_qml_delegate_names():
-    from dkapp.ui import controller
+    from stockpilot.ui import controller
     reserved = {"model", "modelData", "index", "parent"}
     for name in dir(controller):
         if name.endswith("_ROLES"):
@@ -97,15 +97,15 @@ def test_model_roles_do_not_shadow_qml_delegate_names():
 
 
 def test_app_self_test_entry_point(tmp_path):
-    """Runs the real entry point (`python -m dkapp --self-test`): loads every page with a live demo engine."""
+    """Runs the real entry point (`python -m stockpilot --self-test`): loads every page with a live demo engine."""
     import os
     import subprocess
     import sys
     from pathlib import Path
     root = str(Path(__file__).resolve().parents[1])
-    env = dict(os.environ, DK_HOME=str(tmp_path / "selftest"), QT_QPA_PLATFORM="offscreen",
+    env = dict(os.environ, STOCKPILOT_HOME=str(tmp_path / "selftest"), QT_QPA_PLATFORM="offscreen",
                PYTHONPATH=root + os.pathsep + os.environ.get("PYTHONPATH", ""))
-    r = subprocess.run([sys.executable, "-m", "dkapp", "--self-test"], env=env, capture_output=True, text=True,
+    r = subprocess.run([sys.executable, "-m", "stockpilot", "--self-test"], env=env, capture_output=True, text=True,
                        timeout=120, cwd=str(tmp_path))
     rp = tmp_path / "selftest" / "logs" / "self-test.txt"
     assert rp.exists(), r.stdout[-2000:] + r.stderr[-3000:]
@@ -120,13 +120,13 @@ def test_signed_formatters_keep_the_sign_at_every_precision():
     from PySide6.QtQml import QQmlComponent, QQmlEngine
     from PySide6.QtWidgets import QApplication
 
-    from dkapp import paths
+    from stockpilot import paths
     QApplication.instance() or QApplication([])
     eng = QQmlEngine()
     eng.addImportPath(str(paths.qml_dir()))
     comp = QQmlComponent(eng)
     comp.setData(b"""import QtQuick
-import Dk 1.0
+import Sp 1.0
 QtObject {
     property string a: Theme.signedPct(-0.0016, 3)
     property string b: Theme.signedPct(-0.0016, 2)
