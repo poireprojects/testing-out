@@ -5,7 +5,7 @@ from datetime import date, timedelta
 
 import pytest
 
-from dkapp.clock import ET
+from stockpilot.clock import ET
 from tests.harness import ScriptedAI, make_rig
 
 
