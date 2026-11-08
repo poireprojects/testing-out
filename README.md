@@ -43,7 +43,8 @@ open positions), then removes its program files and shortcuts. StockPilot carrie
 history, saved keys and launch-at-login. On a Mac, drag StockPilot into Applications: the first time it opens, it
 does the same and moves the earlier app to the Trash.
 
-These links always point to the newest build (the **latest** release on GitHub). If the repository is private,
+These links always point to the newest build (the **latest** release on GitHub). What changed in each version:
+[CHANGELOG.md](CHANGELOG.md), also shown on every release. If the repository is private,
 sign in to GitHub first.
 
 When the app opens, a **guided setup** walks you through the rest:
@@ -382,7 +383,7 @@ pip install -r requirements-dev.txt
 python -m pytest -q
 ```
 
-461 automated tests. 453 run anywhere; 8 need your Alpaca paper keys, and 4 of those place paper orders, so they
+503 automated tests. 495 run anywhere; 8 need your Alpaca paper keys, and 4 of those place paper orders, so they
 run only when you ask. They cover the uninstall/shutdown handshake
 (open live positions block it; keep vs. delete data and saved keys), opportunity ranking and market regimes, the AI
 picking mode, approach comparison and confidence calibration, walk-forward/train-validation-test evaluation, cost

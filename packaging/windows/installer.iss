@@ -1,7 +1,7 @@
 ﻿; Inno Setup script — builds a normal Windows installer (per-user, no admin rights needed).
 #define MyAppName "StockPilot"
 #define MyAppExe "StockPilot.exe"
-#define MyAppVersion "1.1.0"
+#define MyAppVersion "1.2.0"
 ; The app's previous name (before 1.1). Used only to upgrade an existing installation in place: close it with its
 ; own safety check, remove its program folder and shortcuts, and move its data and launch-at-login entry.
 #define PrevName "don’t know what im doing"

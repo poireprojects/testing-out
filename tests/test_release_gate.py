@@ -20,6 +20,7 @@ import app_changed as gate  # noqa: E402
     "scripts/phase4_corrected.py", "tests/test_events.py", "docs/results/x.md", "README.md",
     ".github/workflows/build.yml", "stockpilot/research/events.py", "stockpilot/research/phase2.py",
     "requirements-research.txt", "packaging/app_changed.py", "autotrader/runner.py", "autotrader/owner_policy.json",
+    "CHANGELOG.md", "packaging/release_notes.py",
 ])
 def test_research_test_and_doc_paths_do_not_release(path):
     assert not gate.is_app_path(path)
