@@ -9,7 +9,7 @@ from PyInstaller.utils.hooks import collect_submodules
 ROOT = Path(SPECPATH).resolve().parent
 APP_DISPLAY = "StockPilot"
 EXE_NAME = "StockPilot"
-VERSION = "1.1.0"
+VERSION = "1.2.0"
 
 datas = [
     (str(ROOT / "stockpilot" / "assets"), "stockpilot/assets"),
