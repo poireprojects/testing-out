@@ -24,7 +24,8 @@ import sys
 NON_APP = [
     "research/*", "scripts/*", "tests/*", "docs/*", "screenshots/*", ".github/*",
     "autotrader/*",          # phase-5 research prototype: outside stockpilot, never imported by the app or bundled
-    "README.md", "requirements-research.txt", ".gitignore", "packaging/app_changed.py",
+    "README.md", "CHANGELOG.md", "requirements-research.txt", ".gitignore", "packaging/app_changed.py",
+    "packaging/release_notes.py",   # CI tooling: release titles and notes, never bundled
     # stockpilot research modules that are bundled but never imported by the app (tests/test_release_gate.py
     # checks this against the app's import graph, so this list can't silently go stale)
     "stockpilot/research/academic.py", "stockpilot/research/data.py", "stockpilot/research/dataset.py",
