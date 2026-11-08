@@ -27,6 +27,9 @@ jobs:
           fetch-depth: 0
       - id: gate
         run: python3 packaging/app_changed.py
+      - name: An app change needs a new version and its notes in CHANGELOG.md
+        if: steps.gate.outputs.app == 'true'
+        run: python3 packaging/release_notes.py check
 
   test:
     runs-on: ubuntu-latest
@@ -210,6 +213,7 @@ jobs:
     needs: [test, changes, windows, windows-uninstall-test, upgrade-from-previous]
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
       - uses: actions/download-artifact@v4
         with:
           name: stockpilot-windows-installer
@@ -221,11 +225,27 @@ jobs:
         run: |
           mkdir out
           cp artifacts/windows/*.exe out/StockPilot-windows-setup.exe
+          # Title and notes come from CHANGELOG.md (packaging/release_notes.py): this version's notes first,
+          # then every earlier version.
+          python3 packaging/release_notes.py notes "${GITHUB_RUN_NUMBER}" "$GITHUB_SHA" > notes.md
           # One release per build (deleted release tags can't be reused here), marked "latest" so
           # https://github.com/<repo>/releases/latest/download/<file> always serves the newest build.
           gh release create "build-${GITHUB_RUN_NUMBER}" out/* --target "$GITHUB_SHA" --latest \
-            --title "build ${GITHUB_RUN_NUMBER}" \
-            --notes "Newest build of StockPilot (commit ${GITHUB_SHA::7}). Windows: run the setup file (tested: install, launch, uninstall, reinstall, clean uninstall). Mac: the .dmg is attached here once the Mac build finishes."
+            --title "$(python3 packaging/release_notes.py title "${GITHUB_RUN_NUMBER}")" \
+            --notes-file notes.md
+      - name: Notes for the earlier releases
+        # Keeps every earlier release's title and notes in step with CHANGELOG.md. Best effort: a failure here
+        # never affects the release just published.
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          for n in $(python3 packaging/release_notes.py old-builds "${GITHUB_RUN_NUMBER}"); do
+            gh release view "build-$n" > /dev/null 2>&1 || continue
+            python3 packaging/release_notes.py old-notes "$n" > "old-$n.md"
+            gh release edit "build-$n" --latest=false --title "$(python3 packaging/release_notes.py old-title "$n")" \
+              --notes-file "old-$n.md" || echo "::warning::could not update the notes of build-$n"
+          done
 
   latest-mac:
     if: github.event_name != 'pull_request' && !startsWith(github.ref, 'refs/tags/') && needs.changes.outputs.app == 'true'
