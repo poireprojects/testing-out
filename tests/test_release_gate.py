@@ -140,3 +140,23 @@ def test_decision_compares_against_the_newest_published_build(tmp_path, monkeypa
     assert ok and "stockpilot/risk/fees.py" in why                         # an app change is never hidden by a later commit
     monkeypatch.setenv("GITHUB_EVENT_NAME", "workflow_dispatch")
     assert gate.decide() == (True, "manual run")
+
+
+def test_rewritten_history_with_identical_content_is_not_an_app_change(tmp_path, monkeypatch):
+    """Commit descriptions were rewritten after build 58; the build tags still point at the original commits."""
+    repo = tmp_path / "r"
+    repo.mkdir()
+    _git(repo, "init", "-q")
+    _git(repo, "config", "user.email", "t@example.invalid")
+    _git(repo, "config", "user.name", "t")
+    monkeypatch.chdir(repo)
+    monkeypatch.delenv("GITHUB_EVENT_NAME", raising=False)
+    monkeypatch.setenv("GITHUB_REF", "refs/heads/claude/x")
+    _commit(repo, "stockpilot/ui/app.py")
+    _commit(repo, "stockpilot/risk/fees.py")
+    _git(repo, "tag", "build-58")
+    _git(repo, "checkout", "-q", "--orphan", "rewritten")             # same content, different commits
+    _git(repo, "commit", "-q", "-m", "same tree, new history")
+    assert gate.decide()[0] is False
+    _commit(repo, "stockpilot/risk/fees.py", "changed")
+    assert gate.decide()[0] is True
