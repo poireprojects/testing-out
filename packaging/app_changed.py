@@ -7,8 +7,9 @@ release are built only when this prints app=true. Research-only commits (researc
 tests, docs, and the research modules the app never imports) no longer publish a new installer.
 
 Rules:
-* the base is the commit of the newest published build-N tag (merge-base with HEAD), so an app change is
-  never missed even if an intermediate run was cancelled or skipped;
+* the base is the newest published build-N tag itself: its content is compared with HEAD's content directly,
+  so an app change is never missed even if an intermediate run was cancelled or skipped, and a rewritten
+  history with identical content is not mistaken for a change;
 * a path is app-relevant unless it matches NON_APP below: unknown or new paths count as app changes;
 * no build tag, a git error, a version tag (v*) or a manual run (workflow_dispatch) means app=true.
 To force a rebuild after a workflow-only change, run the workflow manually.
@@ -52,7 +53,7 @@ def last_build_base() -> str | None:
     if not tags:
         return None
     newest = max(tags, key=lambda t: int(t.split("-")[1]))
-    return _git("merge-base", f"{newest}^{{commit}}", "HEAD")
+    return _git("rev-parse", f"{newest}^{{commit}}")
 
 
 def decide() -> tuple[bool, str]:
