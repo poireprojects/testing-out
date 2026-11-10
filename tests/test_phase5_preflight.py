@@ -28,6 +28,12 @@ from autotrader.synthetic import make_cache
 from stockpilot.clock import ET
 
 ROOT = Path(__file__).resolve().parents[1]
+try:
+    import anthropic as _anthropic
+    PINNED = _anthropic.__version__ == FROZEN["sdk"]["version"]
+except ImportError:
+    PINNED = False
+needs_pinned_sdk = pytest.mark.skipif(not PINNED, reason="the paid path is pinned to anthropic 2.7.0")
 SAMPLE = json.loads((ROOT / "research/runs/2026-11-07-phase5/dev-eval/sample.json").read_text())
 
 
@@ -362,6 +368,15 @@ def test_contested_slots_follow_the_frozen_order():
 
 
 # ------------------------------------------------------------------ 4/5. the dry run
+def test_the_dry_run_degrades_without_the_pinned_sdk(syn, tmp_path, monkeypatch):
+    import anthropic
+    monkeypatch.setattr(anthropic, "__version__", "9.9.9")
+    rep = run(syn, tmp_path / "o")
+    man = json.loads((tmp_path / "o" / "inputs_manifest.json").read_text())["events"]
+    assert rep["status"] == "complete" and not rep["budget_proof"]["proven"]
+    assert all("request_not_rendered" in m for m in man.values())
+
+
 def test_the_dry_run_reconciles_all_160_events_in_every_arm(dry):
     out, rep = dry
     rec = rep["reconciliation"]
@@ -444,6 +459,7 @@ def _factory(state, model, clock=None):
     return f, out_holder
 
 
+@needs_pinned_sdk
 def test_the_model_arm_runs_through_the_journal_and_resumes_after_a_crash_without_resending(syn, tmp_path):
     model = FakeModel(die_at=7)
     f, h = _factory(tmp_path / "state", model)
@@ -464,6 +480,7 @@ def test_the_model_arm_runs_through_the_journal_and_resumes_after_a_crash_withou
     assert rep["gates"]["spend"]["pass"]
 
 
+@needs_pinned_sdk
 def test_serial_latency_makes_late_requests_miss_the_deadline(syn, tmp_path):
     t = [0.0]
 
