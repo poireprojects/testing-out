@@ -2561,7 +2561,7 @@
    "request_sha256": "85b72d043cd90ea201eead6cc14d2d246d7f4064011052e7350b59ccc34e7580"
   }
  },
- "experiment_id": "1298a122bda66822ec0ea944abcfa23d277547111be88cd343eaa2aadd679b2d",
+ "experiment_id": "0bb1808464011bd8aa56f10daef0d0b4b69270e049227d4a314744e3b9306e3f",
  "identity": {
   "code": {
    "evidence": {
@@ -2571,7 +2571,7 @@
     "autotrader/sources.py": "efbde838051d52bce240fb59785416c7f079dcc3fb9af84ccfa234b9f5c5c1aa"
    },
    "execution": {
-    "autotrader/devrun.py": "3df0ef18f4ffa59251224ee432a45216faf6a58d135dafc340c6153d73cd15b6",
+    "autotrader/devrun.py": "49e901c9f3dbe6f3d0064cc932ef449e17ce061bf33971e23d1bd2da508a2e10",
     "autotrader/execution.py": "b83ac376fa628e240d167ac5713b4cffa98a20cc4dbf422cc4d9b5ee8fc559b4",
     "autotrader/fees_hist.py": "2ce715d8920fe778dd4cb88fce285d5d63c734ce4dfb52c92d172b128f3100e5",
     "autotrader/owner_policy.json": "fccfda43c384acb7dd381ee9440a53970dbcd656039441f3072d16673ea9e7f0",
@@ -2582,7 +2582,7 @@
    "paid_path": {
     "autotrader/experiment.py": "dbf704efd723693af553917b040aa8742aad14fcd185df76cc602e14be33ef8d",
     "autotrader/journal.py": "2b1862b3a283cac4d8831314558e9baaacba490ab12d9f610dbacd1dbff7e48a",
-    "autotrader/paid.py": "2e7a09836c7fed8acc11425e0b27a342f0173da569d12a3c05da6670b9895f83"
+    "autotrader/paid.py": "5558b5947c209fe75ebae09ee43e104326cfc47874b4226687178710a6e8b1fb"
    }
   },
   "config_sha256": "ed5a21bad315941c89f2ae59e254d419e87f800e9e509750c7a20718ce3b9b86",
