@@ -62,7 +62,9 @@ class Autonomy:
 
     def decide(self, dec, pack: EvidencePack) -> dict:
         if dec.name in self.model_down:
-            return no_trade(dec.name, "model switched off for the rest of the day (safe state)", safe_state=True)
+            # not an answer: never counted as a valid model decision (it was valid=True before dev-eval amendment 1)
+            return no_trade(dec.name, "model switched off for the rest of the day (safe state)", invalid=True,
+                            safe_state=True, answered=False, skip="circuit_breaker")
         try:
             d = dec.decide(pack)
             self.model_fail[dec.name] = 0
