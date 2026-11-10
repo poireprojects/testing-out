@@ -353,7 +353,7 @@ def test_a_run_with_missing_inputs_is_never_proven_by_having_fewer_requests():
     assert not budget_proof({}).proven
     body, _ = render_request(request_params("s", "u", SCHEMA))
     few = budget_proof({f"E{i}": body for i in range(159)}, bound_fn=lambda n: 10)
-    assert not few.proven and any("only 159 of the 160" in r for r in few.reasons)
+    assert not few.proven and any("only 159 of the 160 requests" in r for r in few.reasons)
     full = budget_proof({f"E{i}": body for i in range(160)}, bound_fn=lambda n: 10)
     assert full.proven                       # only with a (test) bound for every one of the 160 requests
 
