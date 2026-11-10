@@ -26,8 +26,8 @@ A synthetic pass does not authorize spending.
 ## Commands (all offline)
 
 ```
-.venv/bin/python -m pytest -q tests/test_phase5_paid_path.py tests/test_phase5_preflight.py     # 101 passed
-QT_QPA_PLATFORM=offscreen .venv/bin/python -m pytest -q tests/                                  # 605 collected: 597 passed, 8 skipped (need Alpaca paper keys), 0 failed
+.venv/bin/python -m pytest -q tests/test_phase5_paid_path.py tests/test_phase5_preflight.py     # 102 passed
+QT_QPA_PLATFORM=offscreen .venv/bin/python -m pytest -q tests/                                  # 606 collected: 598 passed, 8 skipped (need Alpaca paper keys), 0 failed
 .venv/bin/python -m autotrader synthetic SYN_DIR                    # synthetic cache, 160 real identities
 .venv/bin/python -m autotrader devrun SYN_DIR DRY_OUT                # dry run: no model, exit 0 when reconciled
 .venv/bin/python -m autotrader devreport DRY_OUT                     # rebuild the report from files, no call
@@ -40,7 +40,8 @@ QT_QPA_PLATFORM=offscreen .venv/bin/python -m pytest -q tests/                  
 ANTHROPIC_API_KEY=… .venv/bin/python -m autotrader devrun PHASE4_CACHE OUT_DIR --paid
 ```
 
-It takes no model, ceiling, contract or sample option, and it stops at three gates:
+It is pinned to anthropic 2.7.0. With any other release, requests are recorded as not rendered and the proof
+cannot hold. It takes no model, ceiling, contract or sample option, and it stops at three gates:
 1. Without `dev-eval/APPROVAL.json` (owner-written, naming this experiment id and the amendment's digest) it
    refuses.
 2. It matches the sample and builds every input before any client exists. With missing inputs it cannot pass the
@@ -63,11 +64,11 @@ pydantic 2.14.3, pandas 3.1.1, numpy 2.5.4, pytest 9.2.0.
 * **Illustration on the synthetic requests:** counting one token per byte and treating the injected prompt as free,
   the run could cost up to **$13.03**, above the ceiling. Real filings are longer.
 * **Real cache:** 0 of 160 requests can be built, so the run cannot be priced at all.
-* **Proof:** `budget_proof.json`, `proven: false`. Experiment identity ``1298a122bda66822ec0ea944abcfa23d277547111be88cd343eaa2aadd679b2d``.
+* **Proof:** `budget_proof.json`, `proven: false`. Experiment identity `0bb1808464011bd8aa56f10daef0d0b4b69270e049227d4a314744e3b9306e3f`.
 
 ## Inputs and hashes (real cache)
 
-* Inputs manifest: `preflight/real-cache/inputs_manifest.json`, SHA-256 ``fb0e4d266d0ebd9e06020fbdd3221de2f4bfd8590ea8b4ed99a9c218c888afb5``.
+* Inputs manifest: `preflight/real-cache/inputs_manifest.json`, SHA-256 `9dee6d891533d80025d0b33a42bc8a0eb1e4b5b3eb7ebec567581bb3a11cf25e`.
   * For each event: input status, the control pack's SHA-256, and the digest of the persisted input file.
   * The persisted inputs stay on the host; they hold prices derived from licensed data.
 * Inventory: `preflight/real-cache/preflight.json`, with yes/no flags, counts and hashes per event, and no prices.
