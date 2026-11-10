@@ -30,7 +30,7 @@ from .evidence import Evidence, EvidencePack, LookAheadError
 from .execution import RULE_CLOCK, VARIANTS, Clock, DevExecutor, ProxyQuotes, model_clocks
 from .experiment import FROZEN, ExperimentIdentity, event_id, load_sample, select_rows
 from .ledger import Ledger
-from .paid import PaidCaller, budget_proof, render_request, request_params
+from .paid import PaidCaller, PaidPathRefused, budget_proof, render_request, request_params
 from .policy import OwnerPolicy
 from .providers import api_schema
 from .risk import RiskController
@@ -83,12 +83,15 @@ def build_inputs(data_dir: Path, rows: list[dict]) -> tuple[dict, dict, dict]:
             mp = full.pack(r, evidence_version="2", require_release=True)
             mp.structured["session"] = r["day"]
             system, user, schema, _ = researcher.request(mp)
-            body, _ = render_request(request_params(system, user, schema))
             model_packs[eid] = mp
             entry |= {"input_status": "complete", "model_pack_sha256": mp.sha256,
                       "prompt_sha256": hashlib.sha256((system + user).encode()).hexdigest(),
-                      "request_sha256": hashlib.sha256(body).hexdigest(), "request_bytes": len(body),
                       "items": [i.kind for i in mp.items]}
+            try:
+                body, _ = render_request(request_params(system, user, schema))
+                entry |= {"request_sha256": hashlib.sha256(body).hexdigest(), "request_bytes": len(body)}
+            except PaidPathRefused as exc:          # e.g. another SDK release: the exact bytes are unknown
+                entry["request_not_rendered"] = str(exc)[:200]
         except (InputIncomplete, NotCached, LookAheadError, KeyError, FileNotFoundError) as exc:
             model_packs[eid] = None
             entry |= {"input_status": "incomplete", "why": f"{type(exc).__name__}: {str(exc)[:200]}"}
@@ -252,7 +255,7 @@ def prepare(data_dir: Path, out_dir: Path) -> dict:
         mp = model_packs[eid]
         rec = {"event_id": eid, "control_pack": control_packs[eid].record(redact=True),
                "model_pack": mp.record(redact=True) if mp is not None else None}
-        if mp is not None:
+        if mp is not None and "request_sha256" in manifest[eid]:
             system, user, schema, _ = LLMResearcherV2(None, cost_note=COST_CONVENTIONS).request(mp)
             bodies[eid] = render_request(request_params(system, user, schema))[0]
             rec["request_sha256"] = hashlib.sha256(bodies[eid]).hexdigest()
