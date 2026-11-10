@@ -4,3 +4,7 @@ numpy>=2.0
 pandas>=2.2
 matplotlib>=3.8
 alphalens-reloaded==0.5.1
+# Phase 5 development evaluation (autotrader/paid.py): the paid path is pinned to this SDK release and refuses
+# any other; it was tested only with an in-memory transport.
+anthropic==2.7.0
+httpx2>=2.16
