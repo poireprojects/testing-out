@@ -162,8 +162,8 @@ def budget_proof(requests: dict[str, bytes], bound_fn: Callable[[int], Optional[
                     "input_bound_tokens": b, "max_micro": None if b is None else b * pin + out_max,
                     "over_4500_bytes": n > FROZEN["max_input_tokens"]}
     if len(per) != expected_events:
-        reasons.append(f"only {len(per)} of the {expected_events} requests could be built (missing inputs): the "
-                       "fixed run cannot be priced, so nothing is sent")
+        reasons.append(f"only {len(per)} of the {expected_events} requests could be built and rendered (missing "
+                       "inputs, or an SDK other than the pinned one): the fixed run cannot be priced, so nothing is sent")
     unbounded = [e for e, p in per.items() if p["input_bound_tokens"] is None]
     total = None if unbounded else sum(p["max_micro"] for p in per.values())
     cap = FROZEN["ceiling_micro_usd"]
