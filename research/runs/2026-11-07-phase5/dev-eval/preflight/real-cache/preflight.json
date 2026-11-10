@@ -1,5 +1,5 @@
 {
- "experiment_id": "1298a122bda66822ec0ea944abcfa23d277547111be88cd343eaa2aadd679b2d",
+ "experiment_id": "0bb1808464011bd8aa56f10daef0d0b4b69270e049227d4a314744e3b9306e3f",
  "inventory": {
   "data_dir_files": {
    "companies.json": {
@@ -6465,7 +6465,7 @@
   ]
  },
  "inputs": {
-  "manifest_sha256": "fb0e4d266d0ebd9e06020fbdd3221de2f4bfd8590ea8b4ed99a9c218c888afb5",
+  "manifest_sha256": "9dee6d891533d80025d0b33a42bc8a0eb1e4b5b3eb7ebec567581bb3a11cf25e",
   "status": {
    "complete": 0,
    "incomplete": 160
@@ -6474,7 +6474,7 @@
  "budget_proof": {
   "proven": false,
   "reasons": [
-   "only 0 of the 160 requests could be built (missing inputs): the fixed run cannot be priced, so nothing is sent"
+   "only 0 of the 160 requests could be built and rendered (missing inputs, or an SDK other than the pinned one): the fixed run cannot be priced, so nothing is sent"
   ],
   "totals": {
    "events": 0,
