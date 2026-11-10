@@ -38,6 +38,35 @@ RESEARCH_NOTE = (
     "stocks: about 0.24% in spread and slippage plus about 0.03% in fees. Most earnings mornings offer no edge after "
     "costs.")
 RESEARCH_AVAILABLE = datetime(2024, 10, 31, 16, 0, tzinfo=ET)     # uses only data up to the end of the dev fold
+# Evidence version 2 (dev-eval amendment 1): the note above is retrospective. Its figures were computed by this
+# project in November 2026 from data through 2024-10-31, so it was never available on any historical event date,
+# and the look-ahead guard rejects every pack before 2024-10-31 that carries it (the first 80 sample events). It is
+# removed from every historical prompt, not backdated. Version 1 is kept unchanged for the earlier ledgers.
+EVIDENCE_VERSIONS = ("1", "2")
+
+
+class InputIncomplete(ValueError):
+    """A required input (the release or the financial history) is absent: the event is not sent to a model, and it
+    is never replaced by a price-only pack."""
+
+
+class NotCached(FileNotFoundError):
+    pass
+
+
+class CachedEdgar(Edgar):
+    """SEC material from the existing cache only. It never sends a request (no contact is declared, nothing is
+    fetched): a miss raises NotCached, so a preflight reports a gap instead of acquiring new data."""
+
+    def __init__(self, cache_dir: Path):
+        self.ua, self.cache, self._last, self.requests = "offline-cache-only", Path(cache_dir), 0.0, 0
+
+    def get(self, url: str) -> bytes:
+        import hashlib
+        key = self.cache / hashlib.sha256(url.encode()).hexdigest()[:24]
+        if not key.exists():
+            raise NotCached(url)
+        return key.read_bytes()
 
 
 # ------------------------------------------------------------------ SEC helpers
@@ -200,7 +229,10 @@ class ReplaySource:
         rows = sorted((r for r in self.plan if start <= r["day"] <= end), key=lambda r: (r["day"], r["flash"], r["symbol"]))
         return rows[-last_n:] if last_n else rows
 
-    def pack(self, r: dict, decision_hhmm: str = "10:00") -> EvidencePack:
+    def pack(self, r: dict, decision_hhmm: str = "10:00", evidence_version: str = "1",
+             require_release: bool = False) -> EvidencePack:
+        if evidence_version not in EVIDENCE_VERSIONS:
+            raise ValueError(f"unknown evidence version {evidence_version!r}")
         day = date.fromisoformat(r["day"])
         h, m = map(int, decision_hhmm.split(":"))
         t = datetime.combine(day, dtime(h, m), ET)
@@ -225,6 +257,8 @@ class ReplaySource:
                     items.append(it)
         else:
             missing.append("SEC text not fetched (no declared contact)")
+        if require_release and missing:
+            raise InputIncomplete(f"{r['symbol']} {r['accession']}: " + "; ".join(missing))
         P = self.prices
         mv, sec_mv, spy_mv = (P.move_by(s, day, dtime(h, m)) for s in (r["symbol"], r["sector"], "SPY"))
         pc = P.prev_close(r["symbol"], day)
@@ -234,7 +268,8 @@ class ReplaySource:
                                  f"{f(mv)}. Sector ETF {r['sector']}: {f(sec_mv)}. SPY: {f(spy_mv)}. Volume 09:30-"
                                  f"{decision_hhmm} was {r['volRatio']:.2f} times the 20-day average daily volume."
                               if pc else "price history unavailable"))
-        items.append(research_item(f"E{len(items) + 1}"))
+        if evidence_version == "1":
+            items.append(research_item(f"E{len(items) + 1}"))
         return EvidencePack(event_id=f"{r['symbol']}:{r['accession']}", symbol=r["symbol"], sector_etf=r["sector"],
                             decision_time=t, items=items,
                             structured={"surprise": r["surprise"], "react": r["react"], "move_pct": mv,
