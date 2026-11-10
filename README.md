@@ -383,7 +383,7 @@ pip install -r requirements-dev.txt
 python -m pytest -q
 ```
 
-605 automated tests. 597 run anywhere; 8 need your Alpaca paper keys, and 4 of those place paper orders, so they
+606 automated tests. 598 run anywhere; 8 need your Alpaca paper keys, and 4 of those place paper orders, so they
 run only when you ask. They cover the uninstall/shutdown handshake
 (open live positions block it; keep vs. delete data and saved keys), opportunity ranking and market regimes, the AI
 picking mode, approach comparison and confidence calibration, walk-forward/train-validation-test evaluation, cost
