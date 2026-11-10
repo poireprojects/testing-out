@@ -112,6 +112,18 @@ The v1 ledgers are unchanged. Registration v1 is suspended (amendment in the pre
 
 Files: `research/runs/2026-11-07-phase5/replay-v2-3b/`; each run's `results_protocol_v2.json`.
 
+### Dev-evaluation preflight (2026-11-10): the paid path stays blocked
+
+An independent audit of the paid path found that the "hard ceiling" in point 4 above was not a guarantee. The
+program compared floats, forgot reservations on restart, and let a new output directory start a fresh budget. One
+timed-out request could be sent twice. Characters / 3 did not bound tokens. Version 2 of the paid path (a
+transactional budget journal, a pinned single-attempt client, exact request bytes) and the proposed amendment 1
+(evidence, execution and measurement corrections) are in `research/runs/2026-11-07-phase5/dev-eval/`:
+`AMENDMENT-1.md`, `ADVANCEMENT-SCREEN.md` and `PREFLIGHT-2026-11-10.md`.
+
+The budget proof does not hold: no upper bound on billable input tokens can be demonstrated offline. So
+`devrun --paid` stops before any client exists. Nothing paid has been activated.
+
 ## 1. Architecture
 
 ```
