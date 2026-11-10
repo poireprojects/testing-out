@@ -1,0 +1,2603 @@
+{
+ "events": {
+  "ABNB:0001193125-25-269432": {
+   "control_pack_sha256": "eb457008230ef235b12b04fe08ff5eb7c672a8e6d9da14aeb7afbf4d60281473",
+   "day": "2025-11-07",
+   "file_sha256": "62d5225e352571d629c93541f8d39e54c327659157631b934d32046a4200cc84",
+   "fold": "eval",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "c9477c0dd98bcad9922fbb3588a8350150dd59aff3a326ebd17c41451a385bf3",
+   "prompt_sha256": "cfcda591274da0bd67cb7c997d897f02608d34c615368f40b3eb366e6367a7d6",
+   "request_bytes": 5313,
+   "request_sha256": "6161a6a68109356b87f9d20c96bb52490f3e62ebb390e05549f0d0641f6bad03"
+  },
+  "ABT:0001628280-24-042893": {
+   "control_pack_sha256": "5d1e0e5a155646c63f44ea9862f9423854963e4573b26c2babc1ec569fc86ca9",
+   "day": "2024-10-16",
+   "file_sha256": "f1af4bedfebb5a5a1857179c12341557f4acee05759e642763513ec2b2058cc9",
+   "fold": "dev",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "815d3cea1671ae4c8a0722536bf81908f22925a085ed2e373c2a4c99785ad0f9",
+   "prompt_sha256": "22695150c99b558d9b5d5a8a8d43ea56fc45cfed3ebae58c0b7fe5fb4c92104e",
+   "request_bytes": 5308,
+   "request_sha256": "56828d38a5f9f268e404bf82ac76bfc50ecc64f70fe9f2316179574f12f2f3ab"
+  },
+  "ADP:0000008670-24-000002": {
+   "control_pack_sha256": "b4162ec002f6b7cf0afd1b9bbb0439017141d6befb36b829bf7c2042a27296d2",
+   "day": "2024-01-31",
+   "file_sha256": "a6d80afb02839b4cef5f4ac156aa945e7cd94c7aef7f79541b50311e5f17ba26",
+   "fold": "dev",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "6b50079e4c2b330f10b84f5924e612209d71e7e811895757877c7a8b80dfe0a7",
+   "prompt_sha256": "a99cde1ecabde782f799ef1e9a1ba30e7ae838321121ace04565eb736b158120",
+   "request_bytes": 5309,
+   "request_sha256": "ebeefded0cd3dd9e0bb5973686077c1947c0822a9f89e4337c6d45ac78489980"
+  },
+  "AEO:0000950170-25-112837": {
+   "control_pack_sha256": "809a6a09728324f9765d93944686a485b9b409f46621491b150a98a4e335b7d7",
+   "day": "2025-09-04",
+   "file_sha256": "394ba2fb8dac804ec19549023519e02c457972d76421cc387543e021284c94d6",
+   "fold": "eval",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "9a152be0dbc3cc3fc6814e90d5dc986ed07e896f38f472b931efc692ee0dca36",
+   "prompt_sha256": "afd57ec8fa47bacbdab2aba5476490bf9b94c511bbf8a1a84d59029fd4ab650b",
+   "request_bytes": 5309,
+   "request_sha256": "04327d976f4c4ca12168c2c6b1ad6a6ba2ca929fcd64a3ce13f0d4c377625da6"
+  },
+  "AFRM:0001820953-23-000015": {
+   "control_pack_sha256": "e8a54aeec99e73fea862a39be7f4ca58158578b5cc88b33629b3c61425a1e35a",
+   "day": "2023-08-25",
+   "file_sha256": "ae3e96e03d5aa8b907026682c2e82865dbb368c8ea8c86384c533a7c6090565f",
+   "fold": "dev",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "9570dc28d5b02c087c8b099af1193f8d1fef200eca0d17f6fda86ae402e39784",
+   "prompt_sha256": "9e0cd1b38612020a18d5b3311a3c2f31ac0f430989310de3fa739400a7fee5af",
+   "request_bytes": 5314,
+   "request_sha256": "ac96cb3798d08acb85ead1a442d5602735a9cd9f075b042ce058ff00db32ce76"
+  },
+  "AJG:0000354190-26-000132": {
+   "control_pack_sha256": "a5d8831a10cbbbb7863b9c30977a94609447acb1d0d56af8e48cd261865fbc9d",
+   "day": "2026-05-01",
+   "file_sha256": "0c5e60b5e31f21f2840d4dd0c7a90e5b9bb19e40ced0e283705414e41999ddcd",
+   "fold": "eval",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "9a96663ee5be1c52f647eee12a72206829a2c18bd7b3cd8f8a583ea76b161ecb",
+   "prompt_sha256": "bc6882251475708470828ab114526a8b9c8188084323a0168aa54aa78396305b",
+   "request_bytes": 5309,
+   "request_sha256": "dfb07772142af1ef3e9feab019f2508694328d1de105bdb26b7d56d15145a4b3"
+  },
+  "ALLY:0001193125-24-099895": {
+   "control_pack_sha256": "5f20df952f9f2dba4e354b67256a200d5d55d523c3a2e05afcc2d7083b2838db",
+   "day": "2024-04-18",
+   "file_sha256": "f22f8967a81ede414c8c08b709b383c2b49717831788a2621d2f4a80d9828f54",
+   "fold": "dev",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "b116ef32c6b3b71c623f3c90898b909a634fc6056decf75b048b4c79dd41622c",
+   "prompt_sha256": "b4a23a0a0e2bc1cbaa77efbc8ef3e3db82509eaad8445eeebe572a16473447b3",
+   "request_bytes": 5314,
+   "request_sha256": "8b91c0fd50642744e22593e1f38e7e1720826bd3f37995d17a24958315faec6b"
+  },
+  "AMAT:0000006951-25-000005": {
+   "control_pack_sha256": "64c27ac48500b344b551bdfe156f15513d9ca12bba5a63959d9d76ccade22d5e",
+   "day": "2025-02-14",
+   "file_sha256": "7f537711a1c82e6a4b265c6655442925e00bd12efd501aeb8a26c1993c5d2ff9",
+   "fold": "eval",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "52cc6908fd2aade11a5ecb52afa219a7520bd8a42bdaad1cd9c5e9826d043b1e",
+   "prompt_sha256": "323fcbb0616e47a59f6e9a3fdd4042243e619d3a8936f6fe72278a018a14aff3",
+   "request_bytes": 5313,
+   "request_sha256": "1f7f539986857deaf80024e3a6f49ac2ba9740bcf1876fbf4cccb23bb465ca9e"
+  },
+  "AMP:0000820027-26-000038": {
+   "control_pack_sha256": "2f83d848ed1c7aeb67f8993c081ad01f580d74aace884f2b51f122c5520f2aee",
+   "day": "2026-07-23",
+   "file_sha256": "8d233cb64b4fc3c6a39dd9dfdf2849b327d565dabea880eb4d5b37596ae40dfb",
+   "fold": "eval",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "449f4117ed3e830c42c1a00246bf1519b45b3759388050f53fbad13c5b580f1e",
+   "prompt_sha256": "171a84afdd4f2e4ad9a7cbad360bb15292cabc76b36ca4284d2ed8d400aac608",
+   "request_bytes": 5308,
+   "request_sha256": "3232e2731a8cfe693c87c16e50c7cd45cc835b5911e77969cdce4f5e2861f2e3"
+  },
+  "ANF:0001018840-26-000006": {
+   "control_pack_sha256": "0919fab2dcb842305ebeb98835e671ef5e60eb512bb8a1a9a5fc21bce9639bb6",
+   "day": "2026-03-04",
+   "file_sha256": "04c8a76e5662a629bff09bdb5f6d8e6f2c6599be2030575f6e0e5002aa60c56b",
+   "fold": "eval",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "f7762145ceda0d1d5b136edb158e079cc67cd7c31770b512a3334214c608d3e3",
+   "prompt_sha256": "d70d70d9dc9ff97352c34808f6deb02cd3e991450eca816df8d4b87bd6cadb12",
+   "request_bytes": 5405,
+   "request_sha256": "6d01420c7c1148318c7d17a962c1f43b959ccdf242312e8df8505d450b4279b7"
+  },
+  "ANF:0001018840-26-000041": {
+   "control_pack_sha256": "aa38b4844e93c29f1b53bc5b151027796094973347c835e4f6ffd6479225a3ab",
+   "day": "2026-08-26",
+   "file_sha256": "ce42ec20965476bb58695c66c5001be6bfb8acf3dcdae0d396f2b1be4a59d366",
+   "fold": "eval",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "e294fbd9cbe231f198e631de323ee27acf25425cc8b41a92e2fd6a9dbb29b015",
+   "prompt_sha256": "22e5b924ea27547bf82b2dccad0e810849a14abe7f90d3234c84970da57774f5",
+   "request_bytes": 5503,
+   "request_sha256": "a1d17a47e86d49ae39334c183ddce88f3aea57bf9d186741e7ffb68255914502"
+  },
+  "AON:0001628280-23-002143": {
+   "control_pack_sha256": "b208fad9d6974fe2bec455fab0af9332bb35c4e65391bf9c848889f7ce48bec0",
+   "day": "2023-02-03",
+   "file_sha256": "96d1c6a3a98bd5dfd740748ab59adbba2459722031eacf231e064f5bfab0619e",
+   "fold": "dev",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "f33f6b5988475ad45f54ad39a83de1c327f92cddedeedee7f8fab4c7c6722789",
+   "prompt_sha256": "768cf708ec89085daf81f6df5d635fe9d00f960fae882568d6d700b0a69faa80",
+   "request_bytes": 5309,
+   "request_sha256": "12587da379e298c0cb3f19a5c07a4c35ccdf0458810f2a11563c99304332ec83"
+  },
+  "APH:0001558370-24-013493": {
+   "control_pack_sha256": "43d54b295999913a912aef621f3ca098ec2a60dae16bea07cc3a7ea5a30a3cd5",
+   "day": "2024-10-23",
+   "file_sha256": "16bb04ebb6544817a89212257692e32bede941db12aae9a81d2e4a6b39c26f2b",
+   "fold": "dev",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "fcf38e03fa8ef46fa6096541a29651f1f835819b7c9c27c587fe5c4fd25fe848",
+   "prompt_sha256": "3ef0b2285f7a19e35cd73fb809a0493228460b9f6a88a9c7a22d1641380f042a",
+   "request_bytes": 5309,
+   "request_sha256": "6259dce675327dfc357682ea750a65f312e19af724939561d1340812d3e0afc9"
+  },
+  "APP:0001751008-23-000061": {
+   "control_pack_sha256": "34e783392ec6b8b6c1f297d3659fab2647d3d587406b820dc93860460cdf41b7",
+   "day": "2023-08-10",
+   "file_sha256": "5b897bc0e4ccc0b860f0c91eac175ce96119ffd1bf152346ce8eb0295330ea58",
+   "fold": "dev",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "a090eddec1038483cb775724a49cf1a0f303a897014a55dd7a73604940f0c31d",
+   "prompt_sha256": "f8af70872549983eddcd38586093404363c3204f68562455dcc81aa206a09163",
+   "request_bytes": 5406,
+   "request_sha256": "7bd02d2ef7a67b2d0c53be594b3f12869c68d2e73e166c5b7286bdc4b625d950"
+  },
+  "APP:0001751008-23-000070": {
+   "control_pack_sha256": "0da58a494fc155cbe1b1799c29db95ea11c456ed40fd2502afbc1ed7fa792687",
+   "day": "2023-11-09",
+   "file_sha256": "7189adae8722fdd667601f0dc5cd344830a0a1c86047e1d98128fdd8d436c96b",
+   "fold": "dev",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "dbaea29ed15a9a3b049fe537684925e9d15a0841332c7d9e5c27c91257b83d32",
+   "prompt_sha256": "831ea7a4c2f6534626a6d35929e943ed20381fe5767d9daf72703b32cd4ab16d",
+   "request_bytes": 5503,
+   "request_sha256": "c90f22fe0dabe924ec910df7254145e860fa1ec83914e745e1d2a9c020d02796"
+  },
+  "ARE:0001035443-24-000228": {
+   "control_pack_sha256": "d515e8862e328f0d70a7c8a24e39bad1a74556081ef675e6fb097be33cf2793b",
+   "day": "2024-07-23",
+   "file_sha256": "718e2cd77ed2f469cee70213d0e27e98ceba68dafceb2ae64d89917fc27385e1",
+   "fold": "dev",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "e3719295acf748edd776747e287dc44d85c00e2fb3e0df0cd27f1b5b27fd5604",
+   "prompt_sha256": "0cd7d6301f440d8ac3a5c0cc19648dcf69991fe0785ac7dd45a1a3570dd9bc1c",
+   "request_bytes": 5309,
+   "request_sha256": "62a437ec0476b456131c430e51eb19786a8339206fa0c24304e06e6635041af9"
+  },
+  "AZO:0001171843-23-001223": {
+   "control_pack_sha256": "74208d68b43163b66021215faf88b87bed50e674938243737ba7642b17bf2837",
+   "day": "2023-02-28",
+   "file_sha256": "ad6a39fe8b5d5a761f10a8277322695a12eda87100a60259d6c40938ed6fd13b",
+   "fold": "dev",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "a4412a47908b776ae83ab5677f18175fcbeba47211648949d4b46e91ddb857d3",
+   "prompt_sha256": "2e93db0947a7b87bdcfe1a15577ca2dbbdb2ab03d86bec3b8d6c9d46228ccbf4",
+   "request_bytes": 5308,
+   "request_sha256": "f764fc0014635cc0c679c3c96931088e479410d95e065b3ad7b7e053edcaec66"
+  },
+  "BAC:0000070858-23-000005": {
+   "control_pack_sha256": "2370421d2ca90205a0efb0e9d3b852df1446991416dc83932131ccd9b6c16a1c",
+   "day": "2023-01-13",
+   "file_sha256": "267fd9b2a839255f644c81ad435cd820ef7ef25443fa3dea7c3add65c7949a4b",
+   "fold": "dev",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "44320af3678837174cdee05a608355333097a009b858878cc1d22ddf4af5e733",
+   "prompt_sha256": "0d305648f19e806b2917192b1f2ba3505d2cfb0dd3045a00ee893ae95549967b",
+   "request_bytes": 5309,
+   "request_sha256": "6a74c0eae1d1dc8cec76e814b836b95a8d2f7b91f9567caa3fb27124f100c72b"
+  },
+  "BAC:0000070858-25-000187": {
+   "control_pack_sha256": "707a836f250404339dad115adad754797955287fe4abb635b1aa2d1db6223e32",
+   "day": "2025-04-15",
+   "file_sha256": "b22b8b0ff5c78c7db1171b8a6477da7da0f8edd598c61d450635206d56de9158",
+   "fold": "eval",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "96eb51a6693247c1321908bed512b693a483ec22fa9ed84e2ff5f987673137d4",
+   "prompt_sha256": "3e583cf1e4efd5988a84824e54c5315ea29c6c2b684e3722d16e1ecc051453c5",
+   "request_bytes": 5503,
+   "request_sha256": "1785d0d74e40b17c8289cddf8df1526dcdf9391901005ed880c33c0cf2762965"
+  },
+  "BBY:0000764478-25-000035": {
+   "control_pack_sha256": "192b96699801b462cebbed5c5c36a636f99acc9cedf9d8bb02d713817982e07a",
+   "day": "2025-08-28",
+   "file_sha256": "bac5f97dd17ca40b7db4446fa774b119841bafd66b8252ed28eaebec50c37b9f",
+   "fold": "eval",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "cf843d45b3facd2fefec09e493c29a60c71e1e3d67a833076d1ee52cd123a4f4",
+   "prompt_sha256": "a984448f3e550f8d02b7a263e9fdf3ac8b695339ef9fe26995f2b5cde22038c6",
+   "request_bytes": 5309,
+   "request_sha256": "53810bc7292b4cd13fd33ec2b484f9d894ce05b1fd5e1f88104e370310c5e998"
+  },
+  "BIIB:0000875045-23-000012": {
+   "control_pack_sha256": "7043a3e9e59eec5bb86f9a1bde99995eedd97c2fed1168da3f23f5e1bc3b1148",
+   "day": "2023-04-25",
+   "file_sha256": "7484de89a3ea734c18fdb0ba3240ab0f18e4c574a316e830fa0a596fce4f7648",
+   "fold": "dev",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "9dc812e81fb2301505f2d21e686b82c7e65761a727742c898e6f92563ad0a52d",
+   "prompt_sha256": "3910482d68430fc7c45e3867702442d2e2a37cadf74bbf4ffe0d271fe9be2e9d",
+   "request_bytes": 5314,
+   "request_sha256": "92170fac52c5bb12c22512a155f0c43996f285d0b50ea89b30c5d14dc67044fa"
+  },
+  "BKNG:0001075531-24-000011": {
+   "control_pack_sha256": "7b5d4a3c8958c7c0874c3c88589e83947ab8a402148275c66dbe2a30e73e6234",
+   "day": "2024-02-23",
+   "file_sha256": "978c5120abbf7dcdfacd3c00a8fd931f860dc330bb69c7d118f3f975f0c37d65",
+   "fold": "dev",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "6bff67fda191717ddc90e64956def5b30a0ec366013f78c5cea53e31deedfd76",
+   "prompt_sha256": "765c76447067e88b86d249e109c5338f4701e5d24a7590fca73caa379ff97de8",
+   "request_bytes": 5313,
+   "request_sha256": "d912a901bb50ee68d1e02d79dc4a3c02c1b72289eb15bd41331376b09bee732b"
+  },
+  "BKR:0001701605-24-000129": {
+   "control_pack_sha256": "e8d6335df8497e6724560abf659f255c611a5afb85ce950230d40e3285712d1a",
+   "day": "2024-10-23",
+   "file_sha256": "062b59194da38c930c934271aca564fcc5b3a490620b3831677477a1d11187db",
+   "fold": "dev",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "d69a9a003e59805f8584e2c94d9ca9de3d2d89199bacfeddf4439b3cca2c0f52",
+   "prompt_sha256": "2c3fba989a416ec13c1ceb8f6528c8b4976b6956c13e739d33fb27d783efb2ee",
+   "request_bytes": 5311,
+   "request_sha256": "2416f206672d2a3a789fc31e8c80f435da8120c5451a83c7a915cdfdade6e891"
+  },
+  "BSX:0000885725-24-000011": {
+   "control_pack_sha256": "2a588a9aade533c2ad9204cdf2cdabd3fdccd855fc6b759fa5ded5bca8658974",
+   "day": "2024-01-31",
+   "file_sha256": "827ce201b80da6b874fdc6008530aa4089c27250905748a7d0db9fda263f3508",
+   "fold": "dev",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "f68bbd9d17a3613b8077106c0a4e36ecd544dcea3ff05cb81f804f2ba98c04ed",
+   "prompt_sha256": "592d7a6a58c1521349c4ae6099f670082abe36b2a263ce4e30f0b66928eada11",
+   "request_bytes": 5309,
+   "request_sha256": "23b9b7859ec3df07ca90a7fee36e178b69f32c41d56578029ec2f4910b729a55"
+  },
+  "BURL:0001579298-25-000007": {
+   "control_pack_sha256": "1ebcfb73a85598bf31032f15ce5d1fc894b0b9735127cfa7a4547fe755598a57",
+   "day": "2025-08-28",
+   "file_sha256": "b447469a064fa6eb1192196b35bfbbd6986dcc9fd8b1c1b2957e4381edd638b1",
+   "fold": "eval",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "573d79bea0e29e3a7cab7ffa8f69a0fc67a28f73db4b5c5b7cc01bcba83d7cbd",
+   "prompt_sha256": "3a6e79aeb3fdeb4c19ef5b931f24d6528efcfdc29215fe5f25ba0b780940ca60",
+   "request_bytes": 5314,
+   "request_sha256": "1d759bcdc9528d6de25c7589b3202787257d59b9892929fc5a7f5022ecadd7d6"
+  },
+  "BX:0001193125-23-258911": {
+   "control_pack_sha256": "99c2b9d1a2780a016019fabea6be92196f83eff6b2999a98f46ba0499b4d9ce5",
+   "day": "2023-10-19",
+   "file_sha256": "d18f70911a2d90519a5d49c502ebc060f1d1ab863f95c37246f3832a57ac98d9",
+   "fold": "dev",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "a1d91e733d0afba5b1cf0fd5031ee8676d04ab67e9e190abe24c2efd454ad306",
+   "prompt_sha256": "3d78370de40b5b7707f675d52b1ff82aa2cc67a6527e40a906a373f65e070dfa",
+   "request_bytes": 5303,
+   "request_sha256": "9da85a3e943edf3fd8a1988f5d6fd3c46b9730cafb865ea592cf523dfc0afb09"
+  },
+  "C:0001104659-23-003663": {
+   "control_pack_sha256": "3160a54e24ff83da97b345466d1dcaf3b5db4773d967512701b42985987622b1",
+   "day": "2023-01-13",
+   "file_sha256": "8486e75f5a98bfb95f30b8fc14d37be8c8197ca1c707ea4367377e21b168f09d",
+   "fold": "dev",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "1457393835ea519ab6e36d50d0cef39df49de716a46f0a0b626e813900539127",
+   "prompt_sha256": "ee5f215cc578a77fde397bb2aa7183476d2a3cdee0d6f8bde41f1b1f7048991e",
+   "request_bytes": 5299,
+   "request_sha256": "a2067f33a738a8034610edfdf734d185feff43755ae9293a0710edd20fe9f3c7"
+  },
+  "C:0001104659-24-003564": {
+   "control_pack_sha256": "65beb167174193d7a5b9da1f038c8842429a4ea8bd703b03be9649c0dda58301",
+   "day": "2024-01-12",
+   "file_sha256": "a65a0a93afa7e1917160d7770f02783c1aa7ba1a59cce3814cea98ecd3e95e25",
+   "fold": "dev",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "0298ed5300f436cf4d9f8658b1e6b3c452ce20f3e845b8103f519dbb70cfc1ad",
+   "prompt_sha256": "fc02900853c83e78e2571d09bcdf60de2f3e6a347c9100102c165bf983b350fb",
+   "request_bytes": 5493,
+   "request_sha256": "17c664f3f71af4459376b8ac5fb9b29e425d6ebbff70cc9e3bafa1cddded37f3"
+  },
+  "C:0001104659-25-034974": {
+   "control_pack_sha256": "0ac920d4ee124a9136fe08cc96df338d43abf772c7843a7e1e43984a256a24b7",
+   "day": "2025-04-15",
+   "file_sha256": "d9a5925415c53fbd0240c03493e54d52b7810c5101787e5afa466f311030a64e",
+   "fold": "eval",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "25d0ea3ff03f6596c20ec9df49d3394492a9cbe1ccc0cb6610e6ceb7ef2aa8f8",
+   "prompt_sha256": "e62bc2af590ec3dcafd3d684177521d19c6d22df383afd49c6c091bacd647c1d",
+   "request_bytes": 5590,
+   "request_sha256": "c1097dfc0804f4aff98c0a6221782a454c13c4e25f5363365894e64b331ee508"
+  },
+  "C:0001104659-26-083383": {
+   "control_pack_sha256": "e0f892202261765e546a43345c94ce5ad5be2af904b4237a5f5636d305625b60",
+   "day": "2026-07-14",
+   "file_sha256": "ce9478c9ae42df4da12ce99cc3adcb9685a81245c2f816b5a493a9ec0942f712",
+   "fold": "eval",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "aa893a92d3c5bbc116cdd4e7135af3a9de2f35bbe464982bf51a195f96a95861",
+   "prompt_sha256": "96b40abd1c08186484528d6e7f9f298897a494d854345bd5386304e47df15fa2",
+   "request_bytes": 5589,
+   "request_sha256": "2d85f31865d43164d7f2cfe637a3c8955772d4d224787bbdfa79034e120d2f59"
+  },
+  "CAG:0001437749-23-019832": {
+   "control_pack_sha256": "cba1e220abb9c4597d29bfc2af718248bed7532abff8a1071f393901a48444d2",
+   "day": "2023-07-13",
+   "file_sha256": "ead8b75c096939e21998e04e46482e2369ee5a8ee1236aacd97f1308c9874804",
+   "fold": "dev",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "91cd2505d58c283802956eec18b7ec169b1516db4a108ef4e6188e06d6e8dbd5",
+   "prompt_sha256": "fa6bde78b6dd6819004044e591b961649b190c98c1c9e64ff9601cb5cd756f1a",
+   "request_bytes": 5311,
+   "request_sha256": "d79b86b0ce39da4acc91f67364466438dc719c57e5c42bd58058e9dc010e4cf8"
+  },
+  "CFG:0000759944-26-000206": {
+   "control_pack_sha256": "d5b3633872ae37a4a4949a46ef711783717c9ce5e64d3aa09c1d607a45d24509",
+   "day": "2026-10-16",
+   "file_sha256": "c50234c18eb4e01fe7ab54f4502523ec849a9f90ae0a73d73fbc762c0c609017",
+   "fold": "eval",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "2e8f720203349305ee05d8be15768a4978d203fdc3924ed81ef59a3066622c9f",
+   "prompt_sha256": "6d9c0597cce7c3ba7486b98c681a4e0ad66a10fbee7896f8cc4e6c0a25e8a476",
+   "request_bytes": 5309,
+   "request_sha256": "ede894e8f4d470aed84ab9d1298de7bdc9f58d95629d2df27253ec948d98e4db"
+  },
+  "CHWY:0001766502-24-000052": {
+   "control_pack_sha256": "5e303b8ace7f27987e8ee1e03c85979fcb0d3668efa472d55a3f9209f783ec42",
+   "day": "2024-12-04",
+   "file_sha256": "c3df76aa2200ab797986d3f15fcf2d5db08c8a48d2a0886cd847129c3ee6fa0b",
+   "fold": "eval",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "e8c1f91b21b7e4640107d8e95a8647a97fb916b2de8752cae0882d6c700cb9b1",
+   "prompt_sha256": "580c108581a649a87122bbdc1bcf1684e96908469b9baba0f3507500375d34c7",
+   "request_bytes": 5317,
+   "request_sha256": "472b4b752c8009c7740a84b411eb6e5cb4850045c9e30086c8fd550bfa30f1c5"
+  },
+  "CLX:0000021076-23-000005": {
+   "control_pack_sha256": "fb59de731f279468a1f087adc2ade6ad20848651ee7086b37727da734d3ad653",
+   "day": "2023-02-03",
+   "file_sha256": "d219344ce65fa8ec85a1b91891723b7eee8cb247ae5946149e598241fe456efe",
+   "fold": "dev",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "40b06755706f104a30e2ba179745e35719fc22979a8ce41bd47e069349ca459e",
+   "prompt_sha256": "cc5bef1470f0fd15edcabc9d8059191bc7a01ce32ecce1750814e2b698be6716",
+   "request_bytes": 5309,
+   "request_sha256": "fd82d9504fd37f94a8d3e52a7939e7ffe70bf16691f69cf156997885e0d0f27b"
+  },
+  "CLX:0000021076-25-000010": {
+   "control_pack_sha256": "c2c5b1e199b8a1fa3dfc42f3cb54759b96e33cfaa78c9c3eab7b5cabe11b4ef4",
+   "day": "2025-02-04",
+   "file_sha256": "ec205770e3101421d284a49004363844eacadf84c27229ee1feab8d17d7f5f85",
+   "fold": "eval",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "471ea2dd1a0ca0ab9e59ef6deba55ea5debb2a6f5b5e9512e07ef4a25c499645",
+   "prompt_sha256": "80f373ee236566c57b6c6f3dc66fa86f74cb745dc05506fde8d2580790c8f559",
+   "request_bytes": 5503,
+   "request_sha256": "c7279bbd29301f2ac4d40238af0ef940f404df6a3db8cc6059994f67c8b74954"
+  },
+  "CLX:0000021076-26-000008": {
+   "control_pack_sha256": "1ce82abde3456e5a71194b974ac979a4b925d9ef812a530a42f9b18472f98f7e",
+   "day": "2026-02-04",
+   "file_sha256": "73e8a83e3349aafdb5e027da4cae98df4893347329299e3cf601432e0a5b0bc0",
+   "fold": "eval",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "60ef6a9c913271205a887bc66621a15f5ae77784820198785068289b5a34bd01",
+   "prompt_sha256": "6fa85418591cf6da48223ad0036e3b799328f860c54f167dd226fb41c7b6c3fa",
+   "request_bytes": 5600,
+   "request_sha256": "109c4ae194716c9c848b2523b1198cdff958221a309d576d150ec30bfc048470"
+  },
+  "CMCSA:0001166691-24-000046": {
+   "control_pack_sha256": "9c577955e1f6c2bb50e8ea89067bab73b2e5f333ae67bd7f994abbc716d54c7d",
+   "day": "2024-07-23",
+   "file_sha256": "b068fe8a33fd3371b2482e5b7b201c3c3fde7ba981139b75ee66de11da0d9dbb",
+   "fold": "dev",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "cb70cf987956aeab5a6b89ffd95fe7b08a77ca764cd16c327fa2b901fea278c1",
+   "prompt_sha256": "b48c4e1bd90d41c4d292a27a935de74254f17c1c13c164ddb45ac50ea07507c6",
+   "request_bytes": 5319,
+   "request_sha256": "803bba1588664edfe58668176cb27e74e760eddd259b8a7b9e488fbab0840b52"
+  },
+  "CME:0001156375-25-000204": {
+   "control_pack_sha256": "42d09a532a4ce6484a779c266b1c884a04f05197bc88bfe34e098681cab72ddb",
+   "day": "2025-10-22",
+   "file_sha256": "56b971401d2b18f7a8295f8d1e85c2a10e5322ec5aeb8ad8f7331201cbc1727d",
+   "fold": "eval",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "42b71105ccdde9de86b093f23c9da307895225c5f7415d79d624524c7b7cd910",
+   "prompt_sha256": "4d472857e71e2c9c92e4c5f83e3f28f2d3d3000805b8c1af9dc65fab690dbe7a",
+   "request_bytes": 5308,
+   "request_sha256": "c712a2f84df521455d719e31ab8b117946480db8b1e6fd9b7f8aaa1605d2a869"
+  },
+  "CMI:0000026172-25-000010": {
+   "control_pack_sha256": "8170112824cc77d1e14a7106dcf7bdaa29a22184da722b5bd7f5ea0e958398fe",
+   "day": "2025-05-05",
+   "file_sha256": "778401c300b36117b10e033602b0d4341ff48f7e0ae6afef07c5d7b03317dc4c",
+   "fold": "eval",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "c9ea8dfe3b6fb88a22a1cd901a4424fc0b61a8d7ef8dd0c1366d056377426fa0",
+   "prompt_sha256": "d7f8f806358fdfaf5500345df18ca7316b270fe2e9c1723cdacf1220c655ad28",
+   "request_bytes": 5309,
+   "request_sha256": "161c1a28340eaa9becda66a9d0cf40f4a6e97263d45022b3bdcc3b98abecb72d"
+  },
+  "COF:0000927628-25-000267": {
+   "control_pack_sha256": "87d13a69889110a53188d90d91612c69e3e9863ea2aa64ea3ec9dca2323fd6bb",
+   "day": "2025-10-22",
+   "file_sha256": "5258efb6aa6f6623e6886ce5e10662c59e86f4187cd28323a4ded7937080c2bf",
+   "fold": "eval",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "2efc466ef9814884b2eed95ec9d1c2fa8cdb284b3f336290b056f852d27ede28",
+   "prompt_sha256": "812381f118e277be6d4bf707de4fab8f8f1a9fdfdad86df6f9349ca5a6bf5f7b",
+   "request_bytes": 5308,
+   "request_sha256": "ab86db3e07d3ac8fc6a510ad9db49d770300b17ecb8f5646cad5e6992da9a6b3"
+  },
+  "CRM:0001108524-25-000083": {
+   "control_pack_sha256": "6673f23c749956b809b435d569ea93f6afd2e94e593faee788d330108d6030f8",
+   "day": "2025-09-04",
+   "file_sha256": "a5243303f4b59b83550a55bfb11de27c9ce442330b392de51d6b300d843ae795",
+   "fold": "eval",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "653e86407f875ab4e2e88fc577cc272ab3d92046c4d3175f704fe38fe29f4941",
+   "prompt_sha256": "e13e930404783b1f6eaca5d4c651335664fa006a3cb4c1b0a3387bf3ad9aa965",
+   "request_bytes": 5308,
+   "request_sha256": "87e3159c3b734876705006a94991c5de81df3fd06d7c665fb5ff08bff3b3b4fe"
+  },
+  "CRWD:0001535527-25-000023": {
+   "control_pack_sha256": "0ed65966e950c03b502ef45ac75a94d447be05f9b23d5d5f7dcfb02af12f61bd",
+   "day": "2025-08-28",
+   "file_sha256": "6e38ef8aa38c7277315c52a90d42a1bf8f42708ab3f31e0f1eb364250863d20f",
+   "fold": "eval",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "3ef28a3fb44c9413492768c4b714530a98f42cdc0d648a1aa4ff58e95715d22d",
+   "prompt_sha256": "5bd5e207259fffa5ed0823fa5dccfdbfd24f95e3a85f42427097b5c581255ba8",
+   "request_bytes": 5411,
+   "request_sha256": "5a1c034487218efafe3c82371da119721ed6c83c474f8b4ce91f7f6191f63651"
+  },
+  "CRWD:0001535527-26-000007": {
+   "control_pack_sha256": "ebfa8b5aeb212bfafd675d6893da98555e32e27f421028cb1dd227af2328a385",
+   "day": "2026-03-04",
+   "file_sha256": "01f88d8fc89c45da891e4e74df82fc1b5831c97e9f6219786c0bfad5c2893376",
+   "fold": "eval",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "514646a749ab82b1b3da61caf640b986aa7c3188cab670d51da25ff08f27dbe9",
+   "prompt_sha256": "43de5de5c121ae99751303de13d314ac79ca0db5dd5a17aea1e557f991aa4f61",
+   "request_bytes": 5508,
+   "request_sha256": "9604b253db4398f0eec410157f93210b706a1c90aadac83961f1eba6d9858951"
+  },
+  "CSX:0000277948-24-000030": {
+   "control_pack_sha256": "ba4854b3c628913acca83e744d2a2140ce3a474ddbba571412cc0540299871b9",
+   "day": "2024-04-18",
+   "file_sha256": "829739cc3879d88aa915d81bb17c9503373c88d627a2f5190ad03d313d9a8467",
+   "fold": "dev",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "2df2046d8d8c710817a44e874a4afa9bac52ebe6c4c4842882d535c9a5ddf485",
+   "prompt_sha256": "0cf920d2f7efd69bfdfcd9f0f1c2906d3eb9fece98efda019015476e8ef82638",
+   "request_bytes": 5308,
+   "request_sha256": "4960cc5ed578f99f4b9ff5121c09351dd56baacb15f55b5e6180f97cd7a99c33"
+  },
+  "CTAS:0000723254-23-000021": {
+   "control_pack_sha256": "a19707f10ee2b6b85987d58d26437a1b0f2246dfdb5c11bc023afdad2d5a4e90",
+   "day": "2023-07-13",
+   "file_sha256": "f652c8187f1a8c98fcda0ff3f4fa1fd9a997fc3f4527578b85b5bc9b5dc7203f",
+   "fold": "dev",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "576b611b2b54efa5a75753934625b09df0063b0fd2322f1140a7300d11244136",
+   "prompt_sha256": "64fcdb68ce813cd8e460cb9c2f05217ffa556389403baf7e3d1b442cad66f143",
+   "request_bytes": 5313,
+   "request_sha256": "058940e993f67b63ae0db823550b59b6fb6913430666c5850f0eaaa62233200f"
+  },
+  "CTSH:0001058290-23-000019": {
+   "control_pack_sha256": "3c5ce382d10b6ecd614ba6fa5ba33c32f308156fa82f7b3742612f3e75a0846b",
+   "day": "2023-02-03",
+   "file_sha256": "f3b6e38930a2e61a888a0cf59498e0a4617602a1dcd2a8e98d379ccfec2a4235",
+   "fold": "dev",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "00716a6be9a1ac5900725c991b4070b4043a6d7e48e8f02700db54c1a90202f7",
+   "prompt_sha256": "60b5e1dd4694f358cbfedef338db37013ea7831f5b8f6708ae81a91bd1c1c848",
+   "request_bytes": 5313,
+   "request_sha256": "97069c2430d745b273569a9d3dd55a6c6534370544246d29fe6481b8ae97d92c"
+  },
+  "DAL:0001683168-23-000172": {
+   "control_pack_sha256": "f79856b1f1e505f82209fd9eeec7f6b9e8d2763d420b7c1bd067e5a4795efd0e",
+   "day": "2023-01-13",
+   "file_sha256": "8aa5e08d7cc75c00f140bc15a16969ba3f34e117efeabc68150f7203b7dcf59a",
+   "fold": "dev",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "245308f0975be17cc9a74db2d7b95085519943380110a73d1af2c2cbbf4f2416",
+   "prompt_sha256": "8bdedb6b8c96b2ddc6abf22f95a67839a4c88c740d8dc1ea48b42cb6cfa84b20",
+   "request_bytes": 5309,
+   "request_sha256": "9f48344a74e3a7bb473b6e1ecfff206e5b8f6567ed30b387bc16c0c4ef1ee95d"
+  },
+  "DAL:0001683168-23-004828": {
+   "control_pack_sha256": "7501c9b4713bf99e1ad430cd0d5f928ce92e72b114812df5cab77534db96e2e3",
+   "day": "2023-07-13",
+   "file_sha256": "4d612c9d08e4ff6a72dc68099610de4094fc2482a35980fcdf10c743869060c5",
+   "fold": "dev",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "5e54d02d30c3e0126bf6afb19e6e2909dc59465697ee75c78476ab5c38a7c989",
+   "prompt_sha256": "ec706509aa281483c04afbb25e905a083853c2f9f15e6e6c3bba8e772c4871cd",
+   "request_bytes": 5503,
+   "request_sha256": "e7f61f46e8351ca410d802e2997b8bd48cdb92b78159e51469f789786b0d7b2d"
+  },
+  "DAL:0001683168-24-000244": {
+   "control_pack_sha256": "e596c3777de7b14fc3d9a30a6de65afa49dd071daba05679336c8ad508e42ab3",
+   "day": "2024-01-12",
+   "file_sha256": "c71bf9f96121890602dd024f9f90547692a5f48abdd3b467ade8b880bb6efacc",
+   "fold": "dev",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "2e4ed9bf9e9f76e4d861d1908ab9e537ca994f5497dd123aa3ad4bf078f366c4",
+   "prompt_sha256": "efd42d15d95df00ba0c0775cd2a8e63af25806cc04d58657c5ead6ec1f5c1b03",
+   "request_bytes": 5600,
+   "request_sha256": "5c16f8eb5eed30b1a84884a9242f1a2d7e8db54423ac1755cecbea52ea9e6b80"
+  },
+  "DD:0001666700-24-000011": {
+   "control_pack_sha256": "babcfcf31d46702a686fe59e401d47f8742d84daabebacd48a8497deb402228a",
+   "day": "2024-05-01",
+   "file_sha256": "823cf1b7904cad7eed8b37b50919108ca9b315f293bd99d6823d848777fdfea1",
+   "fold": "dev",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "da3e795bfd19e1eccb352cf1385e44acf69659ebaacc78496fc674a287af66b4",
+   "prompt_sha256": "bee0b8726694fb1dff0601758df868c86c3ec3c506577550d9365b950923a541",
+   "request_bytes": 5304,
+   "request_sha256": "c15bb541d6e34853c4d736f4ec8969f1d4739a815c7f46306a8ce6b0c9ee9a55"
+  },
+  "DE:0001104659-26-064747": {
+   "control_pack_sha256": "9a1a8e3785fea5741db6d5420d5ad93c3eaa420fe0611df6a4a87eab71e05e62",
+   "day": "2026-05-21",
+   "file_sha256": "394351a6e80b06e77fd0543b87e9124bc5bbb07ca0719f8854fdd99ec0357c99",
+   "fold": "eval",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "0dca8132303216e7acb953e76a2672a944c512a73f13835386cdd4cbc731ae68",
+   "prompt_sha256": "05df48441937f573533787d632e5ccdf5a8fe639ffef3d61c753f70c3653a97b",
+   "request_bytes": 5307,
+   "request_sha256": "3df07d637e6022ad70a2e44ce7b2402b64d0022176694e5a6c1b3225ef4d699b"
+  },
+  "DKS:0001089063-25-000105": {
+   "control_pack_sha256": "6a5c37209be413f6345c2fa0b1da80bd665cd7e62e63d2a8806f98be93074ced",
+   "day": "2025-08-28",
+   "file_sha256": "70d8dd69ef93a1b1d84c274f64ffd53a0c6555661760edaad670a26fff1540cc",
+   "fold": "eval",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "fe0d527488332932ffc2469e07b1f9441b97c8f4ddee3e1afe39c4447cb081de",
+   "prompt_sha256": "4224edb9d8d7b28c16232237fd071e65b901a7d28b890ded9b6a31c66e7e667a",
+   "request_bytes": 5311,
+   "request_sha256": "0a271b3de71069f577a9bde6ea7124ddd9149f4d8d82c912a2a8936691464a5c"
+  },
+  "DLTR:0000935703-24-000057": {
+   "control_pack_sha256": "e4ba486591c395b7f6e2b35f7535696d7b0f0c23c0114d5c0a882cf19e40efc1",
+   "day": "2024-12-04",
+   "file_sha256": "18bc2274132e8ec147b84e527cd74f6053e74af01af15f92f59bdb14368b119e",
+   "fold": "eval",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "6f5a83fc71945252206a92f245bc0a431b840abb5d3237c96effad3ae6588d3c",
+   "prompt_sha256": "9e06b814ee39aa0f4b38a40a992afd86fdcf733613a502a3c85e4c5bab594c44",
+   "request_bytes": 5313,
+   "request_sha256": "ba0c6358a896a56b522f80c16b7cbe05ef38b97ae148aea9ff7be3eb0094a139"
+  },
+  "DOW:0001751788-23-000113": {
+   "control_pack_sha256": "be8119e95440a49adea79bbbf97bcaea730d0965d3a4c860b746721cd2970f54",
+   "day": "2023-04-25",
+   "file_sha256": "6e43a3d497ab98fa0da006540b1d1edb473dba88f426b6eb21552d7d811c6599",
+   "fold": "dev",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "f6325809ef8484d022af9822d478df905efe3f8c07a942691593f7b071f2d7a2",
+   "prompt_sha256": "de1713456ad6d338daeebb69d150c7fe15635f1c47e65a7ede38a6eaaeaa32c9",
+   "request_bytes": 5308,
+   "request_sha256": "881cb159beffbc7cfe8a633d0b8749bfc91d57965591f584e62cde277de770e0"
+  },
+  "DXCM:0001093557-26-000072": {
+   "control_pack_sha256": "d68c2ec5085da005c50128de1dbbfe271c192b564c26167e516c6e0dd655379c",
+   "day": "2026-05-01",
+   "file_sha256": "761e317ded13f384e6a797f7cfa7324fa5f4ee3b0a86b430ce6a172ee16993bc",
+   "fold": "eval",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "eb1ec75d62945e6dbcad11c601c662ff95e90f2057a6b0de8248f30b3d0388c9",
+   "prompt_sha256": "30198e5caa6f08bf384f8241b127dad272e3cfb1faedf489862325ad69955a01",
+   "request_bytes": 5313,
+   "request_sha256": "7bc6c5d175a06f99fc3296851dd652b7b33a9b3e4c8bbd8597f545d9bdcad414"
+  },
+  "ED:0001047862-25-000139": {
+   "control_pack_sha256": "1d2c11eab26d73a0d985cdd903ad33fc7e5541211f0375f47487e23685f9808e",
+   "day": "2025-11-07",
+   "file_sha256": "7199c9f7293556b54d12b6d389f666ab1642fe9ea7000845346222b63eb1c17d",
+   "fold": "eval",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "b018c6bb8ffa8c1c32843756c9024fec31891d5c67a00418bb1f7e0135a14c35",
+   "prompt_sha256": "ba6b14d505a1b7654469021ee6bcdd0101ea5bdc33155bf02f440978a134c2bd",
+   "request_bytes": 5304,
+   "request_sha256": "7761786eb2ebb6fe5eb72fbfd3b9b02fe0e587ee0b2904f9f1ca6ef4e9d192bf"
+  },
+  "EFX:0000033185-26-000004": {
+   "control_pack_sha256": "01ed4890085294f9adacd4411de9e8fc16bb6ae14d342288c98af5f441ef260e",
+   "day": "2026-02-04",
+   "file_sha256": "580116d3db686293c987757077e28ed72b08833b2e72e7a830d217a2103d3201",
+   "fold": "eval",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "deebdf1f8054dddabfb6f6a6d8b7a9ff1d9929886290a1ed6dee6e69c87f933d",
+   "prompt_sha256": "6c41c49e427b34e786bc529b28555b653cd5b5b615235933332d742d5ecba0dd",
+   "request_bytes": 5308,
+   "request_sha256": "37db0f8614e4d003a3e21a8163b2f6fce4eda082ae8db6e542aeb4ce61bbb60d"
+  },
+  "EIX:0000827052-24-000012": {
+   "control_pack_sha256": "ea2c30f509d3f4bd92d288f0d3c04bf312dbbc49e3fe8dff28dbab0a3be19fdf",
+   "day": "2024-02-23",
+   "file_sha256": "5576276a04c9723aee27db4755541dc9452633f21ec9202b7b6c4543606c6d76",
+   "fold": "dev",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "87dd19077d4d4348bfbd7cfc5057752b7e85210f6b832cd8a29fae2aaf98470d",
+   "prompt_sha256": "fc974d475c3c1204533a3598cb09df57f8d656f5b617f6468646e5140e406dd3",
+   "request_bytes": 5406,
+   "request_sha256": "30ef87bbaf3f6ddb870fc1afe6b7f9e832d07b192bd13cfef8c0742c7ec36b40"
+  },
+  "EIX:0000827052-24-000034": {
+   "control_pack_sha256": "d9fea4794ff5a44af451143e0e00de41e72dbd3612c61e34c1eacd6d752c578e",
+   "day": "2024-05-01",
+   "file_sha256": "21ec5d8d30359ad028dc41120f16db9c2d163c25a7273fe8f4dae8f2b4683a22",
+   "fold": "dev",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "f9df238c7b4ae0e748633721e061c3672a677603ecfb67e94fdfeb8934c7b339",
+   "prompt_sha256": "82580575fdd1c9db3b78939bb3fbc2057a560c4f0ce48c24b4ebbea4e4f51d6b",
+   "request_bytes": 5406,
+   "request_sha256": "2fc37be057074e4754edd73d7ce34ba456d5c81c82bedc270fdd172247c271a5"
+  },
+  "ELV:0001193125-24-099824": {
+   "control_pack_sha256": "901167bae3d8bf05793e0d2538a01a00967d8c760874598685851450d7f94c1a",
+   "day": "2024-04-18",
+   "file_sha256": "a538782e7a782905973a3c75f9a65e8e1e4cdd11cd5df24f96546f5bb3ca9277",
+   "fold": "dev",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "6ab457e29ab4bb87431fe6571330dfdf688ad510cf83e8d2fffe9bca359322f7",
+   "prompt_sha256": "0474adb5831841a8d26d34386a908de2fe1b665b461d51f25abfadf0ee09ae5d",
+   "request_bytes": 5308,
+   "request_sha256": "d2643b6a562069df905dfcbedd7b960fd8704b3e8cf89ecc470981339b68e20d"
+  },
+  "EMR:0000032604-24-000035": {
+   "control_pack_sha256": "93dcc53a857b84148f4b2fd043656e1dd61dbd8cc414afd9ac1702e51b1bd0f8",
+   "day": "2024-08-07",
+   "file_sha256": "ad26aa0a826c751872d48c85dcb90220c1d192ee9572a32ed75b7906f7dab45d",
+   "fold": "dev",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "8505d6db600ee6c142f93c2dc255e9b1f4de73ced8a5a8e9bbd3267d3331e78e",
+   "prompt_sha256": "dc74d8d85d634389997d05a6fe214117f88730ddfefbe4aab03943e04801e2ce",
+   "request_bytes": 5311,
+   "request_sha256": "1392c51aadc7511769984813da9f87ad33541ad2be9fb4a547a4ea2451b7cd3a"
+  },
+  "EMR:0000032604-26-000006": {
+   "control_pack_sha256": "0fa0afdcf6b8e677227d30890dd4b425e0c7976b3b7e5c5a16a7590a5e291a09",
+   "day": "2026-02-04",
+   "file_sha256": "41f12b68010940cbe22d6c4126fdce04061ca3005f23756ebaf1dfef17d61b96",
+   "fold": "eval",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "138d9adf0129d7e1b57be1b5e6e5dcf78f2be48cea7e6d48d59391c23ac62512",
+   "prompt_sha256": "17844d6ce7e8cbb0637638317dc7d16c625ab724393c487b2cc88acadeeb8e2a",
+   "request_bytes": 5506,
+   "request_sha256": "c8d19d7879922e8dd3c43e0078895e3b5a972e609776d0f4ff8c3dcb8c7284d6"
+  },
+  "ENPH:0001463101-24-000140": {
+   "control_pack_sha256": "6325d52220df37dd823ea44bf84c43857bbc92160b725ce6eecb473daca0a563",
+   "day": "2024-10-23",
+   "file_sha256": "212c57e277b00c6e60767b9bfc6b228fabb2bb2a6d18aa93dce0abf94ef3957b",
+   "fold": "dev",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "25f0dc4feb898fb9007ccb0bec5293df4279d781ca85ae7175a8986ad6c82a52",
+   "prompt_sha256": "b23bc67414c143b2a6282e71dc86beefb288c51cfc4d59c980e8f471ab896293",
+   "request_bytes": 5313,
+   "request_sha256": "ddbe0a8689be740552aa73bf0c3fccbddf5dcb6f04c2fc768e506054213ed2d4"
+  },
+  "EOG:0000821189-24-000009": {
+   "control_pack_sha256": "b4b4fb56e6d6eada68d1003cf73db06600aed202212d6ca399ff5b2b6dbb8613",
+   "day": "2024-02-23",
+   "file_sha256": "12eca755ce21bc16e45f24655d11d0c8cef821ccdacf775d15445f9e1f9e4674",
+   "fold": "dev",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "799ce33073888e08aa0fbe20eb4e9b5a05f7a301a6949d89a0533366b4ab3ad5",
+   "prompt_sha256": "8d300631f6879447d2eee15a3c0163a9e721166159b9ed0ff44433b6a0f03f3a",
+   "request_bytes": 5311,
+   "request_sha256": "d33862d9e9d0d68113067b796533c7044a810bf8588f21da6d88e73be3cd237a"
+  },
+  "EQT:0000033213-25-000047": {
+   "control_pack_sha256": "6314b32af12869bcce2c30afe97f3c8f5218aa745b4841851b13980775ace300",
+   "day": "2025-10-22",
+   "file_sha256": "f6c4e50abd2d17bbaa0fa9cb7a4bffada1c6dff25acf9408a4bc14db3ff63d2b",
+   "fold": "eval",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "599241aeaccb72d306b2c2fd76a768be0e33f1892d36f822fddcee24a4307360",
+   "prompt_sha256": "ef09d90b80e01bcd9e4ca387a910f97d64a59a643d2d100989afc6dedc67705b",
+   "request_bytes": 5309,
+   "request_sha256": "6a50da14aa35fb06f8852c24a082464c79e2d06caf631d4bd7d865734fc29205"
+  },
+  "FAST:0000815556-23-000039": {
+   "control_pack_sha256": "0971b0af08fc842568e975c35271ab7abf461d6fd1ba5ccac6880520d6c78e64",
+   "day": "2023-07-13",
+   "file_sha256": "bdd808aee09581998c3a820d3c7cba001626a7d3775afe070d786ca9f70a8147",
+   "fold": "dev",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "06adef68cd748c615074ebbf8eabe16546b8a2f3087fc745c8f81510584cd98f",
+   "prompt_sha256": "ecc6e6410e350bdc717577298d2708e8aef8a56d88ff0f6970f19375539681e6",
+   "request_bytes": 5313,
+   "request_sha256": "3e51ac1ddd5d9d2d33e0c13c805ce54a3f3670e04129100ff4523e6f3cacd2c4"
+  },
+  "FAST:0000815556-26-000003": {
+   "control_pack_sha256": "6fc56b938daf3b3e96ce3ca66434e736e6655085bceb774a40468159501b1b3c",
+   "day": "2026-01-20",
+   "file_sha256": "2aae0025a1e759e45beedd7aaacec9d180e84a74c91934cab50ae35a4d2fbfc7",
+   "fold": "eval",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "e0584d17d3f6bbc5ccdff3812090b97112376786a8f383b5c48f842b7d648c87",
+   "prompt_sha256": "c12968f31cd17e6f57789bc49c9cd6f9742733357c9d4f7b0dcb3b3ace857c7d",
+   "request_bytes": 5508,
+   "request_sha256": "8207698b776ac752c22d4d983d8aaeb6a31a0bd08c0018ac2ba77b1d792cdb29"
+  },
+  "FAST:0000815556-26-000037": {
+   "control_pack_sha256": "6481b889d27bd22112678ddb4e7c0063ff1d7498d4ad32eed1f8f49dd9bbf9b8",
+   "day": "2026-07-14",
+   "file_sha256": "e2ae5ae746ef716765beb4051f6d00a5029da4d0a0192dcf230b8814e315c740",
+   "fold": "eval",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "929db7b5084140f9a7063455a89994d4fc92c923e6c79f66c5157ddcac0faf17",
+   "prompt_sha256": "fe28f4dbd47ad93c6a4c120ef8ef23ce298c10c2bc394b26446c09ea6fd38aa3",
+   "request_bytes": 5604,
+   "request_sha256": "e186a73ab3f721bdd1157f37a73aa7689e18a5eaed0e46e267e9955886023d98"
+  },
+  "FICO:0001157523-23-001687": {
+   "control_pack_sha256": "75436c8ba479f9b42142fd863790506fb668f3aca186b1ccad6d647522a2fab6",
+   "day": "2023-11-09",
+   "file_sha256": "12c65668e6287cec0ed40ae9177744909b6ac912f5f4a972baa464a140bd3336",
+   "fold": "dev",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "5c21008e55113b4bee2febfd5ca2dbe94d186b04e9babf833519ea046b9d4ce2",
+   "prompt_sha256": "b35d08143b8484b14956c0abd2535c4b3ee11228e3f7728e1149a5ca3727727e",
+   "request_bytes": 5313,
+   "request_sha256": "47feebef394fc0ba8c756478e6632b1c7c1bbe4d10a79edd6b59a88f3db03464"
+  },
+  "FITB:0000035527-26-000013": {
+   "control_pack_sha256": "87d31ff52f19146a25fad99c7d19cbeca28a4390c7c16e5c56a29b3a97a5cc05",
+   "day": "2026-01-20",
+   "file_sha256": "8675fee9a2e84ffb3d8f103cc4c72e40516dfca53eb9a3728a407b5c93b7cb75",
+   "fold": "eval",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "8761686aca80d12a5add220b3f0f28aafad545067d7323e60e9735441e48d576",
+   "prompt_sha256": "f6a05bf7ff2631681ae7d0de5e242543c6577df28959f1b057135b8c31bc2a0d",
+   "request_bytes": 5314,
+   "request_sha256": "2fda3511862c80846604c006560966c89e61dbac700c43760839952460d569dc"
+  },
+  "FTNT:0001262039-24-000032": {
+   "control_pack_sha256": "c3747ea072f7cfd477060a8a3170d8d012c4006d325874f5400db22a5885cc3b",
+   "day": "2024-08-07",
+   "file_sha256": "3593b5cfed19f8f695563f364c9a06869f3f0c13d7f5c134cb0ba6551aa92e5a",
+   "fold": "dev",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "5ec13fea8223277105273da4da8daf4045e67b1193a8b9c7e85faa814271975b",
+   "prompt_sha256": "639abbcc4423a796cd83d70502f1df543893522e9c313cc6dc2db86e0534e64b",
+   "request_bytes": 5314,
+   "request_sha256": "829a3a6eed549001a54e9fc68b80dff846d0dcb8ed7351bf345808819f15a32f"
+  },
+  "GAP:0000039911-25-000075": {
+   "control_pack_sha256": "fa945135307ff30eac4e57df875287ae3efac7ba89d90e36d65f11c2652c268a",
+   "day": "2025-05-30",
+   "file_sha256": "229d727e211f3ab97db1cd097f692dff7a145b9d586af529f9d14bab1ba66b00",
+   "fold": "eval",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "ae4847c4afd336a87a31d6a8fd35e139f84aea8239e3a6338adecfed74548180",
+   "prompt_sha256": "75bd43e48ef3daf622a5234130ed52e081f1b40b30ef739ebe900d40e911e11c",
+   "request_bytes": 5308,
+   "request_sha256": "42ce4f60949738562a58b3dbc2bfc26750f3ef84603d90e08089c49125bcd8aa"
+  },
+  "GILD:0000882095-23-000003": {
+   "control_pack_sha256": "2aa546bd6d10797fa6a939ae4a2d94d205e48a163f9d3a1629d3e798692053c0",
+   "day": "2023-02-03",
+   "file_sha256": "5ef4ee216ae597fa4dce79367fa6ea60cd2f39b5b160a2c53b13fc39ba62886d",
+   "fold": "dev",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "aedac8efba1f7d82a4ae965c7367cce322d5af18156428292327d307bc455c96",
+   "prompt_sha256": "0ca1dbdfb4525d8ad6a3d3eb48be0b9af3e2afa88bd0995f383cc073ffe8f281",
+   "request_bytes": 5316,
+   "request_sha256": "fa216d54be7aa3be6692bcbfb0a1385533db1ecc3320604206e110d912c56c9a"
+  },
+  "GM:0001467858-23-000074": {
+   "control_pack_sha256": "24d6930ce4f5a79f09200a7f1f65475b6f46fd97f4995a32b8ad21c0107b7b65",
+   "day": "2023-04-25",
+   "file_sha256": "e5bdaecaeb1cfd3399a2e5654e316124270d7dd4ba3c1afb7b63b15260e1e7f2",
+   "fold": "dev",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "de83ba13e9878f7131ee2ae0eaab5c6cbebb216305e142eafc389787b119d5ce",
+   "prompt_sha256": "bdc894042b7a9a26ca581886b46b46bd51bdec11c03d0d3d06e52885b3d31c07",
+   "request_bytes": 5303,
+   "request_sha256": "1f80b6ca2463cfc3b291f2db21a0f31b3da99e3d9ff309ee7a384d8bd1ac1b43"
+  },
+  "GM:0001467858-25-000119": {
+   "control_pack_sha256": "657932ced6c85842171bc1ea4653361c58674bc59e2b6af149f27ef8916596b9",
+   "day": "2025-07-22",
+   "file_sha256": "d57d6160df2db61e858465300b972e66e1cf68266666be98bc5673608915fd48",
+   "fold": "eval",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "0e00b25017ee8c802a983ba3d58f984574d2fdb32d8e3f663ebdb4c2f7db8631",
+   "prompt_sha256": "40d0b166231baebfeb5e81292c8a3412450b9f0eb4be57733b92b08534fc5c0f",
+   "request_bytes": 5498,
+   "request_sha256": "05e8d7ea0655e475bf1019ace8dad5c684b74f58b82340c8e5e7fc00fc2edefa"
+  },
+  "GPN:0001123360-23-000017": {
+   "control_pack_sha256": "0dae0b6eb7a6b87a9bf1c8d930aebed2cd6e01e5fdeee90c789a3d0a273edc9a",
+   "day": "2023-05-01",
+   "file_sha256": "7be084ed385bf783ffe24fa905467b7b5dc09488bb029fa511fc72d4a48621cd",
+   "fold": "dev",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "266dd2c99c10916af3efa84adecc0c66a2f87e9f74c1ec51111625ddb1da0ad8",
+   "prompt_sha256": "b08164cf45967cd7ad4270f54200f1a9af70143f429dd1ee6e6a97214a38a430",
+   "request_bytes": 5308,
+   "request_sha256": "307e4e3da45e502e2e5b68fed8260ccf0ccb3a4b5fba1f2ed5baba5526398021"
+  },
+  "GS:0000886982-26-000294": {
+   "control_pack_sha256": "3a5d04070094c68bbee0352eebf30d7708bd62682048221bbfb391939f27a87c",
+   "day": "2026-07-14",
+   "file_sha256": "b3a9bc6658dfe56fc0012af7a4373ec671e7d6f1a9ea7bcd498613ab7465c92d",
+   "fold": "eval",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "4b2a9af4a14a587b92ca5764c770e9c61de827f220a6074627bc7317226abb40",
+   "prompt_sha256": "346bcc186915d27fd63284a62934bf8bd77810fc3f97288f78cb2219bfba7772",
+   "request_bytes": 5303,
+   "request_sha256": "f1238af76d530fd7163d19ab3d7fe148a103d8f3153de8c374f03416d2887b03"
+  },
+  "GTLB:0001628280-26-013795": {
+   "control_pack_sha256": "bd5ee66d594280df66af036b15a2e324f87f83fcc4193a1ca6e1e89a293e5965",
+   "day": "2026-03-04",
+   "file_sha256": "70e60bb93374bbcada0469768f042aec3e14d17a4364fc54a17c740a3acaa8ab",
+   "fold": "eval",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "92c4dd0ff04d6a3242277f2ea36383df7a4d0f4af9b6215fb463034482eef54a",
+   "prompt_sha256": "86bcda98caa91a2bc2fb941db42295d48d2511a29c91e0ca7d76d4785ea6296c",
+   "request_bytes": 5507,
+   "request_sha256": "8365426401faf97ff69b13e1aef6f62e345a2e33b7415d7cf081d8fb2c8a54dc"
+  },
+  "GTLB:0001653482-25-000008": {
+   "control_pack_sha256": "c58a4f71948cf582e21f82296317329967111b88e08e42288e627257cc4df000",
+   "day": "2025-09-04",
+   "file_sha256": "77e860c9c30c53f56c255aa9f3daacce18266e0aa88ce12664ce7e449d3c5998",
+   "fold": "eval",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "2ad2c82917fc02f733f7292adac2f3d9ba411c57e937dbb1225d9b606d70b0d7",
+   "prompt_sha256": "75c3fe12bf3e22662f8afa6b6b4e273cf679ec55408ad2821a5a2ce91c95c98c",
+   "request_bytes": 5411,
+   "request_sha256": "467f5f8fe5701419bc1d5d35b10ad0131c863e819e6a728085480bc4d901ee8b"
+  },
+  "HAL:0000045012-23-000024": {
+   "control_pack_sha256": "2af478def318a1c3d706e32672d65062d2f588a19ee1566026ac96f7156cd78e",
+   "day": "2023-04-25",
+   "file_sha256": "60b5d3d3dbbd1f771227ddcb92368ca4575652772cd538c57b056efb27e30aff",
+   "fold": "dev",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "2fbf1c1eca92c31f01e83a65b5b1cd4c45566f736025dc362ec22201e96ac4a6",
+   "prompt_sha256": "fb2a8fb4276665eca4e3de37a12ab8c970485a935f637e4cc9b18212ef3d3d01",
+   "request_bytes": 5309,
+   "request_sha256": "e5619d0f1adb79c7e2449e809cd727e8ced7c802a0b6b43c47fb4ce8c5ca3a91"
+  },
+  "HCA:0001193125-24-182591": {
+   "control_pack_sha256": "63e7aa5360ba9596a1d5ee5c03bf9c010e5046d9d7f12a06664f915ba6cba769",
+   "day": "2024-07-23",
+   "file_sha256": "6fda285e22c4354103516e83a328caf846e52873dffc578997e1c280b2bae5c4",
+   "fold": "dev",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "50b0b6c5649569951bf7d007050a9a8318cdd0db8b2cebb802732eed906ff2b3",
+   "prompt_sha256": "13baaff366210ffd5bcc84b8d2bc5bca71ae3f5962f04b7de40db03b251752a0",
+   "request_bytes": 5308,
+   "request_sha256": "396bcfb25e0d8535d3d5b219d06653e4dfa5d2fd706658db42cb3d14da757a25"
+  },
+  "HPE:0001645590-25-000096": {
+   "control_pack_sha256": "c6bf053f30d9074b0e2c96a6c7342536a69a0dbb06a3071d18a2979001379e49",
+   "day": "2025-09-04",
+   "file_sha256": "da2583d86498a81dbda647c657d6e76a5498160422cbec889ff4f52ba55d334e",
+   "fold": "eval",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "7238adf94ac9133a7c7d22684a68bfe62001b5fc62f65888af987f383a989198",
+   "prompt_sha256": "4c9a34ac0bce5891663e6eff4de5f24f766de598e1b9b90282374d2fe009a2aa",
+   "request_bytes": 5308,
+   "request_sha256": "f4fecda3ac2e4f834e61daee68e7731d81b5eaa067d31e363c28f616170cf29f"
+  },
+  "HUBS:0000950170-23-061164": {
+   "control_pack_sha256": "c020cdf2af2a63352b21bf4d59679c83bf6a58133599b8ff0ce20132e45e1414",
+   "day": "2023-11-09",
+   "file_sha256": "f4081648a1a8b58b748a21dcedd7f193a0e69b46702ef166560461292963b624",
+   "fold": "dev",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "71f49147e31391352f6108739a27b287571dc4509c6a1414414cecd03afdcee9",
+   "prompt_sha256": "96c2195f45d50d071efe681d45584721031d4d8e2ca96b3ed16e92e22d29ba16",
+   "request_bytes": 5313,
+   "request_sha256": "670656e2bfdb168339df7b52b3287dde7bcb22ce774b600b51de54ec75a2421c"
+  },
+  "ILMN:0001110803-23-000060": {
+   "control_pack_sha256": "f0c81343e1e021460aff51d444f5ccc6efa18917a7618645790326e79a5ce555",
+   "day": "2023-08-10",
+   "file_sha256": "3f7199b4bef93a4e8648bf3839061abc47f0614257c0f34568617a1bd025762f",
+   "fold": "dev",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "17165a06cd3b523f9503c6b58bce1923a3c3fd8a2634cf4827029c657c804f09",
+   "prompt_sha256": "0c1d97c9dfb6d6e9bbeed7f72c2e8ceb4c7a7e89b12330d7d8dd71c902c31bc7",
+   "request_bytes": 5314,
+   "request_sha256": "e4227f5f6993ce114af1e1b1fca20d6a9f7b20de547e6d887736675efa9bf00a"
+  },
+  "INTU:0000896878-23-000031": {
+   "control_pack_sha256": "5070c8f421dac1d09dd5ef44992ff4df86466e99272bb92a21e69e13ff12cb00",
+   "day": "2023-08-25",
+   "file_sha256": "9aeb6d99035de7a22d30f83828fa03965cbec1e48c1aa611c291706cf23644a1",
+   "fold": "dev",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "8642b192706db80812336751ef5a2dd18e6ea9495a241b572e86cf89fdb4baa4",
+   "prompt_sha256": "747a210a9b8218feba4dc2c4d5ea5d8b435105d40a829f4dca6103873d0fa07c",
+   "request_bytes": 5410,
+   "request_sha256": "5cbfc22e366e4908adb7a6873523dc493eb0f7a1f7c3b5b3a9a4cb4ac628506b"
+  },
+  "INTU:0000896878-24-000009": {
+   "control_pack_sha256": "7e11277f345d01e63c792f523206246f36d77a37d020f2d31bda9c6adb517fa2",
+   "day": "2024-02-23",
+   "file_sha256": "8ea9c20f2e7683f4f5ae54fde9d6b662115c941f4a7446fed7d4de85e94fe93d",
+   "fold": "dev",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "483413ec16f7d426741121cbc3e25da93de4cfc1909cb2fcfd0f5497dfe0edcf",
+   "prompt_sha256": "16ba0d5b001a91abcad71875c3ae56fba6f05e3ad657d6a5815ef1f2db56e0d0",
+   "request_bytes": 5507,
+   "request_sha256": "b07a18be7f84cf2089b3ab2b1afd7e04239cdd0bf38597f8959d2f09f15180a1"
+  },
+  "INTU:0000896878-26-000024": {
+   "control_pack_sha256": "d7be201c822d35ba016972c698b67fda745d52f1ff783d1442dd753cf1f1e0be",
+   "day": "2026-05-21",
+   "file_sha256": "ccce5ea1a7bc65b87290aec1fab5483714ad328e30dcf4d3987d6864ead8c56d",
+   "fold": "eval",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "2582a7c6a463da657e63db9a6991f0364dab9ac2844fc016bb5c61794d90c771",
+   "prompt_sha256": "e35b1591da033dd525a914a993419ea9982e9d42cf27aacfaeedb63f286ba25f",
+   "request_bytes": 5605,
+   "request_sha256": "af5ce0c6c5a8b3093dda602ce46b94ff8317826b361b59ebe372ed53ac89a863"
+  },
+  "INTU:0000896878-26-000029": {
+   "control_pack_sha256": "0c79b5851182aeb2462571a3bf5e834f7572f578ea306bf6e9c7214d1b2937cb",
+   "day": "2026-08-26",
+   "file_sha256": "3fa1afae24f0169f090d6586beef18856a4d92b5219ba2d23692afd7b15ad7fe",
+   "fold": "eval",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "c0a549a080d4bb7981e87725b8faec750951f48ccc813fdd3fe87f9125013303",
+   "prompt_sha256": "aa36f9340ca1e1db0af91b587b8de34174dc4e490120a5f33d89978c9852dcde",
+   "request_bytes": 5604,
+   "request_sha256": "f54177f09d999e22a57794f3c5a49b714521444fc1212f5dc9597176157252de"
+  },
+  "J:0001628280-26-005001": {
+   "control_pack_sha256": "e24f338e0822a8b9f2ca034cc863d31647bfd3a69726335a5dcec012d856526b",
+   "day": "2026-02-04",
+   "file_sha256": "672bbcaed103334b74372221a8c9bfe219aa6e3e4576d9fa7092a07ff14947b3",
+   "fold": "eval",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "a61b2fec6c564546aa3fb6c686b38ae306237ef87faf63aa564faeb1d8491436",
+   "prompt_sha256": "c999a9e6634b21dcabb8643dd58e8c2908cd8627ff5a5270ead08630c4861d9e",
+   "request_bytes": 5299,
+   "request_sha256": "eb5548d1f635ef60674910d2cdc68e3388ac00f569203b33ba8b9e75855a532d"
+  },
+  "JBHT:0001437749-24-031253": {
+   "control_pack_sha256": "371a23a4a8b38ad8499fb19a6bb1416dc4e96be0415535cb2a0fdbe5f981b098",
+   "day": "2024-10-16",
+   "file_sha256": "d64d4e6b4f4bfff1deea531a353bfa4b4768965ab135cb8e1319c96e279c5627",
+   "fold": "dev",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "a5479213f0cc97294f49d98ec436e21e427d75cf644250e6ba680d93af4093f5",
+   "prompt_sha256": "c8bf7fea943ee88542b42ade3c5e48c6e30da8c860fd8865b2f54e0ae9131090",
+   "request_bytes": 5314,
+   "request_sha256": "3e6fe1e88cc4a0ba806a70b6d9fbfd5432668b71051633230302faa382c1cd08"
+  },
+  "JBHT:0001437749-26-032715": {
+   "control_pack_sha256": "7b2f2ac3c0ebed92737791a3e1bcb2b9df0957a108f6f3f7192c23aafd12d704",
+   "day": "2026-10-16",
+   "file_sha256": "36f8dcdb8035525ca892c0c0350b58f5a23eb767bcc7ed66118ff40ebefca777",
+   "fold": "eval",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "a2399aae4f84520ac7f8e8847e6ab8ba87a1c39069135fd4ed1df608d7653b0b",
+   "prompt_sha256": "8cb601d61e949b538a30c6839f523e68fe571f08d55c540464ee4ac292ec5921",
+   "request_bytes": 5507,
+   "request_sha256": "3ceeacd905d3cb40208a12dc0ae7de113d8bfd68a246c037a046e07ca34ca9b5"
+  },
+  "JNJ:0000200406-25-000110": {
+   "control_pack_sha256": "f7c9d3f340b4b0b56b151d4a71524cdac1eb7f38f148ab5a70b2107332e1f749",
+   "day": "2025-04-15",
+   "file_sha256": "da5c9d67069cef3fa7b1253e6f6df0dd21610877fa98c39ee8b3c96e3830d53e",
+   "fold": "eval",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "0f9381538e0d7ab402ccf018e4e61df1b1bcf0e7e65671a5ca60ca463a77d491",
+   "prompt_sha256": "d37a79894b0d693484e821b43d75c5a6d9eed35fd74cc939f2ce2168e85bc489",
+   "request_bytes": 5309,
+   "request_sha256": "21dd668bc355f06aabd78cc3bc25bba07b1576ae97ed337b10fe33c679ddefba"
+  },
+  "JPM:0000019617-23-000063": {
+   "control_pack_sha256": "1f09b80f920b2f19bd8a946aa06326fef905a5903d02acad5352950cc35a97b8",
+   "day": "2023-01-13",
+   "file_sha256": "72e5bec2f9a2bf78a5180db2d17ac36853278f4500d3f45e7c06fe7a8bfa195d",
+   "fold": "dev",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "142cc88afffe7c3daafabf1093f9c0d8af3da0a0d889e279bd940b5b2370f38d",
+   "prompt_sha256": "790ed2d05b4303917b47bc72dd83923bed537773457658cc92515a0cff294c6f",
+   "request_bytes": 5309,
+   "request_sha256": "7276f5ef0e52a670559b9366f927d110da341eb71f2856cefd9be7c5d269c81c"
+  },
+  "KEY:0000091576-26-000006": {
+   "control_pack_sha256": "b7b21fe55e52959df2cf2a0efc2d7a34debde15cd15955802bea1de367a9756d",
+   "day": "2026-01-20",
+   "file_sha256": "33b7fdcaef1b45e78313652bfa8ccd063a7782780b15c8c79876f1a30725f774",
+   "fold": "eval",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "375e69e2536c0437c70289b409603d746f941fc34dfbe19ef5581815dc3084a1",
+   "prompt_sha256": "013b01a8027695f013a54294e3270bdec51463dcd18cd4ce8202bc488ec4a39c",
+   "request_bytes": 5311,
+   "request_sha256": "e0729aa1e45ab6301f81210a92a4cfca329d0598313b1b15acc1d218212e6077"
+  },
+  "KMI:0001506307-23-000116": {
+   "control_pack_sha256": "467a33a356b28f82fd336f409de35e04f97fff06a177e7e8e181890656c5cfe3",
+   "day": "2023-10-19",
+   "file_sha256": "327f7f8928e1960285d4881544df139df859e3348efd2f4dbcd479d181aa6aa6",
+   "fold": "dev",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "39090eb034abea227c689d6374055b37ca8cad663a23d74db2ecc3a2d48b042d",
+   "prompt_sha256": "a423c3d133637474ce2711fcb97146351982d64bab42ebc5652743f30992e8a0",
+   "request_bytes": 5308,
+   "request_sha256": "809af8d7e743707f671a67700b1e9602325af26b234d7fbf7f704e81be4ef315"
+  },
+  "KMI:0001506307-26-000063": {
+   "control_pack_sha256": "76afae41118d652c4cc28740d43711ff87b7b901c4685aa459b46b8eb1b3a227",
+   "day": "2026-07-23",
+   "file_sha256": "1ace7338b455b167b4e1dccdd0d68458987f3562ab31be98bffa217c67ab2d29",
+   "fold": "eval",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "735b209efaed126fc816ae87b4007b8e4a9218c131a7116970a7b77a65e92ac9",
+   "prompt_sha256": "5ccb46de4555ab2ae379940fd26bdc8774ccee4f2654f723f9f3350021d0a48d",
+   "request_bytes": 5502,
+   "request_sha256": "e0d17fbeb0143d8c80bc193d61bb3f1aae86a24db6d376dbc44d04cfbeee36bd"
+  },
+  "KO:0000021344-25-000054": {
+   "control_pack_sha256": "a13c55cee63b8dedd251785b23299349530a9a95b666e520cc57d2836e801012",
+   "day": "2025-07-22",
+   "file_sha256": "26d39628d17361b16104a5449d6955b8ec795d4a1b77cc881f6f8ecc4de9b5e8",
+   "fold": "eval",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "fd2bd008fe800b665e48a9d363779ccf76fe957121ac6cbdfe837c35848e2095",
+   "prompt_sha256": "af4ab4096d8688d4a67444497b400a380cce4e37c80034d6b3cc22ea3dcabda9",
+   "request_bytes": 5304,
+   "request_sha256": "9f2458346d19a784b293f7a3f7bf2bb04bf7f51ce388936233e8040355d7a511"
+  },
+  "LMT:0001628280-25-035502": {
+   "control_pack_sha256": "3cf7f98a7bdd3bcbe4491a3c51691911cf9b96b8596ac25dcab4c202dc4218e6",
+   "day": "2025-07-22",
+   "file_sha256": "65865e3a9b9ff34553860389d43a28916f15a0ea5fdf633e3810e6b3befa886b",
+   "fold": "eval",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "95996d033e2b559d2b135880d90078c1d85c436522ccad855405dcd37264f2b1",
+   "prompt_sha256": "e235134a5ae380e25654a45e8317929dc213c79165111603b9294f7f809e9015",
+   "request_bytes": 5309,
+   "request_sha256": "19e92e7e03110cd0164be2b3f19d1f7ef28bbbaf44770bc89a7a4229617d1c1b"
+  },
+  "LVS:0001300514-24-000064": {
+   "control_pack_sha256": "152c1099dc7debbbaa526718cf42c7ad469b9bda1958bb1654f26e7658ed0aa8",
+   "day": "2024-04-18",
+   "file_sha256": "be16bfee77e07da7a8c02160badd4f4e1ac3e65fe1e1963eb6768768e3931590",
+   "fold": "dev",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "76dbba0a7dec765d0aa9bf7df93a40a5e991014ebb396f716e40fa2d59c767ca",
+   "prompt_sha256": "22f9058cfb762eceea25c1dbf81ba06d9ebd515f2ff395b902d72cf84c613d12",
+   "request_bytes": 5308,
+   "request_sha256": "4330c78a2b2423c0d27a9f88cd980882ddb864635aef6b100dbd746a6817ddf7"
+  },
+  "LYFT:0001759509-24-000096": {
+   "control_pack_sha256": "22741a46a36ca6d0fcd111f7f4113bc3e3982d771c34383006dac22559b306e3",
+   "day": "2024-08-07",
+   "file_sha256": "5ba107b80cd6a9355386d43bf076edc0116ab9f8f4d0896882467e03a9de1ef8",
+   "fold": "dev",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "fa2dae48e2f06ba98bb5b61b8f3b1d41a4f5ea77199fb6f2e621347d9ce584f3",
+   "prompt_sha256": "a14a30e16e29285d4a57b0c5d23295f6ae3362fd90abfaf4c1a4348b18649e0b",
+   "request_bytes": 5314,
+   "request_sha256": "a3dd8b2c232eb37e9efd68f19a647d432ba6c42a9e118c0d9a38112011155158"
+  },
+  "MCHP:0000827054-25-000182": {
+   "control_pack_sha256": "fe5198e40ea9bd49c0d156bd5b8e828d65423fe65527067fd15feecf80b142c2",
+   "day": "2025-11-07",
+   "file_sha256": "c0415f8606648b45c099cfa710c932c2c6250890aa7078aa76291e9ffa1dfa74",
+   "fold": "eval",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "9181c3f58cce21c7e605c0c0a3673063b0f2aa8438e3c7216dd657d3b3758c90",
+   "prompt_sha256": "bba43141c4226b89a86d0a5de535e4549d7db25f03e74db603718ab404d71e2e",
+   "request_bytes": 5313,
+   "request_sha256": "71c1cda0057985dcf7ed79837ca3c864a4e10c08becbd2e96dff4b75397a13be"
+  },
+  "MCO:0001628280-25-045770": {
+   "control_pack_sha256": "8ca08686f8614899c8bccecb39a561d8bb48862446b810ebbd34f8977480963c",
+   "day": "2025-10-22",
+   "file_sha256": "d0a2f9fe4f4d32963ad4aff81d454286c20129e01a88a8ff06cf09bdc6dfc9b0",
+   "fold": "eval",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "d2e5bf2c263b49a291e2e85a0b819527030766bad401123b45e4f12871deef09",
+   "prompt_sha256": "619790a1becb86b820046aeb33a666d5bc7762ac125bed29b382b90cb1b7985f",
+   "request_bytes": 5308,
+   "request_sha256": "4d1500b0df97340c21af456a6ce771cf49e8cea62936f19a665df609bd9466b7"
+  },
+  "MDB:0001441816-24-000108": {
+   "control_pack_sha256": "8ab704efe0ddb860540e022d226fb9591bc70d6edd89068e4eacf0ca4856c666",
+   "day": "2024-05-31",
+   "file_sha256": "74f03c431c50081fa599f0571465293cc556d3d162831f4213e4bba35a6118b4",
+   "fold": "dev",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "c568e8d99a1c95cba4d0c7be42f34fa2086d1ecffda9da0d8ecdcd82e1957e02",
+   "prompt_sha256": "0ded3934e9b1525515ab538ca683aee8917de73935110ecd9d6f44bb2345e2c8",
+   "request_bytes": 5309,
+   "request_sha256": "947881bc6a53fd35bd41c1c11d12c6cb9b9bd097136339b78da83fafafbbb570"
+  },
+  "MDLZ:0001103982-24-000011": {
+   "control_pack_sha256": "d2fcbec2244b17570941436ab227335af25d7adbe22969206a5766c85809bfef",
+   "day": "2024-01-31",
+   "file_sha256": "796e1e672265e7653953cc49a8e0746f76ab6e2f6716fde5a84a14eccdfd17c7",
+   "fold": "dev",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "321285c568de5a95739b67aee3bf6bba0ff33ed1b0a28e6dcb02930441297dac",
+   "prompt_sha256": "59656e8b12ced6ba85700086b20831c43d2f929ce6879db4492b577fbc40d023",
+   "request_bytes": 5313,
+   "request_sha256": "0adc989346caa2eb9003acc93e80c9bd80ee9192be04ff069c8ab759e4fec9fb"
+  },
+  "MNST:0001104659-25-107778": {
+   "control_pack_sha256": "44309524fe4ac8bba61098589a64cfcad9c45cec1c0b2a56cfd3ed03d406b818",
+   "day": "2025-11-07",
+   "file_sha256": "d152115025ff807b7d0bfe594d8ee17933d35df0773b9894ca4fa49e591ab8e5",
+   "fold": "eval",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "c0a6d0a3f4eb73d071dfbaad8fd8321387932df1908a3ec490593b9184b598d0",
+   "prompt_sha256": "70c4bd0d24b232dd4ba93c868728cd9d7727f7e07d2be4953dce359e78175540",
+   "request_bytes": 5316,
+   "request_sha256": "27d450a90cebf93f8d0e9320d49fec759649dceeba5856c5de3a14bba83b5836"
+  },
+  "MPC:0001510295-25-000005": {
+   "control_pack_sha256": "46c4f9ab60c5cfdb80b7a19051d9cf8108a95c4de77a590beab128d7a54500d7",
+   "day": "2025-02-04",
+   "file_sha256": "5af3a5e00cdd2e465391bd47400c0c3677f71de1ed0ff495f010e93233c4c88a",
+   "fold": "eval",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "df815ff27a273a6a64a91b42bd498cd9492bf078325b7b02b60e7e9de3364be2",
+   "prompt_sha256": "7959588fed24225339c18b69d1b42f8c510876368981527bf1a0a1adfd123489",
+   "request_bytes": 5308,
+   "request_sha256": "f2b84b94276c22cdb69b05c8669488d7f50023bfcad00e9b0de7cb680e9005e8"
+  },
+  "MRVL:0001835632-23-000036": {
+   "control_pack_sha256": "b83a8af93fd82b50f625adf8c5c6ac75d6073478e43a6a7204c2a3d26bbabe2f",
+   "day": "2023-08-25",
+   "file_sha256": "89c1e693fab4f8864d3e7dec3f4bd764a5e2f458eadd923d164c2baec833bd44",
+   "fold": "dev",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "33a807e1e9135b085cad9f2aeccd137b35041f7c85fe7ed7c96cf78ec6445312",
+   "prompt_sha256": "b07b39a7e0f008d48385ceaaf150c357a6a2912b6f936621342685b8be9d2958",
+   "request_bytes": 5314,
+   "request_sha256": "531e97ab64f42bc924f257a87c3e58c01f5af6fec05f093e2b254e7c39060046"
+  },
+  "MRVL:0001835632-24-000197": {
+   "control_pack_sha256": "cdd7019cdf5399f9145fc1194854f0fd2d80141feaa0342282237b6d3e167485",
+   "day": "2024-12-04",
+   "file_sha256": "8f45d908c5662bbe8505c49d5be4b5c8c7fb0e0aeceb0cbfd09d8b36f4dc2650",
+   "fold": "eval",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "53d1ff2fea7848a24c710023b2379675bb06a5f6182abd109dfbc886d4ef1692",
+   "prompt_sha256": "158dfed919eba43877bb51fb425f84f5b437939997a2f8e38408bcfb4823c4a1",
+   "request_bytes": 5604,
+   "request_sha256": "3d1725b89370f26224e2c35c3831240d89c72635532e2803c7a94fd8413aa007"
+  },
+  "MRVL:0001835632-25-000115": {
+   "control_pack_sha256": "583fb4f67dbf51a28a94cc77b4847427a6d28fb4e53af823bc4c46ddd55696f7",
+   "day": "2025-05-30",
+   "file_sha256": "8f6891e9fe0666f2c41028583565baa987c6c08c11e40201965a36755097d666",
+   "fold": "eval",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "a9f21792922e6de4b016ded26109912c2f685d05030be20dbc1a4804ce150c25",
+   "prompt_sha256": "4bfb811bbe4d917bb944ae25ce90c2287806dcf0fc5527e529f2fdf3e0e771e1",
+   "request_bytes": 5605,
+   "request_sha256": "99e4138a16a498478434d664f8b02435c862b4ecb247da4e0265ffead80694e2"
+  },
+  "MS:0000895421-24-000484": {
+   "control_pack_sha256": "db7bbfb2c06bd1bdac7a194ab30bfb8632b4ae473296553088255b8623026cf0",
+   "day": "2024-10-16",
+   "file_sha256": "343bef91da78608117f8dd07b7fb11363a5f2fee725ea1857a3d23642daaada4",
+   "fold": "dev",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "78c531fc6b6037b865576a361f6e0c3c57a90ab961d95b539bcb6f8a2226d8c6",
+   "prompt_sha256": "a36f24049b85dde8e452299c91de0ee31370ff4b02a534911d27d8cfed998ee8",
+   "request_bytes": 5303,
+   "request_sha256": "352f5b05df513c104c90d4c9257c712457083a60899360c9e4a5247436e45915"
+  },
+  "MTB:0000036270-26-000057": {
+   "control_pack_sha256": "d8a5f2a344c347e0ff86d7aa4e9dbb7f286b9427495c11d9697f5932f6e76303",
+   "day": "2026-10-16",
+   "file_sha256": "237e53693ca30ab06a825064c13ea81d328cfc73d7ad8ada82ce44c95b6960ef",
+   "fold": "eval",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "e33b7418c7943530a8c3ef18358980c9ffbcd879526d7ff62c11ef8a6e5d93f7",
+   "prompt_sha256": "044f458a331bf33c7b525af26a92d74c3801eeecd5438af121a8a2dc91f3a3be",
+   "request_bytes": 5308,
+   "request_sha256": "249dff745b1e096360386314ab4bf58ad4c885ec53780e1f0ed9a05db3661f62"
+  },
+  "NCLH:0001171843-23-001224": {
+   "control_pack_sha256": "16ff5cdcdfb3916818e8337ea863dbd21d14c0086d950aa435eacc62b88b8b32",
+   "day": "2023-02-28",
+   "file_sha256": "f3baffdf5bee4a22adadf1c8251070a7f2704a339b5ec107428e685a00bcfb88",
+   "fold": "dev",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "9fa44931fa69c4d6665bdcf9eb4228378427d0025426cefc21b3804fc30fd1a6",
+   "prompt_sha256": "3b2cad34c5495c9661ce0e1db9e4db0b46d4441c5b586dea019ac570c1195362",
+   "request_bytes": 5411,
+   "request_sha256": "c03b7841150fb3676f85af288a2020e00d42a3f34100859ca46a139c1c2dadcb"
+  },
+  "NCLH:0001171843-23-002707": {
+   "control_pack_sha256": "f5be7daeabe11fd588a8ba77a78758150eb83c89c433855f9e6fb4028402e18a",
+   "day": "2023-05-01",
+   "file_sha256": "4dc4e12acf2821586ac8c9fcca2748584585b15dd38369125925fa3e28cdbf05",
+   "fold": "dev",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "28e9004c3754dde382368d672a3155cf5928b6cac64ced23e3741e8969115453",
+   "prompt_sha256": "58e5d6bc3c7af58c490bef726112061707ca47cbbe4eff9a09b7951ee3d5ad8e",
+   "request_bytes": 5508,
+   "request_sha256": "64b60bc1dc89e4c53ad4a8d3b37df0871567391359a589ca7a23fcd588ad825c"
+  },
+  "NFLX:0001065280-23-000272": {
+   "control_pack_sha256": "259522df3d48a7f252814a45307b69ae3cd6c0610b8ebadc08e2c6b56f976fff",
+   "day": "2023-10-19",
+   "file_sha256": "4c8e0587c512e1843a44ad8f684a86cb74f26b49e098b78959a7cdcd3c07ef1a",
+   "fold": "dev",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "62f3a58c7c3cf72ff58c49d032e226577f3b41299c55bc56fcf50f13e3f3ddad",
+   "prompt_sha256": "79c0b55b193a54e6dcdec05a06103ce3d0ccb39afcf47c40a0e6c72ef2325979",
+   "request_bytes": 5313,
+   "request_sha256": "f7fe3b614bd98dfd2a7a296b3056d344049519860f9f55452a728698bc2aa54b"
+  },
+  "NOC:0001133421-25-000047": {
+   "control_pack_sha256": "6aae1d1d5e78297273af66d14b46a2cb972268dac79b5470ce0ec13ddddd33ba",
+   "day": "2025-07-22",
+   "file_sha256": "76815a56e394c5ea8aaf21eb1597ef19f616a911b97df653106e67e66fdef38e",
+   "fold": "eval",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "0405bf5c8e3208e28da0efbc159ba2f41cefdc0935a9d84c992e23308c8ce3c2",
+   "prompt_sha256": "218c4d7ef47769f213b4b5eb1817b1d7bf37329d6f75dd9f63d70b5dd0840f7d",
+   "request_bytes": 5312,
+   "request_sha256": "054b46cd0b5b36a65c0d9973fcde3f4296b43c527b4bd223a324ab16721a0bf9"
+  },
+  "NTAP:0000950170-24-066567": {
+   "control_pack_sha256": "35808cf6492681608f277f0b072da3a515d0221b608625585a1eed29e1dc9568",
+   "day": "2024-05-31",
+   "file_sha256": "68f556f447e6100bfeaed4b5c625ddff04d29e3186cc2add68e8991fec9b1807",
+   "fold": "dev",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "22f240f7970a135a201620fc650e764c640f7e15474e705c0b43768d48bf2187",
+   "prompt_sha256": "fef7386928e4e1cf3668de20b179aba4176f944736d7c3f0c5b269d4bf568fc5",
+   "request_bytes": 5313,
+   "request_sha256": "fcf29351fe280491c90e325f45719d7e5505b9b542575f72c003a1c02a60db6b"
+  },
+  "NVDA:0001045810-26-000051": {
+   "control_pack_sha256": "863b2da1e8e978c3c112db642af66940826ab29334b8b6d0c4a03b3c9995fc8e",
+   "day": "2026-05-21",
+   "file_sha256": "d34d883505da0c0153cd4871200eb08e7b8722a022af69609a70155771ecf0f7",
+   "fold": "eval",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "58ae917b69bc57338ecd1777d64f5b03c68b0cdbc49331aeb90b2258029db991",
+   "prompt_sha256": "ab4378f2cc212694012659e62401b168b9e8887cf6ffb5fb17acc71334aaf159",
+   "request_bytes": 5314,
+   "request_sha256": "2e0f3cced0581b2f3a951ea825df9b7aab4d77a82057171be6d5b016b874ca70"
+  },
+  "OKTA:0001660134-24-000165": {
+   "control_pack_sha256": "d5690a5d9c6b6dbc28d52a91c9a355aaeeafa70161a26bda7cde6c2b34475f66",
+   "day": "2024-12-04",
+   "file_sha256": "5a297b57a5ea68a08619999ffe84a281bbcbdf465503dbbb03982ac24ff9b2cc",
+   "fold": "eval",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "4cd8a7d4d27e6c41d108c19fabb77ae297a8bba08a511d231944b28776da39ee",
+   "prompt_sha256": "32f4c9786d2b29307429261a3bd95eae337bd82389d3a29e4c27a776433111f1",
+   "request_bytes": 5313,
+   "request_sha256": "9300ab3afbd1ab052929eb4dcbd7badcff7c039f5f99104c58b21a2ba040d026"
+  },
+  "ON:0001140361-25-017228": {
+   "control_pack_sha256": "435679b6a9772f15ed82f3e5eb71b747bb21009c24c489460bb5dfae91fbb097",
+   "day": "2025-05-05",
+   "file_sha256": "6d5a7c3202bdeffd44e96aa46f8ec2d925b4a63f4cc1aee30e6900855d22615b",
+   "fold": "eval",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "9374950ac5ef591a34e8a563bab0e9c14ddeca3145127e8a4714f7ad5a1c2878",
+   "prompt_sha256": "1e3d6fe202342d3d840e2973c754c58d615d7a0925b533dbf31ecaf9c8501aa9",
+   "request_bytes": 5304,
+   "request_sha256": "16245c0a390512fc1360d2d525bc97c9911e6560df4bc7c099bfc960bb7fdd6f"
+  },
+  "OTIS:0001781335-24-000005": {
+   "control_pack_sha256": "2eec1e20eae974e535ec31021b772b1a29948915916d785d9c9891e820896c97",
+   "day": "2024-01-31",
+   "file_sha256": "fe5985feed8c74512cf4b428c3f67cea347a78327e86b3bca004a36407c180ce",
+   "fold": "dev",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "a8d4b16c82674d9872ebeb24c6f468f100496058f6ee16bf7e135e7f230b75c9",
+   "prompt_sha256": "d65eb98476d28989c53b2efdca25cbf0eda3624fe5d0dc96b670ccc5d8496b30",
+   "request_bytes": 5314,
+   "request_sha256": "101059d67d0b72387494a2ee22b386dbc41fdeb63f1c0e79aa1c0d1d842ff368"
+  },
+  "PANW:0001327567-25-000006": {
+   "control_pack_sha256": "8ac6ecbe9fe08cbb71c75040aadace10f5ad51aee5814b7691ae291b710ad60a",
+   "day": "2025-02-14",
+   "file_sha256": "6178fc8ae19f76be1247544c72cf2dcbb75f477554f2028579fa08584571e588",
+   "fold": "eval",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "79acd6d34cef07dd0ef52aad2d2859da1835cfd87c587175ab54a1aa4eacdd15",
+   "prompt_sha256": "f5d6c36fa9441bbf912b4ed91ef88038c80da088abc63d581a9735c56e8955c5",
+   "request_bytes": 5317,
+   "request_sha256": "39b3d0e0f136599cceb85a20f220bbf25d5a6404f8a13d37a1130201f561f197"
+  },
+  "PATH:0001734722-25-000026": {
+   "control_pack_sha256": "b78848db795498f49660302a1da1069472b490ffc14affb82acd8a75a895e5d9",
+   "day": "2025-05-30",
+   "file_sha256": "a9cde318eb0da1ecd6dc8f6218dacf7ea9139063b66ad03730873fb1b252f7e7",
+   "fold": "eval",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "ef977c69cd1ac726e41f6d7631c00526e25d27d3b8918fc0b5b0f46465daf7f2",
+   "prompt_sha256": "e9293056f1962ae88e2e65fac57b3d5849421462fb5f676795fd3a7f0f2e14e0",
+   "request_bytes": 5314,
+   "request_sha256": "4e0af96d799a1ba20aae1b0fcd9ca06ad09f6d50fdc239829eaf763774542a53"
+  },
+  "PCAR:0000950170-24-085443": {
+   "control_pack_sha256": "06eecf54b17dc2d562f78593e7172714fd7b3a028b1729200e2844e0a5283ed8",
+   "day": "2024-07-23",
+   "file_sha256": "bda14d10884558ef4026354ff437cd8beb427fdacf73f32a29e706c9f9c34c56",
+   "fold": "dev",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "dc9520e8133d116fe67a7452a734d2c81b4d53822b7abf231227d3da3611c63d",
+   "prompt_sha256": "e1b8536c252a2d24146fe2afef83f6b5e0350ef1509277742b7190aa6242c84a",
+   "request_bytes": 5313,
+   "request_sha256": "58056ee7ace702a8c80ed9d565df024a69aa3c9d2abb268154b00720e8268d79"
+  },
+  "PLTR:0001321655-25-000007": {
+   "control_pack_sha256": "9a5ec54e97232e7d80269b4a3c9ad7972038e533be2fee8feade334e8303e7f7",
+   "day": "2025-02-04",
+   "file_sha256": "b3fc146126b75ab3c0fb6e7e00d03e5321ad3635572aa8b655712acf5e4e7930",
+   "fold": "eval",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "b705c16283be4f130172e5bd4a000bc8fccdbe5f9764e182ebec06e7ed27fdfe",
+   "prompt_sha256": "4c7592d4449e82ebb977346679ac72dca91ab01faea0b7a3530d39cee61cc653",
+   "request_bytes": 5313,
+   "request_sha256": "f3f40abd214c83039f60030e8ed6c56637f738c8c2ae9b280e6ba11a60e8b872"
+  },
+  "PNC:0001628280-25-017763": {
+   "control_pack_sha256": "78e64a40b7d305530d8d960d1e0a183a2cec48000696e77b595841d19f40176b",
+   "day": "2025-04-15",
+   "file_sha256": "f56c529bea37dfa54105bcc20bae536635bc932c641250d2530bec0a99e609d2",
+   "fold": "eval",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "732d1a5048d790617264e1327b5eea5728858f30dbc14f663774c04bc32dec69",
+   "prompt_sha256": "b0db4e7b235bb549d7f940965ad66f9a315c9451baf63519a1971657f2727109",
+   "request_bytes": 5309,
+   "request_sha256": "41dc3bf3e1af56167df0ecf2afd3715c98b48293dd2d56cac43080b50eb30df9"
+  },
+  "RDDT:0001713445-24-000052": {
+   "control_pack_sha256": "1926a50a0bb7d38fe135b6193fa89ab6d72769128b2b9b91e82f73236af01e21",
+   "day": "2024-08-07",
+   "file_sha256": "b98e30909a82fb040c0184caff80998ea2e46f333223614470a1f5c7d2b8f1e3",
+   "fold": "dev",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "7fccc309c6ecb20a2b90a39ee6c7da9d71b5c53821dd9e2d88f13e0bb1f2df6d",
+   "prompt_sha256": "73ba7ecc7958b91f1f63a6978e4021aa5439d5769f5c2ac709e1695568d599fa",
+   "request_bytes": 5313,
+   "request_sha256": "4a7e63f71147dabb29bfe22f703a99e30e7767226b3b147a6cef756cba355cc0"
+  },
+  "ROKU:0001428439-25-000008": {
+   "control_pack_sha256": "ba610d4e50f0ef09969690fd63561558772ee02ec118eec7053be37ef8fa5e9b",
+   "day": "2025-02-14",
+   "file_sha256": "f6d6bf97ecaeb49c1c9cffde47cdd3ddc8ddcd70b0c7f0051c12a967e52e86bf",
+   "fold": "eval",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "ad509529f45105ee1971ca7a3d5891dc28d21fd204dab169166674dc4a0a6fb8",
+   "prompt_sha256": "41d1c30e0143d9ca43fc6c9cf0afcd8847d5bd8b795c2c30baad3a6b7f7502cb",
+   "request_bytes": 5314,
+   "request_sha256": "a802cee129858185e04ee3aead16bea70de92e6f04ff3a4ce502ac2efd3fdfb1"
+  },
+  "ROKU:0001628280-26-028851": {
+   "control_pack_sha256": "191ae9b5f96c3aeb7eda6275d2aeccb88ca5eb746ec42fd2c32f0c87a78da700",
+   "day": "2026-05-01",
+   "file_sha256": "56c339f6ec8bf2f7b8e2ef2dd2cd2c5750380c99427f29079233a89dfe0c44cb",
+   "fold": "eval",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "d5cd6700c2b7fe5fe57dd1900060b7273d3b6fdaf6d5e14bc1c003c7692780d6",
+   "prompt_sha256": "f0878768811a4b86c2790662fdc8de858dbe6c571c78e7fe1a5bfb19ce84cdfd",
+   "request_bytes": 5507,
+   "request_sha256": "847a38d712a40e57999b09edd5c47dc4b48a6afe0afa55ce6468cf4dd6b8f4fb"
+  },
+  "ROST:0000745732-26-000003": {
+   "control_pack_sha256": "fb97a6388521278c820a60c868838156dc7dd5c72106b952703f9e2c31ba19e9",
+   "day": "2026-03-04",
+   "file_sha256": "99c66664379ff9d4607d1057ecefdd2e9bf5c3f2db679f580e0df8dc7f8ba750",
+   "fold": "eval",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "a1b5406ac60b8d9ebcf9ed2e77e87393ca95374c6217141ad39f9bb8971bf6ae",
+   "prompt_sha256": "e63093de6bd200b62f83d6fb609be44f7b34fd1967435d03e95a2187fb26e409",
+   "request_bytes": 5313,
+   "request_sha256": "a9e70df4582d2de6402ae6574501a53ff0845f6c75e517742e75f9ddb3d8410f"
+  },
+  "RTX:0000101829-26-000025": {
+   "control_pack_sha256": "948d3aeb7ab9e54c5159a7bb45d83ad048f5b0f76d68d0dd0ae5542a2ec2aebd",
+   "day": "2026-07-23",
+   "file_sha256": "66e49f16c3a4c786bdaaba4e27b8208f49d23814d3250428228beb3a21b778a5",
+   "fold": "eval",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "9fc4c141fa0206236f2d1ea88481817cb62d8a56679b1a38d9a83e7227cf8eea",
+   "prompt_sha256": "4fa623d546cc901ff47982f82e46294953470229473e0003c7c2b497c66b4f3e",
+   "request_bytes": 5308,
+   "request_sha256": "37a031c58134b13b70c33cf939bf7030d4043108566309972aa6c361b2cf76e9"
+  },
+  "SBUX:0000829224-24-000023": {
+   "control_pack_sha256": "45a1ef0dcfeba1e1fab8635c154d2c0d2b87e7a36442dbf7424b6bbb323a7dd4",
+   "day": "2024-05-01",
+   "file_sha256": "e62146f3520006d6852abc5e35d82dc0206aacaf5b25b881907a101b61418d4b",
+   "fold": "dev",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "18dfbbe260362967f738b7ef582310b7161c208cd954d93933a811e81adb8ecc",
+   "prompt_sha256": "22bdc75bfd120ea693758937b6abdafc99ab6ab58d80f2a1d38987c786abfa39",
+   "request_bytes": 5314,
+   "request_sha256": "ecfc16118821ec107b4a8fbc0f3647407a6fca982e5646d2de460f0c2f19e337"
+  },
+  "SJM:0000091419-26-000079": {
+   "control_pack_sha256": "6fc1a4b86286629e5c2133e77e5ee2d5d986c2b59c7cb2067c2ef55b529f0794",
+   "day": "2026-08-26",
+   "file_sha256": "6f11cd3b1e6fbb1e0c7415ccef1a2dcb5232b37aafb472de059ca267a7094eb6",
+   "fold": "eval",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "c51ebab8f8bd5c13b54f8bae003df21b162e32c4bb566583aee874107219fdfd",
+   "prompt_sha256": "dc2eea3f3a6846d03eec638538b06680694313ecbfd5616271a590f934724b6e",
+   "request_bytes": 5308,
+   "request_sha256": "f6643464a900b237ce52fb74c1af16fb29157827450e66bfddb859a6994721d6"
+  },
+  "SOFI:0001818874-23-000076": {
+   "control_pack_sha256": "f5932e87cd980e9fff63d98295c24da9e16383520a29ca6cadc5f4755b489ec0",
+   "day": "2023-05-01",
+   "file_sha256": "4a110b5de8198b482e9f09358111ae635bd42fec94b918979f565dfded1bfdd5",
+   "fold": "dev",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "50d2465d8db8720380674240b5e02d7bf96f271db4c0251e27b99062b6a405a2",
+   "prompt_sha256": "3b6c45ff19255cefefb5b4e210a38c3c4ce5dbe5178fc98067775ae11e67a50c",
+   "request_bytes": 5314,
+   "request_sha256": "52895d50773abb99aa59de2b698fb780651c499a53f9dba6a5fd8a5e4bbe57a1"
+  },
+  "SRE:0001032208-23-000005": {
+   "control_pack_sha256": "f38e95ef1b88437f2e4fdd412ffc0e1bdd1c5ce820edfbe1fe08f51566bf944a",
+   "day": "2023-02-28",
+   "file_sha256": "37098589b141580b79a47150f18cc750ba44b3dc8eedcf7fbe6769cbdd39b43a",
+   "fold": "dev",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "4da52850b6ce9454e41a56357277ff5f345045c58016138da0cad251688b605b",
+   "prompt_sha256": "1c88b23acd28223a1a1c510b1ea8e46fed318224ff2739fee37c823b5a604290",
+   "request_bytes": 5308,
+   "request_sha256": "7f4dc2428eeefd8ce40d50e79a40ab01cfa2951f8bed671f26910b9c7804044a"
+  },
+  "SYK:0000310764-24-000062": {
+   "control_pack_sha256": "fb01fd49b5bd53651d3b03d2801f026e6a9080bccf590184efbc59963af49f9b",
+   "day": "2024-05-01",
+   "file_sha256": "6b19a4317fc4ad7da363b54af78d947bd028d4a81c53a80c6b3d0651b8298c9f",
+   "fold": "dev",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "f46d5f55f2505130987782433c489b3a5b7873cf22d6381da2ece2d57cad008c",
+   "prompt_sha256": "c43850bb2922ff0ff45eedaf576755fa6711b3505172aace37a8693cb3af4aad",
+   "request_bytes": 5308,
+   "request_sha256": "f1edecdbb45f9a0314f850f63bc9f24f77239fc88bbad6c0d35305c49d02c06f"
+  },
+  "SYK:0000310764-26-000025": {
+   "control_pack_sha256": "484579ff8293bd173844a6d42a33dc79d5228b680500e12f199953485300f48e",
+   "day": "2026-05-01",
+   "file_sha256": "cd8a8bdb2a357f2beb32e9933d39021141ff725aa518f9237b7c6913939dbe09",
+   "fold": "eval",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "6d5c0e2ecb18b7358fc377b8137b37cd5b7c47872058704f79b797e4d0573442",
+   "prompt_sha256": "33a4da8b2d0a5920558751bc03453ed4c4433e702de83e71fef22fb054dca8d9",
+   "request_bytes": 5503,
+   "request_sha256": "0cd96920e7859cbad9fe9aecca57894301a2cfd495408918f8aa22617b85165e"
+  },
+  "T:0000732717-24-000056": {
+   "control_pack_sha256": "f05b3443930aa6f09403af00fd551d31bb63cefe5bddabe51eaba5427d38a2a3",
+   "day": "2024-10-23",
+   "file_sha256": "4d878276060b9309e92be8ecb6851c0bdd5b5a4034325794d82453174e90b042",
+   "fold": "dev",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "4fb054d6b0b0e38974b461c5e80fe514e91629f3aa3f36bc630b415fc8ab3d43",
+   "prompt_sha256": "ae7a96a535ea6137cde5a83a46a9520f4d285b9ab6934d13ec401b4442711037",
+   "request_bytes": 5301,
+   "request_sha256": "02d42eda71fb7f6865731076a2f46ebdf9e99c8b053162477670534fb3bbb2b1"
+  },
+  "TDG:0001260221-23-000077": {
+   "control_pack_sha256": "fda4359c7e68b1bf80807e935ae6598d41bb5ca8b14e930eea291c126232cb6a",
+   "day": "2023-11-09",
+   "file_sha256": "75b076ed2a7956f3dd58ff4da9957c9ef87d58d5f55b744eb69eb43dd038772c",
+   "fold": "dev",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "9def9ed7bd446e3404aa7ff06071dde013cc04dee47d49b00614198b76fa1e29",
+   "prompt_sha256": "393846af9cf9fd9a1dabb083a997ee49be8b8973ea2c2230dccc773fca7915ef",
+   "request_bytes": 5309,
+   "request_sha256": "ded51ae5e6114facc954814e279e44b68bcab9322a3d9750bbdc31a41607ee1f"
+  },
+  "TGT:0000027419-23-000010": {
+   "control_pack_sha256": "5818eaf0f40308c097709c7c4d1a5fafec27509525aaaa2bee33e86194c83208",
+   "day": "2023-02-28",
+   "file_sha256": "fde989d7f4603c5c626e9e19beea5440ed99a17116561c4c904c3e8f97575dd1",
+   "fold": "dev",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "26a06d76bf3768e2b5c3f6d683d649caced0d4cfd403d8053673c19fc3037d88",
+   "prompt_sha256": "650a3d5dc4b3b10c1057bcb821847193cf426d9f8bc55cb840e5259ea8921623",
+   "request_bytes": 5308,
+   "request_sha256": "d98b01c4f4fad6fd2242de5b6c31279984a0d1f994a707cbc6fb88ae09d0dda8"
+  },
+  "TRV:0000086312-26-000180": {
+   "control_pack_sha256": "3db8f3f2775e631a3273ee548eaddf7d68386c45f857c0cd86fa7b4eee8e21a2",
+   "day": "2026-10-16",
+   "file_sha256": "a02889d7774dd66a17f50ecf9ea38f9f7cfa090b80de9bb63785fe5b37cef15f",
+   "fold": "eval",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "367226bd8cbd3f6228fd0a31ada9c1d24ae4ec1983b782e78eb179fd8e49f0e6",
+   "prompt_sha256": "5b953a2aea533eedc05ac7ab57341f7c93ea1e1039d9fa7ce8750d2f6ad45284",
+   "request_bytes": 5309,
+   "request_sha256": "96fd5200bf3ca251cbe6535f2a502fb3e5e1543679f471454a593807ec569cc0"
+  },
+  "TSN:0000100493-25-000055": {
+   "control_pack_sha256": "9f99bb9c0dcf18a7311e90a6c7887e67ac1c099756e2ddb74754aec6bc732821",
+   "day": "2025-05-05",
+   "file_sha256": "eb962311aa95d724b6d19700d321197d8b57fe1b8ccbf277c8a25df22880c144",
+   "fold": "eval",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "e37c1d805474e0267cb590da3b3340e07e1a1af9793019e4061945049f79e955",
+   "prompt_sha256": "4a9ab08c46183b5316856abd3c7481af8fa9a0e1f38d00909f56cec2faeff033",
+   "request_bytes": 5308,
+   "request_sha256": "0117ae09e71e2d6c133057a058cd2c4fe3bdd677e4ff7cbfa164adcb56fcd04a"
+  },
+  "TTD:0001157523-23-001303": {
+   "control_pack_sha256": "f6441d77dd84af3dab7ef81024486282a95a246f00d642b4d4149acd1b848544",
+   "day": "2023-08-10",
+   "file_sha256": "f70fbb8ae56a355be02f8ad1b6e5691206351b8bafd119764006271f3164d242",
+   "fold": "dev",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "33172bb102fb7b2a6ff8879028ddb560cbc1a636325cf28efd514a60fa278a3e",
+   "prompt_sha256": "eeec56362909b66fd371f32edddcc480e26aafa8e061128581f40ee69c32d315",
+   "request_bytes": 5308,
+   "request_sha256": "752fb758faea4e9a1c81242a39a961f9610adff1db34d18f9b39be0117ce79d3"
+  },
+  "TXN:0000097476-26-000148": {
+   "control_pack_sha256": "302aa54949a5eb5958a7938301c9b3d815a30643fe45fe0405b692fe6e1afbd1",
+   "day": "2026-07-23",
+   "file_sha256": "443b2e5bd62919a59fb189709c47e7ee6a46238746dffb7db55915c5773f5197",
+   "fold": "eval",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "06b95a26370cf0a752d7c0e6798c2b7661f29ae87ce3d4483b62b34f87e4a7c7",
+   "prompt_sha256": "0d1d9c3af600bb725b9b0365fd80eb1cb1e2ae8a863141f92158c64f390b48f8",
+   "request_bytes": 5309,
+   "request_sha256": "f113253da47c2c522dde3f5f634f4fa1d30eae6c8ad83aa9a0ce39d7113aaacc"
+  },
+  "UAL:0000100517-24-000132": {
+   "control_pack_sha256": "6e0265fbdae11750372e54ac0dc2927dad2d4d64ce18e08cb48d992a9195384e",
+   "day": "2024-10-16",
+   "file_sha256": "e5c401d188da3da3dfe2ca604ec1059145f2b283520a1bfd5b4be82ca288fb8c",
+   "fold": "dev",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "7cadb583c996e273be1c013c9ff3cb9df2d0c4b136cdf263bd5da1cd4115a938",
+   "prompt_sha256": "413988e62e22e4f9508fcca3d6974b77d318df4884569ff9096562349f2648bc",
+   "request_bytes": 5309,
+   "request_sha256": "ae6b92555c950d272aa5d2b28740ba04d31fae156f9599cc50bb69c9bcf224dc"
+  },
+  "ULTA:0001558370-24-008776": {
+   "control_pack_sha256": "c81415be2823e09f33a86b2fa3c299b8703b001cad8e8355d76597fabc05a45d",
+   "day": "2024-05-31",
+   "file_sha256": "8ad8856f9307f9bae5e3b47b5c4b9c854a4baecaa07038be2278653e694420f6",
+   "fold": "dev",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "75c6fcba5f0490568b265204fa837b89d2762feaf7b34ab1d614121fd49783f8",
+   "prompt_sha256": "e0afeb83020f161c01383829ea1c9da8f0407429440dbb6b81b90b207033caeb",
+   "request_bytes": 5313,
+   "request_sha256": "e611d9aceffda17ee9e609fafd48782332fc9509b533b73cc9d1b723685b71db"
+  },
+  "UNH:0000731766-24-000023": {
+   "control_pack_sha256": "9334260edd09213932de0969d1354a8a647b44babfc63e8950dd2df721bac3f1",
+   "day": "2024-01-12",
+   "file_sha256": "1623e2120a07e7a66809bf9dfc63533262f3cc6ac25adc7dba0f354ed0afc24c",
+   "fold": "dev",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "88bd106252013dbe398565d7e9ac9b560ba85cc3d79074230cdaed0ee01a98ba",
+   "prompt_sha256": "605b0f1c9f87bff7fc5b5929f3f3f3023e554033c81cbf0333968ad3dd70ae08",
+   "request_bytes": 5309,
+   "request_sha256": "c7a45700fbd880b8e2922c7cc36fe77121c6e9e97cdcfffa06cd100f65eb029d"
+  },
+  "USB:0000036104-26-000005": {
+   "control_pack_sha256": "11546f10fdeb244e57e597073c45d9c5f52816d6e2827c4b9c53c21fd1154dbc",
+   "day": "2026-01-20",
+   "file_sha256": "1527d5f2f2f0b0865ad3c76c24f3a73180d57c540bd71bfcf1374621de884f68",
+   "fold": "eval",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "a561856f6a93f8ca54a0dd97a88d67839dc0b0190821afc65c656abb1d99faa6",
+   "prompt_sha256": "584c99551abc53d404bf39b484785c75ea58774ca49c563545e5878dc57d38b4",
+   "request_bytes": 5308,
+   "request_sha256": "9b328a7c802edd3970a9dca34bf4dcffd95334f1b49265d531bd502aa90b29a0"
+  },
+  "WDAY:0001327811-23-000149": {
+   "control_pack_sha256": "bf11710b663ec691b2c487bad8eabca5469cebb6483cc2c8df31ad9c148f7f1a",
+   "day": "2023-08-25",
+   "file_sha256": "992b8d6c35a50742d535942b47507743f8ba9ea89e0433d5a5ce1f0b4ea1309a",
+   "fold": "dev",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "c7b176abb7f3d077212ff76ad36d5db358a461dcea725cf213d8787d589b7e97",
+   "prompt_sha256": "07510b522b5374cae5ae9a5069da51cbfc751bb0ca7c4e6cc274cd6899c72144",
+   "request_bytes": 5314,
+   "request_sha256": "e09f1413932ceb91a9ba5770f134563cf45a8ee1114c9b7d79851518165c7b25"
+  },
+  "WEC:0000107815-23-000142": {
+   "control_pack_sha256": "2c3618242fc46847a2801c57899254199b6d30ccdfb3d4a9f4bdf1fa8006f4d1",
+   "day": "2023-05-01",
+   "file_sha256": "9e2bd65db8ef1ceb2bfc100a26025073e1e807aa90269d9a88a6a5a0fe203fcf",
+   "fold": "dev",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "0d751a9dbfe05e3689283a38126fc7d5bf6be1a2814b054b9ed7c4c0a7ab1895",
+   "prompt_sha256": "b86acfe25ee2b3a1f54085499b016c762c2df0a1d089e53219dbaf0de67926ac",
+   "request_bytes": 5309,
+   "request_sha256": "7be7dd18c993dcf2021e325c51f7859a26bd0f652da66647590c9fd634910b16"
+  },
+  "WEC:0000107815-25-000095": {
+   "control_pack_sha256": "f3949d6fe81edbfb548cd19f7c45d6b15afe77acd48946a59b924c636d90ba65",
+   "day": "2025-02-04",
+   "file_sha256": "13a73c96ac9ac56947e76564f25d2dbc90837a43398d70d09f8a64afbf28d27e",
+   "fold": "eval",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "489150fc978df101a6cb637f8db57a90d798aecc2d37fc2da5571b44d620db32",
+   "prompt_sha256": "55a65e72179617c1992671f372b6156a8de9eeafebb549895e8ed7a4737367ce",
+   "request_bytes": 5503,
+   "request_sha256": "264e3bc5139df58affdaa739ad65e963007713d5713cb6cd713e10a6b0899393"
+  },
+  "WFC:0000072971-24-000004": {
+   "control_pack_sha256": "ceab4bba306dc3bf2f9b22b1eae7c4bd7c9c48df75ddfe54b6579b24987ca2c2",
+   "day": "2024-01-12",
+   "file_sha256": "3be7b60f3a46fb9676361a86f6798a615a8880979923f1e8d95aa47fab6c481d",
+   "fold": "dev",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "5f3399572633e87fa2f6984b223c2d792f8182ede8c304d68cfb9ad1c66e75d4",
+   "prompt_sha256": "8378c62094f21efffe20a2d92c7c505bb0ae1f9417136e5d3c97d47cb3aef329",
+   "request_bytes": 5309,
+   "request_sha256": "bdb8af382f14cf336d3bb3695fd32047a4059004b9aeb1076bc49b133597f32d"
+  },
+  "WFC:0000072971-26-000288": {
+   "control_pack_sha256": "cb55dd7b292bc10a74d1f6c31fe1e5ac26c735beb3692e64e430582d5162eccf",
+   "day": "2026-07-14",
+   "file_sha256": "f84dcb15539da2fdd4d11c1beef107483de065abb98d751fe3ba8c7ae724de38",
+   "fold": "eval",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "d8a4b1f0cc373163843e2574a9b2042827036768eb02ec48eb548739d8b9f2ab",
+   "prompt_sha256": "0be80909e437d9366241fb4ad610883874700c6946b7ee3560529e19760e2ceb",
+   "request_bytes": 5503,
+   "request_sha256": "2b472203914e35a52af6c706926f6179ff7a617ac8301028bb95935c77357031"
+  },
+  "WMT:0000104169-26-000095": {
+   "control_pack_sha256": "ac0bb81768c198821ae39339a324f41fad82b8d0016a8154b523649fd7897961",
+   "day": "2026-05-21",
+   "file_sha256": "e220793f98ab6000233182ccd9731b2dfdeacb553338a5458c23e1033815761a",
+   "fold": "eval",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "9d0afbea1d4c879bd459c3d3ab6324c94c47a828f0cf60db9af9f2188fb22a9a",
+   "prompt_sha256": "97aa8871dd7f739fa6b6b2710e25c1d1b31e3d3860adb29df9c6689bd906d61e",
+   "request_bytes": 5308,
+   "request_sha256": "04700ec29f08d94137bfd5485cec199c4b818e8047fd15a6a85c8f57238df712"
+  },
+  "WYNN:0001174922-23-000133": {
+   "control_pack_sha256": "41186460435524cedbe212cfa61d005a01ca0382f59078d0394735635920a705",
+   "day": "2023-08-10",
+   "file_sha256": "1541f0541fcef50da59355a3d20586b2ecd60daf01fdb62005e31b7adcd8d481",
+   "fold": "dev",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "1c7549633e0a62778e2fb88af659de79dca463ec4e70a96268a7d8e737434fa6",
+   "prompt_sha256": "8361c204a89af44e94d5961537608d9a4b5a5d9388362892263dc4872cf0fe8e",
+   "request_bytes": 5313,
+   "request_sha256": "b580a0969c471de70df1572990c82ad32c5cfa2655e3e23fca06d2f23bdb416a"
+  },
+  "WYNN:0001174922-25-000038": {
+   "control_pack_sha256": "903dbb9b4bc765a245e00c88ba015cd61793a95a4497777bbdc3c9e750121be7",
+   "day": "2025-02-14",
+   "file_sha256": "e94675a3a3c85415118c5634bcc6cf495af105efdc971072371119ae97b19aea",
+   "fold": "eval",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "9d5b40384e253630b0a7e85b6d42da00350f7348a4003f409b82f09358a1f51e",
+   "prompt_sha256": "28550f987847da5bff8056835c4ee8b6f0fb814328c12363c7d766cf6953d8a7",
+   "request_bytes": 5508,
+   "request_sha256": "eba85b71ff70af93292213a13f57790a5124e30843ccc800d79fb4078ab99bc9"
+  },
+  "ZBH:0000950170-25-063124": {
+   "control_pack_sha256": "faf6f4ba70b5331ca7269bce76c96e06b0f68d40edb7ff9e735f08700faaf9be",
+   "day": "2025-05-05",
+   "file_sha256": "6b3b178ed6d7a9789e9e4462e2613b122386aa2b3c15a292e82820fcebb992fb",
+   "fold": "eval",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "bdb8f18be9da2fbdbd6d356731ac62cb1ab2e9e3dfda7593cc55b8ab4bdc37d6",
+   "prompt_sha256": "9939f6c55fd58903f85b9915393be70b148c9567101241eac621e7ae435ddd49",
+   "request_bytes": 5309,
+   "request_sha256": "4904716de9cf4411583aa520c3f9659259b785e654cc12c700c928f880993417"
+  },
+  "ZION:0000109380-23-000170": {
+   "control_pack_sha256": "eb4d02693725471ae048ec2c3a6bf73cf2d156c4e82e965d8a3b7b889bafbbe2",
+   "day": "2023-10-19",
+   "file_sha256": "9ed52180d1ebe02e5db56b302bc22946f4e689fc263ae417da657ea3eaaefd7e",
+   "fold": "dev",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "748a3cc07cca94bf10ca33cb4945b8d956d4f889d6a52e434ee64a55bb6e29ab",
+   "prompt_sha256": "2786d9514f316a6c5013dc89879660f136cdfb4b564405f1a30db43c68539ae6",
+   "request_bytes": 5314,
+   "request_sha256": "16b9c7140a496d9b49354e61aa4f14f2415e7fe3b4bdfea70387f26c79764940"
+  },
+  "ZM:0001585521-26-000119": {
+   "control_pack_sha256": "a2b6de57f4b97e2733e11562d3be5c36365689fb8d48b4902028e8035fa13db6",
+   "day": "2026-08-26",
+   "file_sha256": "c636c2daf970bf01c981cdbc83a282dfabe08eaf069da2474169146fddb65b55",
+   "fold": "eval",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "e8d0a5680802f21a16fe40f1be5b254d843eafbb6fc80dc30d8a893ce7d9de78",
+   "prompt_sha256": "60f2b27465b4346c8e263e22569979a817ee8fe43d3e2b8e4c5ec40d011b21b7",
+   "request_bytes": 5303,
+   "request_sha256": "c57ab93d60188783f75b4c565ba85a5b81f58ec47f9d206bce6ef8417bdae81b"
+  },
+  "ZS:0001713683-24-000072": {
+   "control_pack_sha256": "9fcc86a978bc32c2a9690a684aae048e18518b84a3e7e60cd2c7975be65244c9",
+   "day": "2024-05-31",
+   "file_sha256": "3d88f91720bccc3fc7076c4e334b3ac7d92bff81a517e6201b4503ddd168bb0b",
+   "fold": "dev",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "5c1f9eb8a0da35934756d4d997e5b8373b9cb6d6af2f620d2b8ba2168e7fa4e9",
+   "prompt_sha256": "eb951124e360c04c4dce492772d4ef92ad8e3c1d0584b4ead5ce64e2efb7f0ef",
+   "request_bytes": 5307,
+   "request_sha256": "e3cc79e5ed8ae499823e34085bc6ccff50536f40257ebd9f14593f76dd9bb33b"
+  },
+  "ZS:0001713683-25-000078": {
+   "control_pack_sha256": "c2d38dfbb3b300cbfe5fa5abdd7b311b6582381eedfe6f85c63230628d29a5de",
+   "day": "2025-05-30",
+   "file_sha256": "0ba15f10ff75a1604ceaa741c159df99d23ffde94c3a31e6658c152cea428381",
+   "fold": "eval",
+   "input_status": "complete",
+   "items": [
+    "filing",
+    "financials",
+    "price"
+   ],
+   "model_pack_sha256": "1d80c068e6478c14008faf0ce39fdecf39842d1375bbdabe81ecda848ad818a4",
+   "prompt_sha256": "a44de3f3ea1bcbccc8de8f1b0671ee730764ebba065353b54972ab70f88b8326",
+   "request_bytes": 5501,
+   "request_sha256": "85b72d043cd90ea201eead6cc14d2d246d7f4064011052e7350b59ccc34e7580"
+  }
+ },
+ "experiment_id": "1298a122bda66822ec0ea944abcfa23d277547111be88cd343eaa2aadd679b2d",
+ "identity": {
+  "code": {
+   "evidence": {
+    "autotrader/deciders.py": "7a1f5c9553e9fb1d1ba79b8666b253605d416e25c2f2e3b1c3e404fcf52832d7",
+    "autotrader/decision.py": "553e8a82301ce5667209c7a649efcca39fbcd41536ed1e06b5d151cc89c28724",
+    "autotrader/evidence.py": "c804a47c5854506180956dde8751e42522445368a0684c0a8b58dbbeda61b5ac",
+    "autotrader/sources.py": "efbde838051d52bce240fb59785416c7f079dcc3fb9af84ccfa234b9f5c5c1aa"
+   },
+   "execution": {
+    "autotrader/devrun.py": "3df0ef18f4ffa59251224ee432a45216faf6a58d135dafc340c6153d73cd15b6",
+    "autotrader/execution.py": "b83ac376fa628e240d167ac5713b4cffa98a20cc4dbf422cc4d9b5ee8fc559b4",
+    "autotrader/fees_hist.py": "2ce715d8920fe778dd4cb88fce285d5d63c734ce4dfb52c92d172b128f3100e5",
+    "autotrader/owner_policy.json": "fccfda43c384acb7dd381ee9440a53970dbcd656039441f3072d16673ea9e7f0",
+    "autotrader/risk.py": "c54f2d3384be70f933a1d33ee5a551de654604864c867725ebfcfb43c78ec902",
+    "stockpilot/config.py": "5a8b4d7d8a6ac73b50fffb4038a6fc4dc26e8af350ba04f6aaa4ef854303fe06",
+    "stockpilot/risk/engine.py": "b232f56004657087d96703c984265b6e40a0e9268203abce5bb8027b64dd358c"
+   },
+   "paid_path": {
+    "autotrader/experiment.py": "dbf704efd723693af553917b040aa8742aad14fcd185df76cc602e14be33ef8d",
+    "autotrader/journal.py": "2b1862b3a283cac4d8831314558e9baaacba490ab12d9f610dbacd1dbff7e48a",
+    "autotrader/paid.py": "2e7a09836c7fed8acc11425e0b27a342f0173da569d12a3c05da6670b9895f83"
+   }
+  },
+  "config_sha256": "ed5a21bad315941c89f2ae59e254d419e87f800e9e509750c7a20718ce3b9b86",
+  "evidence_version": "2",
+  "execution_version": "2",
+  "experiment": "phase5-dev-eval",
+  "model": "claude-opus-5-5",
+  "price_sheet_sha256": "4c208dcf464c3c4238b680b9cde51f504def1dabcd6815d347de9aadb4b57bf8",
+  "prompt_sha256": "650dd4a6e582e5c791b6cf8a8c2f80b85ad163eef0bb44be59b1840092d45276",
+  "sample_sha256": "e825d6d63dc824801fb9ce4bae18e92af293ba50bae081469dbb211bf738f68b",
+  "schema_sha256": "5396d365be0c604ddc093e855269e249b22bf4628084832f8c8ab23de195b18a",
+  "sdk": {
+   "api_version": "2026-10-21",
+   "package": "anthropic",
+   "version": "2.7.0"
+  }
+ }
+}
