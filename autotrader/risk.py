@@ -108,6 +108,8 @@ class RiskController:
         self.run_dir = Path(run_dir) if run_dir else None
         self.calendar = calendar or MarketCalendar()
         self.settings = OwnerPolicy.risk_settings()
+        # research replays pass the historical fee schedule (autotrader/fees_hist.py); default: the app's schedule
+        self.cost_model_fn = None
 
     def kill_switch(self) -> bool:
         return bool(self.run_dir and (self.run_dir / self.policy.kill_switch_file).exists())
@@ -158,7 +160,11 @@ class RiskController:
         if q.spread_bps > float(en.get("max_spread_bps") or 0):
             reasons.append(f"entry condition: spread {q.spread_bps:.0f} bps exceeds the decision's "
                            f"{en.get('max_spread_bps')} bps")
-        if q.prev_close and (en.get("min_move_pct") is not None or en.get("max_move_pct") is not None):
+        has_move_condition = en.get("min_move_pct") is not None or en.get("max_move_pct") is not None
+        if has_move_condition and not q.prev_close:
+            reasons.append("entry condition: the prior close is missing, so the decision's move condition cannot be "
+                           "checked (fail closed)")
+        elif has_move_condition:
             move = (q.mid / q.prev_close - 1) * 100
             if en.get("min_move_pct") is not None and move < en["min_move_pct"]:
                 reasons.append(f"entry condition: move {move:+.2f}% is below {en['min_move_pct']:+.2f}%")
@@ -191,7 +197,9 @@ class RiskController:
                              stop_price=q.ask * (1 - float(stop_pct) / 100) + 1e-9 * q.ask,
                              target_price=q.ask * (1 + float(target) / 100) if target else 0.0,
                              strategy=f"autonomous:{d.get('decider')}", strategy_validated=False)
-        rd = RiskEngine(self.settings, CostModel.on(now.astimezone(ET).date())).check_entry(ctx, prop)
+        day = now.astimezone(ET).date()
+        cm = self.cost_model_fn(day) if self.cost_model_fn is not None else CostModel.on(day)
+        rd = RiskEngine(self.settings, cm).check_entry(ctx, prop)
         reasons += rd.reasons
         return out | {"approved": not reasons, "reasons": reasons, "notes": rd.notes, "notional": rd.notional,
                       "qty": rd.qty, "stop_price": rd.stop_price, "target_price": rd.target_price if target else None,
