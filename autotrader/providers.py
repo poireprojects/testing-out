@@ -2,6 +2,12 @@
 
 Nothing here is called unless the owner supplies a key and runs a paid evaluation on purpose.
 
+**Superseded for the development evaluation (dev-eval amendment 1).** The audit of 2026-11-10 found that `Budget`
+compares floats in a JSON file next to the output, forgets a reservation on restart, lets a new output directory
+start a fresh budget, and that `max_retries=1` plus an unknown timeout could send a generation twice under one
+settled call; `chars / 3` does not bound tokenization. No command uses this path any more: the paid path is
+`autotrader/paid.py` with the transactional journal in `autotrader/journal.py`. `api_schema` is still used.
+
 * `Budget` keeps a running total in a JSON file (it survives restarts). Before every call it reserves the
   call's **worst-case** cost (maximum input tokens at the input price + max_tokens at the output price); if
   spent + reserved would exceed the ceiling, the call is refused. After the call the reservation is replaced
