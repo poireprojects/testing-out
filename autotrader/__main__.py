@@ -7,6 +7,9 @@
     python -m autotrader evaluate LEDGER                         # Q1-Q3 from the ledger (protocol v2)
     python -m autotrader report LEDGER [--day YYYY-MM-DD]
     python -m autotrader verify LEDGER
+    python -m autotrader preflight DATA_DIR OUT_DIR             # dev evaluation: zero-spend preflight (no outcomes)
+    python -m autotrader devrun DATA_DIR OUT_DIR [--paid]       # dev evaluation: dry run, or paid after approval
+    python -m autotrader synthetic OUT_DIR                      # synthetic cache with the 160 sample identities
 
 SEC text needs a declared contact (SEC fair access): SEC_USER_AGENT="name email". It is never stored.
 --llm ollama uses a local model through Ollama's API (OLLAMA_URL, OLLAMA_MODEL); no paid service is called.
@@ -35,13 +38,10 @@ SECTOR_ETFS = ["XLB", "XLC", "XLE", "XLF", "XLI", "XLK", "XLP", "XLRE", "XLU", "
 
 def _provider(a, n_calls: int = 0, out: Path | None = None):
     if a.llm == "anthropic":
-        from .providers import budgeted_anthropic, worst_case_usd
-        worst = worst_case_usd(a.model, n_calls)
-        if worst > a.budget_usd:
-            raise SystemExit(f"refusing: {n_calls} calls could cost up to ${worst:.2f}, above the ${a.budget_usd:.2f} "
-                             "ceiling; reduce the sample or raise the ceiling (an owner decision)")
-        print(f"paid model {a.model}: {n_calls} calls, worst case ${worst:.2f}, hard ceiling ${a.budget_usd:.2f}")
-        return budgeted_anthropic(a.model, (out or Path(".")) / "budget.json", a.budget_usd)
+        # dev-eval amendment 1: the paid path exists only as `devrun --paid`, which takes no model, ceiling,
+        # contract or sample option (they are frozen in autotrader/experiment.py) and binds one budget journal
+        raise SystemExit("refusing: a paid model is only reachable through `python -m autotrader devrun --paid`, "
+                         "with the frozen experiment and an owner approval file")
     if a.llm != "ollama":
         return None
     from stockpilot.ai.providers import OllamaProvider
@@ -64,9 +64,9 @@ def cmd_replay(a) -> int:
     policy = OwnerPolicy.load()
     src = ReplaySource(Path(a.data), _edgar(Path(a.data) / "sec_cache"))
     if a.sample:
-        want = {(e["symbol"], e["accession"]) for e in json.loads(Path(a.sample).read_text())["events"]}
-        rows = sorted((r for r in src.plan if (r["symbol"], r["accession"]) in want),
-                      key=lambda r: (r["day"], r["flash"], r["symbol"]))
+        # exact (date, ticker, accession, fold) matching; a missing row stops the run (it was silently dropped)
+        from .experiment import select_rows, verify_sample
+        rows = select_rows(verify_sample(json.loads(Path(a.sample).read_text())), src.plan)
     else:
         rows = src.select(a.start, a.end, a.last)
     universe = set(curated_universe()) | set(SECTOR_ETFS) | {r["symbol"] for r in rows}
@@ -208,6 +208,85 @@ def cmd_daemon(a) -> int:
     return 0
 
 
+APPROVAL = Path(__file__).resolve().parents[1] / "research" / "runs" / "2026-11-07-phase5" / "dev-eval" / "APPROVAL.json"
+
+
+def _check_approval(ident) -> None:
+    """The owner's written approval of this exact experiment identity and amendment (never created by code)."""
+    import hashlib
+    if not APPROVAL.exists():
+        raise SystemExit(f"refusing: no owner approval ({APPROVAL.relative_to(APPROVAL.parents[4])} is absent)")
+    ap = json.loads(APPROVAL.read_text())
+    amend = (APPROVAL.parent / "AMENDMENT-1.md").read_bytes()
+    want = {"experiment_id": ident.experiment_id, "amendment_sha256": hashlib.sha256(amend).hexdigest(),
+            "ceiling_usd": "12.50", "model": "claude-opus-5-5"}
+    bad = [k for k, v in want.items() if ap.get(k) != v]
+    if bad or not ap.get("approved_by") or not ap.get("approved_on"):
+        raise SystemExit(f"refusing: the approval file does not approve this experiment ({', '.join(bad) or 'unsigned'})")
+
+
+def cmd_preflight(a) -> int:
+    """Zero-spend preflight: inventory of the real cache, persisted and hashed inputs, the budget proof. No outcome
+    is computed and nothing is sent or fetched."""
+    from .devrun import prepare
+    from .inventory import run as inventory
+    out = Path(a.out)
+    out.mkdir(parents=True, exist_ok=True)
+    inv = inventory(Path(a.data))
+    prep = prepare(Path(a.data), out)
+    from . import fees_hist
+    res = {"experiment_id": prep["identity"].experiment_id, "inventory": inv,
+           "inputs": {"manifest_sha256": prep["inputs_sha256"],
+                      "status": {s: sum(m["input_status"] == s for m in prep["manifest"].values())
+                                 for s in ("complete", "incomplete")}},
+           "budget_proof": prep["proof"].record() | {"per_event": None},
+           "fees_unverified": fees_hist.unverified()}
+    (out / "preflight.json").write_text(json.dumps(res, indent=1, default=str))
+    print(json.dumps({"experiment_id": res["experiment_id"], "inputs": res["inputs"], "proven": prep["proof"].proven,
+                      "counts": inv["counts_true"]}, indent=1))
+    return 0 if prep["proof"].proven and res["inputs"]["status"]["incomplete"] == 0 else 3
+
+
+def cmd_devrun(a) -> int:
+    """The development evaluation. Without --paid: a dry run (no model; the model arm is recorded as not run).
+    With --paid: needs the owner's approval file and a budget proof that holds; otherwise nothing is sent."""
+    from .devrun import RunIncomplete, identity, run
+    from .experiment import load_sample
+    factory = None
+    if a.paid:
+        ident = identity(load_sample())
+        _check_approval(ident)
+
+        def factory(ident, manifest):                      # reached only after the inputs and the proof
+            from .journal import DEFAULT_STATE_ROOT, open_journal
+            from .paid import PaidCaller, build_client, proven_input_bound
+            from .experiment import FROZEN
+            proof = json.loads((Path(a.out) / "budget_proof.json").read_text())
+            bounds = {e: p["max_micro"] for e, p in proof["per_event"].items()}
+            j = open_journal(DEFAULT_STATE_ROOT, ident.body, ident.experiment_id, Path(a.out),
+                             ceiling_micro=FROZEN["ceiling_micro_usd"], per_call_max_micro=max(bounds.values()),
+                             events=sorted(bounds))
+            j.preauthorize(bounds)
+            return PaidCaller(j, build_client(os.environ.get("ANTHROPIC_API_KEY", "")), proven_input_bound)
+    try:
+        rep = run(Path(a.data), Path(a.out), factory, require_paid_proof=bool(a.paid))
+    except RunIncomplete as exc:
+        print(str(exc), file=sys.stderr)
+        return 4
+    print(json.dumps({"status": rep["status"], "dry_run": rep["dry_run"], "reconciliation": rep["reconciliation"],
+                      "gates_all_pass": rep["gates"]["all_pass"]}, indent=1, default=str))
+    return 0 if rep["status"] == "complete" else 3
+
+
+def cmd_review_export(a) -> int:
+    from .review import write_packet
+    out = Path(a.out)
+    led = Ledger(out / "ledger.jsonl", "replay")
+    n = write_packet(out / "review_packet.json", led.of_type("decision"), a.seed)
+    print(f"{n} answers exported for blinded review: {out / 'review_packet.json'}")
+    return 0
+
+
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(prog="autotrader")
     sp = ap.add_subparsers(dest="cmd", required=True)
@@ -221,8 +300,6 @@ def main(argv=None) -> int:
     r.add_argument("--vendor-news", action="store_true")
     r.add_argument("--contract", choices=["1", "2"], default="2", help="model output contract (1 = original)")
     r.add_argument("--sample", help="a pre-specified event sample (python -m autotrader sample)")
-    r.add_argument("--model", default="claude-opus-5-5", help="with --llm anthropic")
-    r.add_argument("--budget-usd", type=float, default=0.0, help="hard spending ceiling with --llm anthropic")
     for name in ("forward", "daemon"):
         f = sp.add_parser(name)
         f.add_argument("out")
@@ -235,6 +312,20 @@ def main(argv=None) -> int:
     sm.add_argument("--dates", type=int, default=40)
     sm.add_argument("--per-date", type=int, default=4)
     sm.add_argument("--seed", type=int, default=20261107)
+    pf = sp.add_parser("preflight", help="zero-spend preflight of the dev evaluation on a data cache")
+    pf.add_argument("data")
+    pf.add_argument("out")
+    dv = sp.add_parser("devrun", help="the dev evaluation (dry run unless --paid with an owner approval)")
+    dv.add_argument("data")
+    dv.add_argument("out")
+    dv.add_argument("--paid", action="store_true")
+    sy = sp.add_parser("synthetic", help="write a synthetic cache with the 160 sample identities (tests, dry runs)")
+    sy.add_argument("out")
+    dr = sp.add_parser("devreport", help="rebuild a dev-evaluation report offline from its files")
+    dr.add_argument("out")
+    rv = sp.add_parser("review-export", help="blinded claim-review packet from a dev-evaluation ledger")
+    rv.add_argument("out")
+    rv.add_argument("--seed", default="20261110")
     sc = sp.add_parser("score")
     sc.add_argument("out")
     ev = sp.add_parser("evaluate")
@@ -256,6 +347,21 @@ def main(argv=None) -> int:
             return cmd_score(a)
         if a.cmd == "sample":
             return cmd_sample(a)
+        if a.cmd == "preflight":
+            return cmd_preflight(a)
+        if a.cmd == "devrun":
+            return cmd_devrun(a)
+        if a.cmd == "synthetic":
+            from .synthetic import make_cache
+            print(make_cache(Path(a.out)))
+            return 0
+        if a.cmd == "review-export":
+            return cmd_review_export(a)
+        if a.cmd == "devreport":
+            from .devreport import rebuild
+            rep = rebuild(Path(a.out))
+            print(json.dumps({"status": rep["status"], "gates_all_pass": rep["gates"]["all_pass"]}, indent=1))
+            return 0 if rep["status"] == "complete" else 3
         mode = json.loads(Path(a.ledger).read_text().splitlines()[0])["payload"]["mode"]
         led = Ledger(Path(a.ledger), mode)
         if a.cmd == "report":
