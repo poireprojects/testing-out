@@ -134,23 +134,47 @@ The evidence is given as numbered sentences such as [E1.S3]. Use ONLY that evide
 8. Be brief. Answer with JSON only."""
 
 
+# Evidence version 2 (dev-eval amendment 1): the same neutral statement of the simulator's cost conventions on every
+# date, in place of the retrospective research note. It states conventions, not results: no figure in it was
+# computed from market data.
+COST_CONVENTIONS = (
+    "Cost conventions (the same for every event; not evidence): a simulated entry pays half the quoted bid-ask spread "
+    "plus 0.05% slippage, and a simulated exit pays the same again, so a round trip costs at least the full quoted "
+    "spread plus 0.10%. Regulatory fees are charged on sales and the CAT fee on every share bought or sold. A trade "
+    "must expect to earn more than these costs.")
+INSTRUCTION = "Investigate this event and decide now. JSON only."
+
+
 class LLMResearcherV2(LLMResearcher):
-    """Contract v2: facts cite numbered sentences instead of copying text; trade fields are fixed choices."""
+    """Contract v2: facts cite numbered sentences instead of copying text; trade fields are fixed choices.
+    `cost_note` (evidence version 2) appends the fixed cost conventions to every prompt; None keeps version 1."""
     version = "2"
 
-    def decide(self, pack: EvidencePack) -> dict:
+    def __init__(self, provider, max_tokens: int = 1600, cost_note: Optional[str] = None):
+        super().__init__(provider, max_tokens)
+        self.cost_note = cost_note
+
+    def request(self, pack: EvidencePack) -> tuple[str, str, dict, dict]:
+        """(system, user, schema, sentences): exactly what is sent for this pack."""
         sents = sentences(pack)
-        user = prompt_text_v2(pack, sents) + "\n\nInvestigate this event and decide now. JSON only."
-        meta = {"model": self.model_id, "contract": "2",
-                "prompt_sha256": hashlib.sha256((SYSTEM_V2 + user).encode()).hexdigest()}
+        user = prompt_text_v2(pack, sents) + (f"\n\n{self.cost_note}" if self.cost_note else "") + f"\n\n{INSTRUCTION}"
+        return SYSTEM_V2, user, json_schema_v2(pack, sents), sents
+
+    def decide(self, pack: EvidencePack) -> dict:
+        system, user, schema, sents = self.request(pack)
         try:
-            res = self.provider.complete_json(SYSTEM_V2, user, json_schema_v2(pack, sents), max_tokens=self.max_tokens)
+            res = self.provider.complete_json(system, user, schema, max_tokens=self.max_tokens)
         except Exception as exc:
             raise ModelFailure(f"{type(exc).__name__}: {exc}") from exc
-        meta |= {"latency_ms": res.latency_ms, "input_tokens": res.input_tokens, "output_tokens": res.output_tokens,
-                 "cost_usd": res.cost_usd, "raw_sha256": hashlib.sha256(res.text.encode()).hexdigest(),
-                 "raw": res.text[:6000]}
-        d, problems, sents = parse_ai_decision_v2(res.text, pack, sents)
+        return self.interpret(pack, user, sents, res.text, {"latency_ms": res.latency_ms, "input_tokens": res.input_tokens,
+                                                         "output_tokens": res.output_tokens, "cost_usd": res.cost_usd})
+
+    def interpret(self, pack: EvidencePack, user: str, sents: dict, text: str, usage: dict) -> dict:
+        meta = {"model": self.model_id, "contract": "2",
+                "prompt_sha256": hashlib.sha256((SYSTEM_V2 + user).encode()).hexdigest()} | usage
+        meta |= {"raw_sha256": hashlib.sha256(text.encode()).hexdigest(), "raw": text[:6000]}
+        res_text = text
+        d, problems, sents = parse_ai_decision_v2(res_text, pack, sents)
         if d is None or problems:
             return no_trade(self.name, "invalid or ungrounded model answer: treated as no trade", invalid=True,
                             problems=problems, model=meta, p_up_by_close=(d.p_up_pct / 100 if d else None))
