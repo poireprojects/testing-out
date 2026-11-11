@@ -3,31 +3,49 @@
 Each run recomputes both portfolios from the first fill session with the frozen rules and writes every record
 through `InvestLedger.put`, so:
 * a rerun with the same data and the same clock adds nothing (the ledger file is unchanged byte for byte);
-* a frozen decision is read back, never asked again;
 * a price that changed after a fill was recorded stops the run (`LedgerConflict`) instead of rewriting history;
-* missing data is recorded as a gap and that portfolio stops there; nothing is filled in, and later sessions wait
+* missing prices are recorded as a gap and that portfolio stops there; nothing is filled in, and later sessions wait
   until the data exists (a later run resolves the gap and continues).
-Decision timing: the pack is built at or after the cutoff close; a decision frozen at or after the next session's
-open is late; no decision by then is missed. Late, missed and invalid decisions keep the existing holdings.
+
+A month's decision moves through append-only records, each written (and fsync'd) before the next step starts:
+
+    pack|k      the frozen pack's SHA-256 (its file is written atomically first). Once recorded, the pack is read
+                back from the file and never rebuilt, so newer data cannot rewrite it.
+    request|k   written BEFORE the decider is asked. A request is never sent twice: if a run finds request|k with
+                no answer|k, it crashed with the request in flight, and the month is a missed answer whose charge is
+                unreconciled until provider evidence arrives.
+    answer|k    the decider's raw result and its charge evidence, exactly as returned.
+    decision|k  the status derived from the frozen pack and the answer (pure; recomputed identically on resume).
+    cost|k      the charge derived from the answer: reconciled, unreconciled (unknown billing, never zero) or
+                not_requested (no request record exists, so nothing can have been billed).
+    reconcile|k a later, separate record that supplies provider evidence for an unreconciled charge.
+
+Resume repairs any missing derived record (decision, cost) from the durable ones without asking again. Statuses:
+valid, invalid_answer, missed_answer (no answer, late, or lost in flight) and missing_input (research inputs
+incomplete: no request is made at all). Late, missed, invalid and missing-input months keep the holdings and never
+trade; a missed decision is never backfilled after its deadline.
 """
 from __future__ import annotations
 
 import copy
+import hashlib
 import json
 import re
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
 from decimal import Decimal
 from pathlib import Path
 from typing import Optional
 
-from .accounting import Book, apply_actions, settle, stock_orders
+from .accounting import Book, apply_actions, resulting, settle, stock_orders
 from .contract import INSTRUCTIONS, json_schema, validate
 from .data import MarketData
-from .ledger import InvestLedger, LedgerError
-from .pack import InputsIncomplete, MonthPack, build_pack
-from .registration import (BENCHMARK, CAPITAL, FROZEN, MIN_SWEEP, Slot, code_sha256, config_sha256, schedule,
-                           sessions_between)
+from .ledger import InvestLedger, LedgerError, atomic_write
+from .pack import InputsIncomplete, MonthPack, build_pack, load_pack
+from .registration import (BENCHMARK, CAPITAL, FROZEN, MIN_SWEEP, Slot, canonical_json, code_sha256, config_sha256,
+                           schedule, sessions_between)
+
+STATUSES = ("valid", "invalid_answer", "missed_answer", "missing_input")
 
 
 class NotApproved(RuntimeError):
@@ -37,9 +55,9 @@ class NotApproved(RuntimeError):
 @dataclass
 class Decided:
     decision: Optional[dict]              # None: no answer
-    frozen_at: Optional[datetime]
-    attempted: bool                       # a request was made (and is charged) even if there is no answer
-    cost: dict = field(default_factory=dict)   # {"usd", "basis", "reconciled"}
+    frozen_at: Optional[datetime]         # when the answer was frozen (None without an answer)
+    responded_at: datetime                # when the request came back, answered or not
+    cost: Optional[dict] = None           # charge evidence {"usd", "basis"}; None: billing unknown
     note: str = ""
 
 
@@ -47,13 +65,29 @@ class Decided:
 class FixtureDecider:
     """A scripted sequence of actions for the offline dry run. NOT A MODEL: citations are picked mechanically from
     the pack (the first passage and the valuation row of the stock), so the decisions say nothing about stock
-    selection. Every record it produces is labelled decider=fixture, genuine=false."""
+    selection. Every record it produces is labelled decider=fixture, genuine=false. Simulated timing: the request
+    leaves when the pack is built and returns 40 minutes later (a `late` month: 5 minutes after the deadline)."""
 
     name, genuine = "fixture", False
 
-    def __init__(self, script: dict, est_cost_usd: str):
+    def __init__(self, script: dict, est_cost_usd: Optional[str]):
         self.script, self.est = script, est_cost_usd
         self.calls: list[int] = []
+
+    def _spec(self, slot: Slot) -> dict:
+        return self.script.get(slot.index) or {"kind": "missing"}
+
+    def responded_at(self, slot: Slot, pack: MonthPack) -> datetime:
+        if self._spec(slot)["kind"] == "late":
+            return slot.deadline + timedelta(minutes=5)
+        return pack.built_at + timedelta(minutes=40)
+
+    def ready(self, slot: Slot, pack: MonthPack, now: datetime) -> bool:
+        """Whether, by `now`, the simulated request has completed (it is sent and answered in one step)."""
+        return now >= self.responded_at(slot, pack)
+
+    def request_digest(self, slot: Slot, pack: MonthPack) -> str:
+        return hashlib.sha256(canonical_json({"fixture": self._spec(slot), "pack": pack.sha256})).hexdigest()
 
     @staticmethod
     def _citation(pack: MonthPack, sym: str, valuation: bool) -> list[dict]:
@@ -71,10 +105,12 @@ class FixtureDecider:
 
     def decide(self, slot: Slot, pack: MonthPack) -> Decided:
         self.calls.append(slot.index)
-        spec = self.script.get(slot.index) or {"kind": "missing"}
-        cost = {"usd": self.est, "basis": "fixture_estimate", "reconciled": True}
+        spec = self._spec(slot)
+        cost = None if (self.est is None or spec.get("cost") == "unknown") else {"usd": self.est,
+                                                                                "basis": "fixture_estimate"}
+        at = self.responded_at(slot, pack)
         if spec["kind"] == "missing":
-            return Decided(None, None, True, cost, "fixture: the scripted month has no answer")
+            return Decided(None, None, at, cost, "fixture: the scripted month has no answer")
         positions, after = [], Decimal(0)
         for sym, act, w in spec["positions"]:
             h = pack.holding(sym)
@@ -94,8 +130,7 @@ class FixtureDecider:
                 after += Decimal(str(w))
         d = {"month": slot.month, "summary": f"FIXTURE decision {slot.index}: {spec.get('label', '')}",
              "voo_weight_pct": float(Decimal(100) - after), "positions": positions}
-        frozen = slot.deadline + timedelta(minutes=5) if spec["kind"] == "late" else pack.built_at + timedelta(minutes=40)
-        return Decided(d, frozen, True, cost)
+        return Decided(d, at, at, cost)
 
 
 class ModelDecider:
@@ -116,12 +151,18 @@ class ModelDecider:
                                   "format": {"type": "json_schema", "schema": json_schema(self.universe)}},
                 "service_tier": "standard_only", "inference_geo": "global"}
 
+    def ready(self, slot: Slot, pack: MonthPack, now: datetime) -> bool:
+        return True
+
+    def request_digest(self, slot: Slot, pack: MonthPack) -> str:
+        return hashlib.sha256(canonical_json(self.request(pack))).hexdigest()
+
     def decide(self, slot: Slot, pack: MonthPack) -> Decided:
         raise NotApproved("a genuine decision needs the approvals listed in REGISTRATION.md (owner approval, "
                           "registration freeze, model spend, data sources); nothing was sent")
 
 
-# ------------------------------------------------------------------ run
+# ------------------------------------------------------------------ helpers
 def _prior_theses(ledger: InvestLedger, book: Book) -> list[dict]:
     out = []
     for sym in book.stocks():
@@ -137,6 +178,37 @@ def _prior_theses(ledger: InvestLedger, book: Book) -> list[dict]:
     return out
 
 
+def derive_decision(base: dict, pack: MonthPack, answer: dict) -> dict:
+    """The decision record implied by a frozen pack and a stored answer (pure: the same on every resume)."""
+    deadline = datetime.fromisoformat(base["deadline"])
+    out = base | {"pack_sha256": pack.sha256, "built_at": pack.built_at.isoformat(),
+                  "frozen_at": answer["frozen_at"], "decision": answer["decision"],
+                  "cutoff_weights": {h["symbol"]: h["weight_pct"] for h in pack.holdings}}
+    if answer.get("lost_in_flight"):
+        return out | {"status": "missed_answer", "reason": "lost_in_flight", "problems": [answer["note"]]}
+    if answer["decision"] is None:
+        return out | {"status": "missed_answer", "reason": "no_answer", "problems": [answer["note"] or "no answer"]}
+    if datetime.fromisoformat(answer["frozen_at"]) >= deadline:
+        return out | {"status": "missed_answer", "reason": "late",
+                      "problems": ["frozen at or after the fill session's open"]}
+    targets, problems, voo = validate(answer["decision"], pack)
+    return out | {"status": "valid" if targets is not None else "invalid_answer",
+                  "reason": "" if targets is not None else "rules",
+                  "problems": problems, "targets": targets, "voo_pct": str(voo) if voo is not None else None}
+
+
+def derive_cost(slot: Slot, genuine: bool, answer: Optional[dict], requested: bool) -> dict:
+    base = {"slot": slot.index, "month": slot.month, "genuine": genuine}
+    if not requested:
+        return base | {"status": "not_requested", "usd": "0", "basis": "no request record: nothing was sent"}
+    ev = (answer or {}).get("cost")
+    if ev and ev.get("usd") is not None:
+        return base | {"status": "reconciled", "usd": str(ev["usd"]), "basis": ev["basis"]}
+    return base | {"status": "unreconciled", "usd": None,
+                   "basis": "no charge evidence: unresolved until a reconciliation record (never assumed zero)"}
+
+
+# ------------------------------------------------------------------ run
 def run(state_dir: Path, data_dir: Path, decider, *, mode: str, first_fill_month: str, now: datetime) -> dict:
     state_dir = Path(state_dir)
     data = MarketData(data_dir)
@@ -153,7 +225,11 @@ def run(state_dir: Path, data_dir: Path, decider, *, mode: str, first_fill_month
                 "mode": mode,
                 "first_fill_month": first_fill_month, "universe_sha256": data.universe_sha256,
                 "decider": decider.name, "genuine": decider.genuine, "synthetic_data": data.synthetic}
-    led = InvestLedger(state_dir / "ledger.jsonl", mode, identity, stamp(slots[0].cutoff.open))
+    with InvestLedger(state_dir / "ledger.jsonl", mode, identity, stamp(slots[0].cutoff.open)) as led:
+        return _run(led, state_dir, data, decider, slots, mode, now, stamp, identity)
+
+
+def _run(led, state_dir, data, decider, slots, mode, now, stamp, identity) -> dict:
     (state_dir / "packs").mkdir(exist_ok=True)
     books = {"voo": Book("voo", CAPITAL), "ai": Book("ai", CAPITAL)}
     halted: dict[str, str] = {}
@@ -170,52 +246,89 @@ def run(state_dir: Path, data_dir: Path, decider, *, mode: str, first_fill_month
             led.put(f"gap_resolved|{book}|{day}|{phase}", "gap_resolved",
                     {"book": book, "session": str(day), "phase": phase}, stamp(now))
 
-    def decide(slot: Slot):
-        key = f"decision|{slot.index}"
-        if led.get(key) is not None or now < slot.cutoff.close:
-            return
-        base = {"slot": slot.index, "month": slot.month, "decider": decider.name, "genuine": decider.genuine,
+    def base(slot: Slot) -> dict:
+        return {"slot": slot.index, "month": slot.month, "decider": decider.name, "genuine": decider.genuine,
                 "cutoff": slot.cutoff.close.isoformat(), "deadline": slot.deadline.isoformat()}
-        try:
-            built = slot.cutoff.close + timedelta(minutes=20) if mode == "dry_run" else stamp(now)
-            pack = build_pack(slot, books["ai"], data, built, _prior_theses(led, books["ai"]))
-        except InputsIncomplete as exc:
-            if now >= slot.deadline:
-                led.put(key, "decision", base | {"status": "missed", "problems": [f"inputs incomplete: {exc}"],
-                                                 "decision": None}, stamp(slot.deadline))
-                led.put(f"cost|{slot.index}", "cost", {"slot": slot.index, "month": slot.month, "usd": "0",
-                                                       "basis": "not_requested", "reconciled": True,
-                                                       "genuine": decider.genuine}, stamp(slot.deadline))
+
+    def finish_without_request(slot: Slot, status: str, reason: str, problems: list[str], extra: dict, at: datetime):
+        led.put(f"decision|{slot.index}", "decision",
+                base(slot) | {"status": status, "reason": reason, "problems": problems, "decision": None} | extra,
+                stamp(at))
+        led.put(f"cost|{slot.index}", "cost", derive_cost(slot, decider.genuine, None, False), stamp(at))
+
+    def finish(slot: Slot, pack: MonthPack):
+        """decision|k and cost|k from the durable answer (a no-op when both exist)."""
+        ans = led.get(f"answer|{slot.index}")["payload"]
+        at = datetime.fromisoformat(ans["recorded_for"])
+        out = derive_decision(base(slot) | {"pack_file": f"packs/slot-{slot.index:02d}.json"}, pack, ans)
+        led.put(f"decision|{slot.index}", "decision", out, stamp(at))
+        led.put(f"cost|{slot.index}", "cost", derive_cost(slot, decider.genuine, ans, True), stamp(at))
+
+    def decide(slot: Slot):
+        k = slot.index
+        if now < slot.cutoff.close:
             return
-        rec = pack.record()
-        pf = state_dir / "packs" / f"slot-{slot.index:02d}.json"
-        body = json.dumps(rec, sort_keys=True, indent=1) + "\n"
-        if pf.exists() and pf.read_text() != body:
-            raise LedgerError(f"{pf.name}: a different pack is already frozen for this month")
-        pf.write_text(body)
-        d = decider.decide(slot, pack)
-        if not d.attempted and d.decision is None and now < slot.deadline:
-            return                                      # nothing asked yet; the deadline has not passed
-        if d.frozen_at is not None and d.frozen_at > now:   # not frozen yet as of this run
-            if now < slot.deadline:
-                return
-            d = Decided(None, None, d.attempted, d.cost, "no decision was frozen by the deadline")
-        if d.frozen_at is not None and d.frozen_at < pack.built_at:
-            raise LedgerError(f"{slot.month}: a decision cannot be frozen before its pack was built")
-        base |= {"pack_sha256": pack.sha256, "pack_file": f"packs/{pf.name}", "built_at": pack.built_at.isoformat(),
-                 "frozen_at": d.frozen_at.isoformat() if d.frozen_at else None, "decision": d.decision}
-        when = d.frozen_at or slot.deadline
-        if d.decision is None:
-            out = base | {"status": "missed", "problems": [d.note or "no answer"]}
-        elif d.frozen_at >= slot.deadline:
-            out = base | {"status": "late", "problems": ["frozen at or after the fill session's open"]}
+        dec_rec = led.get(f"decision|{k}")
+        if dec_rec is not None and led.get(f"cost|{k}") is not None:
+            return
+        pk = led.get(f"pack|{k}")
+        pf = state_dir / "packs" / f"slot-{k:02d}.json"
+        if dec_rec is not None and pk is None:          # decided without a request: repair the $0 charge only
+            led.put(f"cost|{k}", "cost", derive_cost(slot, decider.genuine, None, False),
+                    stamp(datetime.fromisoformat(dec_rec["recorded_at"])))
+            return
+        if pk is not None:                              # frozen: read back, never rebuilt from newer data
+            pack = load_pack(pf, pk["payload"]["pack_sha256"])
         else:
-            targets, problems, voo = validate(d.decision, pack)
-            out = base | {"status": "valid" if targets is not None else "invalid", "problems": problems,
-                          "targets": targets, "voo_pct": str(voo) if voo is not None else None}
-        led.put(key, "decision", out, stamp(when))
-        led.put(f"cost|{slot.index}", "cost", {"slot": slot.index, "month": slot.month, "genuine": decider.genuine,
-                                               **d.cost}, stamp(when))
+            built = slot.cutoff.close + timedelta(minutes=20) if mode == "dry_run" else stamp(now)
+            if built > now:                             # by this run's clock the pack is not built yet
+                return
+            if built >= slot.deadline:
+                finish_without_request(slot, "missed_answer", "not_requested",
+                                       ["no request was made before the deadline"], {}, slot.deadline)
+                return
+            try:
+                pack = build_pack(slot, books["ai"], data, built, _prior_theses(led, books["ai"]))
+            except InputsIncomplete as exc:
+                if now >= slot.deadline:
+                    finish_without_request(slot, "missing_input", "research_inputs", [str(exc)],
+                                           {"coverage": exc.coverage}, slot.deadline)
+                return
+            atomic_write(pf, json.dumps(pack.record(), sort_keys=True, indent=1) + "\n")
+            led.put(f"pack|{k}", "pack", {"slot": k, "pack_sha256": pack.sha256, "file": f"packs/{pf.name}",
+                                          "coverage": [{x: c[x] for x in ("symbol", "status", "reason")}
+                                                       for c in pack.coverage]}, stamp(pack.built_at))
+        if led.get(f"answer|{k}") is None:
+            req = led.get(f"request|{k}")
+            if req is None:
+                if not decider.ready(slot, pack, now):
+                    if now < slot.deadline:
+                        return
+                    finish_without_request(slot, "missed_answer", "not_requested",
+                                           ["no request was made before the deadline"], {}, slot.deadline)
+                    return
+                led.put(f"request|{k}", "request", {"slot": k, "pack_sha256": pack.sha256, "decider": decider.name,
+                                                    "request_sha256": decider.request_digest(slot, pack)},
+                        stamp(pack.built_at))
+                d = decider.decide(slot, pack)
+                if d.responded_at > now:                # by this run's clock the answer does not exist yet
+                    if now < slot.deadline:
+                        raise LedgerError(f"{slot.month}: the request was sent but its answer lies after this run's "
+                                          "clock; run again later (it will not be resent)")
+                    d = Decided(None, None, now, d.cost, "no answer was frozen by the deadline")
+                if d.frozen_at is not None and d.frozen_at < pack.built_at:
+                    raise LedgerError(f"{slot.month}: a decision cannot be frozen before its pack was built")
+                answer = {"slot": k, "decision": d.decision, "frozen_at": d.frozen_at.isoformat() if d.frozen_at else None,
+                          "cost": d.cost, "note": d.note, "lost_in_flight": False,
+                          "recorded_for": (d.frozen_at or d.responded_at).isoformat()}
+                led.put(f"answer|{k}", "answer", answer, stamp(d.frozen_at or d.responded_at))
+            else:                                       # crashed with the request in flight: never resend
+                at = max(slot.deadline, datetime.fromisoformat(req["recorded_at"]))
+                led.put(f"answer|{k}", "answer",
+                        {"slot": k, "decision": None, "frozen_at": None, "cost": None, "lost_in_flight": True,
+                         "note": "the run stopped with this request in flight; it was never resent, and its "
+                                 "charge is unknown until reconciled", "recorded_for": at.isoformat()}, stamp(at))
+        finish(slot, pack)
 
     def open_step(name: str, s, prev_day) -> None:
         b = copy.deepcopy(books[name])
@@ -239,13 +352,15 @@ def run(state_dir: Path, data_dir: Path, decider, *, mode: str, first_fill_month
             gap(name, s.day, "open", missing)
             return
         resolved(name, s.day, "open")
-        orders = stock_orders(b, opens, targets) if targets else []
+        orders, plan = (stock_orders(b, opens, targets, dec_rec["payload"].get("cutoff_weights"))
+                        if targets else ([], None))
         trade = settle(b, s.day, opens, orders) if (orders or b.cash >= MIN_SWEEP) else None
+        after_w = resulting(plan, b, opens) if plan is not None else None
         if events or trade or slot is not None:
             led.put(f"session|{name}|{s.day}|open", "session_open",
                     {"book": name, "session": str(s.day), "actions": events, "trade": trade,
                      "decision": None if slot is None else {"slot": slot.index, "status": dec_rec["payload"]["status"]},
-                     "after": b.snapshot()}, stamp(s.open))
+                     "plan": plan, "weights_after": after_w, "after": b.snapshot()}, stamp(s.open))
         books[name] = b
 
     def close_step(name: str, s) -> None:
@@ -278,16 +393,24 @@ def run(state_dir: Path, data_dir: Path, decider, *, mode: str, first_fill_month
             if nxt is not None and "ai" not in halted:
                 decide(nxt)
         prev_day = s.day
-    for slot in slots:                                   # e.g. the AI portfolio stopped at a gap before the cutoff
-        if led.get(f"decision|{slot.index}") is None and now >= slot.deadline:
-            led.put(f"decision|{slot.index}", "decision",
-                    {"slot": slot.index, "month": slot.month, "decider": decider.name, "genuine": decider.genuine,
-                     "cutoff": slot.cutoff.close.isoformat(), "deadline": slot.deadline.isoformat(),
-                     "status": "missed", "decision": None,
-                     "problems": [f"no decision before the deadline (portfolio stopped at {halted.get('ai', 'n/a')})"]},
-                    stamp(slot.deadline))
-            led.put(f"cost|{slot.index}", "cost", {"slot": slot.index, "month": slot.month, "usd": "0",
-                                                   "basis": "not_requested", "reconciled": True,
-                                                   "genuine": decider.genuine}, stamp(slot.deadline))
+    for slot in slots:                                   # the AI portfolio stopped at a price gap before the cutoff
+        if led.get(f"decision|{slot.index}") is None and now >= slot.deadline and led.get(f"pack|{slot.index}") is None:
+            finish_without_request(slot, "missing_input", "portfolio_not_valued",
+                                   [f"the AI portfolio could not be valued at the cutoff (stopped at "
+                                    f"{halted.get('ai', 'n/a')}); no request was made"], {}, slot.deadline)
     return {"ledger": str(led.path), "records": len(led.records), "appended": led.appended, "halted": halted,
             "identity": identity}
+
+
+def reconcile(state_dir: Path, slot: int, usd: str, evidence: str, at: datetime) -> dict:
+    """Resolve an unreconciled charge with provider evidence, as its own append-only record."""
+    path = Path(state_dir) / "ledger.jsonl"
+    with InvestLedger.open_existing(path, at) as led:
+        c = led.get(f"cost|{slot}")
+        if c is None or c["payload"]["status"] != "unreconciled":
+            raise LedgerError(f"slot {slot} has no unreconciled charge")
+        if Decimal(str(usd)) < 0 or not evidence.strip():
+            raise LedgerError("a reconciliation needs a non-negative amount and the provider evidence it rests on")
+        rec, _ = led.put(f"reconcile|{slot}", "reconcile", {"slot": slot, "usd": str(Decimal(str(usd))),
+                                                            "evidence": evidence}, at)
+    return rec
