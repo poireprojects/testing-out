@@ -301,27 +301,49 @@ whether monthly AI stock picks leave you with more money than buying VOO with th
   * one buys and holds VOO;
   * the other keeps 70–100% in VOO and up to three stocks, each at most 10%, chosen once a month by Claude Opus 5.5
     from 12 large companies.
-* **How the AI decides:** it reads dated SEC filings and valuations. For every pick it must state:
-  * why the stock should beat VOO at today's price, citing the filing passages and figures;
-  * the main downside;
-  * what would prove it wrong;
-  * why that weight.
+* **How the AI decides:** it reads dated SEC filings and valuations. Under the proposed amendment
+  (`AMENDMENT-1.md`):
+  * It rates every candidate, including the ones it passes over: a rank, its expected return versus VOO over the
+    next three months, and the chance that the stock beats VOO.
+  * For every stock it keeps, it states:
+    * what it thinks the price misses, and how the valuation relates;
+    * the strongest evidence against it;
+    * the downside;
+    * a measurable test that would prove it wrong, with a date;
+    * why that weight;
+    * a base, upside and downside case.
+  * Facts must quote the filings, calculations are recomputed by code, and its own assumptions and forecasts are
+    labelled as such.
+  * If it buys nothing, it says why VOO is better.
 * **What code enforces:** the limits, the citations, the accounting (dividends, splits, fees, leftover cash) and a
   tamper-evident ledger. A late, missing or rule-breaking decision changes nothing. If any company's filings were
   not collected, the AI is not asked that month and the record stays inconclusive.
 * **What code cannot check:** whether a cited figure is used correctly. The checks confirm quotes and numbers match
   the filings, not that the reasoning is right; a person reviews every claim of a real decision blind to the
   outcome.
-* **Costs:** the AI's research is charged to its portfolio every month, an estimated $2.40 a year on $100. So the
-  stock picks must beat VOO by a wide margin just to break even. No spending is approved; the project's $12.50
-  ceiling still applies.
+* **Costs:** the AI's research is charged to its portfolio every month: an estimated $2.40 a year on $100, and up
+  to about $5.40 if every month's request were at full size. So the stock picks must beat VOO by a wide margin just
+  to break even. No spending is approved, and the project's $12.50 ceiling still applies. Sending a paid request
+  stays blocked until that ceiling can be enforced (`LAUNCH-MANIFEST.md`).
+* **Secondary checks, which never change the verdict:**
+  * whether the AI's ratings matched what happened three months later;
+  * a mechanical 70/30 spread across all 12 candidates;
+  * the blind review of its factual claims.
 * **Stop rule:** if the AI portfolio, after costs, is at or below VOO after 12 complete months, this version
   stops. If it is ahead, the next step is only an independent review.
-* **Status:** today there is only an offline dry run on invented data with scripted ("fixture") decisions. It is
-  labelled as such everywhere and says nothing about AI stock picking.
-  * Before any genuine decision: an independent review; your approval and freeze; a new market-data key; the
-    model spend; three data adapters and the paid client, each checked against real sources; and a computer to run
-    it monthly. Your SEC contact may be used for its EDGAR collection until you revoke that or the scope changes.
+* **Status:** today there is only an offline dry run. It feeds invented companies, in the SEC's and a price
+  vendor's own file formats, through the data pipeline, and uses scripted ("fixture") decisions. It is labelled as
+  such everywhere and says nothing about AI stock picking.
+  * The SEC parsers were also checked offline on SEC files saved earlier for 40 real companies (`READINESS.md`).
+  * Before any genuine decision:
+    * an independent review;
+    * your approval and freeze;
+    * a new market-data key;
+    * a person's check of the company list;
+    * the model spend;
+    * live collectors and the paid client;
+    * a computer to run it monthly.
+  * Your SEC contact may be used for its EDGAR collection until you revoke that or the scope changes.
 
 ### Is the AI actually helping?
 
@@ -415,7 +437,7 @@ pip install -r requirements-dev.txt
 python -m pytest -q
 ```
 
-668 automated tests. 660 run anywhere; 8 need your Alpaca paper keys, and 4 of those place paper orders, so they
+783 automated tests. 775 run anywhere; 8 need your Alpaca paper keys, and 4 of those place paper orders, so they
 run only when you ask. They cover the uninstall/shutdown handshake
 (open live positions block it; keep vs. delete data and saved keys), opportunity ranking and market regimes, the AI
 picking mode, approach comparison and confidence calibration, walk-forward/train-validation-test evaluation, cost
@@ -445,7 +467,19 @@ They also cover the research tooling:
     reconciled;
   * two runs at once refused, torn writes set aside, reruns that leave the ledger unchanged, and tamper detection;
   * fixture decisions kept apart from genuine ones;
-  * a byte-for-byte reproducible dry run.
+  * the decision contract: every candidate rated, units and probabilities checked, claims typed and calculations
+    recomputed, and a misstated claim that passes the checks but stays visible to the blind review;
+  * the data pipeline on saved files only:
+    * altered files refused;
+    * filing headers reconciled with the SEC's index;
+    * trailing-four-quarter values on calendar, odd and 52/53-week fiscal years;
+    * restatements kept out of earlier months;
+    * passages quoted word for word, including adverse disclosures;
+    * the company list taken from a fund report public before the freeze, with no guessed ticker mapping;
+    * prices that are already split-adjusted refused, and unsupported corporate actions flagged;
+  * the secondary checks, worked by hand (dividends, splits, ties, overlapping and pending months);
+  * no network access during any of these tests;
+  * a byte-for-byte reproducible dry run that matches the committed one.
 
 ### What is verified and what isn't
 
@@ -486,7 +520,7 @@ stockpilot/
   ui/                 PySide6/QML interface, custom charts, tray, notifications
   research/           forward recorders used by the app, plus research-only modules
 autotrader/           Phase 5 autonomous-trader prototype (closed; simulation only; not in the app or installer)
-  invest/             proposed forward paper investing pilot vs VOO (offline dry run only; not in the app)
+  invest/             proposed forward paper investing pilot vs VOO (offline pipeline and dry run only; not in the app)
 packaging/            PyInstaller spec, Windows installer, macOS/Linux build scripts, release gate
 research/             pre-registrations, data ledger, reports and results of every research phase
 scripts/              research and data scripts (historical data only)
