@@ -114,7 +114,10 @@ The code hash of every identity file and each pack's hash are in `dry-run/summar
   * `test_invest_adapters.py`: 30;
   * `test_invest_pipeline.py`: 13;
   * `test_invest_diagnostics.py`: 11.
-* **Full suite:** 783 tests collected (8 need Alpaca paper keys and are skipped without them). The run's result was still in progress when this file was first committed; it is recorded in the next commit of this file.
+* **Full suite, 783 tests: 775 passed, 0 failed, 0 errors, 8 skipped** (JUnit; 410 s). All 8 skips are
+  `test_alpaca_integration.py`, which needs Alpaca paper keys. Command:
+  `python -m pytest -o addopts="" -q -p no:cacheprovider --junitxml=JUNIT.xml`, run on the code at `b5ae509`. The two
+  later commits change only `README.md` and this file.
 
 No test implies investment skill. Fixture decisions are scripted placeholders, and every record and report labels
 them.
