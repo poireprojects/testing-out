@@ -5,6 +5,10 @@ here places an order, calls a model, reads a credential or spends money. The fro
 `autotrader/invest/registration.py` (`FROZEN`); their SHA-256 (`config_sha256()`) and the SHA-256 of every file of
 the pilot's code are part of each ledger's identity, so a change after launch cannot be resumed silently.
 
+**Proposed amendment 1** (`AMENDMENT-1.md`, not approved) would replace the decision contract with version 2, add
+the offline data pipeline and secondary diagnostics, and drop `service_tier` from the request. The text below is
+revision 2 as written. What a launch still needs: `LAUNCH-MANIFEST.md`. Readiness of this build: `READINESS.md`.
+
 ## Changes in revision 2 (proposed for independent review; not approval)
 
 Revision 1 was audited at `7862166`. These corrections change proposed rules; none is approved. The model, the
