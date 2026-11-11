@@ -118,7 +118,7 @@ class MonthPack:
         if not self.holdings:
             out.append("  (no positions)")
         for t in self.prior_theses:
-            out.append(f"  thesis recorded for {t['symbol']} in {t['month']}: {t['why_outperform_voo']} "
+            out.append(f"  thesis recorded for {t['symbol']} in {t['month']}: {t['mispricing']} "
                        f"Invalidation: {t['invalidation']}")
         out.append("\nCANDIDATES (frozen universe, rank order):")
         for c in self.candidates:
