@@ -1,0 +1,342 @@
+{
+ "inference_geo": "global",
+ "max_tokens": 16000,
+ "messages": [
+  {
+   "content": "MONTHLY DECISION 2031-01 (slot 1 of 12). SYNTHETIC DATA: invented companies and prices for an offline test.\nEverything below was available by the cutoff, 2030-12-31 16:00 EST. Trades fill at the next session's open; your answer must be frozen before 2031-01-02 09:30 EST.\nLimits: VOO 70-100% of the portfolio; at most 3 individual stocks, each set to at most 10%; long only.\n\nPORTFOLIO at the cutoff close: cash 100.00 USD; cash plus positions 100.00 USD.\nVOO close 511.55 USD.\n  (no positions)\n\nCANDIDATES (frozen universe, rank order):\n  1. SYNTH01 Synthetic Company 01\n  2. SYNTH02 Synthetic Company 02\n  3. SYNTH03 Synthetic Company 03\n  4. SYNTH04 Synthetic Company 04\n  5. SYNTH05 Synthetic Company 05\n  6. SYNTH06 Synthetic Company 06\n  7. SYNTH07 Synthetic Company 07\n  8. SYNTH08 Synthetic Company 08\n  9. SYNTH09 Synthetic Company 09\n  10. SYNTH10 Synthetic Company 10\n  11. SYNTH11 Synthetic Company 11\n  12. SYNTH12 Synthetic Company 12\n\n[SYNTH01/9900000001-30-000016/P1] filing | SYNTHETIC SEC 10-Q 9900000001-30-000016 (Synthetic Company 01), MD&A: figures | available 2030-11-07 16:05 EST\nRevenue for the quarter was $2,276 million, an increase of 6% from the same quarter a year earlier. Growth came mainly from existing customers renewing larger contracts.\n\n[SYNTH01/9900000001-30-000016/P2] filing | SYNTHETIC SEC 10-Q 9900000001-30-000016 (Synthetic Company 01), MD&A: figures | available 2030-11-07 16:05 EST\nOperating margin was 13% for the quarter. Higher input costs reduced gross margin by 2 percentage points compared with the prior year, and we expect cost pressure to continue.\n\n[SYNTH01/9900000001-30-000016/P3] filing | SYNTHETIC SEC 10-Q 9900000001-30-000016 (Synthetic Company 01), adverse disclosure (impairment) | available 2030-11-07 16:05 EST\nWe recorded an impairment charge of $10 million related to a discontinued product line. The charge reduced operating income for the period and may recur if demand weakens further.\n\n[SYNTH01/9900000001-30-000015/P1] filing | SYNTHETIC SEC 8-K 9900000001-30-000015 (Synthetic Company 01), earnings release: figures | available 2030-10-24 07:05 EDT\nRevenue for the quarter was $2,276 million, up 6% from a year earlier, and diluted earnings per share rose compared with the prior-year quarter.\n\n[V.SYNTH01] valuation | computed from the 2030-12-31 close and 9900000001-30-000016 | available 2030-12-31 16:00 EST\nValuation of SYNTH01 at the 2030-12-31 close (computed by code): price 39.91 USD; shares outstanding 920,000,000 (10-Q 9900000001-30-000016, accepted 2030-11-07 16:05 EST); market value 36,717 million USD; revenue, trailing four quarters 8,876 million USD; net income, trailing four quarters 1,023 million USD; diluted EPS, trailing four quarters 1.11 USD; P/E 35.95; price/sales 4.14.\n\n[SYNTH02/9900000002-30-000016/P1] filing | SYNTHETIC SEC 10-Q 9900000002-30-000016 (Synthetic Company 02), MD&A: figures | available 2030-11-07 16:05 EST\nRevenue for the quarter was $3,072 million, an increase of 7% from the same quarter a year earlier. Growth came mainly from existing customers renewing larger contracts.\n\n[SYNTH02/9900000002-30-000016/P2] filing | SYNTHETIC SEC 10-Q 9900000002-30-000016 (Synthetic Company 02), MD&A: figures | available 2030-11-07 16:05 EST\nOperating margin was 14% for the quarter. Higher input costs reduced gross margin by 2 percentage points compared with the prior year, and we expect cost pressure to continue.\n\n[SYNTH02/9900000002-30-000016/P3] filing | SYNTHETIC SEC 10-Q 9900000002-30-000016 (Synthetic Company 02), adverse disclosure (impairment) | available 2030-11-07 16:05 EST\nWe recorded an impairment charge of $11 million related to a discontinued product line. The charge reduced operating income for the period and may recur if demand weakens further.\n\n[SYNTH02/9900000002-30-000015/P1] filing | SYNTHETIC SEC 8-K 9900000002-30-000015 (Synthetic Company 02), earnings release: figures | available 2030-10-24 07:05 EDT\nRevenue for the quarter was $3,072 million, up 7% from a year earlier, and diluted earnings per share rose compared with the prior-year quarter.\n\n[V.SYNTH02] valuation | computed from the 2030-12-31 close and 9900000002-30-000016 | available 2030-12-31 16:00 EST\nValuation of SYNTH02 at the 2030-12-31 close (computed by code): price 70.61 USD; shares outstanding 957,000,000 (10-Q 9900000002-30-000016, accepted 2030-11-07 16:05 EST); market value 67,574 million USD; revenue, trailing four quarters 11,982 million USD; net income, trailing four quarters 1,260 million USD; diluted EPS, trailing four quarters 1.33 USD; P/E 53.09; price/sales 5.64.\n\n[SYNTH03/9900000003-30-000016/P1] filing | SYNTHETIC SEC 10-Q 9900000003-30-000016 (Synthetic Company 03), MD&A: figures | available 2030-11-07 16:05 EST\nRevenue for the quarter was $3,869 million, an increase of 8% from the same quarter a year earlier. Growth came mainly from existing customers renewing larger contracts.\n\n[SYNTH03/9900000003-30-000016/P2] filing | SYNTHETIC SEC 10-Q 9900000003-30-000016 (Synthetic Company 03), MD&A: figures | available 2030-11-07 16:05 EST\nOperating margin was 15% for the quarter. Higher input costs reduced gross margin by 2 percentage points compared with the prior year, and we expect cost pressure to continue.\n\n[SYNTH03/9900000003-30-000016/P3] filing | SYNTHETIC SEC 10-Q 9900000003-30-000016 (Synthetic Company 03), adverse disclosure (impairment) | available 2030-11-07 16:05 EST\nWe recorded an impairment charge of $12 million related to a discontinued product line. The charge reduced operating income for the period and may recur if demand weakens further.\n\n[SYNTH03/9900000003-30-000015/P1] filing | SYNTHETIC SEC 8-K 9900000003-30-000015 (Synthetic Company 03), earnings release: figures | available 2030-10-24 07:05 EDT\nRevenue for the quarter was $3,869 million, up 8% from a year earlier, and diluted earnings per share rose compared with the prior-year quarter.\n\n[V.SYNTH03] valuation | computed from the 2030-12-31 close and 9900000003-30-000016 | available 2030-12-31 16:00 EST\nValuation of SYNTH03 at the 2030-12-31 close (computed by code): price 84.33 USD; shares outstanding 994,000,000 (10-Q 9900000003-30-000016, accepted 2030-11-07 16:05 EST); market value 83,824 million USD; revenue, trailing four quarters 15,089 million USD; net income, trailing four quarters 1,737 million USD; diluted EPS, trailing four quarters 1.76 USD; P/E 47.91; price/sales 5.56.\n\n[SYNTH04/9900000004-30-000016/P1] filing | SYNTHETIC SEC 10-Q 9900000004-30-000016 (Synthetic Company 04), MD&A: figures | available 2030-11-07 16:05 EST\nRevenue for the quarter was $4,666 million, an increase of 9% from the same quarter a year earlier. Growth came mainly from existing customers renewing larger contracts.\n\n[SYNTH04/9900000004-30-000016/P2] filing | SYNTHETIC SEC 10-Q 9900000004-30-000016 (Synthetic Company 04), MD&A: figures | available 2030-11-07 16:05 EST\nOperating margin was 16% for the quarter. Higher input costs reduced gross margin by 2 percentage points compared with the prior year, and we expect cost pressure to continue.\n\n[SYNTH04/9900000004-30-000016/P3] filing | SYNTHETIC SEC 10-Q 9900000004-30-000016 (Synthetic Company 04), adverse disclosure (impairment) | available 2030-11-07 16:05 EST\nWe recorded an impairment charge of $13 million related to a discontinued product line. The charge reduced operating income for the period and may recur if demand weakens further.\n\n[SYNTH04/9900000004-30-000015/P1] filing | SYNTHETIC SEC 8-K 9900000004-30-000015 (Synthetic Company 04), earnings release: figures | available 2030-10-24 07:05 EDT\nRevenue for the quarter was $4,666 million, up 9% from a year earlier, and diluted earnings per share rose compared with the prior-year quarter.\n\n[V.SYNTH04] valuation | computed from the 2030-12-31 close and 9900000004-30-000016 | available 2030-12-31 16:00 EST\nValuation of SYNTH04 at the 2030-12-31 close (computed by code): price 100.38 USD; shares outstanding 1,031,000,000 (10-Q 9900000004-30-000016, accepted 2030-11-07 16:05 EST); market value 103,492 million USD; revenue, trailing four quarters 18,197 million USD; net income, trailing four quarters 2,276 million USD; diluted EPS, trailing four quarters 2.21 USD; P/E 45.42; price/sales 5.69.\n\n[SYNTH05/9900000005-30-000016/P1] filing | SYNTHETIC SEC 10-Q 9900000005-30-000016 (Synthetic Company 05), MD&A: figures | available 2030-11-07 16:05 EST\nRevenue for the quarter was $5,462 million, an increase of 10% from the same quarter a year earlier. Growth came mainly from existing customers renewing larger contracts.\n\n[SYNTH05/9900000005-30-000016/P2] filing | SYNTHETIC SEC 10-Q 9900000005-30-000016 (Synthetic Company 05), MD&A: figures | available 2030-11-07 16:05 EST\nOperating margin was 17% for the quarter. Higher input costs reduced gross margin by 2 percentage points compared with the prior year, and we expect cost pressure to continue.\n\n[SYNTH05/9900000005-30-000016/P3] filing | SYNTHETIC SEC 10-Q 9900000005-30-000016 (Synthetic Company 05), adverse disclosure (impairment) | available 2030-11-07 16:05 EST\nWe recorded an impairment charge of $14 million related to a discontinued product line. The charge reduced operating income for the period and may recur if demand weakens further.\n\n[SYNTH05/9900000005-30-000015/P1] filing | SYNTHETIC SEC 8-K 9900000005-30-000015 (Synthetic Company 05), earnings release: figures | available 2030-10-24 07:05 EDT\nRevenue for the quarter was $5,462 million, up 10% from a year earlier, and diluted earnings per share rose compared with the prior-year quarter.\n\n[V.SYNTH05] valuation | computed from the 2030-12-31 close and 9900000005-30-000016 | available 2030-12-31 16:00 EST\nValuation of SYNTH05 at the 2030-12-31 close (computed by code): price 134.68 USD; shares outstanding 1,068,000,000 (10-Q 9900000005-30-000016, accepted 2030-11-07 16:05 EST); market value 143,838 million USD; revenue, trailing four quarters 21,303 million USD; net income, trailing four quarters 2,878 million USD; diluted EPS, trailing four quarters 2.71 USD; P/E 49.70; price/sales 6.75.\n\n[SYNTH06/9900000006-30-000016/P1] filing | SYNTHETIC SEC 10-Q 9900000006-30-000016 (Synthetic Company 06), MD&A: figures | available 2030-11-07 16:05 EST\nRevenue for the quarter was $6,259 million, an increase of 11% from the same quarter a year earlier. Growth came mainly from existing customers renewing larger contracts.\n\n[SYNTH06/9900000006-30-000016/P2] filing | SYNTHETIC SEC 10-Q 9900000006-30-000016 (Synthetic Company 06), MD&A: figures | available 2030-11-07 16:05 EST\nOperating margin was 10% for the quarter. Higher input costs reduced gross margin by 2 percentage points compared with the prior year, and we expect cost pressure to continue.\n\n[SYNTH06/9900000006-30-000016/P3] filing | SYNTHETIC SEC 10-Q 9900000006-30-000016 (Synthetic Company 06), adverse disclosure (impairment) | available 2030-11-07 16:05 EST\nWe recorded an impairment charge of $15 million related to a discontinued product line. The charge reduced operating income for the period and may recur if demand weakens further.\n\n[SYNTH06/9900000006-30-000015/P1] filing | SYNTHETIC SEC 8-K 9900000006-30-000015 (Synthetic Company 06), earnings release: figures | available 2030-10-24 07:05 EDT\nRevenue for the quarter was $6,259 million, up 11% from a year earlier, and diluted earnings per share rose compared with the prior-year quarter.\n\n[V.SYNTH06] valuation | computed from the 2030-12-31 close and 9900000006-30-000016 | available 2030-12-31 16:00 EST\nValuation of SYNTH06 at the 2030-12-31 close (computed by code): price 149.03 USD; shares outstanding 1,105,000,000 (10-Q 9900000006-30-000016, accepted 2030-11-07 16:05 EST); market value 164,678 million USD; revenue, trailing four quarters 24,409 million USD; net income, trailing four quarters 3,542 million USD; diluted EPS, trailing four quarters 3.22 USD; P/E 46.28; price/sales 6.75.\n\n[SYNTH07/9900000007-30-000016/P1] filing | SYNTHETIC SEC 10-Q 9900000007-30-000016 (Synthetic Company 07), MD&A: figures | available 2030-11-07 16:05 EST\nRevenue for the quarter was $7,055 million, an increase of 3% from the same quarter a year earlier. Growth came mainly from existing customers renewing larger contracts.\n\n[SYNTH07/9900000007-30-000016/P2] filing | SYNTHETIC SEC 10-Q 9900000007-30-000016 (Synthetic Company 07), MD&A: figures | available 2030-11-07 16:05 EST\nOperating margin was 11% for the quarter. Higher input costs reduced gross margin by 2 percentage points compared with the prior year, and we expect cost pressure to continue.\n\n[SYNTH07/9900000007-30-000016/P3] filing | SYNTHETIC SEC 10-Q 9900000007-30-000016 (Synthetic Company 07), adverse disclosure (impairment) | available 2030-11-07 16:05 EST\nWe recorded an impairment charge of $16 million related to a discontinued product line. The charge reduced operating income for the period and may recur if demand weakens further.\n\n[SYNTH07/9900000007-30-000015/P1] filing | SYNTHETIC SEC 8-K 9900000007-30-000015 (Synthetic Company 07), earnings release: figures | available 2030-10-24 07:05 EDT\nRevenue for the quarter was $7,055 million, up 3% from a year earlier, and diluted earnings per share rose compared with the prior-year quarter.\n\n[V.SYNTH07] valuation | computed from the 2030-12-31 close and 9900000007-30-000016 | available 2030-12-31 16:00 EST\nValuation of SYNTH07 at the 2030-12-31 close (computed by code): price 176.19 USD; shares outstanding 1,142,000,000 (10-Q 9900000007-30-000016, accepted 2030-11-07 16:05 EST); market value 201,209 million USD; revenue, trailing four quarters 27,516 million USD; net income, trailing four quarters 3,703 million USD; diluted EPS, trailing four quarters 3.26 USD; P/E 54.05; price/sales 7.31.\n\n[SYNTH08/9900000008-30-000016/P1] filing | SYNTHETIC SEC 10-Q 9900000008-30-000016 (Synthetic Company 08), MD&A: figures | available 2030-11-07 16:05 EST\nRevenue for the quarter was $7,852 million, an increase of 4% from the same quarter a year earlier. Growth came mainly from existing customers renewing larger contracts.\n\n[SYNTH08/9900000008-30-000016/P2] filing | SYNTHETIC SEC 10-Q 9900000008-30-000016 (Synthetic Company 08), MD&A: figures | available 2030-11-07 16:05 EST\nOperating margin was 12% for the quarter. Higher input costs reduced gross margin by 2 percentage points compared with the prior year, and we expect cost pressure to continue.\n\n[SYNTH08/9900000008-30-000016/P3] filing | SYNTHETIC SEC 10-Q 9900000008-30-000016 (Synthetic Company 08), adverse disclosure (impairment) | available 2030-11-07 16:05 EST\nWe recorded an impairment charge of $17 million related to a discontinued product line. The charge reduced operating income for the period and may recur if demand weakens further.\n\n[SYNTH08/9900000008-30-000015/P1] filing | SYNTHETIC SEC 8-K 9900000008-30-000015 (Synthetic Company 08), earnings release: figures | available 2030-10-24 07:05 EDT\nRevenue for the quarter was $7,852 million, up 4% from a year earlier, and diluted earnings per share rose compared with the prior-year quarter.\n\n[V.SYNTH08] valuation | computed from the 2030-12-31 close and 9900000008-30-000016 | available 2030-12-31 16:00 EST\nValuation of SYNTH08 at the 2030-12-31 close (computed by code): price 197.93 USD; shares outstanding 1,179,000,000 (10-Q 9900000008-30-000016, accepted 2030-11-07 16:05 EST); market value 233,359 million USD; revenue, trailing four quarters 30,623 million USD; net income, trailing four quarters 3,813 million USD; diluted EPS, trailing four quarters 3.25 USD; P/E 60.90; price/sales 7.62.\n\n[SYNTH09/9900000009-30-000016/P1] filing | SYNTHETIC SEC 10-Q 9900000009-30-000016 (Synthetic Company 09), MD&A: figures | available 2030-11-07 16:05 EST\nRevenue for the quarter was $8,648 million, an increase of 5% from the same quarter a year earlier. Growth came mainly from existing customers renewing larger contracts.\n\n[SYNTH09/9900000009-30-000016/P2] filing | SYNTHETIC SEC 10-Q 9900000009-30-000016 (Synthetic Company 09), MD&A: figures | available 2030-11-07 16:05 EST\nOperating margin was 13% for the quarter. Higher input costs reduced gross margin by 2 percentage points compared with the prior year, and we expect cost pressure to continue.\n\n[SYNTH09/9900000009-30-000016/P3] filing | SYNTHETIC SEC 10-Q 9900000009-30-000016 (Synthetic Company 09), adverse disclosure (impairment) | available 2030-11-07 16:05 EST\nWe recorded an impairment charge of $18 million related to a discontinued product line. The charge reduced operating income for the period and may recur if demand weakens further.\n\n[SYNTH09/9900000009-30-000015/P1] filing | SYNTHETIC SEC 8-K 9900000009-30-000015 (Synthetic Company 09), earnings release: figures | available 2030-10-24 07:05 EDT\nRevenue for the quarter was $8,648 million, up 5% from a year earlier, and diluted earnings per share rose compared with the prior-year quarter.\n\n[V.SYNTH09] valuation | computed from the 2030-12-31 close and 9900000009-30-000016 | available 2030-12-31 16:00 EST\nValuation of SYNTH09 at the 2030-12-31 close (computed by code): price 219.79 USD; shares outstanding 1,216,000,000 (10-Q 9900000009-30-000016, accepted 2030-11-07 16:05 EST); market value 267,265 million USD; revenue, trailing four quarters 33,729 million USD; net income, trailing four quarters 3,889 million USD; diluted EPS, trailing four quarters 3.21 USD; P/E 68.47; price/sales 7.92.\n\n[SYNTH10/9900000010-30-000016/P1] filing | SYNTHETIC SEC 10-K 9900000010-30-000016 (Synthetic Company 10), MD&A: figures | available 2030-11-21 16:05 EST\nRevenue for the quarter was $9,748 million, an increase of 7% from the same quarter a year earlier. Growth came mainly from existing customers renewing larger contracts.\n\n[SYNTH10/9900000010-30-000016/P2] filing | SYNTHETIC SEC 10-K 9900000010-30-000016 (Synthetic Company 10), MD&A: figures | available 2030-11-21 16:05 EST\nOperating margin was 15% for the quarter. Higher input costs reduced gross margin by 2 percentage points compared with the prior year, and we expect cost pressure to continue.\n\n[SYNTH10/9900000010-30-000016/P3] filing | SYNTHETIC SEC 10-K 9900000010-30-000016 (Synthetic Company 10), adverse disclosure (impairment) | available 2030-11-21 16:05 EST\nWe recorded an impairment charge of $19 million related to a discontinued product line. The charge reduced operating income for the period and may recur if demand weakens further.\n\n[SYNTH10/9900000010-30-000016/P4] filing | SYNTHETIC SEC 10-K 9900000010-30-000016 (Synthetic Company 10), risk factors | available 2030-11-21 16:05 EST\nOur largest customer accounted for 19% of revenue. The loss of this customer, or a material reduction in its orders, would materially reduce our revenue, margins and results of operations. Customer concentration also limits our pricing power at contract renewals.\n\n[V.SYNTH10] valuation | computed from the 2030-12-31 close and 9900000010-30-000016 | available 2030-12-31 16:00 EST\nValuation of SYNTH10 at the 2030-12-31 close (computed by code): price 239.22 USD; shares outstanding 1,255,000,000 (10-K 9900000010-30-000016, accepted 2030-11-21 16:05 EST); market value 300,221 million USD; revenue, trailing four quarters 37,291 million USD; net income, trailing four quarters 4,303 million USD; diluted EPS, trailing four quarters 3.43 USD; P/E 69.74; price/sales 8.05.\n\n[SYNTH11/9900000011-30-000016/P1] filing | SYNTHETIC SEC 10-Q 9900000011-30-000016 (Synthetic Company 11), MD&A: figures | available 2030-11-05 16:05 EST\nRevenue for the quarter was $10,242 million, an increase of 7% from the same quarter a year earlier. Growth came mainly from existing customers renewing larger contracts.\n\n[SYNTH11/9900000011-30-000016/P2] filing | SYNTHETIC SEC 10-Q 9900000011-30-000016 (Synthetic Company 11), MD&A: figures | available 2030-11-05 16:05 EST\nOperating margin was 15% for the quarter. Higher input costs reduced gross margin by 2 percentage points compared with the prior year, and we expect cost pressure to continue.\n\n[SYNTH11/9900000011-30-000016/P3] filing | SYNTHETIC SEC 10-Q 9900000011-30-000016 (Synthetic Company 11), adverse disclosure (impairment) | available 2030-11-05 16:05 EST\nWe recorded an impairment charge of $20 million related to a discontinued product line. The charge reduced operating income for the period and may recur if demand weakens further.\n\n[SYNTH11/9900000011-30-000015/P1] filing | SYNTHETIC SEC 8-K 9900000011-30-000015 (Synthetic Company 11), earnings release: figures | available 2030-10-22 07:05 EDT\nRevenue for the quarter was $10,242 million, up 7% from a year earlier, and diluted earnings per share rose compared with the prior-year quarter.\n\n[V.SYNTH11] valuation | computed from the 2030-12-31 close and 9900000011-30-000016 | available 2030-12-31 16:00 EST\nValuation of SYNTH11 at the 2030-12-31 close (computed by code): price 286.62 USD; shares outstanding 1,290,000,000 (10-Q 9900000011-30-000016, accepted 2030-11-05 16:05 EST); market value 369,740 million USD; revenue, trailing four quarters 39,943 million USD; net income, trailing four quarters 4,597 million USD; diluted EPS, trailing four quarters 3.57 USD; P/E 80.29; price/sales 9.26.\n\n[SYNTH12/9900000012-30-000016/P1] filing | SYNTHETIC SEC 10-Q 9900000012-30-000016 (Synthetic Company 12), MD&A: figures | available 2030-11-07 16:05 EST\nRevenue for the quarter was $10,857 million, an increase of 6% from the same quarter a year earlier. Growth came mainly from existing customers renewing larger contracts.\n\n[SYNTH12/9900000012-30-000016/P2] filing | SYNTHETIC SEC 10-Q 9900000012-30-000016 (Synthetic Company 12), MD&A: figures | available 2030-11-07 16:05 EST\nOperating margin was 14% for the quarter. Higher input costs reduced gross margin by 2 percentage points compared with the prior year, and we expect cost pressure to continue.\n\n[SYNTH12/9900000012-30-000016/P3] filing | SYNTHETIC SEC 10-Q 9900000012-30-000016 (Synthetic Company 12), adverse disclosure (impairment) | available 2030-11-07 16:05 EST\nWe recorded an impairment charge of $21 million related to a discontinued product line. The charge reduced operating income for the period and may recur if demand weakens further.\n\n[SYNTH12/9900000012-30-000015/P1] filing | SYNTHETIC SEC 8-K 9900000012-30-000015 (Synthetic Company 12), earnings release: figures | available 2030-10-24 07:05 EDT\nRevenue for the quarter was $10,857 million, up 6% from a year earlier, and diluted earnings per share rose compared with the prior-year quarter.\n\n[V.SYNTH12] valuation | computed from the 2030-12-31 close and 9900000012-30-000016 | available 2030-12-31 16:00 EST\nValuation of SYNTH12 at the 2030-12-31 close (computed by code): price 277.06 USD; shares outstanding 1,331,000,000 (10-Q 9900000012-30-000016, accepted 2030-11-07 16:05 EST); market value 368,767 million USD; revenue, trailing four quarters 44,086 million USD; net income, trailing four quarters 6,395 million USD; diluted EPS, trailing four quarters 4.82 USD; P/E 57.48; price/sales 8.36.",
+   "role": "user"
+  }
+ ],
+ "model": "claude-opus-5-5",
+ "output_config": {
+  "effort": "medium",
+  "format": {
+   "schema": {
+    "additionalProperties": false,
+    "properties": {
+     "assessments": {
+      "items": {
+       "additionalProperties": false,
+       "properties": {
+        "expected_excess_pct_3m": {
+         "type": "number"
+        },
+        "note": {
+         "type": "string"
+        },
+        "p_positive_excess": {
+         "type": "number"
+        },
+        "rank": {
+         "type": "integer"
+        },
+        "symbol": {
+         "enum": [
+          "SYNTH01",
+          "SYNTH02",
+          "SYNTH03",
+          "SYNTH04",
+          "SYNTH05",
+          "SYNTH06",
+          "SYNTH07",
+          "SYNTH08",
+          "SYNTH09",
+          "SYNTH10",
+          "SYNTH11",
+          "SYNTH12"
+         ],
+         "type": "string"
+        }
+       },
+       "required": [
+        "symbol",
+        "rank",
+        "expected_excess_pct_3m",
+        "p_positive_excess",
+        "note"
+       ],
+       "type": "object"
+      },
+      "type": "array"
+     },
+     "month": {
+      "type": "string"
+     },
+     "positions": {
+      "items": {
+       "additionalProperties": false,
+       "properties": {
+        "action": {
+         "enum": [
+          "buy",
+          "increase",
+          "hold",
+          "reduce",
+          "sell"
+         ],
+         "type": "string"
+        },
+        "claims": {
+         "items": {
+          "additionalProperties": false,
+          "properties": {
+           "evidence": {
+            "items": {
+             "additionalProperties": false,
+             "properties": {
+              "figures": {
+               "items": {
+                "type": "string"
+               },
+               "type": "array"
+              },
+              "id": {
+               "type": "string"
+              },
+              "quote": {
+               "type": "string"
+              }
+             },
+             "required": [
+              "id",
+              "quote",
+              "figures"
+             ],
+             "type": "object"
+            },
+            "type": "array"
+           },
+           "expression": {
+            "type": "string"
+           },
+           "inputs": {
+            "items": {
+             "additionalProperties": false,
+             "properties": {
+              "name": {
+               "type": "string"
+              },
+              "source_id": {
+               "type": "string"
+              },
+              "value": {
+               "type": "number"
+              }
+             },
+             "required": [
+              "name",
+              "value",
+              "source_id"
+             ],
+             "type": "object"
+            },
+            "type": "array"
+           },
+           "result": {
+            "type": "number"
+           },
+           "text": {
+            "type": "string"
+           },
+           "type": {
+            "enum": [
+             "fact",
+             "calculation",
+             "assumption",
+             "forecast",
+             "inferred_expectation"
+            ],
+            "type": "string"
+           }
+          },
+          "required": [
+           "type",
+           "text",
+           "evidence",
+           "inputs",
+           "expression",
+           "result"
+          ],
+          "type": "object"
+         },
+         "type": "array"
+        },
+        "contrary_evidence": {
+         "type": "string"
+        },
+        "downside": {
+         "type": "string"
+        },
+        "invalidation": {
+         "additionalProperties": false,
+         "properties": {
+          "check_by": {
+           "type": "string"
+          },
+          "comparator": {
+           "enum": [
+            "<",
+            "<=",
+            ">",
+            ">="
+           ],
+           "type": "string"
+          },
+          "metric": {
+           "type": "string"
+          },
+          "threshold": {
+           "type": "number"
+          },
+          "unit": {
+           "type": "string"
+          }
+         },
+         "required": [
+          "metric",
+          "comparator",
+          "threshold",
+          "unit",
+          "check_by"
+         ],
+         "type": "object"
+        },
+        "mispricing": {
+         "type": "string"
+        },
+        "scenarios": {
+         "additionalProperties": false,
+         "properties": {
+          "base": {
+           "additionalProperties": false,
+           "properties": {
+            "reasoning": {
+             "type": "string"
+            },
+            "return_pct_3m": {
+             "type": "number"
+            }
+           },
+           "required": [
+            "return_pct_3m",
+            "reasoning"
+           ],
+           "type": "object"
+          },
+          "downside": {
+           "additionalProperties": false,
+           "properties": {
+            "reasoning": {
+             "type": "string"
+            },
+            "return_pct_3m": {
+             "type": "number"
+            }
+           },
+           "required": [
+            "return_pct_3m",
+            "reasoning"
+           ],
+           "type": "object"
+          },
+          "upside": {
+           "additionalProperties": false,
+           "properties": {
+            "reasoning": {
+             "type": "string"
+            },
+            "return_pct_3m": {
+             "type": "number"
+            }
+           },
+           "required": [
+            "return_pct_3m",
+            "reasoning"
+           ],
+           "type": "object"
+          }
+         },
+         "required": [
+          "base",
+          "upside",
+          "downside"
+         ],
+         "type": "object"
+        },
+        "symbol": {
+         "enum": [
+          "SYNTH01",
+          "SYNTH02",
+          "SYNTH03",
+          "SYNTH04",
+          "SYNTH05",
+          "SYNTH06",
+          "SYNTH07",
+          "SYNTH08",
+          "SYNTH09",
+          "SYNTH10",
+          "SYNTH11",
+          "SYNTH12"
+         ],
+         "type": "string"
+        },
+        "target_weight_pct": {
+         "type": "number"
+        },
+        "thesis_still_holds": {
+         "type": "string"
+        },
+        "valuation_link": {
+         "type": "string"
+        },
+        "weight_rationale": {
+         "type": "string"
+        },
+        "what_changed": {
+         "type": "string"
+        }
+       },
+       "required": [
+        "symbol",
+        "action",
+        "target_weight_pct",
+        "mispricing",
+        "valuation_link",
+        "contrary_evidence",
+        "downside",
+        "weight_rationale",
+        "what_changed",
+        "thesis_still_holds",
+        "invalidation",
+        "scenarios",
+        "claims"
+       ],
+       "type": "object"
+      },
+      "type": "array"
+     },
+     "prefer_voo_reason": {
+      "type": "string"
+     },
+     "summary": {
+      "type": "string"
+     },
+     "voo_weight_pct": {
+      "type": "number"
+     }
+    },
+    "required": [
+     "month",
+     "summary",
+     "voo_weight_pct",
+     "prefer_voo_reason",
+     "assessments",
+     "positions"
+    ],
+    "type": "object"
+   },
+   "type": "json_schema"
+  }
+ },
+ "system": "You manage the AI portfolio of a 12-month paper experiment against buying and holding VOO.\nOnce a month you may hold up to three stocks from the candidate list; the rest is VOO. The question is whether you\ncan find business changes whose implications the current price does not yet reflect, and size positions by upside,\ndownside and uncertainty. Choosing 100% VOO is always allowed and is right when no candidate clears your own\nassessment after costs (the research itself is charged to this portfolio every month).\n\nAnswer in the required JSON. Rules that code enforces (any breach rejects the whole decision and nothing trades):\n* assessments: every eligible candidate and every stock you hold, exactly once, rejected names included: rank\n  (integer, 1 = most attractive, ties allowed), expected_excess_pct_3m (your expected total return minus VOO's over\n  the next three monthly holding periods, in percentage points, between -100 and 100), p_positive_excess (the\n  probability that excess is positive, a fraction between 0 and 1, not a percentage), note (one short line);\n* positions: address every stock you hold exactly once (hold, increase, reduce or sell); buy only eligible\n  candidates; at most 3 stocks after your decision; a bought, increased or reduced stock gets a target above 0 and at\n  most 10 percent; hold keeps the shares and is allowed only if the stock is at most 10 percent now; sell has target\n  0; voo_weight_pct is 100 minus the stock weights (held stocks at their current weight);\n* every stock you keep: mispricing (what you think the price misses), valuation_link (how the current price and\n  valuation relate to that), contrary_evidence (the strongest evidence against you), downside, invalidation (a\n  measurable metric, comparator, number, unit and a check_by date), weight_rationale, and scenarios (base, upside,\n  downside three-month returns in percent with downside <= base <= upside); hold adds thesis_still_holds; reduce or\n  sell adds what_changed;\n* claims keep kinds apart: fact (an observed statement, with exact quotes from the cited item; every number in a\n  figure must appear in its quote), calculation (inputs with values taken from a cited item, or source_id\n  \"assumption\"; an expression over the input names using + - * / and parentheses; the result), assumption and\n  forecast (your own premises and predictions: no citations), inferred_expectation (what the price appears to imply:\n  your inference; it may cite only valuation rows and must not mention analysts or a consensus, which are not in the\n  material). Each kept stock cites at least one of its filing passages; a buy or increase uses its valuation row in a\n  calculation;\n* if you hold no stock after the decision, prefer_voo_reason says why no candidate clears your assessment;\n* stay compact: text fields at most 240 characters, scenario reasoning and claim text 160, quotes 200, notes 100;\n  at most 4 claims per stock, 4 inputs per calculation and 2 citations per claim.\nUse only the material below. Say \"unknown\" rather than guessing. Leave a text field empty when it does not apply."
+}
