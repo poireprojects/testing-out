@@ -1,7 +1,8 @@
 {
  "files": {
   "actions.json": "a88d1c5a65aaed7069d2aacbd48f4fc0b071eacdbe48efed87e51f7b26205155",
-  "filings.json": "ba89100c52df615da027cc2752e2f39213b5090d1b7f44588c648f8436c966d6",
+  "filings.json": "761cabe014e7ed2002e365f0fe29acf85c8cd10315ea6942ccfb03197586df51",
+  "index.json": "3ca621fada956e4ab19e24cb3a849cf0c48ec505100a7589c1b7582045e9a56f",
   "prices.json": "25e039b95520a6d6f65374937a3949f15aa946fb20a5e0f2b75883fb3b40139e",
   "universe.json": "10928749e09a08bee9c2cdc49af3c13a0e9199f34421e326875c1e12b6e92e28"
  },
