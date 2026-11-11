@@ -1,0 +1,15 @@
+{
+ "files": {
+  "starbucks_companyfacts_excerpt.json": {
+   "original_sha256": "2488674b57020c5281665b0ff271a29da71da64a2c9fa66bec6a9118772970bb",
+   "retrieved_at": "2026-11-07T16:30:28.938705+00:00",
+   "source_url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000829224.json"
+  },
+  "starbucks_submissions_excerpt.json": {
+   "original_sha256": "29434e3285768af6bcf95e8554e0398b9f7c4fe13811ba5aba52c03bdafe650a",
+   "retrieved_at": "2026-11-07T02:14:46.860657+00:00",
+   "source_url": "https://data.sec.gov/submissions/CIK0000829224.json"
+  }
+ },
+ "note": "REAL public SEC data (U.S. government work), excerpted from files the phase-4 collector cached; the cache names each file sha256(url)[:24], which proves the URL. Excerpt rule: company facts keep Revenues, NetIncomeLoss, EarningsPerShareDiluted (all units) and dei EntityCommonStockSharesOutstanding rows filed 2023-10-01..2025-12-31; the submissions excerpt keeps the recent-index rows of the accessions those facts cite."
+}
