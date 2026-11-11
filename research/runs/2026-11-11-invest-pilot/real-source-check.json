@@ -1,0 +1,1032 @@
+{
+ "companies": [
+  {
+   "asof_points": 16,
+   "cik": 354190,
+   "cross_method": [],
+   "cross_method_summary": {
+    "agree": 0,
+    "checks": 0
+   },
+   "excluded": {
+    "accession_not_in_index": 486,
+    "unit": 0
+   },
+   "facts_kept": 413,
+   "facts_public_before_period_end": 0,
+   "headers": {
+    "disagree": [],
+    "reconciled": 1
+   },
+   "methods_used": {
+    "annual": 4,
+    "fiscal_year_plus_ytd_minus_prior_ytd": 12
+   },
+   "name": "ARTHUR J. GALLAGHER & CO.",
+   "restatements_seen": 14
+  },
+  {
+   "asof_points": 16,
+   "cik": 40533,
+   "cross_method": [],
+   "cross_method_summary": {
+    "agree": 0,
+    "checks": 0
+   },
+   "excluded": {
+    "accession_not_in_index": 438,
+    "unit": 0
+   },
+   "facts_kept": 265,
+   "facts_public_before_period_end": 0,
+   "headers": {
+    "disagree": [],
+    "reconciled": 1
+   },
+   "methods_used": {
+    "annual": 4,
+    "fiscal_year_plus_ytd_minus_prior_ytd": 12
+   },
+   "name": "GENERAL DYNAMICS CORPORATION",
+   "restatements_seen": 0
+  },
+  {
+   "asof_points": 16,
+   "cik": 1506293,
+   "cross_method": [],
+   "cross_method_summary": {
+    "agree": 0,
+    "checks": 0
+   },
+   "excluded": {
+    "accession_not_in_index": 30,
+    "unit": 0
+   },
+   "facts_kept": 250,
+   "facts_public_before_period_end": 0,
+   "headers": {
+    "disagree": [],
+    "reconciled": 1
+   },
+   "methods_used": {
+    "annual": 4,
+    "fiscal_year_plus_ytd_minus_prior_ytd": 12
+   },
+   "name": "Pinterest, Inc.",
+   "restatements_seen": 0
+  },
+  {
+   "asof_points": 16,
+   "cik": 726728,
+   "cross_method": [],
+   "cross_method_summary": {
+    "agree": 0,
+    "checks": 0
+   },
+   "excluded": {
+    "accession_not_in_index": 149,
+    "unit": 0
+   },
+   "facts_kept": 430,
+   "facts_public_before_period_end": 0,
+   "headers": {
+    "disagree": [],
+    "reconciled": 1
+   },
+   "methods_used": {
+    "annual": 4,
+    "fiscal_year_plus_ytd_minus_prior_ytd": 12
+   },
+   "name": "REALTY INCOME CORPORATION",
+   "restatements_seen": 7
+  },
+  {
+   "asof_points": 16,
+   "cik": 1551152,
+   "cross_method": [],
+   "cross_method_summary": {
+    "agree": 24,
+    "checks": 24
+   },
+   "excluded": {
+    "accession_not_in_index": 206,
+    "unit": 0
+   },
+   "facts_kept": 537,
+   "facts_public_before_period_end": 0,
+   "headers": {
+    "disagree": [],
+    "reconciled": 1
+   },
+   "methods_used": {
+    "annual": 4,
+    "fiscal_year_plus_ytd_minus_prior_ytd": 12
+   },
+   "name": "AbbVie Inc.",
+   "restatements_seen": 0
+  },
+  {
+   "asof_points": 11,
+   "cik": 1713445,
+   "cross_method": [],
+   "cross_method_summary": {
+    "agree": 0,
+    "checks": 0
+   },
+   "excluded": {
+    "accession_not_in_index": 0,
+    "unit": 0
+   },
+   "facts_kept": 110,
+   "facts_public_before_period_end": 0,
+   "headers": {
+    "disagree": [],
+    "reconciled": 2
+   },
+   "methods_used": {
+    "annual": 2,
+    "fiscal_year_plus_ytd_minus_prior_ytd": 6,
+    "unavailable": 3
+   },
+   "name": "Reddit, Inc.",
+   "restatements_seen": 2
+  },
+  {
+   "asof_points": 16,
+   "cik": 93410,
+   "cross_method": [],
+   "cross_method_summary": {
+    "agree": 0,
+    "checks": 0
+   },
+   "excluded": {
+    "accession_not_in_index": 450,
+    "unit": 0
+   },
+   "facts_kept": 449,
+   "facts_public_before_period_end": 0,
+   "headers": {
+    "disagree": [],
+    "reconciled": 1
+   },
+   "methods_used": {
+    "annual": 4,
+    "fiscal_year_plus_ytd_minus_prior_ytd": 12
+   },
+   "name": "Chevron Corp",
+   "restatements_seen": 5
+  },
+  {
+   "asof_points": 16,
+   "cik": 1280452,
+   "cross_method": [],
+   "cross_method_summary": {
+    "agree": 0,
+    "checks": 0
+   },
+   "excluded": {
+    "accession_not_in_index": 564,
+    "unit": 1
+   },
+   "facts_kept": 345,
+   "facts_public_before_period_end": 0,
+   "headers": {
+    "disagree": [],
+    "reconciled": 1
+   },
+   "methods_used": {
+    "annual": 4,
+    "fiscal_year_plus_ytd_minus_prior_ytd": 12
+   },
+   "name": "Monolithic Power Systems, Inc.",
+   "restatements_seen": 6
+  },
+  {
+   "asof_points": 16,
+   "cik": 1018724,
+   "cross_method": [],
+   "cross_method_summary": {
+    "agree": 0,
+    "checks": 0
+   },
+   "excluded": {
+    "accession_not_in_index": 809,
+    "unit": 0
+   },
+   "facts_kept": 323,
+   "facts_public_before_period_end": 0,
+   "headers": {
+    "disagree": [],
+    "reconciled": 1
+   },
+   "methods_used": {
+    "annual": 4,
+    "fiscal_year_plus_ytd_minus_prior_ytd": 12
+   },
+   "name": "AMAZON.COM, INC.",
+   "restatements_seen": 0
+  },
+  {
+   "asof_points": 16,
+   "cik": 1274494,
+   "cross_method": [],
+   "cross_method_summary": {
+    "agree": 0,
+    "checks": 0
+   },
+   "excluded": {
+    "accession_not_in_index": 445,
+    "unit": 0
+   },
+   "facts_kept": 291,
+   "facts_public_before_period_end": 0,
+   "headers": {
+    "disagree": [],
+    "reconciled": 1
+   },
+   "methods_used": {
+    "annual": 4,
+    "fiscal_year_plus_ytd_minus_prior_ytd": 12
+   },
+   "name": "First Solar, Inc.",
+   "restatements_seen": 0
+  },
+  {
+   "asof_points": 16,
+   "cik": 1103982,
+   "cross_method": [],
+   "cross_method_summary": {
+    "agree": 0,
+    "checks": 0
+   },
+   "excluded": {
+    "accession_not_in_index": 309,
+    "unit": 4
+   },
+   "facts_kept": 693,
+   "facts_public_before_period_end": 0,
+   "headers": {
+    "disagree": [],
+    "reconciled": 1
+   },
+   "methods_used": {
+    "annual": 4,
+    "fiscal_year_plus_ytd_minus_prior_ytd": 12
+   },
+   "name": "Mondelez International, Inc.",
+   "restatements_seen": 18
+  },
+  {
+   "asof_points": 16,
+   "cik": 827052,
+   "cross_method": [],
+   "cross_method_summary": {
+    "agree": 0,
+    "checks": 0
+   },
+   "excluded": {
+    "accession_not_in_index": 337,
+    "unit": 0
+   },
+   "facts_kept": 596,
+   "facts_public_before_period_end": 0,
+   "headers": {
+    "disagree": [],
+    "reconciled": 2
+   },
+   "methods_used": {
+    "annual": 4,
+    "fiscal_year_plus_ytd_minus_prior_ytd": 12
+   },
+   "name": "EDISON INTERNATIONAL",
+   "restatements_seen": 8
+  },
+  {
+   "asof_points": 16,
+   "cik": 1393311,
+   "cross_method": [],
+   "cross_method_summary": {
+    "agree": 0,
+    "checks": 0
+   },
+   "excluded": {
+    "accession_not_in_index": 468,
+    "unit": 0
+   },
+   "facts_kept": 409,
+   "facts_public_before_period_end": 0,
+   "headers": {
+    "disagree": [],
+    "reconciled": 1
+   },
+   "methods_used": {
+    "annual": 4,
+    "fiscal_year_plus_ytd_minus_prior_ytd": 12
+   },
+   "name": "Public Storage",
+   "restatements_seen": 7
+  },
+  {
+   "asof_points": 16,
+   "cik": 310764,
+   "cross_method": [],
+   "cross_method_summary": {
+    "agree": 40,
+    "checks": 40
+   },
+   "excluded": {
+    "accession_not_in_index": 520,
+    "unit": 0
+   },
+   "facts_kept": 636,
+   "facts_public_before_period_end": 0,
+   "headers": {
+    "disagree": [],
+    "reconciled": 1
+   },
+   "methods_used": {
+    "annual": 4,
+    "fiscal_year_plus_ytd_minus_prior_ytd": 12
+   },
+   "name": "STRYKER CORP",
+   "restatements_seen": 0
+  },
+  {
+   "asof_points": 16,
+   "cik": 715957,
+   "cross_method": [
+    {
+     "agree": false,
+     "asof": "2025-08-01T10:36:31-04:00",
+     "concept": "NetIncomeLoss",
+     "four_quarters": "2509000000",
+     "ytd_method": "2583000000"
+    },
+    {
+     "agree": false,
+     "asof": "2025-10-31T11:49:54-04:00",
+     "concept": "NetIncomeLoss",
+     "four_quarters": "2557000000",
+     "ytd_method": "2655000000"
+    }
+   ],
+   "cross_method_summary": {
+    "agree": 32,
+    "checks": 34
+   },
+   "excluded": {
+    "accession_not_in_index": 543,
+    "unit": 0
+   },
+   "facts_kept": 752,
+   "facts_public_before_period_end": 0,
+   "headers": {
+    "disagree": [],
+    "reconciled": 1
+   },
+   "methods_used": {
+    "annual": 4,
+    "fiscal_year_plus_ytd_minus_prior_ytd": 12
+   },
+   "name": "DOMINION ENERGY, INC",
+   "restatements_seen": 75
+  },
+  {
+   "asof_points": 16,
+   "cik": 86312,
+   "cross_method": [],
+   "cross_method_summary": {
+    "agree": 0,
+    "checks": 0
+   },
+   "excluded": {
+    "accession_not_in_index": 535,
+    "unit": 17
+   },
+   "facts_kept": 421,
+   "facts_public_before_period_end": 0,
+   "headers": {
+    "disagree": [],
+    "reconciled": 2
+   },
+   "methods_used": {
+    "annual": 4,
+    "fiscal_year_plus_ytd_minus_prior_ytd": 12
+   },
+   "name": "Travelers Companies,\u00a0Inc.",
+   "restatements_seen": 0
+  },
+  {
+   "asof_points": 16,
+   "cik": 1179929,
+   "cross_method": [],
+   "cross_method_summary": {
+    "agree": 0,
+    "checks": 0
+   },
+   "excluded": {
+    "accession_not_in_index": 382,
+    "unit": 0
+   },
+   "facts_kept": 544,
+   "facts_public_before_period_end": 0,
+   "headers": {
+    "disagree": [],
+    "reconciled": 1
+   },
+   "methods_used": {
+    "annual": 4,
+    "fiscal_year_plus_ytd_minus_prior_ytd": 12
+   },
+   "name": "MOLINA HEALTHCARE, INC.",
+   "restatements_seen": 0
+  },
+  {
+   "asof_points": 16,
+   "cik": 1110803,
+   "cross_method": [],
+   "cross_method_summary": {
+    "agree": 10,
+    "checks": 10
+   },
+   "excluded": {
+    "accession_not_in_index": 578,
+    "unit": 0
+   },
+   "facts_kept": 434,
+   "facts_public_before_period_end": 0,
+   "headers": {
+    "disagree": [],
+    "reconciled": 1
+   },
+   "methods_used": {
+    "annual": 4,
+    "fiscal_year_plus_ytd_minus_prior_ytd": 12
+   },
+   "name": "Illumina, Inc.",
+   "restatements_seen": 0
+  },
+  {
+   "asof_points": 16,
+   "cik": 783325,
+   "cross_method": [],
+   "cross_method_summary": {
+    "agree": 0,
+    "checks": 0
+   },
+   "excluded": {
+    "accession_not_in_index": 261,
+    "unit": 0
+   },
+   "facts_kept": 244,
+   "facts_public_before_period_end": 0,
+   "headers": {
+    "disagree": [],
+    "reconciled": 1
+   },
+   "methods_used": {
+    "annual": 4,
+    "fiscal_year_plus_ytd_minus_prior_ytd": 12
+   },
+   "name": "WEC ENERGY GROUP, INC.",
+   "restatements_seen": 0
+  },
+  {
+   "asof_points": 15,
+   "cik": 1780312,
+   "cross_method": [],
+   "cross_method_summary": {
+    "agree": 0,
+    "checks": 0
+   },
+   "excluded": {
+    "accession_not_in_index": 0,
+    "unit": 0
+   },
+   "facts_kept": 206,
+   "facts_public_before_period_end": 0,
+   "headers": {
+    "disagree": [],
+    "reconciled": 1
+   },
+   "methods_used": {
+    "annual": 4,
+    "fiscal_year_plus_ytd_minus_prior_ytd": 11
+   },
+   "name": "AST SPACEMOBILE, INC.",
+   "restatements_seen": 11
+  },
+  {
+   "asof_points": 16,
+   "cik": 319201,
+   "cross_method": [],
+   "cross_method_summary": {
+    "agree": 0,
+    "checks": 0
+   },
+   "excluded": {
+    "accession_not_in_index": 441,
+    "unit": 2
+   },
+   "facts_kept": 571,
+   "facts_public_before_period_end": 0,
+   "headers": {
+    "disagree": [],
+    "reconciled": 1
+   },
+   "methods_used": {
+    "annual": 4,
+    "fiscal_year_plus_ytd_minus_prior_ytd": 12
+   },
+   "name": "KLA CORP",
+   "restatements_seen": 2
+  },
+  {
+   "asof_points": 16,
+   "cik": 50863,
+   "cross_method": [],
+   "cross_method_summary": {
+    "agree": 0,
+    "checks": 0
+   },
+   "excluded": {
+    "accession_not_in_index": 432,
+    "unit": 0
+   },
+   "facts_kept": 335,
+   "facts_public_before_period_end": 0,
+   "headers": {
+    "disagree": [],
+    "reconciled": 1
+   },
+   "methods_used": {
+    "annual": 4,
+    "fiscal_year_plus_ytd_minus_prior_ytd": 12
+   },
+   "name": "Intel Corporation",
+   "restatements_seen": 1
+  },
+  {
+   "asof_points": 16,
+   "cik": 788784,
+   "cross_method": [],
+   "cross_method_summary": {
+    "agree": 0,
+    "checks": 0
+   },
+   "excluded": {
+    "accession_not_in_index": 410,
+    "unit": 0
+   },
+   "facts_kept": 624,
+   "facts_public_before_period_end": 0,
+   "headers": {
+    "disagree": [],
+    "reconciled": 1
+   },
+   "methods_used": {
+    "annual": 4,
+    "fiscal_year_plus_ytd_minus_prior_ytd": 12
+   },
+   "name": "PUBLIC SERVICE ENTERPRISE GROUP INC",
+   "restatements_seen": 10
+  },
+  {
+   "asof_points": 16,
+   "cik": 1297996,
+   "cross_method": [],
+   "cross_method_summary": {
+    "agree": 0,
+    "checks": 0
+   },
+   "excluded": {
+    "accession_not_in_index": 441,
+    "unit": 0
+   },
+   "facts_kept": 482,
+   "facts_public_before_period_end": 0,
+   "headers": {
+    "disagree": [],
+    "reconciled": 1
+   },
+   "methods_used": {
+    "annual": 4,
+    "fiscal_year_plus_ytd_minus_prior_ytd": 12
+   },
+   "name": "DIGITAL REALTY TRUST, INC.",
+   "restatements_seen": 5
+  },
+  {
+   "asof_points": 16,
+   "cik": 21665,
+   "cross_method": [],
+   "cross_method_summary": {
+    "agree": 16,
+    "checks": 16
+   },
+   "excluded": {
+    "accession_not_in_index": 598,
+    "unit": 0
+   },
+   "facts_kept": 525,
+   "facts_public_before_period_end": 0,
+   "headers": {
+    "disagree": [],
+    "reconciled": 1
+   },
+   "methods_used": {
+    "annual": 4,
+    "fiscal_year_plus_ytd_minus_prior_ytd": 12
+   },
+   "name": "COLGATE-PALMOLIVE COMPANY",
+   "restatements_seen": 0
+  },
+  {
+   "asof_points": 16,
+   "cik": 27904,
+   "cross_method": [],
+   "cross_method_summary": {
+    "agree": 0,
+    "checks": 0
+   },
+   "excluded": {
+    "accession_not_in_index": 431,
+    "unit": 0
+   },
+   "facts_kept": 545,
+   "facts_public_before_period_end": 0,
+   "headers": {
+    "disagree": [],
+    "reconciled": 1
+   },
+   "methods_used": {
+    "annual": 4,
+    "fiscal_year_plus_ytd_minus_prior_ytd": 12
+   },
+   "name": "DELTA AIR LINES, INC.",
+   "restatements_seen": 17
+  },
+  {
+   "asof_points": 16,
+   "cik": 943819,
+   "cross_method": [],
+   "cross_method_summary": {
+    "agree": 0,
+    "checks": 0
+   },
+   "excluded": {
+    "accession_not_in_index": 340,
+    "unit": 0
+   },
+   "facts_kept": 403,
+   "facts_public_before_period_end": 0,
+   "headers": {
+    "disagree": [],
+    "reconciled": 1
+   },
+   "methods_used": {
+    "annual": 4,
+    "fiscal_year_plus_ytd_minus_prior_ytd": 12
+   },
+   "name": "ResMed Inc.",
+   "restatements_seen": 8
+  },
+  {
+   "asof_points": 16,
+   "cik": 313927,
+   "cross_method": [],
+   "cross_method_summary": {
+    "agree": 0,
+    "checks": 0
+   },
+   "excluded": {
+    "accession_not_in_index": 180,
+    "unit": 0
+   },
+   "facts_kept": 588,
+   "facts_public_before_period_end": 0,
+   "headers": {
+    "disagree": [],
+    "reconciled": 1
+   },
+   "methods_used": {
+    "annual": 4,
+    "fiscal_year_plus_ytd_minus_prior_ytd": 12
+   },
+   "name": "CHURCH & DWIGHT CO., INC.",
+   "restatements_seen": 2
+  },
+  {
+   "asof_points": 16,
+   "cik": 1447669,
+   "cross_method": [],
+   "cross_method_summary": {
+    "agree": 0,
+    "checks": 0
+   },
+   "excluded": {
+    "accession_not_in_index": 64,
+    "unit": 0
+   },
+   "facts_kept": 312,
+   "facts_public_before_period_end": 0,
+   "headers": {
+    "disagree": [],
+    "reconciled": 1
+   },
+   "methods_used": {
+    "annual": 4,
+    "fiscal_year_plus_ytd_minus_prior_ytd": 12
+   },
+   "name": "TWILIO INC.",
+   "restatements_seen": 5
+  },
+  {
+   "asof_points": 16,
+   "cik": 1060391,
+   "cross_method": [],
+   "cross_method_summary": {
+    "agree": 0,
+    "checks": 0
+   },
+   "excluded": {
+    "accession_not_in_index": 915,
+    "unit": 0
+   },
+   "facts_kept": 314,
+   "facts_public_before_period_end": 0,
+   "headers": {
+    "disagree": [],
+    "reconciled": 1
+   },
+   "methods_used": {
+    "annual": 4,
+    "fiscal_year_plus_ytd_minus_prior_ytd": 12
+   },
+   "name": "REPUBLIC SERVICES, INC.",
+   "restatements_seen": 26
+  },
+  {
+   "asof_points": 16,
+   "cik": 1109357,
+   "cross_method": [],
+   "cross_method_summary": {
+    "agree": 0,
+    "checks": 0
+   },
+   "excluded": {
+    "accession_not_in_index": 402,
+    "unit": 0
+   },
+   "facts_kept": 304,
+   "facts_public_before_period_end": 0,
+   "headers": {
+    "disagree": [],
+    "reconciled": 1
+   },
+   "methods_used": {
+    "annual": 4,
+    "fiscal_year_plus_ytd_minus_prior_ytd": 12
+   },
+   "name": "EXELON CORPORATION",
+   "restatements_seen": 22
+  },
+  {
+   "asof_points": 16,
+   "cik": 1428439,
+   "cross_method": [],
+   "cross_method_summary": {
+    "agree": 0,
+    "checks": 0
+   },
+   "excluded": {
+    "accession_not_in_index": 87,
+    "unit": 0
+   },
+   "facts_kept": 326,
+   "facts_public_before_period_end": 0,
+   "headers": {
+    "disagree": [],
+    "reconciled": 1
+   },
+   "methods_used": {
+    "annual": 4,
+    "fiscal_year_plus_ytd_minus_prior_ytd": 12
+   },
+   "name": "Roku, Inc.",
+   "restatements_seen": 0
+  },
+  {
+   "asof_points": 16,
+   "cik": 882095,
+   "cross_method": [],
+   "cross_method_summary": {
+    "agree": 0,
+    "checks": 0
+   },
+   "excluded": {
+    "accession_not_in_index": 572,
+    "unit": 1
+   },
+   "facts_kept": 468,
+   "facts_public_before_period_end": 0,
+   "headers": {
+    "disagree": [],
+    "reconciled": 1
+   },
+   "methods_used": {
+    "annual": 4,
+    "fiscal_year_plus_ytd_minus_prior_ytd": 12
+   },
+   "name": "GILEAD SCIENCES, INC.",
+   "restatements_seen": 0
+  },
+  {
+   "asof_points": 16,
+   "cik": 872589,
+   "cross_method": [],
+   "cross_method_summary": {
+    "agree": 16,
+    "checks": 16
+   },
+   "excluded": {
+    "accession_not_in_index": 426,
+    "unit": 0
+   },
+   "facts_kept": 512,
+   "facts_public_before_period_end": 0,
+   "headers": {
+    "disagree": [],
+    "reconciled": 1
+   },
+   "methods_used": {
+    "annual": 4,
+    "fiscal_year_plus_ytd_minus_prior_ytd": 12
+   },
+   "name": "REGENERON PHARMACEUTICALS, INC.",
+   "restatements_seen": 27
+  },
+  {
+   "asof_points": 16,
+   "cik": 1093557,
+   "cross_method": [],
+   "cross_method_summary": {
+    "agree": 0,
+    "checks": 0
+   },
+   "excluded": {
+    "accession_not_in_index": 351,
+    "unit": 0
+   },
+   "facts_kept": 392,
+   "facts_public_before_period_end": 0,
+   "headers": {
+    "disagree": [],
+    "reconciled": 1
+   },
+   "methods_used": {
+    "annual": 4,
+    "fiscal_year_plus_ytd_minus_prior_ytd": 12
+   },
+   "name": "DEXCOM, INC.",
+   "restatements_seen": 7
+  },
+  {
+   "asof_points": 16,
+   "cik": 1489393,
+   "cross_method": [],
+   "cross_method_summary": {
+    "agree": 16,
+    "checks": 16
+   },
+   "excluded": {
+    "accession_not_in_index": 343,
+    "unit": 0
+   },
+   "facts_kept": 485,
+   "facts_public_before_period_end": 0,
+   "headers": {
+    "disagree": [],
+    "reconciled": 1
+   },
+   "methods_used": {
+    "annual": 4,
+    "fiscal_year_plus_ytd_minus_prior_ytd": 12
+   },
+   "name": "LYONDELLBASELL INDUSTRIES N.V.",
+   "restatements_seen": 19
+  },
+  {
+   "asof_points": 15,
+   "cik": 829224,
+   "cross_method": [],
+   "cross_method_summary": {
+    "agree": 15,
+    "checks": 15
+   },
+   "excluded": {
+    "accession_not_in_index": 401,
+    "unit": 4
+   },
+   "facts_kept": 584,
+   "facts_public_before_period_end": 0,
+   "headers": {
+    "disagree": [],
+    "reconciled": 1
+   },
+   "methods_used": {
+    "annual": 3,
+    "fiscal_year_plus_ytd_minus_prior_ytd": 12
+   },
+   "name": "Starbucks Corporation",
+   "restatements_seen": 0
+  },
+  {
+   "asof_points": 16,
+   "cik": 1315098,
+   "cross_method": [],
+   "cross_method_summary": {
+    "agree": 0,
+    "checks": 0
+   },
+   "excluded": {
+    "accession_not_in_index": 67,
+    "unit": 0
+   },
+   "facts_kept": 162,
+   "facts_public_before_period_end": 0,
+   "headers": {
+    "disagree": [],
+    "reconciled": 1
+   },
+   "methods_used": {
+    "annual": 7,
+    "fiscal_year_plus_ytd_minus_prior_ytd": 9
+   },
+   "name": "Roblox Corporation",
+   "restatements_seen": 15
+  },
+  {
+   "asof_points": 15,
+   "cik": 1944048,
+   "cross_method": [],
+   "cross_method_summary": {
+    "agree": 6,
+    "checks": 6
+   },
+   "excluded": {
+    "accession_not_in_index": 0,
+    "unit": 0
+   },
+   "facts_kept": 189,
+   "facts_public_before_period_end": 0,
+   "headers": {
+    "disagree": [],
+    "reconciled": 1
+   },
+   "methods_used": {
+    "annual": 3,
+    "fiscal_year_plus_ytd_minus_prior_ytd": 9,
+    "unavailable": 3
+   },
+   "name": "Kenvue Inc.",
+   "restatements_seen": 4
+  },
+  {
+   "asof_points": 16,
+   "cik": 1874178,
+   "cross_method": [],
+   "cross_method_summary": {
+    "agree": 0,
+    "checks": 0
+   },
+   "excluded": {
+    "accession_not_in_index": 0,
+    "unit": 0
+   },
+   "facts_kept": 229,
+   "facts_public_before_period_end": 0,
+   "headers": {
+    "disagree": [],
+    "reconciled": 1
+   },
+   "methods_used": {
+    "annual": 4,
+    "fiscal_year_plus_ytd_minus_prior_ytd": 12
+   },
+   "name": "Rivian Automotive, Inc. / DE",
+   "restatements_seen": 0
+  }
+ ],
+ "note": "consistency of the parsers on real cached SEC files; not a third-party verification of values",
+ "totals": {
+  "asof_points": 632,
+  "companies": 40,
+  "cross_method_agree": 175,
+  "cross_method_checks": 177,
+  "facts_public_before_period_end": 0,
+  "headers_disagree": 0,
+  "headers_reconciled": 43,
+  "restatements_seen": 323
+ }
+}
