@@ -30,8 +30,8 @@ FIXTURE_COST_USD = "0.20"           # the registration's central monthly estimat
 
 FIXTURE_SCRIPT: dict[int, dict] = {
     1: {"kind": "decision", "label": "buy two stocks", "positions": [("SYNTH01", "buy", 8), ("SYNTH02", "buy", 6)]},
-    2: {"kind": "decision", "label": "hold one, increase one",
-        "positions": [("SYNTH01", "hold", 0), ("SYNTH02", "increase", 9)]},
+    2: {"kind": "decision", "label": "hold one, increase one; one claim misstates its source (for claim review)",
+        "variant": "unsupported_fact", "positions": [("SYNTH01", "hold", 0), ("SYNTH02", "increase", 9)]},
     3: {"kind": "decision", "label": "hold, sell, buy",
         "positions": [("SYNTH01", "hold", 0), ("SYNTH02", "sell", 0), ("SYNTH03", "buy", 7)]},
     4: {"kind": "missing", "label": "no answer: holdings kept"},
