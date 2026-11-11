@@ -307,15 +307,21 @@ whether monthly AI stock picks leave you with more money than buying VOO with th
   * what would prove it wrong;
   * why that weight.
 * **What code enforces:** the limits, the citations, the accounting (dividends, splits, fees, leftover cash) and a
-  tamper-evident ledger. A late, missing or rule-breaking decision changes nothing.
-* **Costs:** the AI's research is charged to its portfolio every month, about $2.40 a year on $100. So the stock
-  picks must beat VOO by a wide margin just to break even.
+  tamper-evident ledger. A late, missing or rule-breaking decision changes nothing. If any company's filings were
+  not collected, the AI is not asked that month and the record stays inconclusive.
+* **What code cannot check:** whether a cited figure is used correctly. The checks confirm quotes and numbers match
+  the filings, not that the reasoning is right; a person reviews every claim of a real decision blind to the
+  outcome.
+* **Costs:** the AI's research is charged to its portfolio every month, an estimated $2.40 a year on $100. So the
+  stock picks must beat VOO by a wide margin just to break even. No spending is approved; the project's $12.50
+  ceiling still applies.
 * **Stop rule:** if the AI portfolio, after costs, is at or below VOO after 12 complete months, this version
   stops. If it is ahead, the next step is only an independent review.
 * **Status:** today there is only an offline dry run on invented data with scripted ("fixture") decisions. It is
   labelled as such everywhere and says nothing about AI stock picking.
-  * Before any genuine decision: an independent review; your approval and freeze; SEC access; a new market-data
-    key; the model spend; three data adapters and the paid client; and a computer to run it monthly.
+  * Before any genuine decision: an independent review; your approval and freeze; a new market-data key; the
+    model spend; three data adapters and the paid client, each checked against real sources; and a computer to run
+    it monthly. Your SEC contact may be used for its EDGAR collection until you revoke that or the scope changes.
 
 ### Is the AI actually helping?
 
@@ -409,7 +415,7 @@ pip install -r requirements-dev.txt
 python -m pytest -q
 ```
 
-649 automated tests. 641 run anywhere; 8 need your Alpaca paper keys, and 4 of those place paper orders, so they
+668 automated tests. 660 run anywhere; 8 need your Alpaca paper keys, and 4 of those place paper orders, so they
 run only when you ask. They cover the uninstall/shutdown handshake
 (open live positions block it; keep vs. delete data and saved keys), opportunity ranking and market regimes, the AI
 picking mode, approach comparison and confidence calibration, walk-forward/train-validation-test evaluation, cost
@@ -432,9 +438,12 @@ They also cover the research tooling:
 * the investing pilot, offline, with synthetic data:
   * 100%-VOO parity with the benchmark to the cent, through dividends and a split;
   * a buy/hold/sell sequence checked by hand;
-  * every weight and evidence rule;
+  * every weight and evidence rule, and reductions forced by the 10% cap even when they are under $1;
+  * missing filings or indexes that block a month instead of passing as "no data";
   * late and missing decisions, missing prices and filings published after the cutoff;
-  * reruns that leave the ledger unchanged, and tamper detection;
+  * crashes at every write step, recovered without asking the AI twice, and unknown charges kept open until
+    reconciled;
+  * two runs at once refused, torn writes set aside, reruns that leave the ledger unchanged, and tamper detection;
   * fixture decisions kept apart from genuine ones;
   * a byte-for-byte reproducible dry run.
 
