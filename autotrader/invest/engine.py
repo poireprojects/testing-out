@@ -37,8 +37,9 @@ from decimal import Decimal
 from pathlib import Path
 from typing import Optional
 
-from .accounting import Book, apply_actions, resulting, settle, stock_orders
-from .contract import INSTRUCTIONS, json_schema, validate
+from .accounting import Book, apply_actions, resulting, settle, stock_orders, weights
+from .contract import INSTRUCTIONS, consistency_notes, json_schema, validate
+from .diagnostics import HORIZON_SLOTS, SHADOW_STOCK_PCT, total_return
 from .data import MarketData
 from .ledger import InvestLedger, LedgerError, atomic_write
 from .pack import InputsIncomplete, MonthPack, build_pack, load_pack
@@ -90,18 +91,81 @@ class FixtureDecider:
         return hashlib.sha256(canonical_json({"fixture": self._spec(slot), "pack": pack.sha256})).hexdigest()
 
     @staticmethod
-    def _citation(pack: MonthPack, sym: str, valuation: bool) -> list[dict]:
-        out = []
-        p = next((e for e in pack.items if e.id.startswith(f"{sym}/")), None)
-        if p is not None:
-            first = re.split(r"(?<=[.!?])\s+", p.text)[0]
-            nums = re.findall(r"\d[\d,]*(?:\.\d+)?", first)
-            out.append({"id": p.id, "quote": first, "figures": nums[:1]})
+    def _passage(pack: MonthPack, sym: str, section: str = "") -> Optional[dict]:
+        p = next((e for e in pack.items if e.id.startswith(f"{sym}/") and section in e.source), None)
+        if p is None:
+            return None
+        first = re.split(r"(?<=[.!?])\s+", p.text)[0]
+        if len(first) > 200:                            # a verbatim prefix within the quote cap
+            first = first[:201].rsplit(" ", 1)[0]
+        return {"id": p.id, "quote": first, "figures": re.findall(r"\d[\d,]*(?:\.\d+)?", first)[:1]}
+
+    @staticmethod
+    def _valuation_calc(pack: MonthPack, sym: str) -> Optional[dict]:
         v = pack.get(f"V.{sym}")
-        if valuation and v is not None:
-            m = re.search(r"P/E [\d.]+", v.text) or re.search(r"price [\d.]+ USD", v.text)
-            out.append({"id": v.id, "quote": m.group(0), "figures": re.findall(r"\d[\d.]*", m.group(0))[:1]})
+        if v is None:
+            return None
+        price = Decimal(re.search(r"price ([\d.]+) USD", v.text).group(1))
+        m = re.search(r"diluted EPS, trailing four quarters (-?[\d.]+) USD", v.text)
+        eps = Decimal(m.group(1)) if m else Decimal(0)
+        if eps > 0:
+            ins, expr, res = [{"name": "price", "value": float(price), "source_id": v.id},
+                              {"name": "eps", "value": float(eps), "source_id": v.id}], "price / eps", price / eps
+        else:
+            ins, expr, res = [{"name": "price", "value": float(price), "source_id": v.id}], "price * 1", price
+        return {"type": "calculation", "text": f"FIXTURE arithmetic on the valuation row: {expr}.", "evidence": [],
+                "inputs": ins, "expression": expr, "result": float(res.quantize(Decimal("0.0001")))}
+
+    def _assessments(self, pack: MonthPack, kept: list[str]) -> list[dict]:
+        held = [h["symbol"] for h in pack.holdings if h["symbol"] != "VOO"]
+        order = [c["symbol"] for c in pack.candidates if c["eligible"]] + [s for s in held if s not in pack.eligible()]
+        out = []
+        for s in order:
+            top = s in kept
+            out.append({"symbol": s, "rank": (kept.index(s) + 1) if top else len(kept) + 1,
+                        "expected_excess_pct_3m": 1.0 if top else 0.0, "p_positive_excess": 0.55 if top else 0.5,
+                        "note": "FIXTURE placeholder, not an assessment"})
         return out
+
+    def _position(self, pack: MonthPack, slot: Slot, sym: str, act: str, w, variant: str) -> dict:
+        text = f"FIXTURE placeholder for {act} {sym}; scripted for the dry run, not an investment view."
+        kept = act in ("buy", "increase", "hold", "reduce")
+        claims = []
+        own = self._passage(pack, sym)
+        if kept and own:
+            claims.append({"type": "fact", "text": "FIXTURE: restates the cited passage.", "evidence": [own],
+                           "inputs": [], "expression": "", "result": 0})
+            adverse = self._passage(pack, sym, "adverse") or self._passage(pack, sym, "risk")
+            if adverse:
+                claims.append({"type": "fact", "text": "FIXTURE contrary evidence from the filing.", "evidence": [adverse],
+                               "inputs": [], "expression": "", "result": 0})
+        if act in ("buy", "increase"):
+            calc = self._valuation_calc(pack, sym)
+            if calc:
+                claims.append(calc)
+        if kept:
+            claims.append({"type": "forecast", "text": "FIXTURE forecast placeholder: no view is expressed.",
+                           "evidence": [], "inputs": [], "expression": "", "result": 0})
+        if variant == "unsupported_fact" and own:
+            g = re.search(r"(?:an increase of|up) (\d+)% from (?:the same quarter )?a year earlier", pack.get(own["id"]).text)
+            if g:   # passes the quote and number checks, but misstates the direction: only claim review catches it
+                claims.append({"type": "fact", "text": f"Revenue fell {g.group(1)}% from a year earlier.",
+                               "evidence": [{"id": own["id"], "quote": g.group(0), "figures": [g.group(1)]}],
+                               "inputs": [], "expression": "", "result": 0})
+        if variant == "consensus":
+            claims.append({"type": "inferred_expectation", "text": "Analyst consensus expects faster growth.",
+                           "evidence": [], "inputs": [], "expression": "", "result": 0})
+        check_by = (slot.cutoff.day + timedelta(days=120)).isoformat()
+        return {"symbol": sym, "action": act, "target_weight_pct": w,
+                "mispricing": text if kept else "", "valuation_link": text if kept else "",
+                "contrary_evidence": text if kept else "", "downside": text if kept else "",
+                "weight_rationale": text if kept else "", "what_changed": text if act in ("reduce", "sell") else "",
+                "thesis_still_holds": text if act == "hold" else "",
+                "invalidation": {"metric": "quarterly revenue growth" if kept else "", "comparator": "<",
+                                 "threshold": 0, "unit": "percent", "check_by": check_by if kept else ""},
+                "scenarios": {k: {"return_pct_3m": v, "reasoning": "FIXTURE scenario placeholder" if kept else ""}
+                              for k, v in (("downside", -10), ("base", 2), ("upside", 12))},
+                "claims": claims}
 
     def decide(self, slot: Slot, pack: MonthPack) -> Decided:
         self.calls.append(slot.index)
@@ -111,25 +175,25 @@ class FixtureDecider:
         at = self.responded_at(slot, pack)
         if spec["kind"] == "missing":
             return Decided(None, None, at, cost, "fixture: the scripted month has no answer")
+        variant = spec.get("variant", "")
         positions, after = [], Decimal(0)
         for sym, act, w in spec["positions"]:
             h = pack.holding(sym)
-            text = f"FIXTURE placeholder text for {act} {sym}; scripted for the dry run, not an investment view."
-            positions.append({"symbol": sym, "action": act, "target_weight_pct": w,
-                              "why_outperform_voo": text if act in ("buy", "increase") else "",
-                              "main_downside": text if act in ("buy", "increase") else "",
-                              "invalidation": text if act in ("buy", "increase") else "",
-                              "weight_rationale": text if act in ("buy", "increase") else "",
-                              "what_changed": text if act in ("reduce", "sell") else "",
-                              "thesis_still_holds": text if act == "hold" else "",
-                              "evidence": [] if act in ("reduce", "sell")
-                              else self._citation(pack, sym, act in ("buy", "increase"))})
+            positions.append(self._position(pack, slot, sym, act, w, variant))
             if act == "hold":
                 after += Decimal(str(h["weight_pct"])) if h else 0     # not held: validation rejects it
             elif act != "sell":
                 after += Decimal(str(w))
+        kept = [sym for sym, act, _ in spec["positions"] if act != "sell"]
+        assess = self._assessments(pack, kept)
+        if variant == "percent_probability" and assess:
+            assess[0]["p_positive_excess"] = 55
+        if variant == "bad_units" and assess:
+            assess[0]["expected_excess_pct_3m"] = 250
         d = {"month": slot.month, "summary": f"FIXTURE decision {slot.index}: {spec.get('label', '')}",
-             "voo_weight_pct": float(Decimal(100) - after), "positions": positions}
+             "voo_weight_pct": float(Decimal(100) - after),
+             "prefer_voo_reason": "" if kept else "FIXTURE: scripted 100% VOO month; no candidate is assessed here.",
+             "assessments": assess, "positions": positions}
         return Decided(d, at, at, cost)
 
 
@@ -149,7 +213,7 @@ class ModelDecider:
                 "messages": [{"role": "user", "content": pack.prompt_text()}],
                 "output_config": {"effort": m["effort"],
                                   "format": {"type": "json_schema", "schema": json_schema(self.universe)}},
-                "service_tier": "standard_only", "inference_geo": "global"}
+                "inference_geo": "global"}       # no service_tier: legacy, and Opus 5.5 has no Priority Tier
 
     def ready(self, slot: Slot, pack: MonthPack, now: datetime) -> bool:
         return True
@@ -172,8 +236,10 @@ def _prior_theses(ledger: InvestLedger, book: Book) -> list[dict]:
                 continue
             pos = next((x for x in p["decision"]["positions"] if x["symbol"] == sym and x["action"] in ("buy", "increase")), None)
             if pos:
-                out.append({"symbol": sym, "month": p["month"], "why_outperform_voo": pos["why_outperform_voo"],
-                            "invalidation": pos["invalidation"]})
+                inv = pos.get("invalidation") or {}
+                out.append({"symbol": sym, "month": p["month"], "mispricing": pos.get("mispricing", ""),
+                            "invalidation": f"{inv.get('metric', '')} {inv.get('comparator', '')} {inv.get('threshold', '')} "
+                                            f"{inv.get('unit', '')} by {inv.get('check_by', '')}".strip()})
                 break
     return out
 
@@ -192,6 +258,7 @@ def derive_decision(base: dict, pack: MonthPack, answer: dict) -> dict:
         return out | {"status": "missed_answer", "reason": "late",
                       "problems": ["frozen at or after the fill session's open"]}
     targets, problems, voo = validate(answer["decision"], pack)
+    out["consistency_notes"] = consistency_notes(answer["decision"]) if isinstance(answer["decision"], dict) else []
     return out | {"status": "valid" if targets is not None else "invalid_answer",
                   "reason": "" if targets is not None else "rules",
                   "problems": problems, "targets": targets, "voo_pct": str(voo) if voo is not None else None}
@@ -231,7 +298,8 @@ def run(state_dir: Path, data_dir: Path, decider, *, mode: str, first_fill_month
 
 def _run(led, state_dir, data, decider, slots, mode, now, stamp, identity) -> dict:
     (state_dir / "packs").mkdir(exist_ok=True)
-    books = {"voo": Book("voo", CAPITAL), "ai": Book("ai", CAPITAL)}
+    books = {"voo": Book("voo", CAPITAL), "ai": Book("ai", CAPITAL), "shadow": Book("shadow", CAPITAL)}
+    members = [m["symbol"] for m in data.members()]
     halted: dict[str, str] = {}
     by_fill = {s.fill.day: s for s in slots}
     by_cutoff = {s.cutoff.day: s for s in slots}
@@ -332,16 +400,26 @@ def _run(led, state_dir, data, decider, slots, mode, now, stamp, identity) -> di
 
     def open_step(name: str, s, prev_day) -> None:
         b = copy.deepcopy(books[name])
+        bad = sorted({a["symbol"] for a in data.unsupported if a["symbol"] in b.held() and a.get("date")
+                      and (prev_day is None or a["date"] > prev_day.isoformat()) and a["date"] <= s.day.isoformat()})
+        if bad:                                         # a merger, spin-off, delisting...: not modelled, never guessed
+            gap(name, s.day, "unsupported_action", bad)
+            return
         events = apply_actions(b, prev_day, s.day, data.splits, data.dividends)
-        slot = by_fill.get(s.day) if name == "ai" else None
-        dec_rec, targets = None, None
-        if slot is not None:
+        slot = by_fill.get(s.day) if name in ("ai", "shadow") else None
+        dec_rec, targets, status, cw = None, None, None, None
+        if slot is not None and name == "ai":
             dec_rec = led.get(f"decision|{slot.index}")
             if dec_rec is None:
                 raise LedgerError(f"{slot.month}: fill session reached with no decision record")
-            if dec_rec["payload"]["status"] == "valid":
+            status = dec_rec["payload"]["status"]
+            cw = dec_rec["payload"].get("cutoff_weights")
+            if status == "valid":
                 targets = dec_rec["payload"]["targets"]
         need = set()
+        if slot is not None and name == "shadow":       # mechanical: 2.5% in each of the twelve frozen candidates
+            status, targets = "mechanical", {}
+            need |= set(members) | set(b.held()) | {BENCHMARK}
         if targets:                                     # a 100%-VOO decision with nothing to sell needs no price
             need |= set(b.held()) | set(targets) | {BENCHMARK}
         if b.cash >= MIN_SWEEP:
@@ -352,16 +430,38 @@ def _run(led, state_dir, data, decider, slots, mode, now, stamp, identity) -> di
             gap(name, s.day, "open", missing)
             return
         resolved(name, s.day, "open")
-        orders, plan = (stock_orders(b, opens, targets, dec_rec["payload"].get("cutoff_weights"))
-                        if targets else ([], None))
+        if status == "mechanical":
+            per, w = SHADOW_STOCK_PCT / len(members), weights(b, opens)
+            for sym in members:
+                cur = w.get(sym, Decimal(0))
+                act = "buy" if sym not in b.held() else "increase" if cur < per else "reduce" if cur > per else "hold"
+                targets[sym] = {"action": act, "target_pct": None if act == "hold" else str(per)}
+        orders, plan = (stock_orders(b, opens, targets, cw) if targets else ([], None))
         trade = settle(b, s.day, opens, orders) if (orders or b.cash >= MIN_SWEEP) else None
         after_w = resulting(plan, b, opens) if plan is not None else None
         if events or trade or slot is not None:
             led.put(f"session|{name}|{s.day}|open", "session_open",
                     {"book": name, "session": str(s.day), "actions": events, "trade": trade,
-                     "decision": None if slot is None else {"slot": slot.index, "status": dec_rec["payload"]["status"]},
+                     "decision": None if slot is None else {"slot": slot.index, "status": status},
                      "plan": plan, "weights_after": after_w, "after": b.snapshot()}, stamp(s.open))
         books[name] = b
+
+    by_end = {sl.period_end.day: sl for sl in slots}
+
+    def outcomes(s) -> None:
+        """Forecast outcomes of slot k's valid decision, once its horizon (k to k+2) has closed: data only, frozen."""
+        end = by_end.get(s.day)
+        if end is None or end.index < HORIZON_SLOTS:
+            return
+        k = end.index - HORIZON_SLOTS + 1
+        rec = led.get(f"decision|{k}")
+        if rec is None or rec["payload"]["status"] != "valid":
+            return
+        start = slots[k - 1].fill.day
+        for sym in [BENCHMARK] + [a["symbol"] for a in rec["payload"]["decision"]["assessments"]]:
+            tr = total_return(data, sym, start, s.day)
+            if tr is not None:
+                led.put(f"forecast_outcome|{k}|{sym}", "forecast_outcome", {"slot": k, **tr}, stamp(s.close))
 
     def close_step(name: str, s) -> None:
         b = books[name]
@@ -382,13 +482,14 @@ def _run(led, state_dir, data, decider, slots, mode, now, stamp, identity) -> di
     for s in sessions_between(slots[0].fill.day, slots[-1].period_end.day):
         if s.open > now:
             break
-        for name in ("voo", "ai"):
+        for name in ("voo", "ai", "shadow"):
             if name not in halted:
                 open_step(name, s, prev_day)
         if s.close <= now:
-            for name in ("voo", "ai"):
+            for name in ("voo", "ai", "shadow"):
                 if name not in halted:
                     close_step(name, s)
+            outcomes(s)
             nxt = by_cutoff.get(s.day)
             if nxt is not None and "ai" not in halted:
                 decide(nxt)
