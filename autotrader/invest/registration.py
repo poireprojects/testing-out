@@ -18,6 +18,7 @@ FROZEN: dict = {
     "experiment": "invest-pilot-1",
     "registration": "research/runs/2026-11-11-invest-pilot/REGISTRATION.md",
     "status": "proposed; not approved; the forward clock has not started",
+    "revision": "2 (2026-11-11): input coverage, risk-required reductions, crash recovery, statuses; proposed only",
     "capital_usd": "100.00",                     # each portfolio, once; no further deposits
     "benchmark": "VOO",
     "books": ["voo", "ai"],
@@ -42,7 +43,18 @@ FROZEN: dict = {
         "share_decimals": 9,
         "buy": "a cash amount in whole cents; shares = amount / fill price, truncated to 9 decimals",
         "sell": "a share quantity; proceeds = shares x fill price, truncated to a cent",
-        "min_order_usd": "1.00",                  # rebalancing trades below this are skipped (full sales never are)
+        "min_order_usd": "1.00",                  # discretionary trades below this are skipped (full sales and
+                                                  # risk-required reductions never are)
+        "cap_tolerance_pp": "0.05",
+        "risk_required": "a reduce of a stock more than cap_tolerance_pp above the cap at the fill session's opening "
+                         "prices sells to its target whatever the amount; a hold never trades, and a missed, late or "
+                         "rejected decision never trades, even when drift has taken a stock above the cap",
+        "weights": "cutoff weights (what the AI saw) decide whether a hold is allowed; targets are shares of the "
+                   "portfolio's value at the opening prices before trades; resulting weights are measured at the "
+                   "opening prices after trades and fees and may exceed a target by the trading costs' share "
+                   "(within cap_tolerance_pp); intended, executed and resulting weights are recorded per trade",
+        "paper_convention": "quantities are sized from the opening price and filled at that price plus slippage: a "
+                            "paper-model convention, not evidence that fractional opening-auction orders would execute",
         "sweep": "at every session open, cash of at least $1.00 (after that session's fees) buys VOO, in both "
                  "portfolios: the launch purchase, dividends and sale residue all go through this one rule",
         "min_sweep_usd": "1.00",
@@ -72,6 +84,21 @@ FROZEN: dict = {
         "valuation": "computed by code at the cutoff close: price, shares outstanding and trailing-four-quarter revenue, "
                      "net income and diluted EPS from the newest filing's XBRL facts; market value, P/E, price/sales",
         "min_text_chars": 20,
+        "coverage": "for every universe member and held stock: the newest 10-K/10-Q accepted by the cutoff in the "
+                    "collected EDGAR submission index (retrieved after the cutoff), any later 8-K Item 2.02, their text "
+                    "and the periodic report's XBRL facts, and the cutoff close. Status complete, unavailable (a "
+                    "reproducible reason: no such filing in the index, or a recorded no-trading exception) or "
+                    "collection_failure. Any collection failure: no pack, no model request, the month is "
+                    "missing_input and the research record stays inconclusive; marks continue",
+    },
+    "statuses": {
+        "valid": "a genuine answer frozen before the deadline that passed every check (100% VOO included)",
+        "invalid_answer": "an answer that broke a rule: rejected whole, holdings kept",
+        "missed_answer": "no answer frozen before the deadline (no answer, late, refused, or lost with a request in "
+                         "flight): holdings kept",
+        "missing_input": "research inputs incomplete: no request was made; holdings kept; the record is inconclusive",
+        "cost_unreconciled": "a request whose charge has no provider evidence yet: the record is inconclusive until "
+                             "an append-only reconciliation record resolves it (never assumed to be zero)",
     },
     "model": {
         "id": "claude-opus-5-5",
@@ -88,12 +115,19 @@ FROZEN: dict = {
         "charge": "every request is charged to the ai portfolio from the provider's reported usage, including months "
                   "it buys nothing and failed requests; a charge that cannot be reconciled with the provider's usage "
                   "report leaves the month incomplete",
+        "spend": "none approved; this pilot has no budget of its own; the project's $12.50 overall ceiling stays in "
+                 "force unless Riley explicitly replaces it; no per-request or per-month bound is enforced yet",
     },
     "outcome": {
         "all_in": "ai wealth minus every model charge grown at VOO's total return from the charge's cutoff to the end",
         "stop": "after 12 complete months, all-in wealth at or below the voo portfolio's wealth: stop this version",
         "continue": "all-in wealth above VOO: independent review of a longer paper test (not evidence of skill)",
-        "incomplete": "any unresolved data gap, pending fill, unreconciled charge or missing month: inconclusive",
+        "incomplete": "any unresolved data gap, pending fill, missing_input month, unreconciled charge, missing month "
+                      "or unfinished blinded claim review: inconclusive",
+        "genuine_required": "a favorable verdict needs at least one valid genuine decision; fixture decisions never count",
+        "claim_review": "every claim cited by a valid genuine decision is reviewed by a person blinded to actions, "
+                        "weights, prices and outcomes (autotrader/invest/claims.py); findings stay visible and never "
+                        "edit a decision or remove its trading outcome",
     },
 }
 
