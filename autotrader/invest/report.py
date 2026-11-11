@@ -29,6 +29,7 @@ from decimal import Decimal
 from pathlib import Path
 
 from .claims import claims
+from .diagnostics import score
 from .ledger import read_records
 from .registration import BENCHMARK, CAPITAL, FROZEN, schedule, sessions_between
 
@@ -126,7 +127,8 @@ def build_report(state_dir: Path) -> dict:
             "residuals_above_cap": [e for e in plans if e.get("within_cap_tolerance") is False],
         }
     decisions = [idx.get(f"decision|{s.index}") for s in slots]
-    gaps = [r["payload"] for r in recs if r["type"] == "gap" and f"gap_resolved|{r['key'][4:]}" not in idx]
+    open_gaps = [r["payload"] for r in recs if r["type"] == "gap" and f"gap_resolved|{r['key'][4:]}" not in idx]
+    gaps = [g for g in open_gaps if g["book"] in FROZEN["books"]]          # the shadow book is diagnostic only
     fixture = sum(1 for r in decisions if r and not r["payload"]["genuine"])
     genuine = sum(1 for r in decisions if r and r["payload"]["genuine"])
     genuine_valid = sum(1 for r in decisions if r and r["payload"]["genuine"] and r["payload"]["status"] == "valid")
@@ -218,6 +220,43 @@ def build_report(state_dir: Path) -> dict:
                     charged += ch["usd"] * voo_marks[d.isoformat()] / voo_marks.get(cut.isoformat(), CAPITAL)
             allin.append(v - charged)
         out["ai_all_in_max_drawdown_pct"] = (_max_drawdown(allin) * 100).quantize(TWO) if allin else None
+    # secondary diagnostics: never consulted by the verdict below
+    sh = {r["payload"]["session"]: D(r["payload"]["wealth"]) for r in recs
+          if r["type"] == "mark" and r["payload"]["book"] == "shadow"}
+    sh_opens = [r["payload"] for r in recs if r["type"] == "session_open" and r["payload"]["book"] == "shadow"]
+    sh_trades = [o["trade"] for o in sh_opens if o["trade"]]
+    sh_series = [sh[d.isoformat()] for d in days if d.isoformat() in sh]
+    last_marks = [r["payload"] for r in recs if r["type"] == "mark" and r["payload"]["book"] == "shadow"]
+    shadow = {"label": "diagnostic only: 70% VOO + 2.5% in each of the 12 frozen candidates, rebalanced monthly",
+              "sessions_valued": len(sh_series), "sessions": len(days),
+              "complete": len(sh_series) == len(days) and not any(g["book"] == "shadow" for g in open_gaps),
+              "unresolved_gaps": [g for g in open_gaps if g["book"] == "shadow"],
+              "ending_wealth": sh_series[-1] if sh_series else None,
+              "max_drawdown_pct": (_max_drawdown(sh_series) * 100).quantize(TWO) if sh_series else None,
+              "fees": sum((D(t["fees"]["total"]) for t in sh_trades), D(0)),
+              "slippage": sum((D(t["slippage_usd"]) for t in sh_trades), D(0)).quantize(FOUR),
+              "stock_holdings_at_end": len([s for s in (last_marks[-1]["positions"] if last_marks else {})
+                                            if s != BENCHMARK]),
+              "ai_max_stock_holdings": FROZEN["limits"]["max_stocks"],
+              "voo_pct_after_each_fill": [o["weights_after"]["voo_pct"] for o in sh_opens
+                                          if o.get("decision") and o.get("weights_after")],
+              "skipped_rebalancing_trades": sum(1 for o in sh_opens for e in (o.get("plan") or [])
+                                                if e["note"].startswith("skipped")),
+              "drift_note": "orders under the $1 discretionary minimum are skipped, so at $100 most monthly "
+                            "rebalancing trades of 2.5% positions are skipped and the shadow drifts from 70/30"}
+    shadow["cost_burden_vs_ai_usd"] = (shadow["fees"] + shadow["slippage"] - books["ai"]["fees"]
+                                       - books["ai"]["slippage"]).quantize(FOUR)
+    oc = {(r["payload"]["slot"], r["payload"]["symbol"]): r["payload"] for r in recs if r["type"] == "forecast_outcome"}
+    valued = [d for d, _ in books["voo"]["series"]]
+    forecasts = score([r["payload"] for r in decisions if r], oc, slots, valued[-1] if valued else None)
+    out["diagnostics"] = {"secondary_only": True, "shadow": shadow, "forecasts": forecasts,
+                          "consistency_notes": {r["payload"]["slot"]: r["payload"].get("consistency_notes")
+                                                for r in decisions if r and r["payload"].get("consistency_notes")},
+                          "fixture_claim_review": {"claims": len(claims(recs, genuine_only=False)) - len(genuine_claims),
+                                                   "reviewed": sum(1 for c in claims(recs, genuine_only=False)
+                                                                   if not c["genuine"] and c["review_id"] in reviews),
+                                                   "unsupported": [c["review_id"] for c in claims(recs, genuine_only=False)
+                                                                   if not c["genuine"] and reviews.get(c["review_id"], {}).get("verdict") == "unsupported"]}}
     rule = None
     if "ai_end_all_in" in out:
         rule = "stop this version" if out["ai_end_all_in"] <= out["voo_end"] else "independent review of a longer paper test"
@@ -298,6 +337,25 @@ def markdown(rep: dict) -> str:
         st = d["status"] + (f" ({d['reason']})" if d.get("reason") else "")
         lines.append(f"| {d['slot']} | {d['month']} | {who} | {st} | {'; '.join(d.get('actions') or [])} | "
                      f"{d.get('voo_pct') or ''} | {'; '.join(d.get('problems') or [])[:160]} |")
+    dg = rep["diagnostics"]
+    fs, shd = dg["forecasts"], dg["shadow"]
+    lines += ["", "## Secondary diagnostics (cannot change the verdict)", "",
+              f"Forecast scores: {fs['scored']} scored, {fs['pending']} pending, {fs['missing']} missing (prices) over "
+              f"{fs['decisions_scored']} decision(s)."
+              + (f" Brier {fs['brier']} (constant 0.5: 0.25); selected mean excess "
+                 f"{fs['selected_vs_rejected']['selected_mean_excess_pp']} pp (n={fs['selected_vs_rejected']['selected_n']}) "
+                 f"vs rejected {fs['selected_vs_rejected']['rejected_mean_excess_pp']} pp "
+                 f"(n={fs['selected_vs_rejected']['rejected_n']}); mean Spearman "
+                 f"{fs['rank_association']['mean_spearman']} over {fs['rank_association']['decisions_with_rho']} "
+                 "decision(s)." if fs["scored"] else ""),
+              "Horizons overlap and companies recur: these are not independent observations and prove nothing "
+              "statistically." + (" Fixture forecasts are placeholders, not assessments." if rep["decisions_fixture"] else ""),
+              f"Shadow (70% VOO + 2.5% in each of 12 candidates): ending wealth {_c(shd['ending_wealth'])}, "
+              f"{shd['stock_holdings_at_end']} stock holdings vs the AI's at most {shd['ai_max_stock_holdings']}, fees "
+              f"{_c(shd['fees'])}, spread and slippage {_c(shd['slippage'])} (cost burden vs the AI "
+              f"{_c(shd['cost_burden_vs_ai_usd'])}); {'complete' if shd['complete'] else 'INCOMPLETE'}.",
+              "Factual accuracy is the blinded claim review above; forecast accuracy is this section; wealth after all "
+              "costs is the primary result. They are separate results.", ""]
     lines += ["", "Model charges by month: " + ", ".join(
         f"{c['month']} {c['usd'] if c['usd'] is not None else 'UNKNOWN'} ({c['status']}: {c['basis'][:40]})"
         for c in mc["charges"]), "",
