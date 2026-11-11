@@ -5,8 +5,11 @@ and every number in a figure appears in that quote. They do not verify meaning. 
 5%" and then argue from a decline, mix quarterly and annual figures, confuse millions with billions, or misstate
 its own valuation row. So every claim cited by a valid genuine decision gets a human review:
 
-* the packet (`packet`) shows the reviewer the cited text, the quote, the figures and the thesis statements, and
-  nothing about the action, the weights, any later price or any outcome (`check_blind` from autotrader/review.py);
+* reviewed claims are the typed `fact`, `calculation` and `inferred_expectation` claims of contract v2 (forecasts
+  and assumptions are the model's own and are not factual claims);
+* the packet (`packet`) shows the reviewer the claim, the cited text, the quote, the figures and a calculation's
+  inputs, and nothing about the action, the weights, any later price or any outcome (`check_blind` from
+  autotrader/review.py);
 * the rubric is autotrader/review.py's (subject, direction, period, GAAP vs adjusted, sign, unit) plus valuation;
 * each verdict is its own append-only ledger record (`claim_review|<id>`). A review never edits the frozen decision,
   never changes its trades and never removes its trading outcome; unsupported claims stay listed in the report;
@@ -24,11 +27,11 @@ from .ledger import InvestLedger, read_records
 RUBRIC_VERSION = "invest-1"
 CRITERIA = dict(RUBRIC, valuation="price, market value, P/E and price/sales statements, and comparisons with VOO, "
                                   "match the cited valuation row")
-REVIEWED_ACTIONS = ("buy", "increase", "hold")
+REVIEWED_TYPES = ("fact", "calculation", "inferred_expectation")
 
 
 def claims(records: list[dict], genuine_only: bool = True) -> list[dict]:
-    """One claim per citation of each valid decision's buy, increase or hold."""
+    """One review item per fact, calculation or inferred expectation of each valid decision."""
     seed = next(r for r in records if r["key"] == "open")["hash"]
     out = []
     for r in records:
@@ -36,28 +39,34 @@ def claims(records: list[dict], genuine_only: bool = True) -> list[dict]:
         if r["type"] != "decision" or p["status"] != "valid" or (genuine_only and not p["genuine"]):
             continue
         for pos in p["decision"]["positions"]:
-            if pos["action"] not in REVIEWED_ACTIONS:
-                continue
-            for j, c in enumerate(pos["evidence"]):
+            for j, c in enumerate(pos.get("claims") or []):
+                if c.get("type") not in REVIEWED_TYPES:
+                    continue
                 rid = hashlib.sha256(f"{seed}|{p['slot']}|{pos['symbol']}|{j}".encode()).hexdigest()[:12]
                 out.append({"review_id": rid, "slot": p["slot"], "month": p["month"], "symbol": pos["symbol"],
-                            "evidence_id": c["id"], "quote": c["quote"], "figures": c["figures"],
-                            "statements": {k: pos[k] for k in ("why_outperform_voo", "main_downside", "invalidation",
-                                                               "thesis_still_holds") if pos.get(k)},
-                            "pack_file": p.get("pack_file")})
+                            "type": c["type"], "text": c["text"], "citations": c.get("evidence") or [],
+                            "inputs": c.get("inputs") or [], "expression": c.get("expression") or "",
+                            "result": c.get("result"), "genuine": p["genuine"], "pack_file": p.get("pack_file")})
     return out
 
 
-def packet(state_dir: Path) -> dict:
-    """What a reviewer sees: no action, weight, later price or outcome."""
+def packet(state_dir: Path, genuine_only: bool = True) -> dict:
+    """What a reviewer sees: no action, weight, later price or outcome. `genuine_only=False` includes fixture claims
+    (for testing the review mechanics; fixture claims are never part of a result)."""
     import json
     state_dir = Path(state_dir)
     items = []
-    for c in claims(read_records(state_dir / "ledger.jsonl")):
+    for c in claims(read_records(state_dir / "ledger.jsonl"), genuine_only):
         pack = json.loads((state_dir / c["pack_file"]).read_text())
-        cited = next((i["text"] for i in pack["items"] if i["id"] == c["evidence_id"]), None)
-        items.append({"review_id": c["review_id"], "month": c["month"], "company": c["symbol"],
-                      "cited_text": cited, "quote": c["quote"], "figures": c["figures"], "statements": c["statements"]})
+        text = {i["id"]: i["text"] for i in pack["items"]}
+        items.append({"review_id": c["review_id"], "month": c["month"], "company": c["symbol"], "kind": c["type"],
+                      "claim": c["text"],
+                      "citations": [{"cited_text": text.get(x["id"]), "quote": x["quote"], "figures": x["figures"]}
+                                    for x in c["citations"]],
+                      "inputs": [{"name": x["name"], "value": x["value"],
+                                  "cited_text": "assumption" if x["source_id"] == "assumption" else text.get(x["source_id"])}
+                                 for x in c["inputs"]],
+                      "expression": c["expression"], "result": c["result"]})
     check_blind(items)
     return {"rubric_version": RUBRIC_VERSION, "criteria": CRITERIA, "verdicts": VERDICTS,
             "instructions": "Judge each statement and figure only against the cited text. Do not look up prices, "
