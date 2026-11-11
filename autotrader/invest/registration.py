@@ -91,6 +91,43 @@ FROZEN: dict = {
                     "collection_failure. Any collection failure: no pack, no model request, the month is "
                     "missing_input and the research record stays inconclusive; marks continue",
     },
+    "contract": {
+        "version": "2 (proposed, unfrozen; AMENDMENT-1.md)",
+        "assessments": "every eligible candidate and held stock: integer rank (1 best, ties allowed), "
+                       "expected_excess_pct_3m (percentage points of total return minus VOO over the next three monthly "
+                       "holding periods, within [-100, 100]), p_positive_excess (fraction in [0, 1]), note",
+        "claims": "typed: fact (cited), calculation (sourced inputs, recomputed), assumption and forecast (labelled, "
+                  "no citations), inferred_expectation (model inference; valuation rows only; never analysts/consensus)",
+        "kept_positions": "mispricing, valuation_link, contrary_evidence, downside, measurable invalidation, "
+                          "weight_rationale, base/upside/downside scenarios",
+        "abstention": "prefer_voo_reason required when no stock remains",
+        "caps": {"text": 240, "note": 100, "scenario_reasoning": 160, "claim_text": 160, "quote": 200, "claims": 4,
+                 "inputs": 4, "citations_per_claim": 2},
+    },
+    "pipeline": {
+        "ttm": "annual; else fiscal year + YTD - prior YTD; else four reported quarters (dates within 7 days); latest "
+               "value per period public by the as-of time; diluted EPS labelled an approximation",
+        "facts_public_at": "the acceptance time of the reporting accession, from the submissions index; facts of "
+                           "unknown accession are excluded",
+        "reconciliation": "header accession, issuer CIK and acceptance time must equal the index",
+        "passages": "adapters.edgar.passages: two MD&A figure paragraphs, the first adverse-disclosure paragraph by "
+                    "keyword priority, the first risk-factor paragraph; verbatim; cut to 1,200 characters",
+        "universe": "adapters.nport: latest NPORT-P of the series accepted before the freeze; review table; frozen only "
+                    "from a review approving every row; unresolved mappings are never guessed",
+        "market": "unadjusted bars only; split ex-date price-step check; symbol changes merged; unsupported actions "
+                  "flagged (gap if held, exclusion if a candidate)",
+    },
+    "diagnostics": {
+        "status": "secondary; proposed; frozen before any genuine answer; never changes the primary verdict",
+        "horizon": "slot k fill-session open to the close of slot k+2's last session; slots 11-12 pending",
+        "total_return": "per share: close x split factor + dividends with ex-date after the fill day, per start share, "
+                        "over the open; no costs; dividends not reinvested",
+        "ties": "excess exactly 0 counts as y = 0.5; Spearman with average ranks",
+        "calibration_bins": "[0,0.2) [0.2,0.4) [0.4,0.6) [0.6,0.8) [0.8,1.0]",
+        "shadow": "70% VOO + 2.5% in each of the 12 frozen candidates, rebalanced toward those targets at each fill "
+                  "session under the same execution convention; orders under the $1 discretionary minimum are "
+                  "skipped, so at $100 it drifts (its VOO weight after each fill is reported)",
+    },
     "statuses": {
         "valid": "a genuine answer frozen before the deadline that passed every check (100% VOO included)",
         "invalid_answer": "an answer that broke a rule: rejected whole, holdings kept",
@@ -106,6 +143,9 @@ FROZEN: dict = {
         "effort": "medium",
         "max_tokens": 16000,
         "structured_output": "output_config.format json_schema (autotrader.invest.contract.json_schema)",
+        "request_fields": "model, max_tokens, system, messages, output_config {effort, format}, inference_geo 'global'; "
+                          "no thinking field (adaptive thinking is always on for this model), no service_tier "
+                          "(amendment 1: legacy, and this model has no Priority Tier), no tools, no fallbacks",
         "requests_per_month": 1,
         "retries": 0,
         "fallbacks": None,                         # one model: a refusal, cut-off or error is a missed decision
@@ -144,8 +184,9 @@ _PKG = Path(__file__).resolve().parent
 # The code that decides what a ledger contains. A change to any of these files is a new identity: an existing
 # ledger refuses to resume under it. (The app's fee schedule is not listed: dated fee rows may be added during a
 # pilot; the rates used are written into every fill, and a retroactive change stops the run as a ledger conflict.)
-IDENTITY_FILES = sorted([p for p in _PKG.glob("*.py")] + [_PKG.parent / n for n in ("ledger.py", "evidence.py",
-                                                                                     "decision.py")])
+IDENTITY_FILES = sorted([p for p in _PKG.glob("*.py")] + [p for p in _PKG.glob("adapters/*.py")]
+                        + [_PKG.parent / n for n in ("ledger.py", "evidence.py", "decision.py")]
+                        + [_PKG.parents[1] / "stockpilot" / n for n in ("clock.py", "research/events.py")])
 
 
 def code_sha256() -> dict:
