@@ -1,5 +1,6 @@
 """Investing pilot (autotrader/invest): accounting, rules, timing, idempotency, research-input coverage, crash
 recovery and labelling. Offline only: synthetic data, fixture decisions, no model call, no network, no credential."""
+import hashlib
 import json
 import shutil
 import subprocess
@@ -19,40 +20,14 @@ from autotrader.invest.data import MarketData, write_data_dir
 from autotrader.invest.engine import FixtureDecider, ModelDecider, NotApproved, derive_decision, reconcile, run
 from autotrader.invest.ledger import InvestLedger, LedgerConflict, LedgerError, LedgerLocked, StateLock
 from autotrader.invest.pack import MonthPack, build_pack, pack_from_record
-from autotrader.invest.registration import FROZEN, config_sha256, et, schedule
+from autotrader.invest.registration import FROZEN, config_sha256, et
 from autotrader.invest.report import build_report, markdown, verdict, write_report
 from autotrader.invest.universe import UniverseError, select_universe
 
+from tests.invest_helpers import (ALL_VOO, COMMITTED, END, SLOTS, answer, assessment, by_key, dry, flat_data,  # noqa: F401
+                                  marks, no_network, records, state_of)
+
 ROOT = Path(__file__).resolve().parents[1]
-COMMITTED = ROOT / "research" / "runs" / "2026-11-11-invest-pilot" / "dry-run"
-END = synthetic.end_of_pilot()
-SLOTS = schedule(synthetic.FIRST_FILL_MONTH)
-ALL_VOO = {i: {"kind": "decision", "label": "100% VOO", "positions": []} for i in range(1, 13)}
-STATE_TYPES = ("decision", "cost", "session_open", "mark")
-
-
-def dry(state, data, script=synthetic.FIXTURE_SCRIPT, now=END, cost=synthetic.FIXTURE_COST_USD):
-    dec = FixtureDecider(script, cost)
-    res = run(state, data, dec, mode="dry_run", first_fill_month=synthetic.FIRST_FILL_MONTH, now=now)
-    return res, dec
-
-
-def records(state):
-    return [json.loads(x) for x in (Path(state) / "ledger.jsonl").read_text().splitlines()]
-
-
-def by_key(state):
-    return {r["key"]: r for r in records(state)}
-
-
-def marks(state, book):
-    return {r["payload"]["session"]: r["payload"]["wealth"] for r in records(state)
-            if r["type"] == "mark" and r["payload"]["book"] == book}
-
-
-def state_of(state):
-    """The economic and decision content, by key (record order and timestamps aside)."""
-    return {r["key"]: r["payload"] for r in records(state) if r["type"] in STATE_TYPES}
 
 
 @pytest.fixture(scope="module")
@@ -61,32 +36,6 @@ def main_run(tmp_path_factory):
     synthetic.build(base / "data")
     res, dec = dry(base / "state", base / "data")
     return base, res, dec
-
-
-FLAT_FILING = {"symbol": "STK1", "cik": "1", "accession": "0000000001-30-000001", "form": "10-Q",
-               "period_end": "2030-09-30", "accepted_at": et(date(2030, 11, 5), 16, 5).isoformat(),
-               "facts": {"shares_outstanding": "1000000000", "revenue_ttm_musd": "4000",
-                         "net_income_ttm_musd": "400", "eps_diluted_ttm": "0.40"},
-               "passages": [{"section": "MD&A", "text": "Revenue for the quarter was $1,000 million, an increase of "
-                                                        "5% from a year earlier. Margins were stable."}]}
-
-
-def flat_data(d: Path, stock_open="50.00", stock_after=None, filings=None, index="auto"):
-    """Constant prices (VOO 100.00, STK1 50.00), no dividends: every amount below is checked by hand.
-    `stock_after` (day, price): STK1 trades at that price from that day on. `index`: "auto" lists the filings."""
-    days = synthetic.sessions()
-    stk = {}
-    for x in days:
-        px = stock_after[1] if stock_after and x.isoformat() >= stock_after[0] else None
-        stk[x.isoformat()] = {"open": px or stock_open, "close": px or "50.00"}
-    prices = {"VOO": {x.isoformat(): {"open": "100.00", "close": "100.00"} for x in days}, "STK1": stk}
-    filings = [FLAT_FILING] if filings is None else filings
-    write_data_dir(d, synthetic=True, sources={"all": "test"}, prices=prices,
-                   actions={"splits": [], "dividends": []},
-                   universe={"rule": "test", "source": "test",
-                             "members": [{"rank": 1, "symbol": "STK1", "name": "Flat Test Co", "cik": "1"}]},
-                   filings=filings,
-                   index=synthetic.index_for([FLAT_FILING], symbols=["STK1"]) if index == "auto" else index)
 
 
 # ------------------------------------------------------------------ parity
@@ -140,86 +89,12 @@ def test_buy_hold_sell_sequence_with_hand_checked_cents(tmp_path):
     assert rep["books"]["ai"]["fees"] == "0.04" and rep["books"]["voo"]["fees"] == "0.01"
 
 
-# ------------------------------------------------------------------ limits and evidence
-@pytest.fixture
-def pack(tmp_path):
-    flat_data(tmp_path / "data")
-    data = MarketData(tmp_path / "data")
-    slot = SLOTS[1]
-    book = Book("ai", D("0.00"), {"VOO": D("0.91"), "STK1": D("0.18")})    # STK1 9.00 of 100.00 = 9.00%
-    return build_pack(slot, book, data, slot.cutoff.close + timedelta(minutes=5), [])
-
-
-def good(pack, **over):
-    p = {"symbol": "STK1", "action": "hold", "target_weight_pct": 0,
-         "why_outperform_voo": "", "main_downside": "", "invalidation": "", "weight_rationale": "", "what_changed": "",
-         "thesis_still_holds": "Revenue growth continues as the filing describes; nothing has changed.",
-         "evidence": [{"id": "STK1/0000000001-30-000001/P1", "quote": "Revenue for the quarter was $1,000 million",
-                       "figures": ["$1,000 million"]}]}
-    p.update(over)
-    return {"month": pack.month, "summary": "test", "voo_weight_pct": 91.0, "positions": [p]}
-
-
-def test_a_well_formed_hold_passes(pack):
-    targets, problems, voo = validate(good(pack), pack)
-    assert problems == [] and targets == {"STK1": {"action": "hold", "target_pct": None}} and voo == D("91.00")
-
-
-def _increase(pack, w, **over):
-    fields = dict(action="increase", target_weight_pct=w, thesis_still_holds="",
-                  why_outperform_voo="Growth at 5% with a P/E of 125.00 is priced for less than it delivers.",
-                  main_downside="A slowdown in the largest customer would cut revenue.",
-                  invalidation="Revenue growth below 2% in the next quarterly report.",
-                  weight_rationale="A small position: the valuation is demanding.",
-                  evidence=[{"id": "STK1/0000000001-30-000001/P1", "quote": "an increase of 5% from a year earlier",
-                             "figures": ["5%"]}, {"id": "V.STK1", "quote": "P/E 125.00", "figures": ["125.00"]}])
-    d = good(pack, **(fields | over))
-    d["voo_weight_pct"] = 100 - w
-    return d
-
-
-@pytest.mark.parametrize("mutate, expect", [
-    (lambda pk, d: d["positions"].extend(
-        [dict(d["positions"][0], symbol=s, action="buy", target_weight_pct=5) for s in ("A1", "A2", "A3")]),
-     "not an eligible candidate"),
-    (lambda pk, d: d.update(_increase(pk, 10.01, )), "outside (0, 10]"),
-    (lambda pk, d: d.update(_increase(pk, 8.5)), "is not above the current"),
-    (lambda pk, d: d.update(_increase(pk, -5)), "outside (0, 10]"),
-    (lambda pk, d: d["positions"][0].update(action="reduce", target_weight_pct=10.0, what_changed="x" * 30),
-     "is not below the current"),
-    (lambda pk, d: d["positions"][0].update(action="sell", target_weight_pct=3, what_changed="x" * 30), "a sale has target 0"),
-    (lambda pk, d: d.update(positions=[]), "held STK1 is not addressed"),
-    (lambda pk, d: d["positions"][0].update(action="buy"), "already held"),
-    (lambda pk, d: d["positions"].append(dict(d["positions"][0], symbol="VOO")), "VOO is the remainder"),
-    (lambda pk, d: d.update(voo_weight_pct=85.0), "does not match the implied"),
-    (lambda pk, d: d["positions"][0].update(thesis_still_holds="ok"), "thesis_still_holds is required"),
-    (lambda pk, d: d["positions"][0]["evidence"][0].update(quote="Revenue for the quarter was $9,999 million"),
-     "quote not found verbatim"),
-    (lambda pk, d: d["positions"][0]["evidence"][0].update(figures=["$2,000 million"]), "states numbers not in its quote"),
-    (lambda pk, d: d["positions"][0]["evidence"][0].update(id="STK1/0000000001-31-999999/P1"), "unknown item"),
-    (lambda pk, d: d["positions"][0].update(evidence=[]), "cites none of STK1's filing passages"),
-    (lambda pk, d: d.update(_increase(pk, 10, evidence=[_increase(pk, 10)["positions"][0]["evidence"][0]])),
-     "does not cite its valuation row"),
-    (lambda pk, d: d.update(_increase(pk, 10, why_outperform_voo="")), "why_outperform_voo is required"),
-    (lambda pk, d: d.update(month="2031-03"), "is not 2031-02"),
-])
-def test_limits_and_evidence_rules_reject_the_whole_decision(pack, mutate, expect):
-    d = good(pack)
-    mutate(pack, d)
-    targets, problems, _ = validate(d, pack)
-    assert targets is None and any(expect in p for p in problems), problems
-
-
-def test_increase_to_the_cap_with_evidence_passes(pack):
-    targets, problems, voo = validate(_increase(pack, 10), pack)
-    assert problems == [] and targets["STK1"] == {"action": "increase", "target_pct": "10"} and voo == 90
-
-
+# ------------------------------------------------------------------ limits (contract v2 details: test_invest_contract.py)
 def test_drifted_holding_above_the_cap_cannot_be_held(tmp_path):
     flat_data(tmp_path / "data")
     book = Book("ai", D("0"), {"VOO": D("0.88"), "STK1": D("0.24")})       # STK1 12 of 100 = 12%
     pk = build_pack(SLOTS[1], book, MarketData(tmp_path / "data"), SLOTS[1].cutoff.close, [])
-    _, problems, _ = validate(good(pk, ) | {"voo_weight_pct": 88}, pk)
+    _, problems, _ = validate(answer(voo=88.0), pk)
     assert any("above the 10% cap" in p for p in problems)
 
 
@@ -374,7 +249,11 @@ def test_a_fully_collected_pack_and_an_all_voo_answer_is_a_legitimate_decision(t
     genuine = derive_decision({"slot": 1, "month": "2031-01", "decider": "model", "genuine": True,
                                "cutoff": SLOTS[0].cutoff.close.isoformat(), "deadline": SLOTS[0].deadline.isoformat()},
                               pack_from_record(pk), {"decision": {"month": "2031-01", "summary": "no stock beats VOO",
-                                                                  "voo_weight_pct": 100, "positions": []},
+                                                                  "voo_weight_pct": 100, "positions": [],
+                                                                  "prefer_voo_reason": "No candidate's expected excess "
+                                                                                       "clears the research cost.",
+                                                                  "assessments": [assessment(c["symbol"], 1, -0.5, 0.45)
+                                                                                  for c in pk["candidates"] if c["eligible"]]},
                                                      "frozen_at": (SLOTS[0].cutoff.close + timedelta(hours=1)).isoformat(),
                                                      "lost_in_flight": False, "note": ""})
     assert genuine["status"] == "valid" and genuine["targets"] == {} and genuine["genuine"]
@@ -629,7 +508,9 @@ def test_claim_review_is_blind_append_only_and_never_edits_a_decision(main_run, 
     base, _, _ = main_run
     st = tmp_path / "s"
     shutil.copytree(base / "state", st, ignore=shutil.ignore_patterns(".lock"))
-    assert claims(records(st)) == [] and len(claims(records(st), genuine_only=False)) == 16
+    fx = claims(records(st), genuine_only=False)             # facts and calculations of the 9 valid fixture months
+    assert claims(records(st)) == [] and len(fx) == 19
+    assert {c["type"] for c in fx} == {"fact", "calculation"}  # forecasts and assumptions are not reviewed claims
     with pytest.raises(Exception, match="not blinded"):
         from autotrader.review import check_blind
         check_blind([{"action": "buy"}])
@@ -686,22 +567,23 @@ def test_the_genuine_request_is_rendered_offline_and_never_sent(main_run):
     assert req["model"] == "claude-opus-5-5" == FROZEN["model"]["id"]
     assert req["max_tokens"] == 16000 and req["output_config"]["effort"] == "medium"
     assert req["output_config"]["format"]["schema"] == json_schema([c["symbol"] for c in rec["candidates"]])
-    assert not {"tools", "fallbacks", "thinking", "speed", "betas"} & set(req)
+    assert not {"tools", "fallbacks", "thinking", "speed", "betas", "service_tier"} & set(req)
+    assert set(req) == {"model", "max_tokens", "system", "messages", "output_config", "inference_geo"}
     assert "SYNTHETIC DATA" in req["messages"][0]["content"]
     with pytest.raises(NotApproved):
         m.decide(SLOTS[6], pk)
 
 
 # ------------------------------------------------------------------ reproducibility
-def test_the_dry_run_reproduces_byte_for_byte_and_matches_the_committed_run(main_run, tmp_path):
+def test_the_engine_replays_byte_for_byte(main_run, tmp_path):
+    """Deterministic replay on the engine fixture data (the committed pipeline run: test_invest_pipeline.py)."""
     base, _, _ = main_run
     synthetic.build(tmp_path / "data")
     dry(tmp_path / "s", tmp_path / "data")
     a = (base / "state" / "ledger.jsonl").read_bytes()
     assert (tmp_path / "s" / "ledger.jsonl").read_bytes() == a
-    assert (COMMITTED / "ledger.jsonl").read_bytes() == a
-    assert json.loads((COMMITTED / "report.json").read_text()) == build_report(base / "state")
-    assert json.loads((COMMITTED / "summary.json").read_text())["config_sha256"] == config_sha256()
+    assert json.loads(a.splitlines()[0])["payload"]["identity"]["config_sha256"] == config_sha256()
+    assert hashlib.sha256(a).hexdigest() == hashlib.sha256((tmp_path / "s" / "ledger.jsonl").read_bytes()).hexdigest()
 
 
 def test_the_report_rebuilds_offline_from_the_ledger_and_packs_alone(tmp_path):
