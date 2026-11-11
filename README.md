@@ -12,12 +12,14 @@ Alpaca. Real-money trading stays locked until you explicitly authorize it.
 > is built to *measure* whether a strategy has an edge after costs — and to refuse real money until there is
 > evidence. It's not financial advice.
 
-> **Project status (2026-11-07).** No strategy has shown a profit after costs: 13 pre-registered hypotheses over
+> **Project status (2026-11-11).** No strategy has shown a profit after costs: 13 pre-registered hypotheses over
 > four research phases.
-> * **Phase 5** is building a separate autonomous AI trader (`autotrader/`). It runs only in simulation, is not
->   part of the desktop app, and cannot place orders.
-> * Its forward test is **on hold** until a capable AI model passes a small, fixed-cost check. That check waits on
->   your approval (see *Research → Phase 5* below).
+> * **Phase 5** (an autonomous intraday AI trader in `autotrader/`, simulation only) is **closed as inconclusive**.
+>   Its historical check could not be run fairly, and the AI model made no decisions
+>   (`research/runs/2026-11-07-phase5/CLOSED.md`).
+> * **Proposed next:** a 12-month, paper-only investing pilot. Every month an AI picks up to three stocks (each at
+>   most 10%) around a VOO core, and it is compared with simply holding VOO (`autotrader/invest/`). It is not
+>   running: it waits for an independent review and your approvals (see *Research → Investing pilot* below).
 > * **Before leaving the app running:** in paper mode with **autopilot** on, it places *paper* orders with
 >   strategies that have no evidence. Turn autopilot off to watch only. Details, and the API key you should rotate,
 >   are in [`docs/OPERATIONAL-STATUS.md`](docs/OPERATIONAL-STATUS.md).
@@ -284,12 +286,36 @@ about each trade. It runs **only in simulation**.
   * Predictions are scored on the session they target (a Saturday decision is scored on Monday).
   * Finished sessions are scored automatically once prices exist, against simple rules computed only from data
     available at 10:00.
-* **Next steps, each needing your decision:**
-  * a fixed-cost check of a capable model: Claude Opus 5.5 on 160 past events, hard ceiling $12.50, expected $5–7
-    (`research/runs/2026-11-07-phase5/dev-eval/PLAN.md`);
-  * a new market-data key, to score forward decisions;
-  * a computer that stays on, to run it.
+* **Closed, inconclusive (2026-11-11):** the planned fixed-cost check of Claude Opus 5.5 on 160 past events was
+  stopped before any call (`research/runs/2026-11-07-phase5/CLOSED.md`):
+  * the saved data has only one-minute summaries of bid and ask prices, not quotes a trade could have filled at;
+  * no limit on what the requests would bill could be shown to stay under $12.50;
+  * three filings came out too late to be used.
+
+  The model made no decisions, so this says nothing about it.
 * No real orders, no paid calls and no new installer so far. Sophisticated reasoning is not a demonstrated edge.
+
+**Investing pilot (proposed, not running)** (`research/runs/2026-11-11-invest-pilot/REGISTRATION.md`). It asks
+whether monthly AI stock picks leave you with more money than buying VOO with the same dollars on the same dates.
+* **Two paper portfolios, $100 each:**
+  * one buys and holds VOO;
+  * the other keeps 70–100% in VOO and up to three stocks, each at most 10%, chosen once a month by Claude Opus 5.5
+    from 12 large companies.
+* **How the AI decides:** it reads dated SEC filings and valuations. For every pick it must state:
+  * why the stock should beat VOO at today's price, citing the filing passages and figures;
+  * the main downside;
+  * what would prove it wrong;
+  * why that weight.
+* **What code enforces:** the limits, the citations, the accounting (dividends, splits, fees, leftover cash) and a
+  tamper-evident ledger. A late, missing or rule-breaking decision changes nothing.
+* **Costs:** the AI's research is charged to its portfolio every month, about $2.40 a year on $100. So the stock
+  picks must beat VOO by a wide margin just to break even.
+* **Stop rule:** if the AI portfolio, after costs, is at or below VOO after 12 complete months, this version
+  stops. If it is ahead, the next step is only an independent review.
+* **Status:** today there is only an offline dry run on invented data with scripted ("fixture") decisions. It is
+  labelled as such everywhere and says nothing about AI stock picking.
+  * Before any genuine decision: an independent review; your approval and freeze; SEC access; a new market-data
+    key; the model spend; three data adapters and the paid client; and a computer to run it monthly.
 
 ### Is the AI actually helping?
 
@@ -383,7 +409,7 @@ pip install -r requirements-dev.txt
 python -m pytest -q
 ```
 
-606 automated tests. 598 run anywhere; 8 need your Alpaca paper keys, and 4 of those place paper orders, so they
+649 automated tests. 641 run anywhere; 8 need your Alpaca paper keys, and 4 of those place paper orders, so they
 run only when you ask. They cover the uninstall/shutdown handshake
 (open live positions block it; keep vs. delete data and saved keys), opportunity ranking and market regimes, the AI
 picking mode, approach comparison and confidence calibration, walk-forward/train-validation-test evaluation, cost
@@ -402,7 +428,15 @@ They also cover the research tooling:
 * the Phase 5 prototype: evidence time stamps and look-ahead guards, tamper and duplicate detection, rejection of
   invented or ungrounded answers, every risk rejection, safe failure when the model, data or ledger fails,
   target-session scoring, unattended forward scoring, and the paid-model spending ceiling (with fake clients; no
-  paid call).
+  paid call);
+* the investing pilot, offline, with synthetic data:
+  * 100%-VOO parity with the benchmark to the cent, through dividends and a split;
+  * a buy/hold/sell sequence checked by hand;
+  * every weight and evidence rule;
+  * late and missing decisions, missing prices and filings published after the cutoff;
+  * reruns that leave the ledger unchanged, and tamper detection;
+  * fixture decisions kept apart from genuine ones;
+  * a byte-for-byte reproducible dry run.
 
 ### What is verified and what isn't
 
@@ -442,7 +476,8 @@ stockpilot/
   data/               Alpaca + demo market data, universe, rate limiting
   ui/                 PySide6/QML interface, custom charts, tray, notifications
   research/           forward recorders used by the app, plus research-only modules
-autotrader/           Phase 5 autonomous-trader prototype (simulation only; not in the app or installer)
+autotrader/           Phase 5 autonomous-trader prototype (closed; simulation only; not in the app or installer)
+  invest/             proposed forward paper investing pilot vs VOO (offline dry run only; not in the app)
 packaging/            PyInstaller spec, Windows installer, macOS/Linux build scripts, release gate
 research/             pre-registrations, data ledger, reports and results of every research phase
 scripts/              research and data scripts (historical data only)
