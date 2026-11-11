@@ -10,6 +10,17 @@ costs. At a session open, in this order (registration FROZEN["execution"]):
 4. fees: each type summed for the session and rounded up to a cent once.
 Fills are the session's opening price adjusted by the frozen slippage (5 bps VOO, 10 bps stocks). Nothing is ever
 filled without an opening price: the caller checks the prices first and records a data gap instead.
+
+Sizing quantities from the opening price and assuming a fill at that same opening price is a paper-model
+convention. It does not show that fractional orders could have been executed in the opening auction at that price.
+
+Limits versus drift. The 10% cap applies when a target is set. Targets are shares of the portfolio's value at the
+fill session's opening prices, before trades; fees and slippage then shrink the portfolio slightly, so a resulting
+weight can sit a few hundredths of a point above its target. A position more than `CAP_TOLERANCE_PP` above the cap
+at the opening prices must come down: a reduce of such a position is risk-required and sells regardless of the $1
+discretionary minimum. A hold never trades (weights drift with prices between decisions), and a missed or rejected
+decision never trades. Every planned stock trade records its cutoff, opening and resulting weight and why any order
+was or was not placed.
 """
 from __future__ import annotations
 
@@ -20,9 +31,11 @@ from typing import Optional
 
 from stockpilot.risk.fees import rates_on
 
-from .registration import BENCHMARK, MIN_ORDER, MIN_SWEEP, dec, slippage_bps
+from .registration import BENCHMARK, FROZEN, MIN_ORDER, MIN_SWEEP, dec, slippage_bps
 
 CENT = Decimal("0.01")
+CAP_TOLERANCE_PP = dec(FROZEN["execution"]["cap_tolerance_pp"])
+PCT = Decimal("0.0001")
 QTY = Decimal("0.000000001")
 MICRO = Decimal("0.000001")
 ZERO = Decimal("0")
@@ -169,29 +182,79 @@ def apply_actions(book: Book, after: Optional[date], day: date, splits: list[dic
 
 
 # ------------------------------------------------------------------ trading
-def stock_orders(book: Book, opens: dict[str, Decimal], targets: dict[str, dict]) -> list[Order]:
-    """Orders for a validated decision's stock targets ({symbol: {action, target_pct}}), sales first."""
+def weights(book: Book, prices: dict[str, Decimal]) -> dict[str, Decimal]:
+    """Each position's share of cash plus positions at `prices`, in percent."""
+    v = book.investable(prices)
+    return {s: (book.qty[s] * prices[s] / v * 100).quantize(PCT) for s in book.held()} if v > 0 else {}
+
+
+def stock_orders(book: Book, opens: dict[str, Decimal], targets: dict[str, dict],
+                 cutoff_weights: Optional[dict[str, str]] = None) -> tuple[list[Order], list[dict]]:
+    """Orders for a validated decision's stock targets ({symbol: {action, target_pct}}), sales first, and the plan:
+    one entry per target with its cutoff and opening weights, the order placed (if any) and why."""
     V = book.investable(opens)
-    sells, buys = [], []
+    cap = dec(FROZEN["limits"]["stock_max_pct"])
+    w_open = weights(book, opens)
+    sells, buys, plan = [], [], []
     for sym in sorted(targets):
         t = targets[sym]
         q, p = book.qty.get(sym, ZERO), opens[sym]
+        e = {"symbol": sym, "action": t["action"], "target_pct": t["target_pct"],
+             "cutoff_weight_pct": (cutoff_weights or {}).get(sym), "opening_weight_pct": str(w_open.get(sym, ZERO)),
+             "order": None, "risk_required": False, "note": ""}
+        plan.append(e)
         if t["action"] == "sell":
             if q > 0:
-                sells.append(sell(sym, q, p, "sell"))
+                sells.append(o := sell(sym, q, p, "sell"))
+                e |= {"order": o.record(), "note": "full sale (no minimum applies)"}
             continue
         if t["action"] == "hold":
+            e["note"] = "hold: shares unchanged, no trade"
+            if w_open.get(sym, ZERO) > cap + CAP_TOLERANCE_PP:
+                e["note"] += "; above the cap at the open through drift after the cutoff (a hold never trades)"
             continue
         tv = floor_cent(V * dec(t["target_pct"]) / 100)
         if t["action"] in ("buy", "increase"):
             amt = floor_cent(tv - q * p)
             if amt >= MIN_ORDER:
-                buys.append(buy(sym, amt, p, t["action"]))
+                buys.append(o := buy(sym, amt, p, t["action"]))
+                e |= {"order": o.record(), "note": f"buy {amt} USD to reach the target at the opening price"}
+            elif amt > 0:
+                e["note"] = f"skipped: {amt} USD is below the {MIN_ORDER} USD discretionary minimum"
+            else:
+                e["note"] = "no purchase: the opening value is already at or above the target"
         elif t["action"] == "reduce":
             sq = q - floor_qty(tv / p)
-            if sq > 0 and sq * p >= MIN_ORDER:
-                sells.append(sell(sym, sq, p, "reduce"))
-    return sells + buys
+            risky = w_open.get(sym, ZERO) > cap + CAP_TOLERANCE_PP
+            e["risk_required"] = risky
+            if sq <= 0:
+                e["note"] = "no sale: the opening weight is already at or below the target"
+            elif sq * p >= MIN_ORDER or risky:
+                sells.append(o := sell(sym, sq, p, "reduce"))
+                e |= {"order": o.record(), "note": "risk-required reduction: above the cap at the open, sold "
+                      "regardless of the discretionary minimum" if risky and sq * p < MIN_ORDER
+                      else "reduce to the target at the opening price"}
+            else:
+                e["note"] = f"skipped: a {(sq * p).quantize(CENT)} USD sale is below the {MIN_ORDER} USD " \
+                            "discretionary minimum (not above the cap)"
+    return sells + buys, plan
+
+
+def resulting(plan: list[dict], book: Book, opens: dict[str, Decimal]) -> dict:
+    """Fill in each plan entry's resulting weight (after trades and fees, at the opening prices) and its deviation
+    from the target; any risk-required reduction left more than the tolerance above the cap is flagged."""
+    w = weights(book, opens)
+    cap = dec(FROZEN["limits"]["stock_max_pct"])
+    for e in plan:
+        r = w.get(e["symbol"], ZERO)
+        e["resulting_weight_pct"] = str(r)
+        if e["target_pct"] is not None:
+            e["deviation_pp"] = str((r - dec(e["target_pct"])).quantize(PCT))
+        e["within_cap_tolerance"] = e["action"] == "hold" or r <= cap + CAP_TOLERANCE_PP
+        if not e["within_cap_tolerance"]:
+            e["note"] += f"; RESIDUAL: {r}% remains above the cap"
+    return {"stocks_pct": str(sum((v for s, v in w.items() if s != BENCHMARK), ZERO)),
+            "voo_pct": str(w.get(BENCHMARK, ZERO)), "cash_usd": str(book.cash)}
 
 
 def settle(book: Book, day: date, opens: dict[str, Decimal], orders: list[Order]) -> dict:
