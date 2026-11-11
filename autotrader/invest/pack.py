@@ -3,10 +3,14 @@
 Built at the cutoff (the close of the last session before the fill month) from:
 * the AI portfolio's holdings, valued at the cutoff close, and the theses recorded when they were bought;
 * for each universe member, passages from its newest filings accepted at or before the cutoff (`P` items) and a
-  valuation row computed by code from the cutoff close and the newest filing's facts (`V` items).
+  valuation row computed by code from the cutoff close and the newest 10-K/10-Q's facts (`V` items);
+* a coverage record for every universe member and every held stock (`MarketData.coverage`): what EDGAR's index
+  says was required, whether it was collected, and the reason for any exclusion.
 Every item carries the time it became available; the pack refuses anything later than the cutoff (no look-ahead).
-A missing VOO or holding price at the cutoff makes the pack impossible (`InputsIncomplete`); a candidate without a
-price or facts is listed as not eligible to buy that month.
+The pack cannot be built (`InputsIncomplete`, so no model is asked) when VOO or a held stock has no cutoff close, or
+when any symbol's research inputs failed to collect. A candidate is excluded only for a reproducible reason
+(`unavailable`: no 10-K/10-Q by the cutoff in the index, or a recorded no-trading exception), never for a missing
+download. Once frozen (its hash in the ledger), a pack is read back from its file and never rebuilt from newer data.
 """
 from __future__ import annotations
 
@@ -22,14 +26,18 @@ from stockpilot.clock import ET
 
 from ..evidence import Evidence, LookAheadError
 from .accounting import Book
-from .data import MarketData
+from .data import FACTS, MarketData
 from .registration import BENCHMARK, FROZEN, Slot, canonical_json, config_sha256
 
 TWO = Decimal("0.01")
 
 
 class InputsIncomplete(RuntimeError):
-    """The pack cannot be built from the data available now."""
+    """The pack cannot be built from the data available now (a research-input failure)."""
+
+    def __init__(self, msg: str, coverage: Optional[list] = None):
+        super().__init__(msg)
+        self.coverage = coverage or []
 
 
 def _cut(text: str, limit: int) -> str:
@@ -59,6 +67,8 @@ class MonthPack:
     candidates: list[dict]
     prior_theses: list[dict]
     items: list[Evidence] = field(default_factory=list)
+    coverage: list[dict] = field(default_factory=list)
+    inputs: dict = field(default_factory=dict)
 
     def __post_init__(self):
         ids = [e.id for e in self.items]
@@ -86,7 +96,7 @@ class MonthPack:
                 "built_at": self.built_at.isoformat(), "synthetic": self.synthetic, "cash": self.cash,
                 "investable": self.investable, "voo_close": self.voo_close, "holdings": self.holdings,
                 "candidates": self.candidates, "prior_theses": self.prior_theses,
-                "items": [e.record() for e in self.items]}
+                "items": [e.record() for e in self.items], "coverage": self.coverage, "inputs": self.inputs}
 
     @property
     def sha256(self) -> str:
@@ -119,12 +129,9 @@ class MonthPack:
         return "\n".join(out)
 
 
-def _valuation(sym: str, close: Decimal, f: dict, cutoff: datetime) -> Optional[tuple[str, dict]]:
-    fx = f.get("facts") or {}
-    need = ("shares_outstanding", "revenue_ttm_musd", "net_income_ttm_musd", "eps_diluted_ttm")
-    if any(fx.get(k) in (None, "") for k in need):
-        return None
-    sh, rev, ni, eps = (Decimal(str(fx[k])) for k in need)
+def _valuation(sym: str, close: Decimal, f: dict, cutoff: datetime) -> tuple[str, dict]:
+    fx = f["facts"]
+    sh, rev, ni, eps = (Decimal(str(fx[k])) for k in FACTS)
     mcap = close * sh / Decimal(1_000_000)
     pe = f"{(close / eps).quantize(TWO)}" if eps > 0 else "not meaningful (EPS at or below zero)"
     ps = f"{(mcap / rev).quantize(TWO)}" if rev > 0 else "not meaningful"
@@ -142,13 +149,20 @@ def build_pack(slot: Slot, book: Book, data: MarketData, built_at: datetime, pri
     lim = FROZEN["evidence"]
     voo = data.price(BENCHMARK, day, "close")
     if voo is None:
-        raise InputsIncomplete(f"no {BENCHMARK} close for {day}")
+        raise InputsIncomplete(f"no {BENCHMARK} close was collected for {day}")
     closes = {}
     for s in book.held():
         c = data.price(s, day, "close")
         if c is None:
-            raise InputsIncomplete(f"no close for held {s} on {day}")
+            raise InputsIncomplete(f"no close was collected for held {s} on {day}")
         closes[s] = c
+    members = data.members()
+    symbols = [m["symbol"] for m in members] + [s for s in book.stocks() if s not in {m["symbol"] for m in members}]
+    coverage = [data.coverage(s, cutoff, day) for s in symbols]
+    failed = [c for c in coverage if c["status"] == "collection_failure"]
+    if failed:
+        raise InputsIncomplete("research inputs incomplete for " + "; ".join(f"{c['symbol']}: {c['reason']}"
+                                                                           for c in failed), coverage)
     inv = book.investable(closes)
     holdings = []
     for s in book.stocks():
@@ -160,8 +174,13 @@ def build_pack(slot: Slot, book: Book, data: MarketData, built_at: datetime, pri
         holdings.append({"symbol": BENCHMARK, "qty": str(book.qty[BENCHMARK]), "close": str(voo),
                          "value": str(v.quantize(TWO)), "weight_pct": str((v / inv * 100).quantize(TWO))})
     items, cands = [], []
-    for m in data.members():
+    cov = {c["symbol"]: c for c in coverage}
+    for m in members:
         sym = m["symbol"]
+        if cov[sym]["status"] != "complete":
+            cands.append({"rank": m["rank"], "symbol": sym, "name": m["name"], "eligible": False,
+                          "why": cov[sym]["reason"], "passages": 0})
+            continue
         fl = data.filings_by(sym, cutoff)
         n = 0
         for f in fl:
@@ -173,19 +192,28 @@ def build_pack(slot: Slot, book: Book, data: MarketData, built_at: datetime, pri
                                       f"({m['name']}), {p.get('section', 'text')}",
                                       datetime.fromisoformat(f["accepted_at"]), _cut(p["text"], lim["max_passage_chars"])))
                 n += 1
-        close = data.price(sym, day, "close")
-        facts = next((f for f in fl if f.get("facts")), None)
-        val = _valuation(sym, close, facts, cutoff) if close is not None and facts else None
-        why = "no close at the cutoff" if close is None else ("no filing with facts by the cutoff" if not facts
-                                                             else "incomplete facts")
-        if val:
-            items.append(Evidence(f"V.{sym}", "valuation", f"computed from the {day} close and {facts['accession']}",
-                                  cutoff, val[0]))
-        cands.append({"rank": m["rank"], "symbol": sym, "name": m["name"], "eligible": val is not None,
-                      "why": "" if val else why, "passages": n})
+        periodic = next(f for f in fl if f["accession"] == cov[sym]["required"][0])
+        text, _ = _valuation(sym, data.price(sym, day, "close"), periodic, cutoff)
+        items.append(Evidence(f"V.{sym}", "valuation", f"computed from the {day} close and {periodic['accession']}",
+                              cutoff, text))
+        cands.append({"rank": m["rank"], "symbol": sym, "name": m["name"], "eligible": True, "why": "", "passages": n})
+    inputs = {"data_manifest_sha256": data.manifest_sha256, "universe_sha256": data.universe_sha256}
     return MonthPack(slot.index, slot.month, cutoff, slot.deadline, built_at, data.synthetic, str(book.cash),
-                     str(inv.quantize(TWO)), str(voo), holdings, cands, prior_theses, items)
+                     str(inv.quantize(TWO)), str(voo), holdings, cands, prior_theses, items, coverage, inputs)
 
 
-def load_pack_record(path) -> dict:
-    return json.loads(open(path).read())
+def pack_from_record(rec: dict) -> MonthPack:
+    items = [Evidence(i["id"], i["kind"], i["source"], datetime.fromisoformat(i["available_at"]), i["text"], i.get("url"))
+             for i in rec["items"]]
+    return MonthPack(rec["slot"], rec["month"], datetime.fromisoformat(rec["cutoff"]),
+                     datetime.fromisoformat(rec["deadline"]), datetime.fromisoformat(rec["built_at"]), rec["synthetic"],
+                     rec["cash"], rec["investable"], rec["voo_close"], rec["holdings"], rec["candidates"],
+                     rec["prior_theses"], items, rec.get("coverage", []), rec.get("inputs", {}))
+
+
+def load_pack(path, expect_sha256: str) -> MonthPack:
+    """A frozen pack, read back from its file; refused if the file is missing or not the one the ledger froze."""
+    pack = pack_from_record(json.loads(open(path).read()))
+    if pack.sha256 != expect_sha256:
+        raise ValueError(f"{path}: not the pack frozen in the ledger (SHA-256 mismatch)")
+    return pack
