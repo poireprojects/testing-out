@@ -10,9 +10,14 @@
    "fees": "0.16",
    "marks": 251,
    "max_drawdown_pct": "22.95",
+   "max_stock_weight_at_close_pct": "10.21",
    "purchases": "132.80",
+   "residuals_above_cap": [],
+   "risk_required_reductions": 0,
    "sales": "32.05",
    "sessions": 251,
+   "sessions_with_drift_above_cap": 10,
+   "skipped_discretionary_trades": 0,
    "slippage": "0.1248",
    "turnover_pct": "36.08"
   },
@@ -23,14 +28,38 @@
    "fees": "0.02",
    "marks": 251,
    "max_drawdown_pct": "23.93",
+   "max_stock_weight_at_close_pct": "0.00",
    "purchases": "101.30",
+   "residuals_above_cap": [],
+   "risk_required_reductions": 0,
    "sales": "0",
    "sessions": 251,
+   "sessions_with_drift_above_cap": 0,
+   "skipped_discretionary_trades": 0,
    "slippage": "0.0506",
    "turnover_pct": "0.00"
   }
  },
+ "claims": {
+  "fixture_claims_not_reviewed": 16,
+  "genuine_needing_review": 0,
+  "pending": 0,
+  "reviewed": 0,
+  "unsupported": []
+ },
  "complete": true,
+ "cost_status_counts": {
+  "missing": 0,
+  "not_requested": 0,
+  "reconciled": 12,
+  "unreconciled": 0
+ },
+ "decision_status_counts": {
+  "invalid_answer": 1,
+  "missed_answer": 2,
+  "missing_input": 0,
+  "valid": 9
+ },
  "decisions": [
   {
    "actions": [
@@ -42,6 +71,7 @@
    "genuine": false,
    "month": "2031-01",
    "problems": [],
+   "reason": "",
    "slot": 1,
    "status": "valid",
    "voo_pct": "86"
@@ -56,6 +86,7 @@
    "genuine": false,
    "month": "2031-02",
    "problems": [],
+   "reason": "",
    "slot": 2,
    "status": "valid",
    "voo_pct": "83.28"
@@ -71,6 +102,7 @@
    "genuine": false,
    "month": "2031-03",
    "problems": [],
+   "reason": "",
    "slot": 3,
    "status": "valid",
    "voo_pct": "85.51"
@@ -84,8 +116,9 @@
    "problems": [
     "fixture: the scripted month has no answer"
    ],
+   "reason": "no_answer",
    "slot": 4,
-   "status": "missed",
+   "status": "missed_answer",
    "voo_pct": null
   },
   {
@@ -102,8 +135,9 @@
    "problems": [
     "4 stocks after the decision; at most 3"
    ],
+   "reason": "rules",
    "slot": 5,
-   "status": "invalid",
+   "status": "invalid_answer",
    "voo_pct": "75.74"
   },
   {
@@ -118,8 +152,9 @@
    "problems": [
     "frozen at or after the fill session's open"
    ],
+   "reason": "late",
    "slot": 6,
-   "status": "late",
+   "status": "missed_answer",
    "voo_pct": null
   },
   {
@@ -132,6 +167,7 @@
    "genuine": false,
    "month": "2031-07",
    "problems": [],
+   "reason": "",
    "slot": 7,
    "status": "valid",
    "voo_pct": "88.56"
@@ -146,6 +182,7 @@
    "genuine": false,
    "month": "2031-08",
    "problems": [],
+   "reason": "",
    "slot": 8,
    "status": "valid",
    "voo_pct": "88.03"
@@ -160,6 +197,7 @@
    "genuine": false,
    "month": "2031-09",
    "problems": [],
+   "reason": "",
    "slot": 9,
    "status": "valid",
    "voo_pct": "100"
@@ -173,6 +211,7 @@
    "genuine": false,
    "month": "2031-10",
    "problems": [],
+   "reason": "",
    "slot": 10,
    "status": "valid",
    "voo_pct": "100"
@@ -186,6 +225,7 @@
    "genuine": false,
    "month": "2031-11",
    "problems": [],
+   "reason": "",
    "slot": 11,
    "status": "valid",
    "voo_pct": "90"
@@ -199,6 +239,7 @@
    "genuine": false,
    "month": "2031-12",
    "problems": [],
+   "reason": "",
    "slot": 12,
    "status": "valid",
    "voo_pct": "90.58"
@@ -206,6 +247,7 @@
  ],
  "decisions_fixture": 12,
  "decisions_genuine": 0,
+ "decisions_genuine_valid": 0,
  "excess_pp_all_in": "-1.5006",
  "excess_pp_before": "0.7731",
  "excess_usd_all_in": "-1.5006",
@@ -215,20 +257,21 @@
    "autotrader/decision.py": "553e8a82301ce5667209c7a649efcca39fbcd41536ed1e06b5d151cc89c28724",
    "autotrader/evidence.py": "c804a47c5854506180956dde8751e42522445368a0684c0a8b58dbbeda61b5ac",
    "autotrader/invest/__init__.py": "5fc5693729c6c810e455516db88b1c5849fd33dc47a138f21415221fdc980c12",
-   "autotrader/invest/__main__.py": "207cd872edaf110440cf14ce505ca6a36d00ac6b85930e222109171b79898191",
-   "autotrader/invest/accounting.py": "049d84e1d1a483fe2f1f8c81b47779a376f1603d5c0b014c93478c6bb7a81c1d",
+   "autotrader/invest/__main__.py": "f87c496700feade94426b9ae67c7808a0da42cd01d7f326eb628a61a273fd673",
+   "autotrader/invest/accounting.py": "26cea9f70ca70107b4b19ce0883658208bfe36b7d77bbaa9fd95062054ebde87",
+   "autotrader/invest/claims.py": "697e858e96e3a8d362c1ff42a40daebd22d197c27f843c19f361d9bf22c34bdf",
    "autotrader/invest/contract.py": "ec637d3e766a5215498184cc577c338efd50c3fc2fa9207e022e42401b2bd70b",
-   "autotrader/invest/data.py": "6481848856513ce4149dc959522aaee496c2c5270ce81409e03c55f0dfa73e26",
-   "autotrader/invest/engine.py": "58fb05f5a7b46a36cf5d6b439454953da94995798632c4bea944251ed9b83abf",
-   "autotrader/invest/ledger.py": "7324b4ac819e2ad65eb0415fd049fd07d05f24fe111d11aa6fba2eeb042b91be",
-   "autotrader/invest/pack.py": "1e1ccad0cb5070ef1d510e14a8e68ea5c01c6f653c80eeba6925fcd30cc8ebf9",
-   "autotrader/invest/registration.py": "6eb3ec0b47e66fd5b47489b59fab6ee4539c0dd5459907aeaefe33a49352e2e0",
-   "autotrader/invest/report.py": "69e228ed38f2a3dd3885a0381711194c9e01056132090438091644c71dea8ce0",
-   "autotrader/invest/synthetic.py": "bc5b54296c985e85827b16087de89ea0f87dc1bd8d53476ee785a170e2342dfe",
+   "autotrader/invest/data.py": "8d6201d291902dd0b182538d75a70aa32266fdd0ddad7df1c8c46171cee35ecd",
+   "autotrader/invest/engine.py": "cd6478a4a650727952a1f136f79bfec03e9ec309311e12836f040f35c86dd69e",
+   "autotrader/invest/ledger.py": "eb9470645c5d2435566467a6faaa48a108d7248d34406fc42c05b3bce9a7eb00",
+   "autotrader/invest/pack.py": "9ee38a42d3358d0dbf54dcb488207d54d1e6fb0bcd71d4791d0a1303a601bb23",
+   "autotrader/invest/registration.py": "ef0d06b6b8d4dc629f586a3c4459c4011178d8f637df609c8e960b6392a37bb4",
+   "autotrader/invest/report.py": "55172025ea86043eaf419fa43fcc265672b81b6aee450538143c07551adee0da",
+   "autotrader/invest/synthetic.py": "a3c2a31265e606cd66590105f045f28facf784e17a1ff5a5b2adf9ba3c6c5fbb",
    "autotrader/invest/universe.py": "b56dc74c70fbe925e143f6ef39b50b329c279f6824de50b804bb6df6ea1a55a8",
    "autotrader/ledger.py": "13da7a35b435ebf11953de3d0421f50cf5f42969702b40836a5e046b5131553e"
   },
-  "config_sha256": "d13c552082f0bd4bc8ef6b502605236af314d9183022443d1b58b5948d058651",
+  "config_sha256": "5083a66ddaffa84c07f5797373a3c4af1bf083ebda2a4578c8abd1b389ff292c",
   "decider": "fixture",
   "experiment": "invest-pilot-1",
   "first_fill_month": "2031-01",
@@ -238,6 +281,10 @@
   "universe_sha256": "10928749e09a08bee9c2cdc49af3c13a0e9199f34421e326875c1e12b6e92e28"
  },
  "incomplete_because": [],
+ "limitations": [
+  "quantities are sized from the opening price and filled at that price plus slippage: a paper-model convention, not evidence that fractional opening-auction orders would execute",
+  "citation checks verify quotation mechanics, not financial correctness (see claims)"
+ ],
  "mode": "dry_run",
  "model_costs": {
   "charges": [
@@ -246,6 +293,7 @@
     "grown_to_end": "0.1692",
     "month": "2031-01",
     "slot": 1,
+    "status": "reconciled",
     "usd": "0.20"
    },
    {
@@ -253,6 +301,7 @@
     "grown_to_end": "0.1703",
     "month": "2031-02",
     "slot": 2,
+    "status": "reconciled",
     "usd": "0.20"
    },
    {
@@ -260,6 +309,7 @@
     "grown_to_end": "0.1725",
     "month": "2031-03",
     "slot": 3,
+    "status": "reconciled",
     "usd": "0.20"
    },
    {
@@ -267,6 +317,7 @@
     "grown_to_end": "0.1700",
     "month": "2031-04",
     "slot": 4,
+    "status": "reconciled",
     "usd": "0.20"
    },
    {
@@ -274,6 +325,7 @@
     "grown_to_end": "0.1746",
     "month": "2031-05",
     "slot": 5,
+    "status": "reconciled",
     "usd": "0.20"
    },
    {
@@ -281,6 +333,7 @@
     "grown_to_end": "0.1910",
     "month": "2031-06",
     "slot": 6,
+    "status": "reconciled",
     "usd": "0.20"
    },
    {
@@ -288,6 +341,7 @@
     "grown_to_end": "0.1930",
     "month": "2031-07",
     "slot": 7,
+    "status": "reconciled",
     "usd": "0.20"
    },
    {
@@ -295,6 +349,7 @@
     "grown_to_end": "0.2061",
     "month": "2031-08",
     "slot": 8,
+    "status": "reconciled",
     "usd": "0.20"
    },
    {
@@ -302,6 +357,7 @@
     "grown_to_end": "0.2069",
     "month": "2031-09",
     "slot": 9,
+    "status": "reconciled",
     "usd": "0.20"
    },
    {
@@ -309,6 +365,7 @@
     "grown_to_end": "0.2095",
     "month": "2031-10",
     "slot": 10,
+    "status": "reconciled",
     "usd": "0.20"
    },
    {
@@ -316,6 +373,7 @@
     "grown_to_end": "0.2128",
     "month": "2031-11",
     "slot": 11,
+    "status": "reconciled",
     "usd": "0.20"
    },
    {
@@ -323,14 +381,16 @@
     "grown_to_end": "0.1978",
     "month": "2031-12",
     "slot": 12,
+    "status": "reconciled",
     "usd": "0.20"
    }
   ],
-  "grown_usd": "2.2737",
-  "nominal_usd": "2.40"
+  "grown_known_usd": "2.2737",
+  "nominal_known_usd": "2.40"
  },
  "outcome_rule_mechanics": "stop this version",
- "pack_files_verified": 12,
+ "pack_problems": [],
+ "packs_frozen": 12,
  "return_pct": {
   "ai_all_in": "-16.8769",
   "ai_before": "-14.6032",
