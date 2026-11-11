@@ -5,6 +5,8 @@
     python -m autotrader.invest verify STATE_DIR         # check the ledger's hash chain and keys
     python -m autotrader.invest request STATE_DIR SLOT   # print the exact model request a genuine decision would
                                                          # send for a frozen pack (offline; nothing is sent)
+    python -m autotrader.invest reconcile STATE_DIR SLOT USD EVIDENCE   # resolve an unreconciled charge (append-only)
+    python -m autotrader.invest review-packet STATE_DIR OUT.json        # blinded claim-review packet
     python -m autotrader.invest forward ...              # refuses: the registration is proposed, not approved
 """
 from __future__ import annotations
@@ -16,11 +18,13 @@ import sys
 from datetime import datetime
 from pathlib import Path
 
-from ..evidence import Evidence
+from datetime import timezone
+
 from . import synthetic
-from .engine import FixtureDecider, ModelDecider, run
+from .claims import packet
+from .engine import FixtureDecider, ModelDecider, reconcile, run
 from .ledger import read_records
-from .pack import MonthPack
+from .pack import pack_from_record
 from .registration import FROZEN, config_sha256
 from .report import write_report
 
@@ -59,17 +63,25 @@ def cmd_verify(a) -> int:
 
 def cmd_request(a) -> int:
     rec = json.loads((Path(a.state_dir) / "packs" / f"slot-{int(a.slot):02d}.json").read_text())
-    items = [Evidence(i["id"], i["kind"], i["source"], datetime.fromisoformat(i["available_at"]), i["text"], i.get("url"))
-             for i in rec["items"]]
-    pack = MonthPack(rec["slot"], rec["month"], datetime.fromisoformat(rec["cutoff"]),
-                     datetime.fromisoformat(rec["deadline"]), datetime.fromisoformat(rec["built_at"]), rec["synthetic"],
-                     rec["cash"], rec["investable"], rec["voo_close"], rec["holdings"], rec["candidates"],
-                     rec["prior_theses"], items)
+    pack = pack_from_record(rec)
     params = ModelDecider([c["symbol"] for c in rec["candidates"]]).request(pack)
     body = json.dumps(params, sort_keys=True).encode()
     print(json.dumps(params, indent=1))
     print(f"\n# {len(body):,} bytes; nothing was sent. Model {FROZEN['model']['id']}, effort "
           f"{FROZEN['model']['effort']}, max_tokens {FROZEN['model']['max_tokens']}.", file=sys.stderr)
+    return 0
+
+
+def cmd_reconcile(a) -> int:
+    rec = reconcile(Path(a.state_dir), int(a.slot), a.usd, a.evidence, datetime.now(timezone.utc))
+    print(f"recorded {rec['key']}: {rec['payload']['usd']} USD")
+    return 0
+
+
+def cmd_review_packet(a) -> int:
+    pk = packet(Path(a.state_dir))
+    Path(a.out).write_text(json.dumps(pk, indent=1, sort_keys=True) + "\n")
+    print(f"{len(pk['items'])} claim(s) written to {a.out} (blinded: no action, weight, later price or outcome)")
     return 0
 
 
@@ -96,6 +108,14 @@ def main(argv=None) -> int:
     q.add_argument("state_dir")
     q.add_argument("slot")
     q.set_defaults(fn=cmd_request)
+    c = sp.add_parser("reconcile")
+    for x in ("state_dir", "slot", "usd", "evidence"):
+        c.add_argument(x)
+    c.set_defaults(fn=cmd_reconcile)
+    rp = sp.add_parser("review-packet")
+    rp.add_argument("state_dir")
+    rp.add_argument("out")
+    rp.set_defaults(fn=cmd_review_packet)
     f = sp.add_parser("forward")
     f.add_argument("rest", nargs="*")
     f.set_defaults(fn=cmd_forward)
