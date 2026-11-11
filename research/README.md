@@ -10,8 +10,12 @@
 * `runs/` — later research runs, each in its own dated folder. Nothing here is overwritten.
   * `runs/2026-11-06-round1/` — round 1 (holdout 2026-05-01 → 08-26).
   * `runs/2026-11-07-reset/` — strategic reset: where trading profits come from, capital and risk simulations.
+  * `runs/2026-11-11-invest-pilot/` — the proposed forward, paper-only investing pilot (AI picks vs holding VOO;
+    `autotrader/invest/`): `REGISTRATION.md` and an offline dry run on synthetic data with fixture decisions
+    (`dry-run/`, not a result). Not approved; the forward clock has not started.
   * `runs/2026-11-07-phase5/` — phase 5, the autonomous research-and-decision prototype (`autotrader/`): a
     development replay on examined data (not evidence) and the forward ledger (`PREREGISTRATION-2026-11-07-phase5.md`).
+    Closed as inconclusive on 2026-11-11 with zero model decisions (`CLOSED.md`).
   * `runs/2026-11-07-phase4/` — phase 4, event-driven feasibility audit and the earnings-day test
     (`PREREGISTRATION-2026-11-07-phase4.md`). NO-GO. Raw data not committed; see `data-manifest.json`.
     `corrected/` holds the integrity corrections (stop timing, daily fees, ML acceptance), published separately;
