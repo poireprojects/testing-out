@@ -25,7 +25,7 @@ from pathlib import Path
 from typing import Optional
 
 FILES = ("prices.json", "actions.json", "universe.json", "filings.json")
-OPTIONAL = ("index.json",)
+OPTIONAL = ("index.json", "provenance.json", "review_table.json")
 PERIODIC = ("10-K", "10-Q")
 FACTS = ("shares_outstanding", "revenue_ttm_musd", "net_income_ttm_musd", "eps_diluted_ttm")
 
@@ -52,6 +52,7 @@ class MarketData:
         self.prices = json.loads((self.d / "prices.json").read_text())
         acts = json.loads((self.d / "actions.json").read_text())
         self.splits, self.dividends = acts.get("splits", []), acts.get("dividends", [])
+        self.unsupported = acts.get("unsupported", [])
         self.universe = json.loads((self.d / "universe.json").read_text())
         self.filings = json.loads((self.d / "filings.json").read_text())
         p = self.d / "index.json"
@@ -93,6 +94,11 @@ class MarketData:
         (something that exists, or may exist, was not collected)."""
         idx = (self.index.get("symbols") or {}).get(symbol)
         out = {"symbol": symbol, "required": [], "index_retrieved_at": None, "index_source": None}
+        act = next((a for a in self.unsupported if a["symbol"] == symbol and a.get("date")
+                    and date.fromisoformat(a["date"]) <= day), None)
+        if act is not None:
+            return out | {"status": "unavailable",
+                          "reason": f"unsupported corporate action ({act['kind']}, {act['date']}): not modelled"}
         if idx is None:
             return out | {"status": "collection_failure", "reason": "no EDGAR submission index was collected"}
         out |= {"index_retrieved_at": idx["retrieved_at"], "index_source": idx.get("source")}
@@ -112,14 +118,19 @@ class MarketData:
                              and at(f) > at(last)]
         out["required"] = [f["accession"] for f in required]
         have = {f["accession"]: f for f in self.filings if f["symbol"] == symbol}
+        problems = idx.get("problems") or {}
         for f in required:
             got = have.get(f["accession"])
             if got is None:
+                why = problems.get(f["accession"])
                 return out | {"status": "collection_failure",
-                              "reason": f"{f['form']} {f['accession']} is in the index but was not collected"}
+                              "reason": f"{f['form']} {f['accession']} is in the index but was not collected"
+                                        + (f": {why}" if why else "")}
             if not got.get("passages"):
                 return out | {"status": "collection_failure",
                               "reason": f"{f['form']} {f['accession']} was collected without its text"}
+            if f is last and got.get("facts_unavailable"):
+                return out | {"status": "unavailable", "reason": f"{f['form']} {f['accession']}: {got['facts_unavailable']}"}
             if f is last and any((got.get("facts") or {}).get(k) in (None, "") for k in FACTS):
                 return out | {"status": "collection_failure",
                               "reason": f"{f['form']} {f['accession']} was collected without its XBRL facts"}
@@ -133,7 +144,7 @@ class MarketData:
 
 
 def write_data_dir(d: Path, *, synthetic: bool, sources: dict, prices: dict, actions: dict, universe: dict,
-                   filings: list, index: Optional[dict] = None) -> str:
+                   filings: list, index: Optional[dict] = None, extra: Optional[dict] = None) -> str:
     """Write a data directory and its manifest; returns the manifest's SHA-256. Without `index` no index file is
     written, and every symbol's research inputs count as a collection failure."""
     d = Path(d)
@@ -143,6 +154,10 @@ def write_data_dir(d: Path, *, synthetic: bool, sources: dict, prices: dict, act
         objs.append(("index.json", index))
     elif (d / "index.json").exists():
         (d / "index.json").unlink()
+    for name, obj in (extra or {}).items():
+        if name not in OPTIONAL:
+            raise DataError(f"{name}: not a known optional data file")
+        objs.append((name, obj))
     for name, obj in objs:
         (d / name).write_text(json.dumps(obj, sort_keys=True, indent=1) + "\n")
     man = {"synthetic": synthetic, "sources": sources, "files": {n: file_sha256(d / n) for n, _ in objs}}
