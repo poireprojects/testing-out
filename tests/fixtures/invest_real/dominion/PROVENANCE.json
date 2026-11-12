@@ -1,0 +1,15 @@
+{
+ "files": {
+  "dominion_netincome_excerpt.json": {
+   "original_sha256": "09d685b457ae23698c3e2bf5beb0cd3540b905a2008f6b6008282d23f6cc59ec",
+   "retrieved_at": "2026-11-07T14:41:19.711356+00:00",
+   "source_url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000715957.json"
+  },
+  "dominion_submissions_excerpt.json": {
+   "original_sha256": "d6e95607e1d31004f9aa6cebcdab03a67f641905ece2bfa1b2f12077e6ecdba6",
+   "retrieved_at": "2026-11-07T02:13:24.566591+00:00",
+   "source_url": "https://data.sec.gov/submissions/CIK0000715957.json"
+  }
+ },
+ "note": "REAL public SEC data (U.S. government work), excerpted from files the phase-4 collector cached (cache name sha256(url)[:24] proves the URL; retrieval time is the cached file's modification time). Excerpt rule: us-gaap NetIncomeLoss (USD) rows filed 2024-01-01..2026-12-31; the submissions excerpt keeps the recent-index rows of the accessions those rows cite. Used to test the Dominion Energy mixed-reporting-basis case."
+}
