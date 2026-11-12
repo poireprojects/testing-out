@@ -5,7 +5,12 @@ through `InvestLedger.put`, so:
 * a rerun with the same data and the same clock adds nothing (the ledger file is unchanged byte for byte);
 * a price that changed after a fill was recorded stops the run (`LedgerConflict`) instead of rewriting history;
 * missing prices are recorded as a gap and that portfolio stops there; nothing is filled in, and later sessions wait
-  until the data exists (a later run resolves the gap and continues).
+  until the data exists (a later run resolves the gap and continues);
+* so are corporate actions not covered by the collection record for a held security, from the previous session to
+  this one (`gap|book|day|corporate_actions`): no dividend or split is assumed to be zero. Each book is affected only
+  by what it holds, so a gap in a stock only the shadow holds never stops the voo or ai portfolio. A forecast outcome
+  needs coverage over its horizon; without it (or without its prices) an `outcome_gap` record says so, and a later
+  run with the data records the outcome (actions are applied once: every run recomputes the books from the start).
 
 A month's decision moves through append-only records, each written (and fsync'd) before the next step starts:
 
@@ -400,6 +405,11 @@ def _run(led, state_dir, data, decider, slots, mode, now, stamp, identity) -> di
 
     def open_step(name: str, s, prev_day) -> None:
         b = copy.deepcopy(books[name])
+        uncovered = sorted(x for x in b.held() if data.actions_gap(x, prev_day, s.day) is not None)
+        if uncovered:                                   # actions since the last session unknown: never assumed none
+            gap(name, s.day, "corporate_actions", uncovered)
+            return
+        resolved(name, s.day, "corporate_actions")
         bad = sorted({a["symbol"] for a in data.unsupported if a["symbol"] in b.held() and a.get("date")
                       and (prev_day is None or a["date"] > prev_day.isoformat()) and a["date"] <= s.day.isoformat()})
         if bad:                                         # a merger, spin-off, delisting...: not modelled, never guessed
@@ -459,9 +469,15 @@ def _run(led, state_dir, data, decider, slots, mode, now, stamp, identity) -> di
             return
         start = slots[k - 1].fill.day
         for sym in [BENCHMARK] + [a["symbol"] for a in rec["payload"]["decision"]["assessments"]]:
-            tr = total_return(data, sym, start, s.day)
+            uncovered = data.actions_gap(sym, start, s.day) is not None
+            tr = None if uncovered else total_return(data, sym, start, s.day)
             if tr is not None:
                 led.put(f"forecast_outcome|{k}|{sym}", "forecast_outcome", {"slot": k, **tr}, stamp(s.close))
+            elif led.get(f"forecast_outcome|{k}|{sym}") is None:
+                why = "corporate_actions_not_covered" if uncovered else "price_missing"
+                led.put(f"outcome_gap|{k}|{sym}|{why}", "outcome_gap",
+                        {"slot": k, "symbol": sym, "reason": why, "start": str(start), "end": str(s.day)},
+                        stamp(s.close))
 
     def close_step(name: str, s) -> None:
         b = books[name]
