@@ -2,11 +2,11 @@
 
     python -m autotrader.invest dryrun OUT_DIR                 # end to end on FIXTURES: raw files -> pipeline ->
                                                                # data -> fixture decisions -> ledger -> report
-    python -m autotrader.invest build-data RAW_DIR DATA_DIR --freeze ISO --series NAME
+    python -m autotrader.invest build-data RAW_DIR DATA_DIR --freeze ISO --series-id S######### [--series NAME]
     python -m autotrader.invest trial-pack DATA_DIR OUT_DIR --first-fill-month YYYY-MM --slot N
                                                                # input inspection: pack + exact request + digest
     python -m autotrader.invest budget OUT_DIR                 # maximum-size request: bytes, token estimates, budget
-    python -m autotrader.invest real-check OUT.json CACHE_DIR... # parsers on real cached SEC files (offline)
+    python -m autotrader.invest real-check OUT.json CACHE_DIR... [--raw-index DIR]  # parsers on real saved files
     python -m autotrader.invest report STATE_DIR
     python -m autotrader.invest verify STATE_DIR
     python -m autotrader.invest request STATE_DIR SLOT         # the exact request for a frozen pack (offline)
@@ -55,7 +55,8 @@ def cmd_dryrun(a) -> int:
     raw, data = out / "raw", out / "data"
     if not (raw / "MANIFEST.json").exists():
         synthetic_raw.build_raw(raw)
-    built = pipeline.build_data(raw, data, freeze=synthetic_raw.FREEZE, series_name=synthetic_raw.SERIES)
+    built = pipeline.build_data(raw, data, freeze=synthetic_raw.FREEZE, series_id=synthetic_raw.SERIES_ID,
+                                series_name=synthetic_raw.SERIES)
     dec = FixtureDecider(synthetic.FIXTURE_SCRIPT, synthetic.FIXTURE_COST_USD)
     res = run(out, data, dec, mode="dry_run", first_fill_month=synthetic.FIRST_FILL_MONTH, now=synthetic.end_of_pilot())
     rep = write_report(out)
@@ -95,7 +96,7 @@ def cmd_dryrun(a) -> int:
 
 def cmd_build_data(a) -> int:
     r = pipeline.build_data(Path(a.raw_dir), Path(a.data_dir), freeze=datetime.fromisoformat(a.freeze),
-                            series_name=a.series)
+                            series_id=a.series_id, series_name=a.series or "")
     print(json.dumps(r, indent=1, default=str))
     return 0
 
@@ -127,10 +128,13 @@ def cmd_budget(a) -> int:
 
 
 def cmd_real_check(a) -> int:
-    from .real_check import check
+    from .real_check import check, check_raw_index
     r = check([Path(x) for x in a.cache_dirs])
+    if a.raw_index:
+        r["raw_index"] = [check_raw_index(Path(x)) for x in a.raw_index]
     Path(a.out).write_text(json.dumps(r, indent=1, sort_keys=True, default=str) + "\n")
-    print(json.dumps(r["totals"], indent=1))
+    print(json.dumps(r["totals"] | ({"raw_index": [x["totals"] for x in r["raw_index"]]} if a.raw_index else {}),
+                     indent=1))
     return 0
 
 
@@ -185,7 +189,8 @@ def main(argv=None) -> int:
     b.add_argument("raw_dir")
     b.add_argument("data_dir")
     b.add_argument("--freeze", required=True)
-    b.add_argument("--series", required=True)
+    b.add_argument("--series-id", required=True)
+    b.add_argument("--series", default="")
     b.set_defaults(fn=cmd_build_data)
     t = sp.add_parser("trial-pack")
     t.add_argument("data_dir")
@@ -199,6 +204,7 @@ def main(argv=None) -> int:
     rc = sp.add_parser("real-check")
     rc.add_argument("out")
     rc.add_argument("cache_dirs", nargs="+")
+    rc.add_argument("--raw-index", action="append", default=[], help="a saved raw directory with index.jsonl")
     rc.set_defaults(fn=cmd_real_check)
     r = sp.add_parser("report")
     r.add_argument("state_dir")
