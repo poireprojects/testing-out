@@ -316,8 +316,8 @@ whether monthly AI stock picks leave you with more money than buying VOO with th
     labelled as such.
   * If it buys nothing, it says why VOO is better.
 * **What code enforces:** the limits, the citations, the accounting (dividends, splits, fees, leftover cash) and a
-  tamper-evident ledger. A late, missing or rule-breaking decision changes nothing. If any company's filings were
-  not collected, the AI is not asked that month and the record stays inconclusive.
+  tamper-evident ledger. A late, missing or rule-breaking decision changes nothing. If any company's filings or
+  corporate actions were not collected, the AI is not asked that month and the record stays inconclusive.
 * **What code cannot check:** whether a cited figure is used correctly. The checks confirm quotes and numbers match
   the filings, not that the reasoning is right; a person reviews every claim of a real decision blind to the
   outcome.
@@ -477,6 +477,11 @@ They also cover the research tooling:
     * passages quoted word for word, including adverse disclosures;
     * the company list taken from a fund report public before the freeze, with no guessed ticker mapping;
     * prices that are already split-adjusted refused, and unsupported corporate actions flagged;
+  * the data-integrity gate (`tests/test_invest_integrity.py`):
+    * dividends and splits used only where a complete collection proves them;
+    * the fund report proven to be the latest one of the right series;
+    * share counts read from each filing's own cover page, never added twice;
+    * figures mixing restated and unrestated periods marked unresolved, as in the real Dominion case;
   * the secondary checks, worked by hand (dividends, splits, ties, overlapping and pending months);
   * no network access during any of these tests;
   * a byte-for-byte reproducible dry run that matches the committed one.
