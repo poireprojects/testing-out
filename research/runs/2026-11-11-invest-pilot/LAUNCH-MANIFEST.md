@@ -1,8 +1,20 @@
-# INVEST-PILOT-1: launch manifest and runbook (2026-11-11)
+# INVEST-PILOT-1: launch manifest and runbook (2026-11-11; gate updated 2026-11-12)
 
 **Launch status: NOT APPROVED. Paid dispatch: BLOCKED.** This is the single list of what a genuine launch needs. It
 authorizes nothing. No paid client, live collector, broker connection or forward clock exists in this version, and
 `python -m autotrader.invest forward` refuses.
+
+## 0. Launch gate
+
+Evidence for each line is in `READINESS.md`. Nothing here authorizes launch or spending.
+
+| state | items |
+|---|---|
+| **offline implementation tested** | the pipeline, accounting, contract, diagnostics and ledger. Data-integrity gate: corporate-action coverage, the latest eligible N-PORT report, share counts from filing context, and the reporting basis of trailing values (220 investing tests, 43 of them added by the gate and failing on `0f19afb`) |
+| **real-source validation passed** (on files already saved; no download) | <ul><li>SEC company facts and submissions: 40 companies, 632 as-of points; 30 trailing values unresolved, Dominion's included</li><li>43 filing headers</li><li>one real N-PORT-P XML and its index page: iShares Russell 1000, not the registered fund</li><li>98 real 8-K documents (passages)</li><li>8 real 8-K inline XBRL covers (contexts)</li></ul> |
+| **real-source validation pending** (files absent) | <ul><li>the registered fund's (Vanguard 500 Index Fund) N-PORT-P and its registrant's submissions index</li><li>real 10-K/10-Q inline XBRL cover pages: share-count context</li><li>real 10-K/10-Q documents: MD&A and risk-factor sections</li><li>real vendor bars</li><li>real vendor corporate-action responses</li><li>the N-PORT public-availability rule text and the vendor's pagination documentation (hosts unreachable here)</li></ul> See `READINESS.md`, "Missing data" |
+| **owner authorization pending** | <ul><li>the SEC contact for EDGAR collection: no scoped authorization is on record in this session</li><li>a market-data source and a newly issued key</li><li>the mapping review</li><li>model spend</li><li>the registration, amendment and freeze</li></ul> |
+| **paid-budget enforcement unresolved** | no documented bound on billable input tokens and no documented non-overshooting spend limit (§3). The paid path refuses |
 
 ## 1. What would be sent
 
@@ -32,17 +44,18 @@ authorizes nothing. No paid client, live collector, broker connection or forward
 ## 3. Budget (`python -m autotrader.invest budget OUT_DIR`)
 
 * **Measured:** a request with every registered cap filled (12 candidates x 4 passages x 1,200 characters, 12
-  valuation rows, three holdings with theses) is **81,796 bytes**, SHA-256
-  `f2fd1ffd960f560bf5f57e1cdc390d4fb1ac3e5595b241cc6d913dca86c0d919`. A maximum-length answer under the caps is
-  24,050 bytes.
+  valuation rows at their longest wording, three holdings with theses) is **84,129 bytes**, SHA-256
+  `96793584d6fc68f5d32b2bdaa3d0af4a25a2195eabf5653a73dab7b236bec613`. (It was 81,796 bytes. The data-integrity
+  gate added unresolved-input wording to the valuation row, and the budget now renders the longest row the code can
+  write.) A maximum-length answer under the caps is 24,050 bytes.
 * **Estimated (not bounds):**
-  * input of 20,449–32,718 tokens, at 2.5–4 bytes per token (the injected structured-output prompt is not
+  * input of 21,032–33,652 tokens, at 2.5–4 bytes per token (the injected structured-output prompt is not
     included);
   * an answer at every cap of 6,012–9,620 tokens, which leaves about 6,380 tokens for thinking at the high
     estimate. An answer at every cap plus long thinking could hit `max_tokens`: a missed month that is still
     charged.
 * **Documented bound:** output is at most 16,000 tokens, or **$0.32** per request.
-* **Estimated cost:** **$0.40–0.45** per request at the caps; **$4.82–5.41** for 12 requests.
+* **Estimated cost:** **$0.40–0.45** per request at the caps; **$4.85–5.46** for 12 requests.
 * **Plan for a later paid client:**
   * at most 12 requests, with no retries; a failed or lost request counts and is never resent;
   * before each request, reserve its high estimate in the durable journal, and keep the reservation until the
@@ -60,8 +73,8 @@ The documentation offers neither. Token counting is an estimate with an unquanti
 documented only as blocking requests after usage reaches them.
 
 *For the owner's decision, not a guarantee:* $12.50 over 12 requests is $1.04 each. After the $0.32 output bound,
-that leaves $0.72, or about 180,000 input tokens per request: about **5.5 times** the high estimate, or more than
-2 tokens per byte of the 81,796-byte request. Pairing a
+that leaves $0.72, or about 180,000 input tokens per request: about **5.3 times** the high estimate, or more than
+2 tokens per byte of the 84,129-byte request. Pairing a
 free token count before each request with a workspace spend limit at the remaining ceiling would make overspend
 very unlikely. Accepting that as "enforcement" is a policy choice only the owner can make. Code does not make it.
 
@@ -70,10 +83,11 @@ very unlikely. Accepting that as "enforcement" is a policy choice only the owner
 | dependency | status | what is needed |
 |---|---|---|
 | independent review | pending | review of this code, `REGISTRATION.md`, `AMENDMENT-1.md` and `READINESS.md` |
-| scoped SEC authorization | recorded | the owner's contact may be used for this pilot's EDGAR collection until revoked or until the scope changes (registration). A live EDGAR transport that sends it, at the SEC's fair-access rate, is **not written** (`adapters.raw.RefusingTransport` is the only live transport) |
-| market-data entitlement | not chosen | an owner-approved source of unadjusted daily opens and closes, cash dividends (ex and pay dates), splits, symbol changes and other actions, with terms that say whether prices may be committed. A **newly issued** key; the exposed key starting PKJB7U is never used |
+| scoped SEC authorization | **pending** | the registration's statement that the owner's contact may be used is not itself proof of permission, and no scoped owner authorization is on record in this session. The previous session's hand-off records a stricter standing rule: fresh approval each time. The owner must give, in writing and dated, a scope (sites, purpose, duration). A live EDGAR transport that sends the contact, at the SEC's fair-access rate, is **not written** (`adapters.raw.RefusingTransport` is the only live transport) |
+| market-data entitlement | not chosen | an owner-approved source of unadjusted daily opens and closes, cash dividends (ex and pay dates), splits, symbol changes and other actions, with terms that say whether prices may be committed. Corporate actions must be collected as untyped queries with every page saved verbatim and the request (symbols, dates, page token) in its URL, retrieved after the dates they cover; otherwise nothing is covered. A **newly issued** key; the exposed key starting PKJB7U is never used |
+| data-integrity gate | offline implementation tested; real-source validation pending | `READINESS.md`. The real samples listed there must pass the same checks before the review |
 | fee verification | not verified for 2027 onward | SEC Section 31 and FINRA TAF rates for the pilot dates, from primary sources |
-| mapping review | not done | a person checks `review_table.json` (CUSIP → symbol and CIK) against the N-PORT report date and writes the review file. The fixture review is scripted and labelled so |
+| mapping review | not done | a person checks `review_table.json` (CUSIP → symbol and CIK) against the N-PORT report date and writes the review file. It must have exactly 12 rows, with no symbol, CIK or CUSIP twice. The real N-PORT checked gives no ticker identifier for any top-12 holding, so every row will need the reviewer's own mapping. The fixture review is scripted and labelled so |
 | host | not chosen | a machine that runs from each cutoff close (16:00 ET) to the next open, keeps the model key locally, and pushes each freeze |
 | external timestamps | not chosen | proof from outside this machine that each pack and decision existed before its fill open: for example, a pushed commit with the host's receipt time, or an RFC 3161 timestamp of the ledger hash |
 | paid transport | not written | journal before dispatch, one request per slot, **never resend an ambiguous request** (in flight at a crash = `lost_in_flight`, charged, reconciled by hand), usage capture, reconciliation, and the ceiling rule above. It stays BLOCKED until the missing guarantee is resolved |
@@ -87,15 +101,20 @@ very unlikely. Accepting that as "enforcement" is a policy choice only the owner
 ```
 python -m autotrader.invest dryrun OUT_DIR             # fixtures end to end; compare with dry-run/summary.json
 python -m autotrader.invest budget OUT_DIR             # maximum-size request and budget
-python -m autotrader.invest real-check OUT.json CACHE_DIR...   # parsers on already-cached real SEC files
+python -m autotrader.invest real-check OUT.json CACHE_DIR... [--raw-index DIR]   # parsers on already-saved real files
 python -m pytest -q -o addopts="" tests/test_invest_*.py
 ```
 
 **Before launch (each step needs the dependency named above):**
 1. Collect the raw store: EDGAR submissions, headers, documents, company facts, `company_tickers.json`, the fund's
    N-PORT-P files, prices and actions. Every file goes to `RAW_DIR` with its URL, retrieval time and SHA-256.
-2. `python -m autotrader.invest build-data RAW_DIR DATA_DIR --freeze ISO --series NAME`, then have the mapping
-   reviewed. Rebuild with the signed review. The build stops on any unapproved or unresolved row.
+2. `python -m autotrader.invest build-data RAW_DIR DATA_DIR --freeze ISO --series-id S######### --series NAME`,
+   then have the mapping reviewed. Rebuild with the signed review. The build stops when any of these holds:
+   * the latest eligible N-PORT report cannot be proven (see `review_table.json`, `reconciliation`);
+   * a row is unapproved or unresolved;
+   * a mapping is duplicated.
+
+   Its summary lists uncovered corporate-action symbols and unresolved valuation facts.
 3. `python -m autotrader.invest trial-pack DATA_DIR OUT --first-fill-month YYYY-MM --slot 1`. This inspects the
    inputs only. It is not a backtest or a decision, and it is not sent.
 4. Owner approval and freeze. After that, nothing in `FROZEN` or the code may change for the run.
