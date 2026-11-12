@@ -1,14 +1,19 @@
 """Synthetic RAW fixtures in real source formats, for the offline pipeline. Nothing here is real data.
 
 Writes a raw store (`adapters.raw`) with, for twelve invented companies and an invented index fund:
-* EDGAR submissions JSON (one company also with an older page), `-index-headers` pages, primary documents and
-  EX-99.1 releases, company-facts JSON and `company_tickers.json`;
-* two N-PORT-P reports (one public before the freeze, one after) and a FIXTURE mapping review (labelled: not a
-  person's review);
-* unadjusted daily bars and a corporate-actions file (the synthetic prices of `synthetic.build`).
+* EDGAR submissions JSON (one company also with an older page), `-index-headers` pages, primary documents (10-K and
+  10-Q as inline XBRL with a cover-page share count in its context) and EX-99.1 releases, company-facts JSON and
+  `company_tickers.json`;
+* three N-PORT-P reports of the fund's registrant: two of the target series (one public before the freeze, one
+  after) and a newer pre-freeze one of ANOTHER series of the same trust (excluded by its series ID), and a FIXTURE
+  mapping review (labelled: not a person's review);
+* unadjusted daily bars and two pages of one corporate-actions response (paginated, with its query in the URL);
+  the synthetic prices and actions of `synthetic.build`.
 The fiscal calendars and XBRL shapes exercise the pipeline: calendar, September and June fiscal years and a 52/53-week
 year; quarterly, year-to-date and annual periods; comparatives repeated in later filings; a 10-K/A restatement filed
-after a cutoff; a two-class share count; an EPS entry in a wrong unit; an unsupported action after the pilot.
+after a cutoff (its restated quarters are reported, and later comparatives use them); a two-class share count
+reported only on the class axis (so, as in real company facts, no company-facts share row); an EPS entry in a wrong
+unit; an unsupported action announced for after the pilot.
 """
 from __future__ import annotations
 
@@ -28,7 +33,14 @@ from .universe import select_universe
 RETRIEVED = "2032-01-05T12:00:00+00:00"
 FREEZE = datetime(2030, 12, 15, 12, 0, tzinfo=ET)
 SERIES = "Synthetic 500 Index Fund"
+SERIES_ID = "S000099001"
+OTHER_SERIES = ("S000099002", "Synthetic Extended Market Index Fund")
 FUND_CIK = 9900000099
+ACTIONS_URL = "fixture://synthetic-vendor/v1/corporate-actions"
+IX_NS = ('xmlns="http://www.w3.org/1999/xhtml" xmlns:ix="http://www.xbrl.org/2013/inlineXBRL" '
+         'xmlns:xbrli="http://www.xbrl.org/2003/instance" xmlns:xbrldi="http://xbrl.org/2006/xbrldi" '
+         'xmlns:dei="http://xbrl.sec.gov/dei/2024" xmlns:us-gaap="http://fasb.org/us-gaap/2024" '
+         'xmlns:ixt="http://www.xbrl.org/inlineXBRL/transformation/2020-02-12"')
 D2 = Decimal("0.01")
 
 
@@ -84,7 +96,27 @@ def _header(acc: str, cik: int, name: str, form: str, t: datetime, items: list[s
             f"&lt;/SEC-HEADER&gt;\n{rows}</PRE></BODY></HTML>")
 
 
-def _doc(name: str, form: str, rev_q: Decimal, growth: int, margin: int, impairment: int, customer: int) -> str:
+def _cover(cik: int, when: date, counts: list[tuple]) -> tuple[str, str]:
+    """(hidden ix:header with contexts, visible cover sentence) for cover-page share counts [(class member, n)]."""
+    ctx, facts = [], []
+    for i, (member, n) in enumerate(counts):
+        seg = (f'<xbrli:segment><xbrldi:explicitMember dimension="us-gaap:StatementClassOfStockAxis">us-gaap:{member}'
+               '</xbrldi:explicitMember></xbrli:segment>') if member else ""
+        ctx.append(f'<xbrli:context id="cover{i}"><xbrli:entity><xbrli:identifier scheme="http://www.sec.gov/CIK">'
+                   f'{cik:010d}</xbrli:identifier>{seg}</xbrli:entity><xbrli:period><xbrli:instant>{when.isoformat()}'
+                   '</xbrli:instant></xbrli:period></xbrli:context>')
+        label = {"CommonClassAMember": "Class A common stock", "CommonClassBMember": "Class B common stock"}.get(
+            member, "common stock")
+        facts.append(f'<ix:nonFraction name="dei:EntityCommonStockSharesOutstanding" contextRef="cover{i}" '
+                     f'unitRef="shares" decimals="INF" format="ixt:num-dot-decimal">{n:,}</ix:nonFraction> shares of '
+                     f'{label}')
+    hdr = (f'<div style="display:none"><ix:header><ix:resources>{"".join(ctx)}<xbrli:unit id="shares"><xbrli:measure>'
+           'xbrli:shares</xbrli:measure></xbrli:unit></ix:resources></ix:header></div>')
+    return hdr, f"<p>As of {when:%B} {when.day}, {when.year}, the registrant had {' and '.join(facts)} outstanding.</p>"
+
+
+def _doc(name: str, form: str, rev_q: Decimal, growth: int, margin: int, impairment: int, customer: int,
+         cover: tuple | None = None) -> str:
     toc = ("<p>Table of Contents</p><p>Item 1A. Risk Factors</p>"
            "<p>Item 7. Management's Discussion and Analysis of Financial Condition and Results of Operations</p>")
     mda = (f"<h2>Management's Discussion and Analysis of Financial Condition and Results of Operations</h2>"
@@ -101,7 +133,10 @@ def _doc(name: str, form: str, rev_q: Decimal, growth: int, margin: int, impairm
             f"reduction in its orders, would materially reduce our revenue, margins and results of operations. "
             f"Customer concentration also limits our pricing power at contract renewals.</p>")
     body = toc + (risk + mda if form == "10-K" else mda)
-    return f"<html><body><h1>{name} {form}</h1>{body}</body></html>"
+    if cover is None:
+        return f"<html><body><h1>{name} {form}</h1>{body}</body></html>"
+    hdr, sentence = _cover(*cover)
+    return f"<html {IX_NS}><body>{hdr}<h1>{name} {form}</h1>{sentence}{body}</body></html>"
 
 
 def _release(name: str, rev_q: Decimal, growth: int) -> str:
@@ -139,6 +174,11 @@ def build_raw(d: Path) -> str:
         by = {(q["fy"], q["q"]): q for q in quarters}
         entries, facts = [], {"Revenues": [], "NetIncomeLoss": [], "EarningsPerShareDiluted": [], "shares": []}
         seq = 0
+        restated_on = date(2031, 4, 15) if k == 2 else None          # SYNTH03's 10-K/A: fiscal 2030 revenue x 1.05
+
+        def rv(kk, filed, rev=rev, restated_on=restated_on):
+            """Revenue of quarter kk as reported by a filing on `filed` (restated after the 10-K/A)."""
+            return rev[kk] * Decimal("1.05") if restated_on and kk[0] == 2030 and filed >= restated_on else rev[kk]
 
         def add_fact(concept, start, end, val, accn, fy, fp, form, filed, unit=None, facts=facts):
             if concept in ("Revenues", "NetIncomeLoss"):
@@ -179,15 +219,20 @@ def build_raw(d: Path) -> str:
                     put(f"edgar/docs/{nod}/{docs[1][1]}", _release(name, rev[(fy, q)], g),
                         f"https://www.sec.gov/Archives/edgar/data/{cik}/{nod}/{docs[1][1]}", "edgar_document")
                     continue
-                put(f"edgar/docs/{nod}/{prim}", _doc(name, form, rev[(fy, q)], g, 10 + (k + q) % 8, 10 + k, 10 + k),
+                cover = day - timedelta(days=5)
+                n = sh[(fy, q)]
+                counts = ([("CommonClassAMember", int(n * 0.8)), ("CommonClassBMember", int(n * 0.2))] if k == 0
+                          else [(None, n)])                     # SYNTH01 reports two classes on the class axis
+                put(f"edgar/docs/{nod}/{prim}", _doc(name, form, rev[(fy, q)], g, 10 + (k + q) % 8, 10 + k, 10 + k,
+                                                     (cik, cover, counts)),
                     f"https://www.sec.gov/Archives/edgar/data/{cik}/{nod}/{prim}", "edgar_document")
                 fp = "FY" if q == 4 else f"Q{q}"
                 if q == 4:
                     for yy in (fy, fy - 1, fy - 2):
                         qs = [by.get((yy, i)) for i in (1, 2, 3, 4)]
                         if all(qs):
-                            add_fact("Revenues", qs[0]["start"], qs[3]["end"], sum(rev[(yy, i)] for i in (1, 2, 3, 4)),
-                                     acc, fy, fp, form, day)
+                            add_fact("Revenues", qs[0]["start"], qs[3]["end"],
+                                     sum(rv((yy, i), day) for i in (1, 2, 3, 4)), acc, fy, fp, form, day)
                             add_fact("NetIncomeLoss", qs[0]["start"], qs[3]["end"],
                                      sum(ni[(yy, i)] for i in (1, 2, 3, 4)), acc, fy, fp, form, day)
                             add_fact("EarningsPerShareDiluted", qs[0]["start"], qs[3]["end"],
@@ -198,23 +243,21 @@ def build_raw(d: Path) -> str:
                             if qd is None:
                                 continue
                             kk = (qd["fy"], qd["q"])
-                            add_fact("Revenues", qd["start"], qd["end"], rev[kk], acc, fy, fp, form, day)
+                            add_fact("Revenues", qd["start"], qd["end"], rv(kk, day), acc, fy, fp, form, day)
                             add_fact("NetIncomeLoss", qd["start"], qd["end"], ni[kk], acc, fy, fp, form, day)
                             add_fact("EarningsPerShareDiluted", qd["start"], qd["end"], eps[kk], acc, fy, fp, form, day)
                     if q > 1:
                         for span in (ytd, prior_ytd):
                             if len(span) == q:
                                 keys = [(s["fy"], s["q"]) for s in span]
-                                add_fact("Revenues", span[0]["start"], span[-1]["end"], sum(rev[x] for x in keys),
+                                add_fact("Revenues", span[0]["start"], span[-1]["end"], sum(rv(x, day) for x in keys),
                                          acc, fy, fp, form, day)
                                 add_fact("NetIncomeLoss", span[0]["start"], span[-1]["end"], sum(ni[x] for x in keys),
                                          acc, fy, fp, form, day)
                                 add_fact("EarningsPerShareDiluted", span[0]["start"], span[-1]["end"],
                                          sum(eps[x] for x in keys), acc, fy, fp, form, day)
-                cover = day - timedelta(days=5)
-                classes = (0.8, 0.2) if k == 0 else (1.0,)              # SYNTH01 reports two share classes
-                for share in classes:
-                    add_fact("shares", None, cover, int(sh[(fy, q)] * share), acc, fy, fp, form, day)
+                if k != 0:          # company facts carry undimensioned counts only: none for SYNTH01's classes
+                    add_fact("shares", None, cover, sh[(fy, q)], acc, fy, fp, form, day)
                 if k == 4:                                               # a wrong-unit EPS entry: must be excluded
                     add_fact("EarningsPerShareDiluted", qq["start"], end, 1, acc, fy, fp, form, day, unit="pure")
         if k == 2:                                                       # SYNTH03: a 10-K/A restating FY2030 revenue
@@ -227,6 +270,9 @@ def build_raw(d: Path) -> str:
                             "acceptanceDateTime": _z(t), "form": "10-K/A", "items": "", "primaryDocument": "amend.htm"})
             add_fact("Revenues", fyq[0]["start"], fyq[3]["end"], sum(rev[(2030, i)] for i in (1, 2, 3, 4)) * Decimal("1.05"),
                      acc, 2030, "FY", "10-K/A", day)
+            for i in (1, 2, 3, 4):                                       # the amendment restates the quarters too
+                add_fact("Revenues", fyq[i - 1]["start"], fyq[i - 1]["end"], rv((2030, i), day), acc, 2030, "FY",
+                         "10-K/A", day)
         entries.sort(key=lambda e: e["acceptanceDateTime"], reverse=True)
         cols = ("accessionNumber", "filingDate", "reportDate", "acceptanceDateTime", "form", "items", "primaryDocument")
         recent, older = (entries[:12], entries[12:]) if k == 0 else (entries, [])
@@ -249,18 +295,26 @@ def build_raw(d: Path) -> str:
         put(f"edgar/companyfacts/CIK{cik:010d}.json", json.dumps(cf),
             f"https://data.sec.gov/api/xbrl/companyfacts/CIK{cik:010d}.json", "edgar_companyfacts")
 
-    # the fund: two N-PORT-P reports, one public before the freeze
+    # the fund: two N-PORT-P reports of the target series (one public before the freeze) and a newer pre-freeze one
+    # of another series of the same registrant, which only its series ID tells apart
     fund_entries = []
-    for seq, (rep, day) in enumerate((("2030-09-30", date(2030, 11, 27)), ("2030-12-31", date(2031, 2, 26))), 1):
+    for seq, (rep, day, (sid, sname)) in enumerate((("2030-09-30", date(2030, 11, 27), (SERIES_ID, SERIES)),
+                                                     ("2030-09-30", date(2030, 11, 28), OTHER_SERIES),
+                                                     ("2030-12-31", date(2031, 2, 26), (SERIES_ID, SERIES))), 1):
         acc = f"{FUND_CIK:010d}-{day.year % 100:02d}-{seq:06d}"
         nod = acc.replace("-", "")
+        scale = 1 if sid == SERIES_ID else 3
         holdings = "".join(
             f"<invstOrSec><name>{r['name']}</name><lei>{r['lei']}</lei><title>{r['name']}</title><cusip>{r['cusip']}</cusip>"
             + (f"<identifiers><ticker value=\"{cmap[r['cusip']]['symbol']}\"/></identifiers>" if r["cusip"] in cmap else "")
-            + f"<valUSD>{r['value_usd']}</valUSD><assetCat>{r['asset_cat']}</assetCat></invstOrSec>" for r in rows)
-        xml = (f"<?xml version=\"1.0\"?><edgarSubmission xmlns=\"http://www.sec.gov/edgar/nport\"><formData>"
-               f"<genInfo><seriesName>{SERIES}</seriesName><repPdDate>{rep}</repPdDate></genInfo>"
-               f"<invstOrSecs>{holdings}</invstOrSecs></formData></edgarSubmission>")
+            + f"<valUSD>{int(r['value_usd']) // scale}</valUSD><assetCat>{r['asset_cat']}</assetCat></invstOrSec>"
+            for r in rows)
+        xml = (f"<?xml version=\"1.0\"?><edgarSubmission xmlns=\"http://www.sec.gov/edgar/nport\"><headerData>"
+               f"<submissionType>NPORT-P</submissionType><filerInfo><seriesClassInfo><seriesId>{sid}</seriesId>"
+               f"</seriesClassInfo></filerInfo></headerData><formData><genInfo><regName>Synthetic Index Funds</regName>"
+               f"<regCik>{FUND_CIK:010d}</regCik><seriesName>{sname}</seriesName><seriesId>{sid}</seriesId>"
+               f"<repPdDate>{rep}</repPdDate></genInfo><invstOrSecs>{holdings}</invstOrSecs></formData>"
+               "</edgarSubmission>")
         put(f"nport/{nod}/primary_doc.xml", xml, f"https://www.sec.gov/Archives/edgar/data/{FUND_CIK}/{nod}/primary_doc.xml",
             "nport_xml")
         fund_entries.append({"accessionNumber": acc, "filingDate": day.isoformat(), "reportDate": rep,
@@ -285,11 +339,18 @@ def build_raw(d: Path) -> str:
         bars = [{"t": day, "o": row["open"], "c": row["close"]} for day, row in sorted(prices[sym].items())]
         put(f"market/bars/{sym}.json", json.dumps({"symbol": sym, "adjustment": "raw", "bars": bars}),
             f"fixture://bars/{sym}", "price_bars")
-    put("market/corporate_actions.json", json.dumps({
-        "cash_dividends": [{"symbol": x["symbol"], "ex_date": x["ex_date"], "payable_date": x["pay_date"],
-                            "rate": x["amount"]} for x in acts["dividends"]],
-        "forward_splits": [{"symbol": x["symbol"], "ex_date": x["ex_date"], "old_rate": x["den"], "new_rate": x["num"]}
-                           for x in acts["splits"]],
-        "cash_mergers": [{"acquiree_symbol": "SYNTH12", "effective_date": "2032-06-01", "rate": "60.00"}]}),
-        "fixture://corporate-actions", "corporate_actions")
+    syms = ",".join(sorted([BENCHMARK] + [m["symbol"] for m in members]))
+    query = f"{ACTIONS_URL}?symbols={syms}&start=2030-11-01&end=2032-06-30&limit=10"
+    divs = [{"id": f"div-{x['symbol']}-{x['ex_date']}", "symbol": x["symbol"], "ex_date": x["ex_date"],
+             "payable_date": x["pay_date"], "rate": x["amount"]} for x in acts["dividends"]]
+    pages = [({"cash_dividends": divs[:5]}, "page-2", query),
+             ({"cash_dividends": divs[5:],
+               "forward_splits": [{"id": f"split-{x['symbol']}-{x['ex_date']}", "symbol": x["symbol"],
+                                   "ex_date": x["ex_date"], "old_rate": x["den"], "new_rate": x["num"]}
+                                  for x in acts["splits"]],
+               "cash_mergers": [{"id": "merger-SYNTH12", "acquiree_symbol": "SYNTH12", "effective_date": "2032-06-01",
+                                 "rate": "60.00"}]}, None, query + "&page_token=page-2")]
+    for i, (body, nxt, url) in enumerate(pages, 1):
+        put(f"market/corporate_actions/page-{i}.json", json.dumps({"corporate_actions": body, "next_page_token": nxt}),
+            url, "corporate_actions")
     return write_raw_store(d, files, synthetic=True)
