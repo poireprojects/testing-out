@@ -27,7 +27,8 @@ COMMITTED_FILES = ("ledger.jsonl", "report.json", "REPORT.md", "summary.json", "
 def built(tmp_path_factory):
     base = tmp_path_factory.mktemp("pipe")
     synthetic_raw.build_raw(base / "raw")
-    r = pipeline.build_data(base / "raw", base / "data", freeze=synthetic_raw.FREEZE, series_name=synthetic_raw.SERIES)
+    r = pipeline.build_data(base / "raw", base / "data", freeze=synthetic_raw.FREEZE, series_id=synthetic_raw.SERIES_ID,
+                            series_name=synthetic_raw.SERIES)
     return base, r
 
 
@@ -54,7 +55,8 @@ def copy_raw(src: Path, dst: Path, drop=lambda rel: False, edit=None) -> Path:
 
 
 def build(raw: Path, d: Path):
-    return pipeline.build_data(raw, d, freeze=synthetic_raw.FREEZE, series_name=synthetic_raw.SERIES)
+    return pipeline.build_data(raw, d, freeze=synthetic_raw.FREEZE, series_id=synthetic_raw.SERIES_ID,
+                               series_name=synthetic_raw.SERIES)
 
 
 def entry(raw: Path, cik: int, form: str, report_date: str) -> str:
@@ -69,8 +71,8 @@ def test_raw_fixtures_become_a_verified_data_directory_with_provenance(built):
     assert (r["members"], r["problems"]) == (12, {})
     assert r["nport"]["accepted_at"].startswith("2030-11-27") and r["nport"]["report_date"] == "2030-09-30"
     assert r["unsupported_actions"] == [{"symbol": "SYNTH12", "kind": "cash_mergers", "date": "2032-06-01",
-                                         "detail": {"acquiree_symbol": "SYNTH12", "effective_date": "2032-06-01",
-                                                    "rate": "60.00"}}]
+                                         "detail": {"id": "merger-SYNTH12", "acquiree_symbol": "SYNTH12",
+                                                    "effective_date": "2032-06-01", "rate": "60.00"}}]
     data = MarketData(base / "data")                         # verifies the data manifest
     assert data.synthetic and [m["symbol"] for m in data.members()] == [f"SYNTH{i:02d}" for i in range(1, 13)]
     assert data.universe["review"]["fixture"] and "not a person's review" in data.universe["review"]["reviewer"]
@@ -98,9 +100,28 @@ def test_raw_fixtures_become_a_verified_data_directory_with_provenance(built):
             assert fp["method"] in ("annual", "fiscal_year_plus_ytd_minus_prior_ytd") and fp["components"]
             assert all(datetime.fromisoformat(c["public_at"]) <= datetime.fromisoformat(f["accepted_at"])
                        for c in fp["components"])
+    # SYNTH01 reports two classes on the class axis (company facts have no share row for it): resolved from the
+    # filing's own cover page, summed; its market value is not computed (only one class's price is collected)
     s1 = next(f for f in filings if f["symbol"] == "SYNTH01" and f["form"] == "10-Q")
-    assert "share-class rows" in s1["facts_provenance"]["shares_outstanding"]["approximation"]
+    sp = s1["facts_provenance"]["shares_outstanding"]
+    assert (sp["status"], sp["share_classes"], sp["company_facts_rows"]) == ("resolved", 2, 0)
+    assert s1["facts"]["share_classes"] == "2" and int(s1["facts"]["shares_outstanding"]) == sum(
+        int(c["value"]) for c in sp["classes"])
     assert "approximation" in s1["facts_provenance"]["eps_diluted_ttm"]["approximation"]
+    s2 = next(f for f in filings if f["symbol"] == "SYNTH02" and f["form"] == "10-Q")
+    assert s2["facts_provenance"]["shares_outstanding"]["company_facts_rows"] == 1
+    assert s2["facts"]["share_classes"] == "1"
+    assert r["unresolved_facts"] == {}
+    # the corporate-action response: two pages of one untyped query, retrieved after its covered dates
+    cov = json.loads((base / "data" / "actions.json").read_text())["coverage"]
+    assert r["actions_coverage"]["status"] == "collected" and r["actions_coverage"]["uncovered"] == []
+    (chain,) = cov["chains"]
+    assert chain["status"] == "complete" and len(chain["pages"]) == 2 and chain["covered_until"] == "2032-01-04"
+    assert all(v["intervals"] == [["2030-11-01", "2032-01-04"]] for v in cov["symbols"].values())
+    # the N-PORT reconciliation is written out: the newer report of another series is excluded by its ID
+    rec = json.loads((base / "data" / "review_table.json").read_text())["reconciliation"]
+    assert [(x["status"], x["series_id"]) for x in rec] == [("selected", "S000099001"), ("excluded", "S000099002"),
+                                                             ("excluded", "S000099001")]
 
 
 def test_the_pipeline_is_deterministic(built, tmp_path):
@@ -182,9 +203,9 @@ def test_altered_raw_bytes_and_a_missing_or_unapproved_review_stop_the_build(bui
     with pytest.raises(NportError, match="lack an approved mapping"):
         build(unap, tmp_path / "d2")
     late = copy_raw(base / "raw", tmp_path / "late")
-    with pytest.raises(NportError, match="no Synthetic 500 Index Fund NPORT-P accepted before"):
+    with pytest.raises(NportError, match="no Synthetic 500 Index Fund NPORT-P public before"):
         pipeline.build_data(late, tmp_path / "d3", freeze=datetime.fromisoformat("2030-11-01T00:00:00-05:00"),
-                            series_name=synthetic_raw.SERIES)
+                            series_id=synthetic_raw.SERIES_ID, series_name=synthetic_raw.SERIES)
 
 
 # ------------------------------------------------------------------ the end-to-end demonstration
@@ -267,7 +288,7 @@ def test_the_real_source_check_runs_offline_on_files_named_by_their_url(tmp_path
     t = json.loads(capsys.readouterr().out)
     assert t["companies"] == 1 and t["asof_points"] == 9 and t["facts_public_before_period_end"] == 0
     r = json.loads((tmp_path / "out.json").read_text())["companies"][0]
-    assert r["cik"] == 829224 and r["excluded"] == {"accession_not_in_index": 0, "unit": 0}
+    assert r["cik"] == 829224 and r["excluded"] == {"accession_not_in_index": 0, "not_periodic_report": 0, "unit": 0}
     assert set(r["methods_used"]) <= {"annual", "fiscal_year_plus_ytd_minus_prior_ytd"}
 
 
