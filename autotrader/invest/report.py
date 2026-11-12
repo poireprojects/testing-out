@@ -247,8 +247,10 @@ def build_report(state_dir: Path) -> dict:
     shadow["cost_burden_vs_ai_usd"] = (shadow["fees"] + shadow["slippage"] - books["ai"]["fees"]
                                        - books["ai"]["slippage"]).quantize(FOUR)
     oc = {(r["payload"]["slot"], r["payload"]["symbol"]): r["payload"] for r in recs if r["type"] == "forecast_outcome"}
+    og = {(r["payload"]["slot"], r["payload"]["symbol"]): r["payload"]["reason"] for r in recs
+          if r["type"] == "outcome_gap"}
     valued = [d for d, _ in books["voo"]["series"]]
-    forecasts = score([r["payload"] for r in decisions if r], oc, slots, valued[-1] if valued else None)
+    forecasts = score([r["payload"] for r in decisions if r], oc, slots, valued[-1] if valued else None, og)
     out["diagnostics"] = {"secondary_only": True, "shadow": shadow, "forecasts": forecasts,
                           "consistency_notes": {r["payload"]["slot"]: r["payload"].get("consistency_notes")
                                                 for r in decisions if r and r["payload"].get("consistency_notes")},
