@@ -88,7 +88,7 @@ facts, calculations and inferred expectations.
   * Dates match within 7 days, for 52/53-week years.
   * A cumulative year-to-date value is never treated as a quarter.
   * A restatement counts only from its own acceptance, so it can never enter an earlier pack.
-  * Diluted EPS by this arithmetic, and share counts summed across classes, are labelled as approximations.
+  * Diluted EPS by this arithmetic is labelled as an approximation. Share counts and the reporting basis: A6.
   * When the facts cannot support a value, the filing is labelled unavailable (not invented).
 * **Passages:** chosen by a fixed rule from the document's own paragraphs, never reworded:
   * two MD&A paragraphs with figures;
@@ -98,7 +98,7 @@ facts, calculations and inferred expectations.
   * A section starts at a heading followed by a paragraph of at least 200 characters, which skips a table of
     contents. A shorter section start falls back as documented.
 * **Universe:**
-  * the latest NPORT-P of the series accepted before the freeze;
+  * the latest NPORT-P of the series public before the freeze, proven against the fund's index (A6);
   * a review table that proposes a symbol only from the filing's own ticker identifier, and a CIK only from
     EDGAR's ticker list. Anything else is `unresolved`;
   * `universe.json` is written only from a review that approves every row.
@@ -107,7 +107,8 @@ facts, calculations and inferred expectations.
     adjusted and is refused (no double adjustment);
   * symbol changes are merged;
   * any other action kind (merger, spin-off, delisting...) is listed as unsupported. It becomes a data gap for a
-    held stock and a reproducible exclusion for a candidate.
+    held stock and a reproducible exclusion for a candidate;
+  * actions count only where a coverage record proves them (A6).
 
 ## A3. Secondary diagnostics (`autotrader/invest/diagnostics.py`; frozen before any genuine answer)
 
@@ -152,10 +153,68 @@ facts, calculations and inferred expectations.
 * The offline demonstration now runs raw source-format fixtures through the pipeline before the run:
   `python -m autotrader.invest dryrun OUT_DIR`.
 
+## A6. Data-integrity corrections (proposed 2026-11-12)
+
+No frozen parameter changes: the model, universe rule, portfolio rules, scoring and the $12.50 ceiling are as
+above, and `config_sha256` is still `d2e857b7…`. The corrected behaviour is identified by the code hash
+(`dry-run/summary.json`). The pipeline summaries in `FROZEN["pipeline"]` were deliberately left as they are, so
+the configuration hash shows that nothing frozen moved. They now describe the code less fully than this section
+does. If the owner approves, they should be updated at the freeze, which gives a new `config_sha256`.
+
+* **Corporate actions (`adapters/market.py`, `data.py`, `engine.py`):**
+  * Actions count only where a coverage record proves them. A response page records its query (symbols, dates,
+    page token) in its source URL. A query covers its symbols from its start date to the earlier of its end date
+    and the day before retrieval, but only when all of these hold:
+    * its pages form a complete pagination chain;
+    * it has no type filter;
+    * it returned no error.
+  * Missing, partial, stale or failed collection covers nothing. An empty action list is never read as "no
+    dividends or splits".
+  * Each use checks the dates it needs:
+    * a portfolio session checks every held security since the previous session. A gap stops only that book, so
+      a gap in the shadow never stops the voo or ai portfolio;
+    * a forecast outcome checks its horizon, and an `outcome_gap` record explains the miss;
+    * a pack checks each symbol from its first price to the cutoff day, and uses only actions dated by then.
+  * Later data resolves a gap through appended records. Each run recomputes the books from the start, so no action
+    is applied twice and no decision is rewritten.
+* **N-PORT (`adapters/nport.py`, `universe.py`):**
+  * The target is identified by its SEC series ID.
+  * Every NPORT-P and NPORT-P/A in the fund's index (retrieved after the freeze) is reconciled with what was
+    collected. A filing of another series is excluded on its series ID, from its XML or its header.
+  * A pre-freeze filing that could be the latest report blocks selection when any of these holds:
+    * it is missing or cannot be classified;
+    * its publication is uncertain;
+    * it is the target's and has no holdings.
+  * Publication: acceptance alone does not establish it. A report counts as public before the freeze only when its
+    acceptance and its reporting period end + 60 days are both before the freeze (Form N-PORT General
+    Instruction F and rule 30b1-9 as understood; the text was not re-read, see `READINESS.md`).
+  * Interpretation of "the most recent N-PORT-P report":
+    * the latest reporting period wins;
+    * a public NPORT-P/A for that same period supersedes the original;
+    * an amendment of an older period never makes that period the latest.
+  * Freezing needs exactly 12 distinct issuers and 12 reviewed rows, with no symbol, CIK or CUSIP mapped twice.
+  * N-PORT's `N/A` is no LEI, so issuers without one are told apart by name. In the real iShares Russell 1000
+    report the audited grouping would have merged 263 issuers.
+* **Share counts (`adapters/edgar.py`, `pack.py`):**
+  * The count comes from the periodic filing's own cover page: inline XBRL facts with their contexts, deduplicated
+    by context, never by value.
+  * A company total and its class counts are never added together.
+  * Several classes are summed, but company market value and price/sales are not computed, because only one
+    class's price is collected.
+  * An unestablished count is `unresolved`. The candidate stays eligible, and its valuation row says so and omits
+    what depends on the count.
+  * Nothing falls back to another filing, and company facts (which carry no dimensions) are only a cross-check.
+* **Trailing values (`adapters/edgar.py`):**
+  * Every combination of figures from different filings is checked for one reporting basis (the Dominion case).
+    A mixed or unestablished basis makes the value `unresolved`, and no other method is substituted.
+  * Only facts from periodic reports count. Company facts also carry DEF 14A pay-versus-performance figures.
+  * A figure re-reported at a coarser precision is not a restatement.
+
 ## Revised cost estimates (estimates, not bounds)
 
-At every cap, the rendered request is **81,796 bytes**, an estimated **20,449–32,718 input tokens** (2.5–4 bytes
-per token). Output is bounded by `max_tokens`: 16,000 tokens, which is **$0.32** at $20 per million. So a request at
-the caps is estimated at **$0.40–0.45**, and 12 such requests at **$4.82–5.41**. A typical month is smaller (the
-fixture month-1 request is 29,858 bytes). These are estimates: nothing bounds billable input, so paid dispatch stays
+At every cap, with every valuation row at its longest wording (A6 added the unresolved forms), the rendered request
+is **84,129 bytes**, an estimated **21,032–33,652 input tokens** (2.5–4 bytes per token). Output is bounded by
+`max_tokens`: 16,000 tokens, which is **$0.32** at $20 per million. So a request at the caps is estimated at
+**$0.40–0.45**, and 12 such requests at **$4.85–5.46**. A typical month is smaller (the fixture month-1 request is
+29,953 bytes). These are estimates: nothing bounds billable input, so paid dispatch stays
 **BLOCKED** (`LAUNCH-MANIFEST.md`).
