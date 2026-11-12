@@ -20,7 +20,7 @@ universe rule, capital, stock limits, monthly frequency, duration and outcome th
 | 2 | Every reduction below $1 was skipped, even when the stock was above the 10% cap. | A reduction of a stock more than 0.05 points above the cap at the open is risk-required and sells regardless of the $1 minimum. Intended, executed and resulting weights are recorded. |
 | 3 | A crash between the decision and cost records lost the charge, and a crash after asking could ask again. | Append-only `pack`, `request`, `answer`, `decision`, `cost` steps; resume repairs derived records without asking again. Unknown billing stays unresolved until a separate `reconcile` record. One writer per state directory (lock); fsync on every append. |
 | 4 | Cost "ceiling about $0.42" and "at most about $5". | Removed: nothing enforces a bound. Estimates only; the project's $12.50 overall ceiling stays in force unless Riley replaces it. |
-| 5 | "Fresh approval each time" for the SEC contact. | A scoped authorization that lasts until revoked or until its scope changes. |
+| 5 | "Fresh approval each time" for the SEC contact. | A scoped authorization that lasts until revoked or until its scope changes. (Proposed: no such authorization is on record; pending, `LAUNCH-MANIFEST.md` §4.) |
 | 6 | Citation checks were described as evidence checks. | Stated as quotation mechanics only, plus a blinded human claim review for genuine decisions. |
 | 7 | Statuses `valid`, `invalid`, `late`, `missed`. | `valid`, `invalid_answer`, `missed_answer` (no answer, late, lost in flight, not requested), `missing_input`; charges `reconciled`, `not_requested`, `unreconciled`. A favorable verdict needs at least one valid genuine decision. |
 
@@ -235,9 +235,10 @@ The rendered request for any frozen pack is printed by `python -m autotrader.inv
 
 * **Filings, acceptance times and the submission index:** SEC EDGAR, as submissions JSON (`acceptanceDateTime`, UTC,
   converted to ET), filing documents and XBRL company facts.
-  * EDGAR asks for a declared contact. Riley's authorization to use their contact for EDGAR access is **scoped**: it
-    covers this pilot's EDGAR collection and lasts until Riley revokes it or the scope changes (another site,
-    purpose or project).
+  * EDGAR asks for a declared contact. The proposed authorization for using Riley's contact is **scoped**: it would
+    cover this pilot's EDGAR collection, and last until Riley revokes it or the scope changes (another site, purpose
+    or project). **No such authorization is on record (2026-11-12): pending.** This document is not proof of
+    permission (`LAUNCH-MANIFEST.md` §4).
 * **Universe:** the same fund's N-PORT-P on EDGAR.
 * **Prices and corporate actions:** an owner-approved source of official daily opens and closes, dividends (ex and
   pay dates) and splits. One candidate is Alpaca market data with a **newly issued** key; the exposed key that
@@ -287,6 +288,9 @@ A positive 12-month result from one path is not evidence of skill.
   must be reconciled by hand.
 
 ## Prelaunch checklist (nothing here is verified by offline tests or mocks)
+
+This is the registration's original list. The current launch gate is `LAUNCH-MANIFEST.md` §0, with its evidence in
+`READINESS.md`; where the two differ, the manifest is current.
 
 | item | status |
 |---|---|
