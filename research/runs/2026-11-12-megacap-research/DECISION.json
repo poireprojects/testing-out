@@ -1,0 +1,355 @@
+{
+  "record_type": "manual_research_decision",
+  "record_id": "2026-11-12-megacap-research",
+  "question": "Among META, GOOGL and AMZN, does any stock offer enough prospective return at a verified price to justify an additional position alongside VOO, after capital spending, financing, dilution and costs?",
+  "scope": {
+    "exploratory_only": true,
+    "part_of_invest_pilot_1": false,
+    "replaces_or_certifies_registered_universe": false,
+    "real_money_or_software_authorization": false,
+    "edge_established": false
+  },
+  "repo": {
+    "name": "poireprojects/testing-out",
+    "branch": "claude/ai-day-trading-app-i8p65e",
+    "head_sha": "415d1296e23757a8b9f024c4e4b113f02fa2f8fe",
+    "worktree_clean_at_start": true,
+    "files_added_by_this_record": [
+      "research/runs/2026-11-12-megacap-research/RESEARCH.md",
+      "research/runs/2026-11-12-megacap-research/DECISION.json"
+    ],
+    "head_sha_meaning": "HEAD when the research was done; the files were then committed one per commit on top of it",
+    "committed": "after review, on the session owner's explicit instruction (not automatically)",
+    "pushed": "after review, on the session owner's explicit instruction (not automatically)"
+  },
+  "gates_preserved": {
+    "launch": "NOT APPROVED",
+    "paid_dispatch": "BLOCKED",
+    "forward_engine_started": false,
+    "experiment_ledger_written": false,
+    "registration_or_amendment_changed": false,
+    "software_tests_rerun": false
+  },
+  "provenance": {
+    "producer": "Claude Code cloud session",
+    "session_id": "session_01VGaqa4tYLPVV7nasybjDrB",
+    "model_metadata": {
+      "model_identifier_recorded_in_repository": false,
+      "model_identifier_note": "session policy keeps model identifiers out of pushed files; the harness-reported configured and last-served model was stated in the session chat",
+      "effort_level": "max",
+      "read_via": "get_session harness metadata at about 2026-11-12T18:00Z",
+      "verification": "harness-reported; not independently verified"
+    },
+    "relation_to_registered_opus_api_experiment": "none; no API request to the registered model endpoint was made",
+    "record_written_utc": "2026-11-12T18:18:26Z"
+  },
+  "evidence_cutoff_utc": "2026-11-12T17:58:29Z",
+  "sources": [
+    {
+      "id": "META-Q3-2026",
+      "issuer": "Meta Platforms",
+      "document": "Meta Reports Third Quarter 2026 Results (press release, company-hosted PDF)",
+      "period_ended": "2026-09-30",
+      "published": "2026-10-21",
+      "url": "https://s21.q4cdn.com/399680738/files/doc_news/Meta-Reports-Third-Quarter-2026-Results-2026.pdf",
+      "retrieved_utc": "2026-11-12T17:19:42Z",
+      "sha256": "2e3c8324a8ceed11b398000645ad0d117a7bb74f08cdda9c2f97cf51bc48d232"
+    },
+    {
+      "id": "META-Q2-2026",
+      "issuer": "Meta Platforms",
+      "document": "Meta Reports Second Quarter 2026 Results",
+      "period_ended": "2026-06-30",
+      "published": "2026-07-29",
+      "url": "https://s21.q4cdn.com/399680738/files/doc_news/Meta-Reports-Second-Quarter-2026-Results-2026.pdf",
+      "retrieved_utc": "2026-11-12T17:31:52Z",
+      "sha256": "1645ff96b913aed1134061336a6064d144eea84a320718035bae14c8cefc6b38"
+    },
+    {
+      "id": "META-Q1-2026",
+      "issuer": "Meta Platforms",
+      "document": "Meta Reports First Quarter 2026 Results",
+      "period_ended": "2026-03-31",
+      "published": "2026-04-29",
+      "url": "https://s21.q4cdn.com/399680738/files/doc_news/Meta-Reports-First-Quarter-2026-Results-2026.pdf",
+      "retrieved_utc": "2026-11-12T17:31:51Z",
+      "sha256": "cba533c7a252c5d9b81433704f6580fcb1b2a91e048846c6787f91490a45002f"
+    },
+    {
+      "id": "META-Q4-2025",
+      "issuer": "Meta Platforms",
+      "document": "Meta Reports Fourth Quarter and Full Year 2025 Results",
+      "period_ended": "2025-12-31",
+      "published": "2026-01-28",
+      "url": "https://s21.q4cdn.com/399680738/files/doc_news/Meta-Reports-Fourth-Quarter-and-Full-Year-2025-Results-2026.pdf",
+      "retrieved_utc": "2026-11-12T17:31:50Z",
+      "sha256": "1471845e48997966b80b844c3eafcbb04cc7460900c8b1ffb8e073eed5c4e9a0"
+    },
+    {
+      "id": "GOOGL-Q3-2026",
+      "issuer": "Alphabet",
+      "document": "Alphabet Announces Third Quarter 2026 Results (PDF titled 'GOOG Exhibit 99.1 Q3 2026', company-hosted)",
+      "period_ended": "2026-09-30",
+      "published": "2026-10-28",
+      "url": "https://s206.q4cdn.com/479360582/files/doc_financials/2026/q3/2026q3-alphabet-earnings-release.pdf",
+      "retrieved_utc": "2026-11-12T17:57:27Z",
+      "sha256": "2f9b94e9194ea4b462bf754c4b651615ab53518b314550f3402b27aabf0735e9"
+    },
+    {
+      "id": "GOOGL-Q2-2026",
+      "issuer": "Alphabet",
+      "document": "Alphabet Announces Second Quarter 2026 Results",
+      "period_ended": "2026-06-30",
+      "published": "2026-07-22",
+      "url": "https://s206.q4cdn.com/479360582/files/doc_financials/2026/q2/2026q2-alphabet-earnings-release.pdf",
+      "retrieved_utc": "2026-11-12T17:58:29Z",
+      "sha256": "65f35a2e9c287112121f736321c7526d603ba8e0dae27acac56c7d7357602aa8"
+    },
+    {
+      "id": "GOOGL-Q1-2026",
+      "issuer": "Alphabet",
+      "document": "Alphabet Announces First Quarter 2026 Results",
+      "period_ended": "2026-03-31",
+      "published": "2026-04-29",
+      "url": "https://s206.q4cdn.com/479360582/files/doc_financials/2026/q1/2026q1-alphabet-earnings-release.pdf",
+      "retrieved_utc": "2026-11-12T17:58:28Z",
+      "sha256": "a219b3b16dd2471faba3ab040154e29ee1ba61914de82ea82fb027038412d56b"
+    },
+    {
+      "id": "GOOGL-Q4-2025",
+      "issuer": "Alphabet",
+      "document": "Alphabet Announces Fourth Quarter and Fiscal Year 2025 Results",
+      "period_ended": "2025-12-31",
+      "published": "2026-02-04",
+      "url": "https://s206.q4cdn.com/479360582/files/doc_financials/2025/q4/2025q4-alphabet-earnings-release.pdf",
+      "retrieved_utc": "2026-11-12T17:58:01Z",
+      "sha256": "8bb2778772fc60c0290cfeac3b24d345a07b8918a7708ec8fcef7239243922f9"
+    },
+    {
+      "id": "UST-PAR-2026",
+      "issuer": "U.S. Department of the Treasury",
+      "document": "Daily Treasury par yield curve rates, 2026 (CSV)",
+      "period_ended": "2026-11-10",
+      "published": "daily",
+      "url": "https://home.treasury.gov/resource-center/data-chart-center/interest-rates/daily-treasury-rates.csv/2026/all?type=daily_treasury_yield_curve&field_tdr_date_value=2026&page&_format=csv",
+      "retrieved_utc": "2026-11-12T17:28:55Z",
+      "sha256": "782e0953ac34dd4c9751bc061feae3b1a2e18f0be8c7c181a3d2a472d1bdcbe5",
+      "value_used": {"date": "2026-11-10", "ten_year_par_yield_pct": 4.98}
+    }
+  ],
+  "blocked_or_missing_sources": [
+    {
+      "what": "All SEC EDGAR documents named in the assignment (Meta 10-Q 0001628280-26-066773, 8-K 0001193125-26-450074, 424B5 0001193125-26-446110, information statement 0001628280-26-068935; Alphabet googexhibit991q32026.htm) and any later SEC filings",
+      "result": "HTTP 403 'Your Request Originates from an Undeclared Automated Tool' at 2026-11-12T16:25:14Z",
+      "reason_not_resolved": "SEC requires a declared contact; Riley's email may not be sent and no contact may be invented"
+    },
+    {
+      "what": "investor.atmeta.com (including the offering press release URL), ir.aboutamazon.com (Amazon Q3 2026 release URL), abc.xyz/investor",
+      "result": "HTTP 403 Cloudflare managed challenge (cf-mitigated: challenge) at 2026-11-12T17:18:43Z",
+      "reason_not_resolved": "bot challenge is an access control; not bypassed"
+    },
+    {
+      "what": "Internet Archive copies",
+      "result": "attempt refused by the session's safety classifier (containment-escape risk)",
+      "reason_not_resolved": "not pursued"
+    },
+    {
+      "what": "Meta offering press release on the company CDN (doc_news launch and pricing names)",
+      "result": "HTTP 404"
+    },
+    {
+      "what": "Amazon Q3 2026 earnings release and 10-Q",
+      "result": "company CDN s2.q4cdn.com/299287126: Q3 2025 file exists (HTTP 200) but the same naming returns 404 for Q4 2025 through Q3 2026; 2026 names not discoverable without the challenged IR page"
+    }
+  ],
+  "market_data": {
+    "source": "Yahoo Finance chart API v8 (https://query1.finance.yahoo.com/v8/finance/chart/{symbol}?range=1mo&interval=1d&events=div%7Csplit&includePrePost=false)",
+    "valuation_price_basis": "2026-11-11 regular-session close",
+    "observations": [
+      {"symbol": "META", "close_2026_11_11": 628.77, "retrieved_utc": "2026-11-12T17:29:25Z", "sha256": "c7647e1fd13ea79118d66d12dbc345c88a52e1bb6014fe3fb2a4c158852b538a", "intraday_snapshot": {"price": 624.425, "regular_market_time_utc": "2026-11-12T17:29:23Z"}, "check": "matches the director's stated 2026-11-11 close"},
+      {"symbol": "GOOGL", "close_2026_11_11": 293.45, "retrieved_utc": "2026-11-12T17:21:47Z", "sha256": "6f7481cd970ba079b3af5c60db429aab268b36a424fc93caf10c5e151f348fae", "intraday_snapshot": {"price": 300.69, "regular_market_time_utc": "2026-11-12T17:21:44Z"}},
+      {"symbol": "AMZN", "close_2026_11_11": 266.17, "retrieved_utc": "2026-11-12T17:20:56Z", "sha256": "fb8f712cde5e4d3d648a1b71c11ea5bcd58858d83baab6e5b118aee81359cd87", "intraday_snapshot": {"price": 269.33, "regular_market_time_utc": "2026-11-12T17:20:52Z"}},
+      {"symbol": "VOO", "close_2026_11_11": 698.35, "retrieved_utc": "2026-11-12T17:29:56Z", "sha256": "48ad43b432eb6a70bceb0519b712d3c92cb733bd6bdd34bf55dabc97c9656a14", "intraday_snapshot": {"price": 699.5, "regular_market_time_utc": "2026-11-12T17:29:51Z"}}
+    ],
+    "consensus_estimates": "none verified (no accessible dated source); price-implied expectations used instead"
+  },
+  "method": {
+    "fully_financed_economic_earnings_fy2027": "normalized operating income x (1 - tax) - fin_cost x max(funding_gap, 0)",
+    "funding_gap": "capex (Meta: including finance-lease principal) - (NOPAT + depreciation); depreciation is deducted in earnings once and capex enters only via the gap's carrying cost",
+    "stock_compensation": "GAAP expense kept; employee share issuance not added to units (avoids double counting)",
+    "fin_cost_after_tax": 0.045,
+    "fin_cost_rationale": "about the after-tax cost of new debt and close to the earnings yield of new stock at current prices (META 4.95%), so the unverified debt/equity/preferred mix moves EPS by under 0.5%",
+    "value_per_unit": "justified_pe x FFE_EPS + (net cash at 2026-12-31E + after-tax investment assets - other claims) / units",
+    "justified_pe": "terminal_pe x ((1+g)/(1+r))^5; terminal_pe = (1 - gT/ROE_T)/(r - gT)",
+    "parameters": {"r": 0.095, "r_range": [0.085, 0.105], "r_basis": "10-year Treasury 4.98% + assumed equity premium 4.5%, beta about 1", "gT": 0.04, "ROE_T": 0.25, "terminal_pe": 15.27, "base_g": 0.14, "justified_pe_base": 18.68},
+    "implied_growth": "g solving justified_pe(r, g) = (price - per-unit adjustments) / FFE_EPS",
+    "entry_ceiling": "base value / 1.10",
+    "twelve_month_expectation": "expected relative return = 0.25 x (base value / price - 1); P(outperform) = Phi(expected / 0.27)",
+    "normalization": {
+      "META": "exclude Q3 2026 attorneys-general charge 9.89bn (liability deducted from value), Q2 severance 1.18bn, Q1 tax benefit 8.03bn; keep Q2 legal 2.40bn as recurring-type cost",
+      "GOOGL": "exclude gains/losses on equity and debt securities and equity-method results (investments valued separately, after tax); exclude Q4 2025 Waymo compensation charge 2.1bn from trailing comparisons"
+    }
+  },
+  "companies": {
+    "META": {
+      "units_current_share_equivalents_m": 2573,
+      "units_basis": "Q3 2026 diluted weighted average, Class A+B; after the announced Class C stock dividend one current share = one Class A + one Class C share, so per-unit values are unchanged and post-dividend per-share values are half",
+      "class_c": {"status": "board-approved one-time dividend of one Class C share per Class A and Class B share", "charter_effective_date": "2027-01-19", "record_and_payment_dates": "not yet set", "source": "META-Q3-2026"},
+      "sourced_facts": {
+        "q3_2026": {"revenue": 64601, "revenue_growth": 0.26, "operating_income": 12988, "operating_income_ex_charge": 22880, "ag_settlement_charge": 9890, "ag_settlement_max_payments": 18590, "diluted_eps": 3.83, "capex_incl_finance_lease_principal": 34910, "operating_cash_flow": 32786, "free_cash_flow": -2120, "cash_and_marketable": 82449, "long_term_debt": 80922, "non_marketable_equity_investments": 32624, "ad_impressions_growth": 0.10, "price_per_ad_growth": 0.14, "headcount_change": -0.15},
+        "guidance": {"q4_2026_revenue": [73000, 76000], "fy2026_total_expenses": [175000, 179000], "fy2026_capex_incl_fl_principal": [135000, 145000], "q4_2026_tax_rate": [0.15, 0.17], "fy2027": "no revenue, expense or capex range; 'continue investing aggressively'; Reality Labs losses around 15bn"},
+        "earlier_items": {"q2_2026_legal_charges": 2400, "q2_2026_severance": 1180, "q2_2026_debt_issued_net": 24910, "q1_2026_tax_benefit": 8030, "buybacks_2026": 0},
+        "fy2025": {"revenue": 200966, "operating_income": 83276, "q4_2025_revenue": 59893}
+      },
+      "derived": {"revenue_2026E": 256212, "revenue_growth_2026E": 0.2749, "normalized_operating_margin_2026E": 0.3524, "implied_q4_2026_operating_margin": 0.3299, "ttm_gaap_eps": 29.32, "pe_ttm_gaap": 21.45, "depreciation_rate_of_avg_net_ppe": 0.1195, "q4_2026_funding_gap": 26892, "net_cash_2026_12_31E": -25365},
+      "financing": {
+        "verified": "24.91bn net debt issued in Q2 2026; long-term debt 80.92bn at 2026-09-30; no 2026 buybacks",
+        "reported_by_director_unverified": ["post-quarter debt and common-share financing (8-K)", "Series A mandatory convertible preferred offering and update (424B5)", "Class A common stock offered in connection with forward sale agreements", "intended 60bn share-sale program"],
+        "unverified_terms": ["sizes", "prices and discounts", "preferred dividend rate", "conversion rates and dates", "forward settlement dates"],
+        "bounds": {"funding_need_q4_2026_through_2027_base_bn": 80.4, "units_if_60bn_sold_at_628_77_m": 95.4, "dilution_if_60bn_sold": 0.0371, "base_eps_if_entire_2027_gap_funded_with_stock": 31.05, "cost_per_unit_of_3pct_discount_per_10bn": 0.12},
+        "decision_sensitive_to_unverified_terms": false
+      },
+      "gaap_vs_economic_eps": "FY2027 GAAP diluted EPS will use post-dividend weighted-average shares (about half the per-unit figures), exclude unsettled forward-sale shares and deduct preferred dividends; FFE charges the full funding need of the year per current-share equivalent",
+      "scenarios_fy2027": {
+        "bear": {"revenue_growth": 0.10, "operating_margin": 0.28, "tax": 0.18, "revenue": 281833, "operating_income": 78913, "nopat": 64709, "capex": 185000, "depreciation": 43000, "funding_gap": 77291, "financing_charge": 3478, "ffe": 61231, "ffe_eps": 23.80, "per_unit_adjustments": -8.21, "adjustment_basis": "net cash -25.4bn, investments x0.7, settlement 18.59bn", "g": 0.10, "value": 363.6},
+        "base": {"revenue_growth": 0.18, "operating_margin": 0.325, "tax": 0.16, "revenue": 302330, "operating_income": 98257, "nopat": 82536, "capex": 180000, "depreciation": 44000, "funding_gap": 53464, "financing_charge": 2406, "ffe": 80130, "ffe_eps": 31.14, "per_unit_adjustments": -1.02, "adjustment_basis": "net cash -25.4bn, investments 32.6bn, settlement 9.89bn", "g": 0.14, "value": 580.7},
+        "bull": {"revenue_growth": 0.24, "operating_margin": 0.36, "tax": 0.15, "revenue": 317703, "operating_income": 114373, "nopat": 97217, "capex": 190000, "depreciation": 45000, "funding_gap": 47783, "financing_charge": 2150, "ffe": 95067, "ffe_eps": 36.95, "per_unit_adjustments": -1.02, "g": 0.18, "value": 819.0}
+      },
+      "valuation": {"price": 628.77, "base_value": 580.7, "value_vs_price": -0.0764, "price_pe_on_base_ffe_ex_adjustments": 20.22, "implied_g": {"r_0.085": 0.1025, "r_0.095": 0.1582, "r_0.105": 0.2085}, "sensitivity_value": {"r_0.085": {"g_0.10": 621.6, "g_0.14": 743.4, "g_0.18": 883.5}, "r_0.095": {"g_0.10": 485.6, "g_0.14": 580.7, "g_0.18": 690.2}, "r_0.105": {"g_0.10": 392.4, "g_0.14": 469.3, "g_0.18": 557.9}}, "scenario_values_at_g_0.14": {"bear": 436.3, "base": 580.7, "bull": 689.2}},
+      "market_disagreement": "none robust: price implies 15.8% annual FFE growth against a 14% base",
+      "strongest_counterargument": "AI-driven ad pricing (+14%) with headcount down 15%: if 2027 expenses grow no faster than revenue, FFE EPS is about 37 and value 690-820; the 2027 expense path is assumed before Meta's own 2027 outlook"
+    },
+    "GOOGL": {
+      "units_current_share_equivalents_m": 12433.0,
+      "units_basis": "Q3 2026 diluted 12,368M (Class A, B and C have equal economic rights) + 65.0M for the 19.06bn mandatory convertible preferred as converted at 293.45 (conversion terms unverified); preferred dividends (about 1.19bn a year) therefore not deducted",
+      "sourced_facts": {
+        "q3_2026": {"revenue": 127577, "revenue_growth": 0.25, "google_services": 96302, "search_and_other": 63350, "google_cloud": 30709, "cloud_growth": 1.03, "cloud_operating_income": 11121, "operating_income": 40576, "other_income_net": -8221, "equity_securities_loss": -8664, "net_income_to_common": 26170, "diluted_eps": 2.12, "diluted_shares_m": 12368, "capex": 51355, "operating_cash_flow": 42290, "free_cash_flow": -9065, "ttm_free_cash_flow": 19747, "cash_and_marketable": 265098, "long_term_debt": 125102, "non_marketable_securities": 135230, "deferred_tax_liabilities": 27833, "shares_outstanding_m": 12294},
+        "operating_margin_2026": {"q1": 0.3612, "q2": 0.3403, "q3": 0.3181},
+        "search_and_other_growth_2026": {"q1": 0.1913, "q2": 0.1676, "q3": 0.1199},
+        "financing_completed_2026": {"june_equity_raise_net": 49600, "common_net": 30499, "mandatory_convertible_preferred_net": 19063, "preferred_dividend_rate": 0.0625, "atm_q3_shares_m": 36, "atm_q3_net": 12400, "debt_issued_net_ytd": 85222},
+        "financing_announced_not_completed": {"atm_remaining": 27600, "atm_stated_use": "mainly tax obligations of employee equity grants"},
+        "equity_security_gains_2026_pretax": {"q1": 36915, "q2": 99031, "q3": -8664, "total": 127282, "tax_effect_total": 28200},
+        "capex_guidance": {"fy2026": [175000, 185000], "source": "GOOGL-Q4-2025", "later_guidance": "not accessible (earnings calls)"},
+        "cloud_backlog_q1_2026": "over 460bn (CEO statement, GOOGL-Q1-2026)"
+      },
+      "derived": {"revenue_2026E": 497269, "revenue_2026E_basis": "9M 357,269 + assumed Q4 140,000", "operating_income_2026E": 164442, "ttm_recurring_eps": 11.01, "ttm_recurring_tax_rate": 0.1472, "pe_ttm_recurring": 26.65, "ttm_gaap_eps": 19.15, "pe_ttm_gaap": 15.32, "capex_2026E": 186953, "net_cash_2026_12_31E": 127518, "investments_after_tax": 107030, "depreciation_growth_q3_yoy": 0.49},
+      "scenarios_fy2027": {
+        "bear": {"revenue_growth": 0.12, "operating_margin": 0.275, "tax": 0.19, "revenue": 556941, "operating_income": 153159, "nopat": 124059, "capex": 220000, "depreciation": 47000, "funding_gap": 48941, "financing_charge": 2202, "ffe": 121856, "ffe_eps": 9.80, "per_unit_adjustments": 16.28, "adjustment_basis": "net cash 127.5bn + investments x0.7", "g": 0.10, "value": 169.4},
+        "base": {"revenue_growth": 0.19, "operating_margin": 0.31, "tax": 0.17, "revenue": 591750, "operating_income": 183443, "nopat": 152257, "capex": 230000, "depreciation": 48000, "funding_gap": 29743, "financing_charge": 1338, "ffe": 150919, "ffe_eps": 12.14, "per_unit_adjustments": 18.87, "adjustment_basis": "net cash 127.5bn + investments 107.0bn after tax", "g": 0.14, "value": 245.6},
+        "bull": {"revenue_growth": 0.26, "operating_margin": 0.335, "tax": 0.15, "revenue": 626559, "operating_income": 209897, "nopat": 178413, "capex": 250000, "depreciation": 50000, "funding_gap": 21587, "financing_charge": 971, "ffe": 177441, "ffe_eps": 14.27, "per_unit_adjustments": 21.13, "adjustment_basis": "net cash 127.5bn + investments 135.2bn untaxed", "g": 0.18, "value": 337.9}
+      },
+      "valuation": {"price": 293.45, "base_value": 245.6, "value_vs_price": -0.163, "price_pe_on_base_ffe_ex_adjustments": 22.62, "implied_g": {"r_0.085": 0.1275, "r_0.095": 0.1845, "r_0.105": 0.2359}, "sensitivity_value": {"r_0.085": {"g_0.10": 261.6, "g_0.14": 309.0, "g_0.18": 363.6}, "r_0.095": {"g_0.10": 208.5, "g_0.14": 245.6, "g_0.18": 288.3}, "r_0.105": {"g_0.10": 172.2, "g_0.14": 202.2, "g_0.18": 236.7}}, "scenario_values_at_g_0.14": {"bear": 199.4, "base": 245.6, "bull": 287.7}},
+      "market_disagreement": "price implies 18.5% annual FFE growth against a 14% base; specific view: depreciation (+49% year over year) and Search slowing to 12% keep 2027 operating margin near 31% rather than recovering",
+      "evidence_that_would_reveal_it": ["Q4 2026 and Q1 2027 operating margins", "Search & other growth", "2027 capex guidance"],
+      "strongest_counterargument": "Cloud doubled with backlog above 460bn and rising margins; 18.87 per unit of cash and investments cushions downside; at r 8.5% the base value is 309"
+    },
+    "AMZN": {
+      "status": "UNASSESSABLE",
+      "missing_evidence": ["Amazon Q3 2026 earnings release (income statement, cash flow incl. capex and finance-lease principal, segment results, Q4 guidance)", "Amazon Q3 2026 Form 10-Q (leases, purchase commitments, debt)"],
+      "attempted": ["https://ir.aboutamazon.com/news-release/news-release-details/2026/Amazon-com-Announces-Third-Quarter-Results/default.aspx (Cloudflare challenge)", "SEC EDGAR copies (undeclared-tool 403)", "company CDN s2.q4cdn.com/299287126 (2026 names unknown; 404)"],
+      "verified": {"close_2026_11_11": 266.17},
+      "interpretation": "missing evidence, not a negative investment result"
+    }
+  },
+  "ranking": [
+    {"rank": 1, "symbol": "META", "basis": "smallest gap between price and base value (-7.6%); business attractive, price not"},
+    {"rank": 2, "symbol": "GOOGL", "basis": "base value 16.3% below price; lowest GAAP P/E is an artifact of investment gains"},
+    {"rank": null, "symbol": "AMZN", "basis": "unassessable"}
+  ],
+  "decisions": [
+    {"symbol": "META", "decision": "PASS", "entry_ceiling_per_current_share": 528, "entry_ceiling_after_class_c_dividend": "528 for one Class A plus one Class C share combined", "reason": "price implies 15.8% annual growth in fully financed per-share earnings; base value 581 (18.7x 31.14 - 1.02) is 7.6% below the 628.77 close; no margin of safety"},
+    {"symbol": "GOOGL", "decision": "PASS", "entry_ceiling": 223, "reason": "price implies 18.5% annual growth while operating margin fell from 36.1% to 31.8% in three quarters and Search slowed to 12%; base value 246 is 16.3% below the 293.45 close"},
+    {"symbol": "AMZN", "decision": "UNASSESSABLE", "entry_ceiling": null, "reason": "Q3 2026 financial statements inaccessible; see blocked_or_missing_sources"}
+  ],
+  "allocation": {
+    "proposed_paper_allocation_usd_100": {"VOO": 1.0, "META": 0.0, "GOOGL": 0.0, "AMZN": 0.0},
+    "constraints_checked": {"voo_between_0_70_and_1_00": true, "stocks_at_most_3": true, "each_stock_at_most_0_10": true, "total": 1.0, "long_only": true, "options_leverage_shorts": false},
+    "status": "recommendation only; not launched; not filled"
+  },
+  "economics_at_100_usd": {
+    "position_size_at_10pct_usd": 10.0,
+    "gross_incremental_usd_if_beats_voo_by": {"10pp": 1.00, "20pp": 2.00},
+    "modeled_round_trip_trading_cost_usd": [0.06, 0.08],
+    "trading_cost_basis": "registered slippage (10 bps stock, 5 bps VOO) plus fees rounded up to the cent per type; FY2027 SEC/FINRA rates unverified",
+    "registered_model_cost_estimate_per_monthly_call_usd": [0.14, 0.32],
+    "months_of_calls_to_erase_1_usd": [4, 7],
+    "this_session_cost": "unknown billing; not zero",
+    "note": "gross forecasts are not net-return claims"
+  },
+  "forecasts": {
+    "status": "new record; subjective; uncalibrated",
+    "definitions": {
+      "relative_return": "R_rel = TSR(stock) - TSR(VOO), percentage points",
+      "tsr": "W_end / P_start - 1; W_end = market value at the end close of every security derived from one share held at the start close (including distributed shares such as META Class C) + cash dividends and distributions with ex-dates after the start session through the end session, not reinvested, no interest, before taxes",
+      "start_session": "the first full NYSE regular session after this record's final response (expected 2026-11-13); start price = its regular-session close",
+      "end_session": "the last NYSE regular session on or before the twelve-month anniversary of the start session date (expected 2027-11-12); end price = its regular-session close",
+      "expected_relative_return": "0.25 x (base value / 2026-11-11 close - 1)",
+      "probability": "P(R_rel > 0) = Phi(expected / 0.27 tracking error)",
+      "direction_rule": "a forecast fails if the realized sign of R_rel differs from the stated direction",
+      "brier": "(probability - 1[R_rel > 0])^2",
+      "unscorable_if": "any required close or distributed-security value is missing or unresolved",
+      "not_simulated_executions": true,
+      "revisions": "later revisions must append; this record's predictions and their scores are preserved"
+    },
+    "items": [
+      {"symbol": "META", "expected_relative_return_pp": -1.9, "probability_outperform_voo": 0.47, "direction": "underperform", "start_price": null, "end_price": null, "voo_start_price": null, "voo_end_price": null, "realized_relative_return_pp": null, "score": null},
+      {"symbol": "GOOGL", "expected_relative_return_pp": -4.1, "probability_outperform_voo": 0.44, "direction": "underperform", "start_price": null, "end_price": null, "voo_start_price": null, "voo_end_price": null, "realized_relative_return_pp": null, "score": null},
+      {"symbol": "AMZN", "expected_relative_return_pp": null, "probability_outperform_voo": 0.5, "probability_label": "uninformed placeholder; not research-based", "direction": null, "direction_scored": false, "brier_only": true, "start_price": null, "end_price": null, "voo_start_price": null, "voo_end_price": null, "realized_relative_return_pp": null, "score": null}
+    ]
+  },
+  "invalidators": {
+    "META": [
+      "Meta's 2027 outlook gives a total-expense midpoint <= 191bn and a capex midpoint <= 170bn (with the base revenue path, base value would be about 667, above the price)",
+      "Q4 2026 revenue >= 76.0bn with GAAP operating margin >= 36% (guidance implies 33.0%)"
+    ],
+    "GOOGL": [
+      "Q4 2026 or Q1 2027 consolidated operating margin >= 33.5% with Google Search & other growth >= 15% year over year",
+      "2027 capex guidance <= 200bn while Google Cloud growth stays >= 80% year over year"
+    ],
+    "reconsider_buy_if": {"META": "price <= 528 per current share with no invalidator pointing the other way", "GOOGL": "price <= 223 with no invalidator pointing the other way"},
+    "rule": "when an invalidator occurs, revise or reject the business view in a new appended record; keep this record and its scores"
+  },
+  "scoring_schedule": {
+    "observation_start": "close of first full NYSE session after the final response (expected 2026-11-13)",
+    "observation_end": "expected 2027-11-12 close",
+    "invalidator_checks": ["on publication of Meta and Alphabet Q4 2026 results and 2027 outlooks (expected late January to early February 2027; dates not verified)", "on publication of Q1 2027 results (expected late April 2027)"],
+    "final_score": "after the 2027-11-12 close (or the session the end rule selects)"
+  },
+  "costs": {
+    "orders": [],
+    "fills": [],
+    "simulated_executions": [],
+    "trading_costs_incurred_usd": 0,
+    "registered_api_experiment_dispatches": 0,
+    "additional_external_api_or_data_spend_usd": 0,
+    "paid_data_used": false,
+    "credentials_used": false,
+    "broker_connections": false,
+    "project_ceiling_usd_12_50": "untouched; not treated as permission to spend",
+    "this_claude_code_session": {"billing": "unknown", "harness_usage_metadata": {"cost_usd_cumulative": 363.26, "covers": "entire multi-day session since 2026-11-05", "nature": "API-equivalent usage metric reported by the harness; not verified billing"}, "claimed_free": false}
+  },
+  "director_previous_record": {
+    "status": "unchanged; separate; not inherited",
+    "as_stated_in_assignment": {"decision": "declined an additional META position", "price": 628.77, "price_basis": "2026-11-11 close", "fy2027_fully_financed_economic_eps_per_current_share_equivalent": 27.85, "value_at_22x": 613, "reconsideration_price_approx": 500, "confidence": 0.55},
+    "forecast_definition": "not supplied to this session"
+  },
+  "changes_vs_director": [
+    "Same META PASS, reached differently: base FFE EPS 31.14 (not 27.85), but the multiple is derived (18.7x from r 9.5%, g 14%) rather than assumed at 22x, which by itself implies about 16% annual growth",
+    "Base value 581 (not 613); reconsideration ceiling 528 (not about 500)",
+    "Director's 55% confidence not adopted; P(META beats VOO over 12 months) = 0.47, uncalibrated",
+    "Unverified post-quarter financing bounded and shown not to change the decision",
+    "Alphabet completed (PASS, ceiling 223); Amazon UNASSESSABLE rather than screened",
+    "Proposed allocation 100% VOO"
+  ],
+  "environment_changes": {
+    "repo_changes": "the two files listed above only",
+    "network_allowlist_hosts_added_with_owner_approval": ["investor.atmeta.com", "s21.q4cdn.com", "ir.aboutamazon.com", "s2.q4cdn.com", "abc.xyz", "d18rn0p25nwr6d.cloudfront.net", "query1.finance.yahoo.com", "home.treasury.gov", "s206.q4cdn.com"],
+    "environment": "testing-out (personal)"
+  },
+  "limitations": [
+    "Earnings releases, not 10-Qs: debt maturities, lease and purchase commitments, Meta's settlement payment schedule and preferred terms are unverified",
+    "FY2027 figures are assumptions; r and g dominate value",
+    "No verified consensus; VOO's own expected return not estimated (forecasts assume a fairly priced stock matches VOO)",
+    "Twelve-month single-path forecasts have little statistical power; one outcome cannot establish skill"
+  ]
+}
