@@ -228,7 +228,7 @@ def test_legitimately_unavailable_evidence_excludes_a_candidate_with_a_reason(tm
     fil = [f for f in json.loads((d / "filings.json").read_text()) if f["symbol"] != "SYNTH12"]
     old = MarketData(d)
     write_data_dir(d, synthetic=True, sources=old.manifest["sources"], prices=old.prices,
-                   actions={"splits": old.splits, "dividends": old.dividends}, universe=old.universe, filings=fil,
+                   actions=old.actions, universe=old.universe, filings=fil,
                    index=idx)
     dry(tmp_path / "s", d)
     rep = build_report(tmp_path / "s")
