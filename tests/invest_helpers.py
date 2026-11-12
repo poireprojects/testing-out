@@ -68,7 +68,7 @@ def state_of(state):
 
 FLAT_FILING = {"symbol": "STK1", "cik": "1", "accession": "0000000001-30-000001", "form": "10-Q",
                "period_end": "2030-09-30", "accepted_at": et(date(2030, 11, 5), 16, 5).isoformat(),
-               "facts": {"shares_outstanding": "1000000000", "revenue_ttm_musd": "4000",
+               "facts": {"shares_outstanding": "1000000000", "share_classes": "1", "revenue_ttm_musd": "4000",
                          "net_income_ttm_musd": "400", "eps_diluted_ttm": "0.40"},
                "passages": [{"section": "MD&A", "text": "Revenue for the quarter was $1,000 million, an increase of "
                                                         "5% from a year earlier. Margins were stable."},
@@ -78,9 +78,11 @@ FLAT_FILING = {"symbol": "STK1", "cik": "1", "accession": "0000000001-30-000001"
 
 
 def flat_data(d: Path, stock_open="50.00", stock_after=None, filings=None, index="auto", prices_extra=None,
-              actions=None, members=None):
+              actions=None, members=None, cover="window"):
     """Constant prices (VOO 100.00, STK1 50.00), no dividends: every amount below is checked by hand.
-    `stock_after` (day, price): STK1 trades at that price from that day on. `index`: "auto" lists the filings."""
+    `stock_after` (day, price): STK1 trades at that price from that day on. `index`: "auto" lists the filings.
+    `cover`: the corporate-action coverage when `actions` has none: "window" declares every priced symbol covered
+    for the whole window (a labelled fixture), a dict overrides some symbols' intervals, None writes no record."""
     days = synthetic.sessions()
     stk = {}
     for x in days:
@@ -89,8 +91,11 @@ def flat_data(d: Path, stock_open="50.00", stock_after=None, filings=None, index
     prices = {"VOO": {x.isoformat(): {"open": "100.00", "close": "100.00"} for x in days}, "STK1": stk}
     prices |= prices_extra or {}
     filings = [FLAT_FILING] if filings is None else filings
+    actions = dict(actions or {"splits": [], "dividends": []})
+    if "coverage" not in actions and cover is not None:
+        actions["coverage"] = synthetic.fixture_coverage(sorted(prices), override=None if cover == "window" else cover)
     write_data_dir(d, synthetic=True, sources={"all": "test"}, prices=prices,
-                   actions=actions or {"splits": [], "dividends": []},
+                   actions=actions,
                    universe={"rule": "test", "source": "test",
                              "members": members or [{"rank": 1, "symbol": "STK1", "name": "Flat Test Co", "cik": "1"}]},
                    filings=filings,
