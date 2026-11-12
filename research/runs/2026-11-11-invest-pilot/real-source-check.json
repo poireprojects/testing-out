@@ -8,8 +8,10 @@
     "agree": 0,
     "checks": 0
    },
+   "documents": [],
    "excluded": {
     "accession_not_in_index": 486,
+    "not_periodic_report": 0,
     "unit": 0
    },
    "facts_kept": 413,
@@ -23,7 +25,150 @@
     "fiscal_year_plus_ytd_minus_prior_ytd": 12
    },
    "name": "ARTHUR J. GALLAGHER & CO.",
-   "restatements_seen": 14
+   "restatements_seen": 7,
+   "ttm_status": {
+    "eps_diluted": {
+     "resolved": 16
+    },
+    "net_income": {
+     "resolved": 14,
+     "unresolved": 2
+    },
+    "revenue": {
+     "resolved": 14,
+     "unresolved": 2
+    }
+   },
+   "unresolved": [
+    {
+     "asof": "2026-08-05T17:03:52-04:00",
+     "basis": "not_established",
+     "components": [
+      {
+       "accession": "0001628280-26-008662",
+       "end": "2025-12-31",
+       "form": "10-K",
+       "start": "2025-01-01",
+       "value": "13942000000"
+      },
+      {
+       "accession": "0001628280-26-053489",
+       "end": "2026-06-30",
+       "form": "10-Q",
+       "start": "2026-01-01",
+       "value": "8761000000"
+      },
+      {
+       "accession": "0001628280-26-053489",
+       "end": "2025-06-30",
+       "form": "10-Q",
+       "start": "2025-01-01",
+       "value": "6949000000"
+      }
+     ],
+     "concept": "revenue",
+     "filing": "0001628280-26-053489",
+     "method": "fiscal_year_plus_ytd_minus_prior_ytd",
+     "reason": "prior-year figures were revised after 0001628280-26-008662 (e.g. 2025-01-01..2025-06-30: 6948200000 -> 6949000000 by 0001628280-26-053489), and 0001628280-26-008662 does not report that period, so the fiscal-year figure's basis cannot be matched",
+     "value": "15754000000"
+    },
+    {
+     "asof": "2026-08-05T17:03:52-04:00",
+     "basis": "not_established",
+     "components": [
+      {
+       "accession": "0001628280-26-008662",
+       "end": "2025-12-31",
+       "form": "10-K",
+       "start": "2025-01-01",
+       "value": "1494000000"
+      },
+      {
+       "accession": "0001628280-26-053489",
+       "end": "2026-06-30",
+       "form": "10-Q",
+       "start": "2026-01-01",
+       "value": "1146000000"
+      },
+      {
+       "accession": "0001628280-26-053489",
+       "end": "2025-06-30",
+       "form": "10-Q",
+       "start": "2025-01-01",
+       "value": "1072000000"
+      }
+     ],
+     "concept": "net_income",
+     "filing": "0001628280-26-053489",
+     "method": "fiscal_year_plus_ytd_minus_prior_ytd",
+     "reason": "prior-year figures were revised after 0001628280-26-008662 (e.g. 2025-01-01..2025-06-30: 1070200000 -> 1072000000 by 0001628280-26-053489), and 0001628280-26-008662 does not report that period, so the fiscal-year figure's basis cannot be matched",
+     "value": "1568000000"
+    },
+    {
+     "asof": "2026-11-05T08:47:29-05:00",
+     "basis": "not_established",
+     "components": [
+      {
+       "accession": "0001628280-26-008662",
+       "end": "2025-12-31",
+       "form": "10-K",
+       "start": "2025-01-01",
+       "value": "13942000000"
+      },
+      {
+       "accession": "0001628280-26-070650",
+       "end": "2026-09-30",
+       "form": "10-Q",
+       "start": "2026-01-01",
+       "value": "12737000000"
+      },
+      {
+       "accession": "0001628280-26-070650",
+       "end": "2025-09-30",
+       "form": "10-Q",
+       "start": "2025-01-01",
+       "value": "10314000000"
+      }
+     ],
+     "concept": "revenue",
+     "filing": "0001628280-26-070650",
+     "method": "fiscal_year_plus_ytd_minus_prior_ytd",
+     "reason": "prior-year figures were revised after 0001628280-26-008662 (e.g. 2025-01-01..2025-06-30: 6948200000 -> 6949000000 by 0001628280-26-053489), and 0001628280-26-008662 does not report that period, so the fiscal-year figure's basis cannot be matched",
+     "value": "16365000000"
+    },
+    {
+     "asof": "2026-11-05T08:47:29-05:00",
+     "basis": "not_established",
+     "components": [
+      {
+       "accession": "0001628280-26-008662",
+       "end": "2025-12-31",
+       "form": "10-K",
+       "start": "2025-01-01",
+       "value": "1494000000"
+      },
+      {
+       "accession": "0001628280-26-070650",
+       "end": "2026-09-30",
+       "form": "10-Q",
+       "start": "2026-01-01",
+       "value": "1549000000"
+      },
+      {
+       "accession": "0001628280-26-070650",
+       "end": "2025-09-30",
+       "form": "10-Q",
+       "start": "2025-01-01",
+       "value": "1344000000"
+      }
+     ],
+     "concept": "net_income",
+     "filing": "0001628280-26-070650",
+     "method": "fiscal_year_plus_ytd_minus_prior_ytd",
+     "reason": "prior-year figures were revised after 0001628280-26-008662 (e.g. 2025-01-01..2025-06-30: 1070200000 -> 1072000000 by 0001628280-26-053489), and 0001628280-26-008662 does not report that period, so the fiscal-year figure's basis cannot be matched",
+     "value": "1699000000"
+    }
+   ]
   },
   {
    "asof_points": 16,
@@ -33,8 +178,10 @@
     "agree": 0,
     "checks": 0
    },
+   "documents": [],
    "excluded": {
     "accession_not_in_index": 438,
+    "not_periodic_report": 0,
     "unit": 0
    },
    "facts_kept": 265,
@@ -48,7 +195,19 @@
     "fiscal_year_plus_ytd_minus_prior_ytd": 12
    },
    "name": "GENERAL DYNAMICS CORPORATION",
-   "restatements_seen": 0
+   "restatements_seen": 0,
+   "ttm_status": {
+    "eps_diluted": {
+     "resolved": 16
+    },
+    "net_income": {
+     "resolved": 16
+    },
+    "revenue": {
+     "resolved": 16
+    }
+   },
+   "unresolved": []
   },
   {
    "asof_points": 16,
@@ -58,11 +217,13 @@
     "agree": 0,
     "checks": 0
    },
+   "documents": [],
    "excluded": {
     "accession_not_in_index": 30,
+    "not_periodic_report": 5,
     "unit": 0
    },
-   "facts_kept": 250,
+   "facts_kept": 245,
    "facts_public_before_period_end": 0,
    "headers": {
     "disagree": [],
@@ -73,7 +234,19 @@
     "fiscal_year_plus_ytd_minus_prior_ytd": 12
    },
    "name": "Pinterest, Inc.",
-   "restatements_seen": 0
+   "restatements_seen": 0,
+   "ttm_status": {
+    "eps_diluted": {
+     "resolved": 16
+    },
+    "net_income": {
+     "resolved": 16
+    },
+    "revenue": {
+     "resolved": 16
+    }
+   },
+   "unresolved": []
   },
   {
    "asof_points": 16,
@@ -83,8 +256,165 @@
     "agree": 0,
     "checks": 0
    },
+   "documents": [
+    {
+     "inline_xbrl": {
+      "agree": true,
+      "contexts": 16,
+      "entity_matches_url_cik": true,
+      "facts": 17,
+      "share_count_facts": 0,
+      "status": "ok",
+      "trading_symbols_independent": [
+       [
+        "O",
+        "CommonClassAMember"
+       ],
+       [
+        "O27A",
+        "SeniorUnsecuredNotesPayable1.125DueJuly2027Member"
+       ],
+       [
+        "O27B",
+        "SeniorUnsecuredNotesPayable1.875DueJanuary2027Member"
+       ],
+       [
+        "O29B",
+        "SeniorUnsecuredNotesPayble5.000DueOctober2029Member"
+       ],
+       [
+        "O30",
+        "SeniorUnsecuredNotesPayable1.625DueDecember2030Member"
+       ],
+       [
+        "O30B",
+        "SeniorUnsecuredNotesPayable4.875DueJuly2030Member"
+       ],
+       [
+        "O31A",
+        "SeniorUnsecuredNotesPayable5.750Due2031Member"
+       ],
+       [
+        "O31B",
+        "SeniorUnsecuredNotesPayable3.375Due2031Member"
+       ],
+       [
+        "O32A",
+        "SeniorUnsecuredNotesPayable3.625DueJuly2032Member"
+       ],
+       [
+        "O33A",
+        "SeniorUnsecuredNotesPayable1.750DueJuly2033Member"
+       ],
+       [
+        "O34",
+        "SeniorUnsecuredNotesPayable5.125DueJuly2034Member"
+       ],
+       [
+        "O35B",
+        "SeniorUnsecuredNotesPayable3.875Due2035Member"
+       ],
+       [
+        "O39",
+        "SeniorUnsecuredNotesPayable6000Due2039Member"
+       ],
+       [
+        "O41",
+        "SeniorUnsecuredNotesPayable5.250DueSeptember2041Member"
+       ],
+       [
+        "O42",
+        "SeniorUnsecuredNotesPayable2.500DueJanuary2042Member"
+       ]
+      ],
+      "trading_symbols_parsed": [
+       [
+        "O",
+        "CommonClassAMember"
+       ],
+       [
+        "O27A",
+        "SeniorUnsecuredNotesPayable1.125DueJuly2027Member"
+       ],
+       [
+        "O27B",
+        "SeniorUnsecuredNotesPayable1.875DueJanuary2027Member"
+       ],
+       [
+        "O29B",
+        "SeniorUnsecuredNotesPayble5.000DueOctober2029Member"
+       ],
+       [
+        "O30",
+        "SeniorUnsecuredNotesPayable1.625DueDecember2030Member"
+       ],
+       [
+        "O30B",
+        "SeniorUnsecuredNotesPayable4.875DueJuly2030Member"
+       ],
+       [
+        "O31A",
+        "SeniorUnsecuredNotesPayable5.750Due2031Member"
+       ],
+       [
+        "O31B",
+        "SeniorUnsecuredNotesPayable3.375Due2031Member"
+       ],
+       [
+        "O32A",
+        "SeniorUnsecuredNotesPayable3.625DueJuly2032Member"
+       ],
+       [
+        "O33A",
+        "SeniorUnsecuredNotesPayable1.750DueJuly2033Member"
+       ],
+       [
+        "O34",
+        "SeniorUnsecuredNotesPayable5.125DueJuly2034Member"
+       ],
+       [
+        "O35B",
+        "SeniorUnsecuredNotesPayable3.875Due2035Member"
+       ],
+       [
+        "O39",
+        "SeniorUnsecuredNotesPayable6000Due2039Member"
+       ],
+       [
+        "O41",
+        "SeniorUnsecuredNotesPayable5.250DueSeptember2041Member"
+       ],
+       [
+        "O42",
+        "SeniorUnsecuredNotesPayable2.500DueJanuary2042Member"
+       ]
+      ]
+     },
+     "passage_problems": [],
+     "passages": [
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 443,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 700,
+       "section": "earnings release: figures",
+       "verbatim": true
+      }
+     ],
+     "raw_file": "2d6921c4889300cbb4afce91",
+     "raw_sha256": "ef1290f842393723bebd9cdb34c47408c4f3bd9afe2a99508bbaee133c13e578",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/726728/000072672826000063/o-20261103.htm"
+    }
+   ],
    "excluded": {
     "accession_not_in_index": 149,
+    "not_periodic_report": 0,
     "unit": 0
    },
    "facts_kept": 430,
@@ -98,7 +428,19 @@
     "fiscal_year_plus_ytd_minus_prior_ytd": 12
    },
    "name": "REALTY INCOME CORPORATION",
-   "restatements_seen": 7
+   "restatements_seen": 7,
+   "ttm_status": {
+    "eps_diluted": {
+     "resolved": 16
+    },
+    "net_income": {
+     "resolved": 16
+    },
+    "revenue": {
+     "resolved": 16
+    }
+   },
+   "unresolved": []
   },
   {
    "asof_points": 16,
@@ -108,8 +450,10 @@
     "agree": 24,
     "checks": 24
    },
+   "documents": [],
    "excluded": {
     "accession_not_in_index": 206,
+    "not_periodic_report": 0,
     "unit": 0
    },
    "facts_kept": 537,
@@ -123,7 +467,19 @@
     "fiscal_year_plus_ytd_minus_prior_ytd": 12
    },
    "name": "AbbVie Inc.",
-   "restatements_seen": 0
+   "restatements_seen": 0,
+   "ttm_status": {
+    "eps_diluted": {
+     "resolved": 16
+    },
+    "net_income": {
+     "resolved": 16
+    },
+    "revenue": {
+     "resolved": 16
+    }
+   },
+   "unresolved": []
   },
   {
    "asof_points": 11,
@@ -133,11 +489,13 @@
     "agree": 0,
     "checks": 0
    },
+   "documents": [],
    "excluded": {
     "accession_not_in_index": 0,
+    "not_periodic_report": 2,
     "unit": 0
    },
-   "facts_kept": 110,
+   "facts_kept": 108,
    "facts_public_before_period_end": 0,
    "headers": {
     "disagree": [],
@@ -149,7 +507,22 @@
     "unavailable": 3
    },
    "name": "Reddit, Inc.",
-   "restatements_seen": 2
+   "restatements_seen": 0,
+   "ttm_status": {
+    "eps_diluted": {
+     "resolved": 8,
+     "unavailable": 3
+    },
+    "net_income": {
+     "resolved": 8,
+     "unavailable": 3
+    },
+    "revenue": {
+     "resolved": 8,
+     "unavailable": 3
+    }
+   },
+   "unresolved": []
   },
   {
    "asof_points": 16,
@@ -159,11 +532,13 @@
     "agree": 0,
     "checks": 0
    },
+   "documents": [],
    "excluded": {
     "accession_not_in_index": 450,
+    "not_periodic_report": 5,
     "unit": 0
    },
-   "facts_kept": 449,
+   "facts_kept": 444,
    "facts_public_before_period_end": 0,
    "headers": {
     "disagree": [],
@@ -174,7 +549,19 @@
     "fiscal_year_plus_ytd_minus_prior_ytd": 12
    },
    "name": "Chevron Corp",
-   "restatements_seen": 5
+   "restatements_seen": 0,
+   "ttm_status": {
+    "eps_diluted": {
+     "resolved": 16
+    },
+    "net_income": {
+     "resolved": 16
+    },
+    "revenue": {
+     "resolved": 16
+    }
+   },
+   "unresolved": []
   },
   {
    "asof_points": 16,
@@ -184,11 +571,13 @@
     "agree": 0,
     "checks": 0
    },
+   "documents": [],
    "excluded": {
     "accession_not_in_index": 564,
+    "not_periodic_report": 5,
     "unit": 1
    },
-   "facts_kept": 345,
+   "facts_kept": 340,
    "facts_public_before_period_end": 0,
    "headers": {
     "disagree": [],
@@ -199,7 +588,19 @@
     "fiscal_year_plus_ytd_minus_prior_ytd": 12
    },
    "name": "Monolithic Power Systems, Inc.",
-   "restatements_seen": 6
+   "restatements_seen": 6,
+   "ttm_status": {
+    "eps_diluted": {
+     "resolved": 16
+    },
+    "net_income": {
+     "resolved": 16
+    },
+    "revenue": {
+     "resolved": 16
+    }
+   },
+   "unresolved": []
   },
   {
    "asof_points": 16,
@@ -209,11 +610,13 @@
     "agree": 0,
     "checks": 0
    },
+   "documents": [],
    "excluded": {
     "accession_not_in_index": 809,
+    "not_periodic_report": 5,
     "unit": 0
    },
-   "facts_kept": 323,
+   "facts_kept": 318,
    "facts_public_before_period_end": 0,
    "headers": {
     "disagree": [],
@@ -224,7 +627,117 @@
     "fiscal_year_plus_ytd_minus_prior_ytd": 12
    },
    "name": "AMAZON.COM, INC.",
-   "restatements_seen": 0
+   "restatements_seen": 0,
+   "ttm_status": {
+    "eps_diluted": {
+     "resolved": 13,
+     "unresolved": 3
+    },
+    "net_income": {
+     "resolved": 16
+    },
+    "revenue": {
+     "resolved": 16
+    }
+   },
+   "unresolved": [
+    {
+     "asof": "2023-04-27T18:24:51-04:00",
+     "basis": "not_established",
+     "components": [
+      {
+       "accession": "0001018724-23-000004",
+       "end": "2022-12-31",
+       "form": "10-K",
+       "start": "2022-01-01",
+       "value": "-0.27"
+      },
+      {
+       "accession": "0001018724-23-000008",
+       "end": "2023-03-31",
+       "form": "10-Q",
+       "start": "2023-01-01",
+       "value": "0.31"
+      },
+      {
+       "accession": "0001018724-23-000008",
+       "end": "2022-03-31",
+       "form": "10-Q",
+       "start": "2022-01-01",
+       "value": "-0.38"
+      }
+     ],
+     "concept": "eps_diluted",
+     "filing": "0001018724-23-000008",
+     "method": "fiscal_year_plus_ytd_minus_prior_ytd",
+     "reason": "prior-year figures were revised after 0001018724-23-000004 (e.g. 2022-01-01..2022-03-31: -7.56 -> -0.38 by 0001018724-23-000008), and 0001018724-23-000004 does not report that period, so the fiscal-year figure's basis cannot be matched",
+     "value": "0.42"
+    },
+    {
+     "asof": "2023-08-03T18:24:35-04:00",
+     "basis": "not_established",
+     "components": [
+      {
+       "accession": "0001018724-23-000004",
+       "end": "2022-12-31",
+       "form": "10-K",
+       "start": "2022-01-01",
+       "value": "-0.27"
+      },
+      {
+       "accession": "0001018724-23-000012",
+       "end": "2023-06-30",
+       "form": "10-Q",
+       "start": "2023-01-01",
+       "value": "0.95"
+      },
+      {
+       "accession": "0001018724-23-000012",
+       "end": "2022-06-30",
+       "form": "10-Q",
+       "start": "2022-01-01",
+       "value": "-0.58"
+      }
+     ],
+     "concept": "eps_diluted",
+     "filing": "0001018724-23-000012",
+     "method": "fiscal_year_plus_ytd_minus_prior_ytd",
+     "reason": "prior-year figures were revised after 0001018724-23-000004 (e.g. 2022-01-01..2022-03-31: -7.56 -> -0.38 by 0001018724-23-000008), and 0001018724-23-000004 does not report that period, so the fiscal-year figure's basis cannot be matched",
+     "value": "1.26"
+    },
+    {
+     "asof": "2023-10-26T18:36:51-04:00",
+     "basis": "not_established",
+     "components": [
+      {
+       "accession": "0001018724-23-000004",
+       "end": "2022-12-31",
+       "form": "10-K",
+       "start": "2022-01-01",
+       "value": "-0.27"
+      },
+      {
+       "accession": "0001018724-23-000018",
+       "end": "2023-09-30",
+       "form": "10-Q",
+       "start": "2023-01-01",
+       "value": "1.89"
+      },
+      {
+       "accession": "0001018724-23-000018",
+       "end": "2022-09-30",
+       "form": "10-Q",
+       "start": "2022-01-01",
+       "value": "-0.29"
+      }
+     ],
+     "concept": "eps_diluted",
+     "filing": "0001018724-23-000018",
+     "method": "fiscal_year_plus_ytd_minus_prior_ytd",
+     "reason": "prior-year figures were revised after 0001018724-23-000004 (e.g. 2022-01-01..2022-03-31: -7.56 -> -0.38 by 0001018724-23-000008), and 0001018724-23-000004 does not report that period, so the fiscal-year figure's basis cannot be matched",
+     "value": "1.91"
+    }
+   ]
   },
   {
    "asof_points": 16,
@@ -234,8 +747,10 @@
     "agree": 0,
     "checks": 0
    },
+   "documents": [],
    "excluded": {
     "accession_not_in_index": 445,
+    "not_periodic_report": 0,
     "unit": 0
    },
    "facts_kept": 291,
@@ -249,7 +764,19 @@
     "fiscal_year_plus_ytd_minus_prior_ytd": 12
    },
    "name": "First Solar, Inc.",
-   "restatements_seen": 0
+   "restatements_seen": 0,
+   "ttm_status": {
+    "eps_diluted": {
+     "resolved": 16
+    },
+    "net_income": {
+     "resolved": 16
+    },
+    "revenue": {
+     "resolved": 16
+    }
+   },
+   "unresolved": []
   },
   {
    "asof_points": 16,
@@ -259,8 +786,10 @@
     "agree": 0,
     "checks": 0
    },
+   "documents": [],
    "excluded": {
     "accession_not_in_index": 309,
+    "not_periodic_report": 0,
     "unit": 4
    },
    "facts_kept": 693,
@@ -274,7 +803,19 @@
     "fiscal_year_plus_ytd_minus_prior_ytd": 12
    },
    "name": "Mondelez International, Inc.",
-   "restatements_seen": 18
+   "restatements_seen": 18,
+   "ttm_status": {
+    "eps_diluted": {
+     "resolved": 16
+    },
+    "net_income": {
+     "resolved": 16
+    },
+    "revenue": {
+     "resolved": 16
+    }
+   },
+   "unresolved": []
   },
   {
    "asof_points": 16,
@@ -284,8 +825,10 @@
     "agree": 0,
     "checks": 0
    },
+   "documents": [],
    "excluded": {
     "accession_not_in_index": 337,
+    "not_periodic_report": 0,
     "unit": 0
    },
    "facts_kept": 596,
@@ -299,7 +842,20 @@
     "fiscal_year_plus_ytd_minus_prior_ytd": 12
    },
    "name": "EDISON INTERNATIONAL",
-   "restatements_seen": 8
+   "restatements_seen": 8,
+   "ttm_status": {
+    "eps_diluted": {
+     "resolved": 16
+    },
+    "net_income": {
+     "resolved": 4,
+     "unavailable": 12
+    },
+    "revenue": {
+     "resolved": 16
+    }
+   },
+   "unresolved": []
   },
   {
    "asof_points": 16,
@@ -309,8 +865,212 @@
     "agree": 0,
     "checks": 0
    },
+   "documents": [
+    {
+     "inline_xbrl": {
+      "agree": true,
+      "contexts": 21,
+      "entity_matches_url_cik": true,
+      "facts": 22,
+      "share_count_facts": 0,
+      "status": "ok",
+      "trading_symbols_independent": [
+       [
+        "PSA",
+        "CommonStockMember"
+       ],
+       [
+        "PSA/30",
+        "GuaranteeNotesDue2030Member"
+       ],
+       [
+        "PSA/32",
+        "GuaranteeNotesDue2032Member"
+       ],
+       [
+        "PSA/34",
+        "GuaranteeNotesDue2034Member"
+       ],
+       [
+        "PSAPrF",
+        "SeriesFPreferredStockMember"
+       ],
+       [
+        "PSAPrG",
+        "SeriesGPreferredStockMember"
+       ],
+       [
+        "PSAPrH",
+        "SeriesHPreferredStockMember"
+       ],
+       [
+        "PSAPrI",
+        "SeriesIPreferredStockMember"
+       ],
+       [
+        "PSAPrJ",
+        "SeriesJPreferredStockMember"
+       ],
+       [
+        "PSAPrK",
+        "SeriesKPreferredStockMember"
+       ],
+       [
+        "PSAPrL",
+        "SeriesLPreferredStockMember"
+       ],
+       [
+        "PSAPrM",
+        "SeriesMPreferredStockMember"
+       ],
+       [
+        "PSAPrN",
+        "SeriesNPreferredStockMember"
+       ],
+       [
+        "PSAPrO",
+        "SeriesOPreferredStockMember"
+       ],
+       [
+        "PSAPrP",
+        "SeriesPPreferredStockMember"
+       ],
+       [
+        "PSAPrQ",
+        "SeriesQPreferredStockMember"
+       ],
+       [
+        "PSAPrR",
+        "SeriesRPreferredStockMember"
+       ],
+       [
+        "PSAPrS",
+        "SeriesSPreferredStockMember"
+       ],
+       [
+        "PSAPrT",
+        "SeriesTCumulativePreferredStockMember"
+       ],
+       [
+        "PSAPrU",
+        "SeriesUCumulativePreferredStockMember"
+       ]
+      ],
+      "trading_symbols_parsed": [
+       [
+        "PSA",
+        "CommonStockMember"
+       ],
+       [
+        "PSA/30",
+        "GuaranteeNotesDue2030Member"
+       ],
+       [
+        "PSA/32",
+        "GuaranteeNotesDue2032Member"
+       ],
+       [
+        "PSA/34",
+        "GuaranteeNotesDue2034Member"
+       ],
+       [
+        "PSAPrF",
+        "SeriesFPreferredStockMember"
+       ],
+       [
+        "PSAPrG",
+        "SeriesGPreferredStockMember"
+       ],
+       [
+        "PSAPrH",
+        "SeriesHPreferredStockMember"
+       ],
+       [
+        "PSAPrI",
+        "SeriesIPreferredStockMember"
+       ],
+       [
+        "PSAPrJ",
+        "SeriesJPreferredStockMember"
+       ],
+       [
+        "PSAPrK",
+        "SeriesKPreferredStockMember"
+       ],
+       [
+        "PSAPrL",
+        "SeriesLPreferredStockMember"
+       ],
+       [
+        "PSAPrM",
+        "SeriesMPreferredStockMember"
+       ],
+       [
+        "PSAPrN",
+        "SeriesNPreferredStockMember"
+       ],
+       [
+        "PSAPrO",
+        "SeriesOPreferredStockMember"
+       ],
+       [
+        "PSAPrP",
+        "SeriesPPreferredStockMember"
+       ],
+       [
+        "PSAPrQ",
+        "SeriesQPreferredStockMember"
+       ],
+       [
+        "PSAPrR",
+        "SeriesRPreferredStockMember"
+       ],
+       [
+        "PSAPrS",
+        "SeriesSPreferredStockMember"
+       ],
+       [
+        "PSAPrT",
+        "SeriesTCumulativePreferredStockMember"
+       ],
+       [
+        "PSAPrU",
+        "SeriesUCumulativePreferredStockMember"
+       ]
+      ]
+     },
+     "passage_problems": [],
+     "passages": [
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 275,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 429,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 428,
+       "section": "MD&A: figures",
+       "verbatim": true
+      }
+     ],
+     "raw_file": "26d466f3db6a6be43710c5c7",
+     "raw_sha256": "763ff866c4ef851bb39bb0a87c7df4e4a2e70acb46abcfb19046198a828e0f03",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/1393311/000119312526451826/d191331d8k.htm"
+    }
+   ],
    "excluded": {
     "accession_not_in_index": 468,
+    "not_periodic_report": 0,
     "unit": 0
    },
    "facts_kept": 409,
@@ -324,7 +1084,19 @@
     "fiscal_year_plus_ytd_minus_prior_ytd": 12
    },
    "name": "Public Storage",
-   "restatements_seen": 7
+   "restatements_seen": 7,
+   "ttm_status": {
+    "eps_diluted": {
+     "resolved": 16
+    },
+    "net_income": {
+     "resolved": 16
+    },
+    "revenue": {
+     "resolved": 16
+    }
+   },
+   "unresolved": []
   },
   {
    "asof_points": 16,
@@ -334,8 +1106,10 @@
     "agree": 40,
     "checks": 40
    },
+   "documents": [],
    "excluded": {
     "accession_not_in_index": 520,
+    "not_periodic_report": 0,
     "unit": 0
    },
    "facts_kept": 636,
@@ -349,7 +1123,19 @@
     "fiscal_year_plus_ytd_minus_prior_ytd": 12
    },
    "name": "STRYKER CORP",
-   "restatements_seen": 0
+   "restatements_seen": 0,
+   "ttm_status": {
+    "eps_diluted": {
+     "resolved": 16
+    },
+    "net_income": {
+     "resolved": 16
+    },
+    "revenue": {
+     "resolved": 16
+    }
+   },
+   "unresolved": []
   },
   {
    "asof_points": 16,
@@ -371,14 +1157,16 @@
     }
    ],
    "cross_method_summary": {
-    "agree": 32,
-    "checks": 34
+    "agree": 16,
+    "checks": 18
    },
+   "documents": [],
    "excluded": {
     "accession_not_in_index": 543,
+    "not_periodic_report": 167,
     "unit": 0
    },
-   "facts_kept": 752,
+   "facts_kept": 585,
    "facts_public_before_period_end": 0,
    "headers": {
     "disagree": [],
@@ -389,7 +1177,215 @@
     "fiscal_year_plus_ytd_minus_prior_ytd": 12
    },
    "name": "DOMINION ENERGY, INC",
-   "restatements_seen": 75
+   "restatements_seen": 58,
+   "ttm_status": {
+    "eps_diluted": {
+     "resolved": 13,
+     "unresolved": 3
+    },
+    "net_income": {
+     "resolved": 14,
+     "unresolved": 2
+    },
+    "revenue": {
+     "resolved": 15,
+     "unresolved": 1
+    }
+   },
+   "unresolved": [
+    {
+     "asof": "2023-11-08T16:27:51-05:00",
+     "basis": "not_established",
+     "components": [
+      {
+       "accession": "0000950170-23-003287",
+       "end": "2022-12-31",
+       "form": "10-K",
+       "start": "2022-01-01",
+       "value": "17174000000"
+      },
+      {
+       "accession": "0000950170-23-061178",
+       "end": "2023-09-30",
+       "form": "10-Q",
+       "start": "2023-01-01",
+       "value": "10859000000"
+      },
+      {
+       "accession": "0000950170-23-061178",
+       "end": "2022-09-30",
+       "form": "10-Q",
+       "start": "2022-01-01",
+       "value": "10135000000"
+      }
+     ],
+     "concept": "revenue",
+     "filing": "0000950170-23-061178",
+     "method": "fiscal_year_plus_ytd_minus_prior_ytd",
+     "reason": "prior-year figures were revised after 0000950170-23-003287 (e.g. 2022-01-01..2022-09-30: 12261000000 -> 10135000000 by 0000950170-23-061178), and 0000950170-23-003287 does not report that period, so the fiscal-year figure's basis cannot be matched",
+     "value": "17898000000"
+    },
+    {
+     "asof": "2024-11-01T10:59:10-04:00",
+     "basis": "mixed",
+     "components": [
+      {
+       "accession": "0000950170-24-019110",
+       "end": "2023-12-31",
+       "form": "10-K",
+       "start": "2023-01-01",
+       "value": "2.29"
+      },
+      {
+       "accession": "0000950170-24-119871",
+       "end": "2024-09-30",
+       "form": "10-Q",
+       "start": "2024-01-01",
+       "value": "2.55"
+      },
+      {
+       "accession": "0000950170-24-119871",
+       "end": "2023-09-30",
+       "form": "10-Q",
+       "start": "2023-01-01",
+       "value": "1.99"
+      }
+     ],
+     "concept": "eps_diluted",
+     "filing": "0000950170-24-119871",
+     "method": "fiscal_year_plus_ytd_minus_prior_ytd",
+     "reason": "mixed reporting basis: on the basis of 0000950170-24-019110 (fiscal year 2.29) the prior-year period 2023-01-01..2023-09-30 is 1.98, but the comparative from 0000950170-24-119871 is 1.99",
+     "value": "2.85"
+    },
+    {
+     "asof": "2025-08-01T10:36:31-04:00",
+     "basis": "mixed",
+     "components": [
+      {
+       "accession": "0000950170-25-028387",
+       "end": "2024-12-31",
+       "form": "10-K",
+       "start": "2024-01-01",
+       "value": "2124000000"
+      },
+      {
+       "accession": "0000950170-25-101177",
+       "end": "2025-06-30",
+       "form": "10-Q",
+       "start": "2025-01-01",
+       "value": "1425000000"
+      },
+      {
+       "accession": "0000950170-25-101177",
+       "end": "2024-06-30",
+       "form": "10-Q",
+       "start": "2024-01-01",
+       "value": "966000000"
+      }
+     ],
+     "concept": "net_income",
+     "filing": "0000950170-25-101177",
+     "method": "fiscal_year_plus_ytd_minus_prior_ytd",
+     "reason": "mixed reporting basis: on the basis of 0000950170-25-028387 (fiscal year 2124000000) the prior-year period 2024-01-01..2024-06-30 is 1021000000, but the comparative from 0000950170-25-101177 is 966000000",
+     "value": "2583000000"
+    },
+    {
+     "asof": "2025-08-01T10:36:31-04:00",
+     "basis": "mixed",
+     "components": [
+      {
+       "accession": "0000950170-25-028387",
+       "end": "2024-12-31",
+       "form": "10-K",
+       "start": "2024-01-01",
+       "value": "2.44"
+      },
+      {
+       "accession": "0000950170-25-101177",
+       "end": "2025-06-30",
+       "form": "10-Q",
+       "start": "2025-01-01",
+       "value": "1.65"
+      },
+      {
+       "accession": "0000950170-25-101177",
+       "end": "2024-06-30",
+       "form": "10-Q",
+       "start": "2024-01-01",
+       "value": "1.1"
+      }
+     ],
+     "concept": "eps_diluted",
+     "filing": "0000950170-25-101177",
+     "method": "fiscal_year_plus_ytd_minus_prior_ytd",
+     "reason": "mixed reporting basis: on the basis of 0000950170-25-028387 (fiscal year 2.44) the prior-year period 2024-01-01..2024-06-30 is 1.16, but the comparative from 0000950170-25-101177 is 1.1",
+     "value": "2.99"
+    },
+    {
+     "asof": "2025-10-31T11:49:54-04:00",
+     "basis": "mixed",
+     "components": [
+      {
+       "accession": "0000950170-25-028387",
+       "end": "2024-12-31",
+       "form": "10-K",
+       "start": "2024-01-01",
+       "value": "2124000000"
+      },
+      {
+       "accession": "0001193125-25-260246",
+       "end": "2025-09-30",
+       "form": "10-Q",
+       "start": "2025-01-01",
+       "value": "2431000000"
+      },
+      {
+       "accession": "0001193125-25-260246",
+       "end": "2024-09-30",
+       "form": "10-Q",
+       "start": "2024-01-01",
+       "value": "1900000000"
+      }
+     ],
+     "concept": "net_income",
+     "filing": "0001193125-25-260246",
+     "method": "fiscal_year_plus_ytd_minus_prior_ytd",
+     "reason": "mixed reporting basis: on the basis of 0000950170-25-028387 (fiscal year 2124000000) the prior-year period 2024-01-01..2024-09-30 is 1979000000, but the comparative from 0001193125-25-260246 is 1900000000",
+     "value": "2655000000"
+    },
+    {
+     "asof": "2025-10-31T11:49:54-04:00",
+     "basis": "mixed",
+     "components": [
+      {
+       "accession": "0000950170-25-028387",
+       "end": "2024-12-31",
+       "form": "10-K",
+       "start": "2024-01-01",
+       "value": "2.44"
+      },
+      {
+       "accession": "0001193125-25-260246",
+       "end": "2025-09-30",
+       "form": "10-Q",
+       "start": "2025-01-01",
+       "value": "2.81"
+      },
+      {
+       "accession": "0001193125-25-260246",
+       "end": "2024-09-30",
+       "form": "10-Q",
+       "start": "2024-01-01",
+       "value": "2.19"
+      }
+     ],
+     "concept": "eps_diluted",
+     "filing": "0001193125-25-260246",
+     "method": "fiscal_year_plus_ytd_minus_prior_ytd",
+     "reason": "mixed reporting basis: on the basis of 0000950170-25-028387 (fiscal year 2.44) the prior-year period 2024-01-01..2024-09-30 is 2.28, but the comparative from 0001193125-25-260246 is 2.19",
+     "value": "3.06"
+    }
+   ]
   },
   {
    "asof_points": 16,
@@ -399,11 +1395,41 @@
     "agree": 0,
     "checks": 0
    },
+   "documents": [
+    {
+     "inline_xbrl": {
+      "agree": true,
+      "contexts": 1,
+      "entity_matches_url_cik": true,
+      "facts": 3,
+      "share_count_facts": 0,
+      "status": "ok",
+      "trading_symbols_independent": [
+       [
+        "TRV",
+        null
+       ]
+      ],
+      "trading_symbols_parsed": [
+       [
+        "TRV",
+        null
+       ]
+      ]
+     },
+     "passage_problems": [],
+     "passages": [],
+     "raw_file": "ebc3a3263ad597229f627412",
+     "raw_sha256": "d1796d7fe8a587b498dd1ed84791b971d3e2dbdca7996dfc78f79d37a2df103b",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/86312/000110465926123878/tm2622405d1_8k.htm"
+    }
+   ],
    "excluded": {
     "accession_not_in_index": 535,
+    "not_periodic_report": 5,
     "unit": 17
    },
-   "facts_kept": 421,
+   "facts_kept": 416,
    "facts_public_before_period_end": 0,
    "headers": {
     "disagree": [],
@@ -414,7 +1440,19 @@
     "fiscal_year_plus_ytd_minus_prior_ytd": 12
    },
    "name": "Travelers Companies,\u00a0Inc.",
-   "restatements_seen": 0
+   "restatements_seen": 0,
+   "ttm_status": {
+    "eps_diluted": {
+     "resolved": 16
+    },
+    "net_income": {
+     "resolved": 16
+    },
+    "revenue": {
+     "resolved": 16
+    }
+   },
+   "unresolved": []
   },
   {
    "asof_points": 16,
@@ -424,8 +1462,53 @@
     "agree": 0,
     "checks": 0
    },
+   "documents": [
+    {
+     "inline_xbrl": {
+      "agree": true,
+      "contexts": 1,
+      "entity_matches_url_cik": true,
+      "facts": 3,
+      "share_count_facts": 0,
+      "status": "ok",
+      "trading_symbols_independent": [
+       [
+        "MOH",
+        null
+       ]
+      ],
+      "trading_symbols_parsed": [
+       [
+        "MOH",
+        null
+       ]
+      ]
+     },
+     "passage_problems": [],
+     "passages": [
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 826,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 837,
+       "section": "adverse disclosure (risk)",
+       "verbatim": true
+      }
+     ],
+     "raw_file": "0f2c7549ae802fd7b570ce8c",
+     "raw_sha256": "16381c9e3ac21e35687d7ff54ceba7c12ce6e69c791fabc66a95df2cbdc8167c",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/1179929/000143774926035576/moh20261106_8k.htm"
+    }
+   ],
    "excluded": {
     "accession_not_in_index": 382,
+    "not_periodic_report": 0,
     "unit": 0
    },
    "facts_kept": 544,
@@ -439,7 +1522,19 @@
     "fiscal_year_plus_ytd_minus_prior_ytd": 12
    },
    "name": "MOLINA HEALTHCARE, INC.",
-   "restatements_seen": 0
+   "restatements_seen": 0,
+   "ttm_status": {
+    "eps_diluted": {
+     "resolved": 16
+    },
+    "net_income": {
+     "resolved": 16
+    },
+    "revenue": {
+     "resolved": 16
+    }
+   },
+   "unresolved": []
   },
   {
    "asof_points": 16,
@@ -449,11 +1544,13 @@
     "agree": 10,
     "checks": 10
    },
+   "documents": [],
    "excluded": {
     "accession_not_in_index": 578,
+    "not_periodic_report": 5,
     "unit": 0
    },
-   "facts_kept": 434,
+   "facts_kept": 429,
    "facts_public_before_period_end": 0,
    "headers": {
     "disagree": [],
@@ -464,7 +1561,60 @@
     "fiscal_year_plus_ytd_minus_prior_ytd": 12
    },
    "name": "Illumina, Inc.",
-   "restatements_seen": 0
+   "restatements_seen": 0,
+   "ttm_status": {
+    "eps_diluted": {
+     "resolved": 16
+    },
+    "net_income": {
+     "resolved": 15,
+     "unresolved": 1
+    },
+    "revenue": {
+     "resolved": 16
+    }
+   },
+   "unresolved": [
+    {
+     "asof": "2023-11-09T18:30:59-05:00",
+     "basis": "mixed",
+     "components": [
+      {
+       "accession": "0001110803-23-000086",
+       "end": "2023-10-01",
+       "form": "10-Q",
+       "start": "2023-07-03",
+       "value": "-754000000"
+      },
+      {
+       "accession": "0001110803-23-000086",
+       "end": "2023-07-02",
+       "form": "10-Q",
+       "start": "2023-04-03",
+       "value": "-234000000"
+      },
+      {
+       "accession": "0001110803-23-000086",
+       "end": "2023-04-02",
+       "form": "10-Q",
+       "start": "2023-01-02",
+       "value": "3000000"
+      },
+      {
+       "accession": "0001110803-23-000086",
+       "end": "2023-01-01",
+       "form": "10-Q",
+       "start": "2022-10-03",
+       "value": "-139000000"
+      }
+     ],
+     "concept": "net_income",
+     "filing": "0001110803-23-000086",
+     "method": "four_quarters",
+     "reason": "mixed reporting basis: 2023-01-02..2023-10-01 is -986000000 in 0001110803-23-000086, but the chained quarters it spans sum to -985000000",
+     "value": "-1124000000"
+    }
+   ]
   },
   {
    "asof_points": 16,
@@ -474,8 +1624,10 @@
     "agree": 0,
     "checks": 0
    },
+   "documents": [],
    "excluded": {
     "accession_not_in_index": 261,
+    "not_periodic_report": 0,
     "unit": 0
    },
    "facts_kept": 244,
@@ -489,7 +1641,19 @@
     "fiscal_year_plus_ytd_minus_prior_ytd": 12
    },
    "name": "WEC ENERGY GROUP, INC.",
-   "restatements_seen": 0
+   "restatements_seen": 0,
+   "ttm_status": {
+    "eps_diluted": {
+     "resolved": 16
+    },
+    "net_income": {
+     "unavailable": 16
+    },
+    "revenue": {
+     "resolved": 16
+    }
+   },
+   "unresolved": []
   },
   {
    "asof_points": 15,
@@ -499,11 +1663,13 @@
     "agree": 0,
     "checks": 0
    },
+   "documents": [],
    "excluded": {
     "accession_not_in_index": 0,
+    "not_periodic_report": 5,
     "unit": 0
    },
-   "facts_kept": 206,
+   "facts_kept": 201,
    "facts_public_before_period_end": 0,
    "headers": {
     "disagree": [],
@@ -514,7 +1680,53 @@
     "fiscal_year_plus_ytd_minus_prior_ytd": 11
    },
    "name": "AST SPACEMOBILE, INC.",
-   "restatements_seen": 11
+   "restatements_seen": 11,
+   "ttm_status": {
+    "eps_diluted": {
+     "unavailable": 15
+    },
+    "net_income": {
+     "resolved": 15
+    },
+    "revenue": {
+     "resolved": 14,
+     "unresolved": 1
+    }
+   },
+   "unresolved": [
+    {
+     "asof": "2023-05-15T16:22:37-04:00",
+     "basis": "not_established",
+     "components": [
+      {
+       "accession": "0000950170-23-011124",
+       "end": "2022-12-31",
+       "form": "10-K",
+       "start": "2022-01-01",
+       "value": "13825000"
+      },
+      {
+       "accession": "0000950170-23-022235",
+       "end": "2023-03-31",
+       "form": "10-Q",
+       "start": "2023-01-01",
+       "value": "2394000"
+      },
+      {
+       "accession": "0000950170-22-010115",
+       "end": "2022-03-31",
+       "form": "10-Q",
+       "start": "2022-01-01",
+       "value": "2394000"
+      }
+     ],
+     "concept": "revenue",
+     "filing": "0000950170-23-022235",
+     "method": "fiscal_year_plus_ytd_minus_prior_ytd",
+     "reason": "the prior-year comparative comes from 0000950170-22-010115, not from the filing of the current year-to-date figure (0000950170-23-022235)",
+     "value": "13825000"
+    }
+   ]
   },
   {
    "asof_points": 16,
@@ -524,11 +1736,13 @@
     "agree": 0,
     "checks": 0
    },
+   "documents": [],
    "excluded": {
     "accession_not_in_index": 441,
+    "not_periodic_report": 5,
     "unit": 2
    },
-   "facts_kept": 571,
+   "facts_kept": 566,
    "facts_public_before_period_end": 0,
    "headers": {
     "disagree": [],
@@ -539,7 +1753,53 @@
     "fiscal_year_plus_ytd_minus_prior_ytd": 12
    },
    "name": "KLA CORP",
-   "restatements_seen": 2
+   "restatements_seen": 0,
+   "ttm_status": {
+    "eps_diluted": {
+     "resolved": 15,
+     "unresolved": 1
+    },
+    "net_income": {
+     "resolved": 16
+    },
+    "revenue": {
+     "resolved": 16
+    }
+   },
+   "unresolved": [
+    {
+     "asof": "2026-10-29T16:08:32-04:00",
+     "basis": "not_established",
+     "components": [
+      {
+       "accession": "0000319201-26-000027",
+       "end": "2026-06-30",
+       "form": "10-K",
+       "start": "2025-07-01",
+       "value": "3.66"
+      },
+      {
+       "accession": "0000319201-26-000034",
+       "end": "2026-09-30",
+       "form": "10-Q",
+       "start": "2026-07-01",
+       "value": "1.18"
+      },
+      {
+       "accession": "0000319201-26-000034",
+       "end": "2025-09-30",
+       "form": "10-Q",
+       "start": "2025-07-01",
+       "value": "0.85"
+      }
+     ],
+     "concept": "eps_diluted",
+     "filing": "0000319201-26-000034",
+     "method": "fiscal_year_plus_ytd_minus_prior_ytd",
+     "reason": "prior-year figures were revised after 0000319201-26-000027 (e.g. 2025-07-01..2025-09-30: 8.47 -> 0.85 by 0000319201-26-000034), and 0000319201-26-000027 does not report that period, so the fiscal-year figure's basis cannot be matched",
+     "value": "3.99"
+    }
+   ]
   },
   {
    "asof_points": 16,
@@ -549,8 +1809,10 @@
     "agree": 0,
     "checks": 0
    },
+   "documents": [],
    "excluded": {
     "accession_not_in_index": 432,
+    "not_periodic_report": 0,
     "unit": 0
    },
    "facts_kept": 335,
@@ -564,7 +1826,19 @@
     "fiscal_year_plus_ytd_minus_prior_ytd": 12
    },
    "name": "Intel Corporation",
-   "restatements_seen": 1
+   "restatements_seen": 1,
+   "ttm_status": {
+    "eps_diluted": {
+     "resolved": 16
+    },
+    "net_income": {
+     "resolved": 16
+    },
+    "revenue": {
+     "resolved": 16
+    }
+   },
+   "unresolved": []
   },
   {
    "asof_points": 16,
@@ -574,8 +1848,10 @@
     "agree": 0,
     "checks": 0
    },
+   "documents": [],
    "excluded": {
     "accession_not_in_index": 410,
+    "not_periodic_report": 0,
     "unit": 0
    },
    "facts_kept": 624,
@@ -589,7 +1865,19 @@
     "fiscal_year_plus_ytd_minus_prior_ytd": 12
    },
    "name": "PUBLIC SERVICE ENTERPRISE GROUP INC",
-   "restatements_seen": 10
+   "restatements_seen": 10,
+   "ttm_status": {
+    "eps_diluted": {
+     "resolved": 16
+    },
+    "net_income": {
+     "resolved": 16
+    },
+    "revenue": {
+     "resolved": 16
+    }
+   },
+   "unresolved": []
   },
   {
    "asof_points": 16,
@@ -599,11 +1887,13 @@
     "agree": 0,
     "checks": 0
    },
+   "documents": [],
    "excluded": {
     "accession_not_in_index": 441,
+    "not_periodic_report": 5,
     "unit": 0
    },
-   "facts_kept": 482,
+   "facts_kept": 477,
    "facts_public_before_period_end": 0,
    "headers": {
     "disagree": [],
@@ -614,7 +1904,19 @@
     "fiscal_year_plus_ytd_minus_prior_ytd": 12
    },
    "name": "DIGITAL REALTY TRUST, INC.",
-   "restatements_seen": 5
+   "restatements_seen": 0,
+   "ttm_status": {
+    "eps_diluted": {
+     "resolved": 16
+    },
+    "net_income": {
+     "resolved": 16
+    },
+    "revenue": {
+     "resolved": 16
+    }
+   },
+   "unresolved": []
   },
   {
    "asof_points": 16,
@@ -624,8 +1926,10 @@
     "agree": 16,
     "checks": 16
    },
+   "documents": [],
    "excluded": {
     "accession_not_in_index": 598,
+    "not_periodic_report": 0,
     "unit": 0
    },
    "facts_kept": 525,
@@ -639,7 +1943,19 @@
     "fiscal_year_plus_ytd_minus_prior_ytd": 12
    },
    "name": "COLGATE-PALMOLIVE COMPANY",
-   "restatements_seen": 0
+   "restatements_seen": 0,
+   "ttm_status": {
+    "eps_diluted": {
+     "resolved": 16
+    },
+    "net_income": {
+     "resolved": 16
+    },
+    "revenue": {
+     "resolved": 16
+    }
+   },
+   "unresolved": []
   },
   {
    "asof_points": 16,
@@ -649,11 +1965,63 @@
     "agree": 0,
     "checks": 0
    },
+   "documents": [
+    {
+     "inline_xbrl": {
+      "agree": true,
+      "contexts": 1,
+      "entity_matches_url_cik": true,
+      "facts": 3,
+      "share_count_facts": 0,
+      "status": "ok",
+      "trading_symbols_independent": [
+       [
+        "DAL",
+        null
+       ]
+      ],
+      "trading_symbols_parsed": [
+       [
+        "DAL",
+        null
+       ]
+      ]
+     },
+     "passage_problems": [],
+     "passages": [
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 846,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 553,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 1132,
+       "section": "MD&A: figures",
+       "verbatim": true
+      }
+     ],
+     "raw_file": "8e853ca7967b2b354e0fc014",
+     "raw_sha256": "91a92bda3a40ce4968a305e347e0ea5f0afc87438b679a7b384323cceb7d83c6",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/27904/000119312526451940/d164939d8k.htm"
+    }
+   ],
    "excluded": {
     "accession_not_in_index": 431,
+    "not_periodic_report": 5,
     "unit": 0
    },
-   "facts_kept": 545,
+   "facts_kept": 540,
    "facts_public_before_period_end": 0,
    "headers": {
     "disagree": [],
@@ -664,7 +2032,19 @@
     "fiscal_year_plus_ytd_minus_prior_ytd": 12
    },
    "name": "DELTA AIR LINES, INC.",
-   "restatements_seen": 17
+   "restatements_seen": 17,
+   "ttm_status": {
+    "eps_diluted": {
+     "resolved": 16
+    },
+    "net_income": {
+     "resolved": 16
+    },
+    "revenue": {
+     "resolved": 16
+    }
+   },
+   "unresolved": []
   },
   {
    "asof_points": 16,
@@ -674,11 +2054,13 @@
     "agree": 0,
     "checks": 0
    },
+   "documents": [],
    "excluded": {
     "accession_not_in_index": 340,
+    "not_periodic_report": 5,
     "unit": 0
    },
-   "facts_kept": 403,
+   "facts_kept": 398,
    "facts_public_before_period_end": 0,
    "headers": {
     "disagree": [],
@@ -689,7 +2071,19 @@
     "fiscal_year_plus_ytd_minus_prior_ytd": 12
    },
    "name": "ResMed Inc.",
-   "restatements_seen": 8
+   "restatements_seen": 1,
+   "ttm_status": {
+    "eps_diluted": {
+     "resolved": 16
+    },
+    "net_income": {
+     "resolved": 16
+    },
+    "revenue": {
+     "resolved": 16
+    }
+   },
+   "unresolved": []
   },
   {
    "asof_points": 16,
@@ -699,8 +2093,10 @@
     "agree": 0,
     "checks": 0
    },
+   "documents": [],
    "excluded": {
     "accession_not_in_index": 180,
+    "not_periodic_report": 0,
     "unit": 0
    },
    "facts_kept": 588,
@@ -714,7 +2110,19 @@
     "fiscal_year_plus_ytd_minus_prior_ytd": 12
    },
    "name": "CHURCH & DWIGHT CO., INC.",
-   "restatements_seen": 2
+   "restatements_seen": 2,
+   "ttm_status": {
+    "eps_diluted": {
+     "resolved": 16
+    },
+    "net_income": {
+     "resolved": 16
+    },
+    "revenue": {
+     "resolved": 16
+    }
+   },
+   "unresolved": []
   },
   {
    "asof_points": 16,
@@ -724,11 +2132,13 @@
     "agree": 0,
     "checks": 0
    },
+   "documents": [],
    "excluded": {
     "accession_not_in_index": 64,
+    "not_periodic_report": 5,
     "unit": 0
    },
-   "facts_kept": 312,
+   "facts_kept": 307,
    "facts_public_before_period_end": 0,
    "headers": {
     "disagree": [],
@@ -739,7 +2149,19 @@
     "fiscal_year_plus_ytd_minus_prior_ytd": 12
    },
    "name": "TWILIO INC.",
-   "restatements_seen": 5
+   "restatements_seen": 0,
+   "ttm_status": {
+    "eps_diluted": {
+     "resolved": 16
+    },
+    "net_income": {
+     "resolved": 16
+    },
+    "revenue": {
+     "resolved": 16
+    }
+   },
+   "unresolved": []
   },
   {
    "asof_points": 16,
@@ -749,8 +2171,10 @@
     "agree": 0,
     "checks": 0
    },
+   "documents": [],
    "excluded": {
     "accession_not_in_index": 915,
+    "not_periodic_report": 0,
     "unit": 0
    },
    "facts_kept": 314,
@@ -764,7 +2188,213 @@
     "fiscal_year_plus_ytd_minus_prior_ytd": 12
    },
    "name": "REPUBLIC SERVICES, INC.",
-   "restatements_seen": 26
+   "restatements_seen": 13,
+   "ttm_status": {
+    "eps_diluted": {
+     "resolved": 16
+    },
+    "net_income": {
+     "resolved": 16
+    },
+    "revenue": {
+     "resolved": 10,
+     "unresolved": 6
+    }
+   },
+   "unresolved": [
+    {
+     "asof": "2023-04-27T19:11:41-04:00",
+     "basis": "not_established",
+     "components": [
+      {
+       "accession": "0001060391-23-000008",
+       "end": "2022-12-31",
+       "form": "10-K",
+       "start": "2022-01-01",
+       "value": "15645100000"
+      },
+      {
+       "accession": "0001060391-23-000013",
+       "end": "2023-03-31",
+       "form": "10-Q",
+       "start": "2023-01-01",
+       "value": "4147200000"
+      },
+      {
+       "accession": "0001060391-23-000013",
+       "end": "2022-03-31",
+       "form": "10-Q",
+       "start": "2022-01-01",
+       "value": "3466100000"
+      }
+     ],
+     "concept": "revenue",
+     "filing": "0001060391-23-000013",
+     "method": "fiscal_year_plus_ytd_minus_prior_ytd",
+     "reason": "prior-year figures were revised after 0001060391-23-000008 (e.g. 2022-01-01..2022-03-31: 3466300000 -> 3466100000 by 0001060391-23-000013), and 0001060391-23-000008 does not report that period, so the fiscal-year figure's basis cannot be matched",
+     "value": "16326200000"
+    },
+    {
+     "asof": "2023-07-31T21:46:57-04:00",
+     "basis": "not_established",
+     "components": [
+      {
+       "accession": "0001060391-23-000008",
+       "end": "2022-12-31",
+       "form": "10-K",
+       "start": "2022-01-01",
+       "value": "15645100000"
+      },
+      {
+       "accession": "0001060391-23-000019",
+       "end": "2023-06-30",
+       "form": "10-Q",
+       "start": "2023-01-01",
+       "value": "8468500000"
+      },
+      {
+       "accession": "0001060391-23-000019",
+       "end": "2022-06-30",
+       "form": "10-Q",
+       "start": "2022-01-01",
+       "value": "7421500000"
+      }
+     ],
+     "concept": "revenue",
+     "filing": "0001060391-23-000019",
+     "method": "fiscal_year_plus_ytd_minus_prior_ytd",
+     "reason": "prior-year figures were revised after 0001060391-23-000008 (e.g. 2022-01-01..2022-03-31: 3466300000 -> 3466100000 by 0001060391-23-000013), and 0001060391-23-000008 does not report that period, so the fiscal-year figure's basis cannot be matched",
+     "value": "16692100000"
+    },
+    {
+     "asof": "2023-10-26T21:45:38-04:00",
+     "basis": "not_established",
+     "components": [
+      {
+       "accession": "0001060391-23-000008",
+       "end": "2022-12-31",
+       "form": "10-K",
+       "start": "2022-01-01",
+       "value": "15645100000"
+      },
+      {
+       "accession": "0001060391-23-000025",
+       "end": "2023-09-30",
+       "form": "10-Q",
+       "start": "2023-01-01",
+       "value": "12882700000"
+      },
+      {
+       "accession": "0001060391-23-000025",
+       "end": "2022-09-30",
+       "form": "10-Q",
+       "start": "2022-01-01",
+       "value": "11576900000"
+      }
+     ],
+     "concept": "revenue",
+     "filing": "0001060391-23-000025",
+     "method": "fiscal_year_plus_ytd_minus_prior_ytd",
+     "reason": "prior-year figures were revised after 0001060391-23-000008 (e.g. 2022-01-01..2022-03-31: 3466300000 -> 3466100000 by 0001060391-23-000013), and 0001060391-23-000008 does not report that period, so the fiscal-year figure's basis cannot be matched",
+     "value": "16950900000"
+    },
+    {
+     "asof": "2024-07-24T21:43:10-04:00",
+     "basis": "not_established",
+     "components": [
+      {
+       "accession": "0001060391-24-000142",
+       "end": "2023-12-31",
+       "form": "10-K",
+       "start": "2023-01-01",
+       "value": "17278700000"
+      },
+      {
+       "accession": "0001060391-24-000273",
+       "end": "2024-06-30",
+       "form": "10-Q",
+       "start": "2024-01-01",
+       "value": "9102500000"
+      },
+      {
+       "accession": "0001060391-24-000273",
+       "end": "2023-06-30",
+       "form": "10-Q",
+       "start": "2023-01-01",
+       "value": "8468500000"
+      }
+     ],
+     "concept": "revenue",
+     "filing": "0001060391-24-000273",
+     "method": "fiscal_year_plus_ytd_minus_prior_ytd",
+     "reason": "prior-year figures were revised after 0001060391-24-000142 (e.g. 2023-04-01..2023-06-30: 4321200000 -> 4321400000 by 0001060391-24-000273), and 0001060391-24-000142 does not report that period, so the fiscal-year figure's basis cannot be matched",
+     "value": "17912700000"
+    },
+    {
+     "asof": "2024-10-29T21:43:50-04:00",
+     "basis": "not_established",
+     "components": [
+      {
+       "accession": "0001060391-24-000142",
+       "end": "2023-12-31",
+       "form": "10-K",
+       "start": "2023-01-01",
+       "value": "17278700000"
+      },
+      {
+       "accession": "0001060391-24-000324",
+       "end": "2024-09-30",
+       "form": "10-Q",
+       "start": "2024-01-01",
+       "value": "13782700000"
+      },
+      {
+       "accession": "0001060391-24-000324",
+       "end": "2023-09-30",
+       "form": "10-Q",
+       "start": "2023-01-01",
+       "value": "12882700000"
+      }
+     ],
+     "concept": "revenue",
+     "filing": "0001060391-24-000324",
+     "method": "fiscal_year_plus_ytd_minus_prior_ytd",
+     "reason": "prior-year figures were revised after 0001060391-24-000142 (e.g. 2023-04-01..2023-06-30: 4321200000 -> 4321400000 by 0001060391-24-000273), and 0001060391-24-000142 does not report that period, so the fiscal-year figure's basis cannot be matched",
+     "value": "18178700000"
+    },
+    {
+     "asof": "2025-10-30T21:44:57-04:00",
+     "basis": "not_established",
+     "components": [
+      {
+       "accession": "0001060391-25-000091",
+       "end": "2024-12-31",
+       "form": "10-K",
+       "start": "2024-01-01",
+       "value": "18418000000"
+      },
+      {
+       "accession": "0001628280-25-047655",
+       "end": "2025-09-30",
+       "form": "10-Q",
+       "start": "2025-01-01",
+       "value": "14300000000"
+      },
+      {
+       "accession": "0001628280-25-047655",
+       "end": "2024-09-30",
+       "form": "10-Q",
+       "start": "2024-01-01",
+       "value": "13784000000"
+      }
+     ],
+     "concept": "revenue",
+     "filing": "0001628280-25-047655",
+     "method": "fiscal_year_plus_ytd_minus_prior_ytd",
+     "reason": "prior-year figures were revised after 0001060391-25-000091 (e.g. 2024-01-01..2024-09-30: 13782700000 -> 13784000000 by 0001628280-25-047655), and 0001060391-25-000091 does not report that period, so the fiscal-year figure's basis cannot be matched",
+     "value": "18934000000"
+    }
+   ]
   },
   {
    "asof_points": 16,
@@ -774,11 +2404,13 @@
     "agree": 0,
     "checks": 0
    },
+   "documents": [],
    "excluded": {
     "accession_not_in_index": 402,
+    "not_periodic_report": 3,
     "unit": 0
    },
-   "facts_kept": 304,
+   "facts_kept": 301,
    "facts_public_before_period_end": 0,
    "headers": {
     "disagree": [],
@@ -789,7 +2421,20 @@
     "fiscal_year_plus_ytd_minus_prior_ytd": 12
    },
    "name": "EXELON CORPORATION",
-   "restatements_seen": 22
+   "restatements_seen": 21,
+   "ttm_status": {
+    "eps_diluted": {
+     "resolved": 5,
+     "unavailable": 11
+    },
+    "net_income": {
+     "unavailable": 16
+    },
+    "revenue": {
+     "resolved": 16
+    }
+   },
+   "unresolved": []
   },
   {
    "asof_points": 16,
@@ -799,11 +2444,63 @@
     "agree": 0,
     "checks": 0
    },
+   "documents": [
+    {
+     "inline_xbrl": {
+      "agree": true,
+      "contexts": 1,
+      "entity_matches_url_cik": true,
+      "facts": 3,
+      "share_count_facts": 0,
+      "status": "ok",
+      "trading_symbols_independent": [
+       [
+        "ROKU",
+        null
+       ]
+      ],
+      "trading_symbols_parsed": [
+       [
+        "ROKU",
+        null
+       ]
+      ]
+     },
+     "passage_problems": [],
+     "passages": [
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 1981,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 1143,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 1066,
+       "section": "MD&A: figures",
+       "verbatim": true
+      }
+     ],
+     "raw_file": "e12cf4b31c3f81c6d37e14c8",
+     "raw_sha256": "48cb240933d000846d82598856387aa1adb0038eefcd6de37d20982eff3cdfb1",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/1428439/000119312526451874/d181620d8k.htm"
+    }
+   ],
    "excluded": {
     "accession_not_in_index": 87,
+    "not_periodic_report": 5,
     "unit": 0
    },
-   "facts_kept": 326,
+   "facts_kept": 321,
    "facts_public_before_period_end": 0,
    "headers": {
     "disagree": [],
@@ -814,7 +2511,19 @@
     "fiscal_year_plus_ytd_minus_prior_ytd": 12
    },
    "name": "Roku, Inc.",
-   "restatements_seen": 0
+   "restatements_seen": 0,
+   "ttm_status": {
+    "eps_diluted": {
+     "resolved": 16
+    },
+    "net_income": {
+     "resolved": 16
+    },
+    "revenue": {
+     "resolved": 16
+    }
+   },
+   "unresolved": []
   },
   {
    "asof_points": 16,
@@ -824,8 +2533,10 @@
     "agree": 0,
     "checks": 0
    },
+   "documents": [],
    "excluded": {
     "accession_not_in_index": 572,
+    "not_periodic_report": 0,
     "unit": 1
    },
    "facts_kept": 468,
@@ -839,7 +2550,19 @@
     "fiscal_year_plus_ytd_minus_prior_ytd": 12
    },
    "name": "GILEAD SCIENCES, INC.",
-   "restatements_seen": 0
+   "restatements_seen": 0,
+   "ttm_status": {
+    "eps_diluted": {
+     "resolved": 16
+    },
+    "net_income": {
+     "resolved": 16
+    },
+    "revenue": {
+     "resolved": 16
+    }
+   },
+   "unresolved": []
   },
   {
    "asof_points": 16,
@@ -849,11 +2572,13 @@
     "agree": 16,
     "checks": 16
    },
+   "documents": [],
    "excluded": {
     "accession_not_in_index": 426,
+    "not_periodic_report": 5,
     "unit": 0
    },
-   "facts_kept": 512,
+   "facts_kept": 507,
    "facts_public_before_period_end": 0,
    "headers": {
     "disagree": [],
@@ -864,7 +2589,19 @@
     "fiscal_year_plus_ytd_minus_prior_ytd": 12
    },
    "name": "REGENERON PHARMACEUTICALS, INC.",
-   "restatements_seen": 27
+   "restatements_seen": 8,
+   "ttm_status": {
+    "eps_diluted": {
+     "resolved": 16
+    },
+    "net_income": {
+     "resolved": 16
+    },
+    "revenue": {
+     "resolved": 16
+    }
+   },
+   "unresolved": []
   },
   {
    "asof_points": 16,
@@ -874,11 +2611,13 @@
     "agree": 0,
     "checks": 0
    },
+   "documents": [],
    "excluded": {
     "accession_not_in_index": 351,
+    "not_periodic_report": 5,
     "unit": 0
    },
-   "facts_kept": 392,
+   "facts_kept": 387,
    "facts_public_before_period_end": 0,
    "headers": {
     "disagree": [],
@@ -889,7 +2628,117 @@
     "fiscal_year_plus_ytd_minus_prior_ytd": 12
    },
    "name": "DEXCOM, INC.",
-   "restatements_seen": 7
+   "restatements_seen": 7,
+   "ttm_status": {
+    "eps_diluted": {
+     "resolved": 13,
+     "unresolved": 3
+    },
+    "net_income": {
+     "resolved": 16
+    },
+    "revenue": {
+     "resolved": 16
+    }
+   },
+   "unresolved": [
+    {
+     "asof": "2023-04-27T17:10:57-04:00",
+     "basis": "not_established",
+     "components": [
+      {
+       "accession": "0001093557-23-000024",
+       "end": "2022-12-31",
+       "form": "10-K",
+       "start": "2022-01-01",
+       "value": "0.82"
+      },
+      {
+       "accession": "0001093557-23-000118",
+       "end": "2023-03-31",
+       "form": "10-Q",
+       "start": "2023-01-01",
+       "value": "0.12"
+      },
+      {
+       "accession": "0001093557-23-000118",
+       "end": "2022-03-31",
+       "form": "10-Q",
+       "start": "2022-01-01",
+       "value": "0.23"
+      }
+     ],
+     "concept": "eps_diluted",
+     "filing": "0001093557-23-000118",
+     "method": "fiscal_year_plus_ytd_minus_prior_ytd",
+     "reason": "prior-year figures were revised after 0001093557-23-000024 (e.g. 2022-01-01..2022-03-31: 0.93 -> 0.23 by 0001093557-23-000118), and 0001093557-23-000024 does not report that period, so the fiscal-year figure's basis cannot be matched",
+     "value": "0.71"
+    },
+    {
+     "asof": "2023-07-27T17:08:03-04:00",
+     "basis": "not_established",
+     "components": [
+      {
+       "accession": "0001093557-23-000024",
+       "end": "2022-12-31",
+       "form": "10-K",
+       "start": "2022-01-01",
+       "value": "0.82"
+      },
+      {
+       "accession": "0001093557-23-000174",
+       "end": "2023-06-30",
+       "form": "10-Q",
+       "start": "2023-01-01",
+       "value": "0.4"
+      },
+      {
+       "accession": "0001093557-23-000174",
+       "end": "2022-06-30",
+       "form": "10-Q",
+       "start": "2022-01-01",
+       "value": "0.36"
+      }
+     ],
+     "concept": "eps_diluted",
+     "filing": "0001093557-23-000174",
+     "method": "fiscal_year_plus_ytd_minus_prior_ytd",
+     "reason": "prior-year figures were revised after 0001093557-23-000024 (e.g. 2022-01-01..2022-03-31: 0.93 -> 0.23 by 0001093557-23-000118), and 0001093557-23-000024 does not report that period, so the fiscal-year figure's basis cannot be matched",
+     "value": "0.86"
+    },
+    {
+     "asof": "2023-10-26T17:14:39-04:00",
+     "basis": "not_established",
+     "components": [
+      {
+       "accession": "0001093557-23-000024",
+       "end": "2022-12-31",
+       "form": "10-K",
+       "start": "2022-01-01",
+       "value": "0.82"
+      },
+      {
+       "accession": "0001093557-23-000220",
+       "end": "2023-09-30",
+       "form": "10-Q",
+       "start": "2023-01-01",
+       "value": "0.69"
+      },
+      {
+       "accession": "0001093557-23-000220",
+       "end": "2022-09-30",
+       "form": "10-Q",
+       "start": "2022-01-01",
+       "value": "0.6"
+      }
+     ],
+     "concept": "eps_diluted",
+     "filing": "0001093557-23-000220",
+     "method": "fiscal_year_plus_ytd_minus_prior_ytd",
+     "reason": "prior-year figures were revised after 0001093557-23-000024 (e.g. 2022-01-01..2022-03-31: 0.93 -> 0.23 by 0001093557-23-000118), and 0001093557-23-000024 does not report that period, so the fiscal-year figure's basis cannot be matched",
+     "value": "0.91"
+    }
+   ]
   },
   {
    "asof_points": 16,
@@ -899,11 +2748,13 @@
     "agree": 16,
     "checks": 16
    },
+   "documents": [],
    "excluded": {
     "accession_not_in_index": 343,
+    "not_periodic_report": 14,
     "unit": 0
    },
-   "facts_kept": 485,
+   "facts_kept": 471,
    "facts_public_before_period_end": 0,
    "headers": {
     "disagree": [],
@@ -914,7 +2765,117 @@
     "fiscal_year_plus_ytd_minus_prior_ytd": 12
    },
    "name": "LYONDELLBASELL INDUSTRIES N.V.",
-   "restatements_seen": 19
+   "restatements_seen": 19,
+   "ttm_status": {
+    "eps_diluted": {
+     "resolved": 16
+    },
+    "net_income": {
+     "resolved": 16
+    },
+    "revenue": {
+     "resolved": 13,
+     "unresolved": 3
+    }
+   },
+   "unresolved": [
+    {
+     "asof": "2025-04-25T12:18:02-04:00",
+     "basis": "not_established",
+     "components": [
+      {
+       "accession": "0001489393-25-000008",
+       "end": "2024-12-31",
+       "form": "10-K",
+       "start": "2024-01-01",
+       "value": "40302000000"
+      },
+      {
+       "accession": "0001489393-25-000022",
+       "end": "2025-03-31",
+       "form": "10-Q",
+       "start": "2025-01-01",
+       "value": "7677000000"
+      },
+      {
+       "accession": "0001489393-25-000022",
+       "end": "2024-03-31",
+       "form": "10-Q",
+       "start": "2024-01-01",
+       "value": "8304000000"
+      }
+     ],
+     "concept": "revenue",
+     "filing": "0001489393-25-000022",
+     "method": "fiscal_year_plus_ytd_minus_prior_ytd",
+     "reason": "prior-year figures were revised after 0001489393-25-000008 (e.g. 2024-01-01..2024-03-31: 9925000000 -> 8304000000 by 0001489393-25-000022), and 0001489393-25-000008 does not report that period, so the fiscal-year figure's basis cannot be matched",
+     "value": "39675000000"
+    },
+    {
+     "asof": "2025-08-01T12:58:46-04:00",
+     "basis": "not_established",
+     "components": [
+      {
+       "accession": "0001489393-25-000008",
+       "end": "2024-12-31",
+       "form": "10-K",
+       "start": "2024-01-01",
+       "value": "40302000000"
+      },
+      {
+       "accession": "0001489393-25-000041",
+       "end": "2025-06-30",
+       "form": "10-Q",
+       "start": "2025-01-01",
+       "value": "15335000000"
+      },
+      {
+       "accession": "0001489393-25-000041",
+       "end": "2024-06-30",
+       "form": "10-Q",
+       "start": "2024-01-01",
+       "value": "16982000000"
+      }
+     ],
+     "concept": "revenue",
+     "filing": "0001489393-25-000041",
+     "method": "fiscal_year_plus_ytd_minus_prior_ytd",
+     "reason": "prior-year figures were revised after 0001489393-25-000008 (e.g. 2024-01-01..2024-03-31: 9925000000 -> 8304000000 by 0001489393-25-000022), and 0001489393-25-000008 does not report that period, so the fiscal-year figure's basis cannot be matched",
+     "value": "38655000000"
+    },
+    {
+     "asof": "2025-10-31T13:24:24-04:00",
+     "basis": "not_established",
+     "components": [
+      {
+       "accession": "0001489393-25-000008",
+       "end": "2024-12-31",
+       "form": "10-K",
+       "start": "2024-01-01",
+       "value": "40302000000"
+      },
+      {
+       "accession": "0001489393-25-000056",
+       "end": "2025-09-30",
+       "form": "10-Q",
+       "start": "2025-01-01",
+       "value": "23062000000"
+      },
+      {
+       "accession": "0001489393-25-000056",
+       "end": "2024-09-30",
+       "form": "10-Q",
+       "start": "2024-01-01",
+       "value": "25586000000"
+      }
+     ],
+     "concept": "revenue",
+     "filing": "0001489393-25-000056",
+     "method": "fiscal_year_plus_ytd_minus_prior_ytd",
+     "reason": "prior-year figures were revised after 0001489393-25-000008 (e.g. 2024-01-01..2024-03-31: 9925000000 -> 8304000000 by 0001489393-25-000022), and 0001489393-25-000008 does not report that period, so the fiscal-year figure's basis cannot be matched",
+     "value": "37778000000"
+    }
+   ]
   },
   {
    "asof_points": 15,
@@ -924,8 +2885,10 @@
     "agree": 15,
     "checks": 15
    },
+   "documents": [],
    "excluded": {
     "accession_not_in_index": 401,
+    "not_periodic_report": 0,
     "unit": 4
    },
    "facts_kept": 584,
@@ -939,7 +2902,19 @@
     "fiscal_year_plus_ytd_minus_prior_ytd": 12
    },
    "name": "Starbucks Corporation",
-   "restatements_seen": 0
+   "restatements_seen": 0,
+   "ttm_status": {
+    "eps_diluted": {
+     "resolved": 15
+    },
+    "net_income": {
+     "resolved": 15
+    },
+    "revenue": {
+     "resolved": 15
+    }
+   },
+   "unresolved": []
   },
   {
    "asof_points": 16,
@@ -949,11 +2924,13 @@
     "agree": 0,
     "checks": 0
    },
+   "documents": [],
    "excluded": {
     "accession_not_in_index": 67,
+    "not_periodic_report": 5,
     "unit": 0
    },
-   "facts_kept": 162,
+   "facts_kept": 157,
    "facts_public_before_period_end": 0,
    "headers": {
     "disagree": [],
@@ -964,7 +2941,19 @@
     "fiscal_year_plus_ytd_minus_prior_ytd": 9
    },
    "name": "Roblox Corporation",
-   "restatements_seen": 15
+   "restatements_seen": 0,
+   "ttm_status": {
+    "eps_diluted": {
+     "resolved": 16
+    },
+    "net_income": {
+     "resolved": 16
+    },
+    "revenue": {
+     "resolved": 16
+    }
+   },
+   "unresolved": []
   },
   {
    "asof_points": 15,
@@ -974,11 +2963,13 @@
     "agree": 6,
     "checks": 6
    },
+   "documents": [],
    "excluded": {
     "accession_not_in_index": 0,
+    "not_periodic_report": 3,
     "unit": 0
    },
-   "facts_kept": 189,
+   "facts_kept": 186,
    "facts_public_before_period_end": 0,
    "headers": {
     "disagree": [],
@@ -990,7 +2981,88 @@
     "unavailable": 3
    },
    "name": "Kenvue Inc.",
-   "restatements_seen": 4
+   "restatements_seen": 4,
+   "ttm_status": {
+    "eps_diluted": {
+     "resolved": 10,
+     "unavailable": 3,
+     "unresolved": 2
+    },
+    "net_income": {
+     "resolved": 12,
+     "unavailable": 3
+    },
+    "revenue": {
+     "resolved": 12,
+     "unavailable": 3
+    }
+   },
+   "unresolved": [
+    {
+     "asof": "2024-08-06T16:20:12-04:00",
+     "basis": "mixed",
+     "components": [
+      {
+       "accession": "0001944048-24-000057",
+       "end": "2023-12-31",
+       "form": "10-K",
+       "start": "2023-01-02",
+       "value": "0.9"
+      },
+      {
+       "accession": "0001944048-24-000139",
+       "end": "2024-06-30",
+       "form": "10-Q",
+       "start": "2024-01-01",
+       "value": "0.18"
+      },
+      {
+       "accession": "0001944048-24-000139",
+       "end": "2023-07-02",
+       "form": "10-Q",
+       "start": "2023-01-02",
+       "value": "0.51"
+      }
+     ],
+     "concept": "eps_diluted",
+     "filing": "0001944048-24-000139",
+     "method": "fiscal_year_plus_ytd_minus_prior_ytd",
+     "reason": "mixed reporting basis: on the basis of 0001944048-24-000057 (fiscal year 0.9) the prior-year period 2023-01-02..2023-07-02 is 0.49, but the comparative from 0001944048-24-000139 is 0.51",
+     "value": "0.57"
+    },
+    {
+     "asof": "2024-11-07T16:02:11-05:00",
+     "basis": "mixed",
+     "components": [
+      {
+       "accession": "0001944048-24-000057",
+       "end": "2023-12-31",
+       "form": "10-K",
+       "start": "2023-01-02",
+       "value": "0.9"
+      },
+      {
+       "accession": "0001944048-24-000152",
+       "end": "2024-09-29",
+       "form": "10-Q",
+       "start": "2024-01-01",
+       "value": "0.38"
+      },
+      {
+       "accession": "0001944048-24-000152",
+       "end": "2023-10-01",
+       "form": "10-Q",
+       "start": "2023-01-02",
+       "value": "0.73"
+      }
+     ],
+     "concept": "eps_diluted",
+     "filing": "0001944048-24-000152",
+     "method": "fiscal_year_plus_ytd_minus_prior_ytd",
+     "reason": "mixed reporting basis: on the basis of 0001944048-24-000057 (fiscal year 0.9) the prior-year period 2023-01-02..2023-10-01 is 0.72, but the comparative from 0001944048-24-000152 is 0.73",
+     "value": "0.55"
+    }
+   ]
   },
   {
    "asof_points": 16,
@@ -1000,8 +3072,10 @@
     "agree": 0,
     "checks": 0
    },
+   "documents": [],
    "excluded": {
     "accession_not_in_index": 0,
+    "not_periodic_report": 0,
     "unit": 0
    },
    "facts_kept": 229,
@@ -1015,18 +3089,3615 @@
     "fiscal_year_plus_ytd_minus_prior_ytd": 12
    },
    "name": "Rivian Automotive, Inc. / DE",
-   "restatements_seen": 0
+   "restatements_seen": 0,
+   "ttm_status": {
+    "eps_diluted": {
+     "resolved": 16
+    },
+    "net_income": {
+     "resolved": 16
+    },
+    "revenue": {
+     "resolved": 16
+    }
+   },
+   "unresolved": []
   }
  ],
  "note": "consistency of the parsers on real cached SEC files; not a third-party verification of values",
+ "raw_index": [
+  {
+   "dir": "raw",
+   "documents": [
+    {
+     "passage_problems": [],
+     "passages": [
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 180,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 351,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 1664,
+       "section": "adverse disclosure (decrease)",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 718,
+       "section": "MD&A: figures",
+       "verbatim": true
+      }
+     ],
+     "raw_file": "4883be72d5bc7230276b6e5bbeaa9d33",
+     "raw_sha256": "826c129edba6f679ad2b514fda2f6d673e08fc0df0d20a42124b07d251d467b7",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/1062579/000095017025074330/6k_q2_25.htm"
+    },
+    {
+     "passage_problems": [],
+     "passages": [
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 106,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 354,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 2399,
+       "section": "adverse disclosure (litigation)",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 151,
+       "section": "MD&A: figures",
+       "verbatim": true
+      }
+     ],
+     "raw_file": "9da745b0e9f688581150f0d6d1e66ce3",
+     "raw_sha256": "0c68e2c3830beb5cc73a86abbdb0db7d27e189a2b817eeafe6680b6422fad19f",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/1062579/000119312525115189/d917257dex991.htm"
+    },
+    {
+     "passage_problems": [],
+     "passages": [
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 371,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 150,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 1774,
+       "section": "adverse disclosure (litigation)",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 373,
+       "section": "MD&A: figures",
+       "verbatim": true
+      }
+     ],
+     "raw_file": "6f257e60caa2447812d2cf3c8ba443a2",
+     "raw_sha256": "4d9ee02525c69f98c89de39467ecc61b2754a9c28271d6de336d2fa80dbb7d79",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/1062579/000119312525174685/d62560dex991.htm"
+    },
+    {
+     "passage_problems": [],
+     "passages": [
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 183,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 350,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 1663,
+       "section": "adverse disclosure (decrease)",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 718,
+       "section": "MD&A: figures",
+       "verbatim": true
+      }
+     ],
+     "raw_file": "77b0d5f9f5b012d4be4dd910fe46be6e",
+     "raw_sha256": "967054a6663bdd673d2eacd9e84e7b5e4b977b0c804b06284c2800b6bb114acf",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/1062579/000119312525182683/6k_q3_25.htm"
+    },
+    {
+     "passage_problems": [],
+     "passages": [
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 118,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 107,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 2515,
+       "section": "adverse disclosure (litigation)",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 152,
+       "section": "MD&A: figures",
+       "verbatim": true
+      }
+     ],
+     "raw_file": "af340a5505e15a49728bbc6517e376d3",
+     "raw_sha256": "d939afb789d627602cc0e42c040c76853e4a1c84fe6e2a1d3e82810c31055cd8",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/1062579/000119312525276093/d82532dex991.htm"
+    },
+    {
+     "passage_problems": [],
+     "passages": [
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 143,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 143,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 608,
+       "section": "adverse disclosure (decrease)",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 765,
+       "section": "MD&A: figures",
+       "verbatim": true
+      }
+     ],
+     "raw_file": "b04c886fe1f92f7f93f2c96f499856b4",
+     "raw_sha256": "80612cb76c5ec2c7c0ceabb1f2e41d2b15a30f98b0ab4ad18cd6a2a7e9423e24",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/1062579/000119312525320845/proxy_-_agm_2026.htm"
+    },
+    {
+     "passage_problems": [],
+     "passages": [
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 156,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 189,
+       "section": "earnings release: figures",
+       "verbatim": true
+      }
+     ],
+     "raw_file": "19e056428c58d911469d1461b89f3b24",
+     "raw_sha256": "5293a1c113c4be315940b4301e04a0b5ce3357c1b3b0f48124682f6eaa03c12f",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/1062579/000119312526032062/d24960d6k.htm"
+    },
+    {
+     "passage_problems": [],
+     "passages": [
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 268,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 143,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 1595,
+       "section": "adverse disclosure (litigation)",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 130,
+       "section": "MD&A: figures",
+       "verbatim": true
+      }
+     ],
+     "raw_file": "2d518a5dd1e56e782cbe340936b9b2ff",
+     "raw_sha256": "c9bac6161cc624e37678832719017c1fd3c2ad4921a68adfe249fa15b2cb6d67",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/1062579/000119312526036120/d42381dex991.htm"
+    },
+    {
+     "passage_problems": [],
+     "passages": [
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 918,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 2313,
+       "section": "adverse disclosure (litigation)",
+       "verbatim": true
+      }
+     ],
+     "raw_file": "b3bb6ac41df41ee5b6591f8124de8f98",
+     "raw_sha256": "f94fdf98fd666b1dca63db6d7be5023d1c1b9ff42de93ddf6e26daad51973a1f",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/1062579/000119312526036145/d28220dex991.htm"
+    },
+    {
+     "passage_problems": [],
+     "passages": [
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 345,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 739,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 913,
+       "section": "adverse disclosure (decrease)",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 723,
+       "section": "MD&A: figures",
+       "verbatim": true
+      }
+     ],
+     "raw_file": "677ef6c742ec0745e261ee41238caca6",
+     "raw_sha256": "d1fb4ca51c368d11ef0b900be1230b4f77f8782d8428b098a4a85be9b164b87f",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/1062579/000119312526054576/6k_q1_26.htm"
+    },
+    {
+     "passage_problems": [],
+     "passages": [
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 374,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 145,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 2099,
+       "section": "adverse disclosure (litigation)",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 623,
+       "section": "MD&A: figures",
+       "verbatim": true
+      }
+     ],
+     "raw_file": "92ca70ca26546ec8b4d5564012cde1ec",
+     "raw_sha256": "f86fb84581ebb485a00577ecf40961bab989b11f1e06a9d0f147bf23816fe288",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/1082554/000108255425000024/uthrq12025-ex991.htm"
+    },
+    {
+     "passage_problems": [],
+     "passages": [
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 487,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 145,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 432,
+       "section": "adverse disclosure (litigation)",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 516,
+       "section": "MD&A: figures",
+       "verbatim": true
+      }
+     ],
+     "raw_file": "01ab1ff5d50b4ab347a634fd841483ac",
+     "raw_sha256": "eed24324a383b3e139f4580d196660bb1987a2456feac42e5f25b0b395cf4339",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/1082554/000108255425000036/uthrq32025-ex991.htm"
+    },
+    {
+     "passage_problems": [],
+     "passages": [
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 327,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 913,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 118,
+       "section": "adverse disclosure (impairment)",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 770,
+       "section": "MD&A: figures",
+       "verbatim": true
+      }
+     ],
+     "raw_file": "71a1191500a17cc36c02eb47d4ce4a4c",
+     "raw_sha256": "0c311f11935ad1a1c64944adfac8b0d3cf4362976f59e1cc4448d274e5fef5aa",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/1082554/000108255426000007/exhibit991uthr12312025.htm"
+    },
+    {
+     "passage_problems": [],
+     "passages": [
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 179,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 278,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 335,
+       "section": "adverse disclosure (impairment)",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 528,
+       "section": "MD&A: figures",
+       "verbatim": true
+      }
+     ],
+     "raw_file": "979d823d2f894924fd7945c1263fb80f",
+     "raw_sha256": "d575cac8b5338024b5d50dbb0f4e0fdf9659883d6f4ceea8afd234b126e643eb",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/1082554/000162828025036543/uthrq22025-ex991.htm"
+    },
+    {
+     "passage_problems": [],
+     "passages": [
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 263,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 169,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 386,
+       "section": "adverse disclosure (loss)",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 268,
+       "section": "MD&A: figures",
+       "verbatim": true
+      }
+     ],
+     "raw_file": "7c59f569cd569c280ee04a95fa880a20",
+     "raw_sha256": "248fbf6f14ce2312b74af586dfb5d8ed83a82138a9cbe55ca4306e01310775c6",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/13372/000110465925043530/tm2513789d1_ex99-1.htm"
+    },
+    {
+     "passage_problems": [],
+     "passages": [
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 471,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 242,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 441,
+       "section": "adverse disclosure (loss)",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 395,
+       "section": "MD&A: figures",
+       "verbatim": true
+      }
+     ],
+     "raw_file": "ea6398edf9f16ef706c39755170eb8b9",
+     "raw_sha256": "288105ee1c9df26a367e5fe9e0e1077153248a38687175eaf50373fc9f3e74e7",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/13372/000110465925072711/tm2522153d1_ex99-1.htm"
+    },
+    {
+     "passage_problems": [],
+     "passages": [
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 462,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 386,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 732,
+       "section": "adverse disclosure (loss)",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 407,
+       "section": "MD&A: figures",
+       "verbatim": true
+      }
+     ],
+     "raw_file": "7762a6e24e98403f676e759d51509eeb",
+     "raw_sha256": "af57098cad8cc2ae38bc924a08956d797e930686a8c5ec4344f20430e5566b54",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/13372/000110465925106306/tm2530139d1_ex99-1.htm"
+    },
+    {
+     "passage_problems": [],
+     "passages": [
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 523,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 337,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 910,
+       "section": "adverse disclosure (loss)",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 439,
+       "section": "MD&A: figures",
+       "verbatim": true
+      }
+     ],
+     "raw_file": "cba79afe043b5f853315f562f3326901",
+     "raw_sha256": "2fc4c28b6872f0453fdd5e93afbebe05de6a3d7fe37bd76ff458291635317edb",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/13372/000110465926014302/tm266120d1_ex99-1.htm"
+    },
+    {
+     "passage_problems": [],
+     "passages": [
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 775,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 103,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 1274,
+       "section": "adverse disclosure (impairment)",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 151,
+       "section": "MD&A: figures",
+       "verbatim": true
+      }
+     ],
+     "raw_file": "a3d21fc36ee251aa8c3bcefd5c68d9b5",
+     "raw_sha256": "1d70afbed3ba29a6f86ead0d45ba385d41500294dc809c0eb8d75432d4670720",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/1398659/000139865925000057/genpactltdexhibit991q125.htm"
+    },
+    {
+     "passage_problems": [],
+     "passages": [
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 760,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 103,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 1274,
+       "section": "adverse disclosure (impairment)",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 154,
+       "section": "MD&A: figures",
+       "verbatim": true
+      }
+     ],
+     "raw_file": "489b64e0da979b52a376376d74e7c751",
+     "raw_sha256": "aec00c11493e4fd7aaac1ab376001bb63ae60065e043fe686a02d9fadb37247f",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/1398659/000139865925000094/genpactltdexhibit991q225.htm"
+    },
+    {
+     "passage_problems": [],
+     "passages": [
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 590,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 103,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 1274,
+       "section": "adverse disclosure (impairment)",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 130,
+       "section": "MD&A: figures",
+       "verbatim": true
+      }
+     ],
+     "raw_file": "fa980db6202d35a9c10633b44d55ccb3",
+     "raw_sha256": "9db4f795e1c13a7a45cdb4c77e80216f5b3b2630805e2bd96585102bda0b2345",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/1398659/000139865925000107/genpactltdexhibit991q325.htm"
+    },
+    {
+     "passage_problems": [],
+     "passages": [
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 517,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 100,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 1274,
+       "section": "adverse disclosure (impairment)",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 132,
+       "section": "MD&A: figures",
+       "verbatim": true
+      }
+     ],
+     "raw_file": "afa3c122ef56797dd988035b38a760a5",
+     "raw_sha256": "448d461095ddadbb839bfc4e440aead09c50f56125167d4d16b967acf75a9eec",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/1398659/000139865926000002/genpactltdexhibit991q425.htm"
+    },
+    {
+     "passage_problems": [],
+     "passages": [
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 105,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 443,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 401,
+       "section": "adverse disclosure (loss)",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 155,
+       "section": "MD&A: figures",
+       "verbatim": true
+      }
+     ],
+     "raw_file": "89de006cd9a61ce2456eb86cce619ae7",
+     "raw_sha256": "00e59bdbf533871c6e24196edc2e7577896e516e51454df9fd491811103988dc",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/1442145/000143774925014906/ex_770468.htm"
+    },
+    {
+     "passage_problems": [],
+     "passages": [
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 106,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 563,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 264,
+       "section": "adverse disclosure (decrease)",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 402,
+       "section": "MD&A: figures",
+       "verbatim": true
+      }
+     ],
+     "raw_file": "8714c773749f3b5d556d3fc7554ed1e8",
+     "raw_sha256": "fbbb6c033e6543956fbe3170442b9d8152458e4f84520e4972a157387cddddf1",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/1442145/000143774925023861/ex_820890.htm"
+    },
+    {
+     "passage_problems": [],
+     "passages": [
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 105,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 181,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 402,
+       "section": "adverse disclosure (loss)",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 608,
+       "section": "MD&A: figures",
+       "verbatim": true
+      }
+     ],
+     "raw_file": "bd619159269e1ef43962ea046d588272",
+     "raw_sha256": "e245caf5357e6a5b19fd99b62d559413fa19d69c38c3308c7c62a943bbe78daa",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/1442145/000143774925032072/ex_856088.htm"
+    },
+    {
+     "passage_problems": [],
+     "passages": [
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 112,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 139,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 357,
+       "section": "adverse disclosure (decrease)",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 186,
+       "section": "MD&A: figures",
+       "verbatim": true
+      }
+     ],
+     "raw_file": "986a8ef13d3cf7ebdf23584b43225fcc",
+     "raw_sha256": "a3a210f0189bb3d3d7a126366cc04b2a162aa61c92a1e6ddf22b3ae3ff3c3095",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/1442145/000143774926004451/ex_895228.htm"
+    },
+    {
+     "passage_problems": [],
+     "passages": [
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 247,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 133,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 535,
+       "section": "adverse disclosure (impairment)",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 292,
+       "section": "MD&A: figures",
+       "verbatim": true
+      }
+     ],
+     "raw_file": "6e2fd29365066b98342abc4586212f77",
+     "raw_sha256": "9b93f468a72d90a5aa945569f693bbba6f2fe9b90d6a4664900c029b158ef2e3",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/1681459/000168145925000077/technipfmc2025331-8kerex.htm"
+    },
+    {
+     "passage_problems": [],
+     "passages": [
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 269,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 133,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 485,
+       "section": "adverse disclosure (impairment)",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 307,
+       "section": "MD&A: figures",
+       "verbatim": true
+      }
+     ],
+     "raw_file": "7bbce8e4d3971a6906dc586c24471b53",
+     "raw_sha256": "661fe962c90b989b74245be6559851deba8efe46258074edb429ea708be96b5c",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/1681459/000168145925000099/technipfmc2025630-8kerex.htm"
+    },
+    {
+     "passage_problems": [],
+     "passages": [
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 249,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 133,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 474,
+       "section": "adverse disclosure (impairment)",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 309,
+       "section": "MD&A: figures",
+       "verbatim": true
+      }
+     ],
+     "raw_file": "56f7e310ae8cd29cf6c81b5bb1856960",
+     "raw_sha256": "30c8c96a2b28b46b5f5cbc306ae88e819201bff2b96b9249f0f002e1429ce036",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/1681459/000168145925000109/technipfmc2025930-8kerex.htm"
+    },
+    {
+     "passage_problems": [],
+     "passages": [
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 269,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 129,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 555,
+       "section": "adverse disclosure (impairment)",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 239,
+       "section": "MD&A: figures",
+       "verbatim": true
+      }
+     ],
+     "raw_file": "728090249323d0889955356e74316e8b",
+     "raw_sha256": "47bfa3741dcc67f6aa648c9e79ea75ce290f0566ba2f24fe98a6e66d727fbf8c",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/1681459/000168145926000006/technipfmc20251231-8kerex.htm"
+    },
+    {
+     "passage_problems": [],
+     "passages": [
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 100,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 185,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 3937,
+       "section": "adverse disclosure (impairment)",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 218,
+       "section": "MD&A: figures",
+       "verbatim": true
+      }
+     ],
+     "raw_file": "c7dd1ec0b96909a383a540bd50ced702",
+     "raw_sha256": "796ed04dc0493e276fe8ce22e2e3ed9a218d5b1639bf4e7a11a56a1a6282d1c6",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/1757073/000175707325000026/nvst-exhibit991x32825.htm"
+    },
+    {
+     "passage_problems": [],
+     "passages": [
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 145,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 144,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 3937,
+       "section": "adverse disclosure (impairment)",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 176,
+       "section": "MD&A: figures",
+       "verbatim": true
+      }
+     ],
+     "raw_file": "3d526012829b5f5dc57e41a829270924",
+     "raw_sha256": "1af80ddeb8cf794a54caf6e7b17445f475a7da8089b741b8dfda371594231039",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/1757073/000175707325000042/nvst-exhibit991x62725.htm"
+    },
+    {
+     "passage_problems": [],
+     "passages": [
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 113,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 113,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 3937,
+       "section": "adverse disclosure (impairment)",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 114,
+       "section": "MD&A: figures",
+       "verbatim": true
+      }
+     ],
+     "raw_file": "cde8d5c6e6eede4b5c9fb99c1e1ebc9f",
+     "raw_sha256": "e1fc2aff3222b16a69742bd15000e29646bb4e9798b6407bec9bc3656f927a04",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/1757073/000175707325000055/nvst-exhibit991x92625.htm"
+    },
+    {
+     "passage_problems": [],
+     "passages": [
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 613,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 154,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 3937,
+       "section": "adverse disclosure (impairment)",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 155,
+       "section": "MD&A: figures",
+       "verbatim": true
+      }
+     ],
+     "raw_file": "8a6d21f4e2ea1dd4c070dee779b72f1e",
+     "raw_sha256": "dcfaaf77644dd9949af7931770ae555839bd5fc21388ce4da57d515624089745",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/1757073/000175707326000005/nvst-exhibit991x123125.htm"
+    },
+    {
+     "passage_problems": [],
+     "passages": [
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 393,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 191,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 274,
+       "section": "adverse disclosure (litigation)",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 112,
+       "section": "MD&A: figures",
+       "verbatim": true
+      }
+     ],
+     "raw_file": "e1b8a02ce48821ed200d63c729f66b84",
+     "raw_sha256": "4e8fb64922bbd2b9482f50b985d41ecc7905dc16a1531d59ce24789ff3bbb365",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/320335/000032033525000027/q1fy2025earningsrelease.htm"
+    },
+    {
+     "passage_problems": [],
+     "passages": [
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 358,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 188,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 177,
+       "section": "adverse disclosure (decline)",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 109,
+       "section": "MD&A: figures",
+       "verbatim": true
+      }
+     ],
+     "raw_file": "cd4085e2d843c8f7728aaf91a32e4cb2",
+     "raw_sha256": "95e43d4b4a37e518720d8394ab0be582ab773fb8d6c189dec2ae2b4ac0fd31c4",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/320335/000032033525000040/q2fy2025earningsrelease.htm"
+    },
+    {
+     "passage_problems": [],
+     "passages": [
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 366,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 202,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 551,
+       "section": "adverse disclosure (loss)",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 104,
+       "section": "MD&A: figures",
+       "verbatim": true
+      }
+     ],
+     "raw_file": "7edde543494e5e5f7d6cde8776c15b22",
+     "raw_sha256": "eff0a74f325a723681bd45df61220469e6f45248e70d810b7f4ee300e8fd8cc2",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/320335/000032033525000060/q3fy2025earningsrelease.htm"
+    },
+    {
+     "passage_problems": [],
+     "passages": [
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 381,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 369,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 646,
+       "section": "adverse disclosure (loss)",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 195,
+       "section": "MD&A: figures",
+       "verbatim": true
+      }
+     ],
+     "raw_file": "5d8141f6cc30fcdd6902fab2131c65eb",
+     "raw_sha256": "3113530b23bbf74f870f90aaa2acad33ac33e7bbe2d1b0ede5538b577746b9fc",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/320335/000032033526000029/q4fy2025earningsrelease.htm"
+    },
+    {
+     "passage_problems": [],
+     "passages": [
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 408,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 165,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 1146,
+       "section": "adverse disclosure (impairment)",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 137,
+       "section": "MD&A: figures",
+       "verbatim": true
+      }
+     ],
+     "raw_file": "81863e4c6f7af8bff164265d6644cf48",
+     "raw_sha256": "ce1539af39e8bb40f769d0e14397eb11ec780bca9945b662348fc1f11a1c020e",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/34903/000003490325000036/frt-3312025xex991.htm"
+    },
+    {
+     "passage_problems": [],
+     "passages": [
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 410,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 173,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 1153,
+       "section": "adverse disclosure (impairment)",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 189,
+       "section": "MD&A: figures",
+       "verbatim": true
+      }
+     ],
+     "raw_file": "fcb3b4e357c1fa666b6db7f4662f2781",
+     "raw_sha256": "fbbb2326637c56e3ee57498e3d7e9bfb8f84d04a759a3e3a7a684ac617e0a237",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/34903/000003490325000051/frt-6302025xex991.htm"
+    },
+    {
+     "passage_problems": [],
+     "passages": [
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 421,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 193,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 1159,
+       "section": "adverse disclosure (impairment)",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 137,
+       "section": "MD&A: figures",
+       "verbatim": true
+      }
+     ],
+     "raw_file": "e68ff2a2de412339ffd11debea95e343",
+     "raw_sha256": "a9a38615f8d38c90728c3afaf64f35e111adb50f7fa13bf887623ad3e2efc037",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/34903/000003490325000062/frt-9302025xex991.htm"
+    },
+    {
+     "passage_problems": [],
+     "passages": [
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 574,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 327,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 1033,
+       "section": "adverse disclosure (impairment)",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 262,
+       "section": "MD&A: figures",
+       "verbatim": true
+      }
+     ],
+     "raw_file": "68ee84852c573be3f17c7fecd23f42b4",
+     "raw_sha256": "952b97a03604790d379917fee6534818bf6eb21a120adc12731b3bde5c10150c",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/34903/000003490326000016/frt-12312025xex991.htm"
+    },
+    {
+     "passage_problems": [],
+     "passages": [
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 104,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 391,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 1142,
+       "section": "adverse disclosure (impairment)",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 173,
+       "section": "MD&A: figures",
+       "verbatim": true
+      }
+     ],
+     "raw_file": "8d302e61e449efa695b2afc01af2b476",
+     "raw_sha256": "e8f8dcb89e40f4b469c641832a903790dfb05bb34f0395df7b7b8853fc91147c",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/350698/000035069825000082/anearningsrelease33125ex991.htm"
+    },
+    {
+     "passage_problems": [],
+     "passages": [
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 426,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 866,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 369,
+       "section": "adverse disclosure (impairment)",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 183,
+       "section": "MD&A: figures",
+       "verbatim": true
+      }
+     ],
+     "raw_file": "7c2d421f36ed7d54be30543ca12cffea",
+     "raw_sha256": "ddde597e34329a78e1a10407d8e651cab770b2c27c52a6ebff6cce2bb55469d3",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/350698/000035069825000097/anearningsrelease63025ex991.htm"
+    },
+    {
+     "passage_problems": [],
+     "passages": [
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 423,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 744,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 2549,
+       "section": "adverse disclosure (impairment)",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 467,
+       "section": "MD&A: figures",
+       "verbatim": true
+      }
+     ],
+     "raw_file": "09d89fd1f38f66be1d3026951a550702",
+     "raw_sha256": "71a463e334cfae8ad6f7041ab7c49b6797081ae278d5ec99edffe293d7842e3b",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/350698/000162828025045973/anearningsrelease93025ex991.htm"
+    },
+    {
+     "passage_problems": [],
+     "passages": [
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 101,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 636,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 279,
+       "section": "adverse disclosure (impairment)",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 1026,
+       "section": "MD&A: figures",
+       "verbatim": true
+      }
+     ],
+     "raw_file": "4d6374c5bbbcbee9d1affc47153595b1",
+     "raw_sha256": "b7e1c036f346615895fa428b0ec54e412fa908609a72ae133351d185417ed56e",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/350698/000162828026005934/anearningsrelease123125ex9.htm"
+    },
+    {
+     "passage_problems": [],
+     "passages": [
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 490,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 203,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 3314,
+       "section": "adverse disclosure (litigation)",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 182,
+       "section": "MD&A: figures",
+       "verbatim": true
+      }
+     ],
+     "raw_file": "f1cc27b73e44f4d5a29d9c39792e3909",
+     "raw_sha256": "3deaf375fe54fecebdf3869f5a9a63c3c3bb6c820a7f88ab581f5b3f9baa3ada",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/354950/000035495025000133/hd_exhibit991x05042025.htm"
+    },
+    {
+     "passage_problems": [],
+     "passages": [
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 514,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 204,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 3431,
+       "section": "adverse disclosure (litigation)",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 183,
+       "section": "MD&A: figures",
+       "verbatim": true
+      }
+     ],
+     "raw_file": "8480203651b8cd8e584a803f77f2846c",
+     "raw_sha256": "130c5448d34bebe2858a79d3801eed0f00611cd756a4b49620cb35288eb67dd5",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/354950/000035495025000195/hd_exhibit991x08032025.htm"
+    },
+    {
+     "passage_problems": [],
+     "passages": [
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 528,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 203,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 3385,
+       "section": "adverse disclosure (litigation)",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 182,
+       "section": "MD&A: figures",
+       "verbatim": true
+      }
+     ],
+     "raw_file": "4b26dbe0f98cef3d2008dd2391848846",
+     "raw_sha256": "33573336a755515218a431349b7ccfa064c254b596d91525b8017766efa829fc",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/354950/000035495025000238/hd_exhibit991x11022025.htm"
+    },
+    {
+     "passage_problems": [],
+     "passages": [
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 345,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 119,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 3454,
+       "section": "adverse disclosure (litigation)",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 325,
+       "section": "MD&A: figures",
+       "verbatim": true
+      }
+     ],
+     "raw_file": "ac01c4f99f3a1546d378dbb1b216e55a",
+     "raw_sha256": "48f62cb51135204a9e97c19dec3f5c841a6ad85f48fd9e46cfafc98556e210c8",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/354950/000035495026000026/hd_exhibit991x02012026.htm"
+    },
+    {
+     "passage_problems": [],
+     "passages": [
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 213,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 202,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 408,
+       "section": "adverse disclosure (litigation)",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 150,
+       "section": "MD&A: figures",
+       "verbatim": true
+      }
+     ],
+     "raw_file": "bf8a33f6cc3094516f92a71b08d0964f",
+     "raw_sha256": "677fc12e7a279cad801d532aaa7063abef26d4f5253a57e67c573d3173970b0a",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/37785/000003778525000054/fmcex991033125.htm"
+    },
+    {
+     "passage_problems": [],
+     "passages": [
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 151,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 127,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 408,
+       "section": "adverse disclosure (litigation)",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 109,
+       "section": "MD&A: figures",
+       "verbatim": true
+      }
+     ],
+     "raw_file": "6f8c41f5a1066cdbe408d9dd2268823f",
+     "raw_sha256": "b3cae9042af78e0169abbf8ac87848080a4a24019f55b53eacd3cef6f04adccf",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/37785/000003778525000078/fmcex991063025.htm"
+    },
+    {
+     "passage_problems": [],
+     "passages": [
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 159,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 148,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 812,
+       "section": "adverse disclosure (impairment)",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 133,
+       "section": "MD&A: figures",
+       "verbatim": true
+      }
+     ],
+     "raw_file": "193bb18ca8947277b15e6ef6fd6a6f87",
+     "raw_sha256": "3fb5a0a5c315956ba4ee4176d68f42cc73fc5500e20b8696b63a361037d3d5e7",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/37785/000003778525000123/fmcex991093025.htm"
+    },
+    {
+     "passage_problems": [],
+     "passages": [
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 577,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 729,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 471,
+       "section": "adverse disclosure (impairment)",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 571,
+       "section": "MD&A: figures",
+       "verbatim": true
+      }
+     ],
+     "raw_file": "eb7bdad0fa67f82de793257c49314c2b",
+     "raw_sha256": "c9f4b22353fb6005f0e52e7fb2e4dd5a100426cddd20f2a5a04d6170c25c9c15",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/37785/000003778526000036/fmcex991123125ng.htm"
+    },
+    {
+     "passage_problems": [],
+     "passages": [
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 831,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 203,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 2736,
+       "section": "adverse disclosure (impairment)",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 454,
+       "section": "MD&A: figures",
+       "verbatim": true
+      }
+     ],
+     "raw_file": "00cdd53a46463de0a6e4d9841c998c2f",
+     "raw_sha256": "61fd9fcae72f2ebf8489d7d206102b0a1faeeccdc0ac44d37c50b3faa2c34a54",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/72741/000110465925098981/tm2528570d1_ex99-1.htm"
+    },
+    {
+     "passage_problems": [],
+     "passages": [
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 111,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 154,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 1421,
+       "section": "adverse disclosure (litigation)",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 143,
+       "section": "MD&A: figures",
+       "verbatim": true
+      }
+     ],
+     "raw_file": "399bb67f44e3a2b34268daa39411fcf1",
+     "raw_sha256": "7cc78dd4816098b9109c99276dbd90af02ba97d4138dc31f17ce6b2afafd7ee9",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/842162/000084216225000040/lear-2025may6_8xkxex991.htm"
+    },
+    {
+     "passage_problems": [],
+     "passages": [
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 114,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 156,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 1599,
+       "section": "adverse disclosure (litigation)",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 144,
+       "section": "MD&A: figures",
+       "verbatim": true
+      }
+     ],
+     "raw_file": "534a1ecb899c119183dddd0f7227fb82",
+     "raw_sha256": "33ffd9d6ee53f8ddbf5075a5c38d0cb6d124d4c6973ac9f42669f6c510b88a89",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/842162/000084216225000058/lear-2025jul25_8xkxex991.htm"
+    },
+    {
+     "passage_problems": [],
+     "passages": [
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 130,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 155,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 1840,
+       "section": "adverse disclosure (litigation)",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 143,
+       "section": "MD&A: figures",
+       "verbatim": true
+      }
+     ],
+     "raw_file": "a73e1bd19bfe02b5881e1a31644f17ed",
+     "raw_sha256": "b5a0b18dc8008b606231382a22e7c19d48c43e7b3d0f734af8c70037706448e9",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/842162/000084216225000073/lear-2025oct31_8xkxex991.htm"
+    },
+    {
+     "passage_problems": [],
+     "passages": [
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 132,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 154,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 1242,
+       "section": "adverse disclosure (litigation)",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 144,
+       "section": "MD&A: figures",
+       "verbatim": true
+      }
+     ],
+     "raw_file": "14a28b28b17e279596d2c18f981c6b30",
+     "raw_sha256": "a191caca6bf34bd5fd3b1816243cdde4de74eca4e6bb9b5c74535d8e39468986",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/842162/000084216226000005/lear-2026feb4_ex991.htm"
+    },
+    {
+     "inline_xbrl": {
+      "agree": true,
+      "contexts": 1,
+      "entity_matches_url_cik": true,
+      "facts": 3,
+      "share_count_facts": 0,
+      "status": "ok",
+      "trading_symbols_independent": [
+       [
+        "LSTR",
+        null
+       ]
+      ],
+      "trading_symbols_parsed": [
+       [
+        "LSTR",
+        null
+       ]
+      ]
+     },
+     "passage_problems": [],
+     "passages": [
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 1099,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 915,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 848,
+       "section": "adverse disclosure (impairment)",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 423,
+       "section": "MD&A: figures",
+       "verbatim": true
+      }
+     ],
+     "raw_file": "edc6c07c9da3d16967aa5de86a979f9b",
+     "raw_sha256": "4ee359bbaa93b0e6533cf302e6343039cbb73b74f64c3633a5c3743b0ce98a1d",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/853816/000119312525071384/d859255d8k.htm"
+    },
+    {
+     "passage_problems": [],
+     "passages": [
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 1086,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 318,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 2185,
+       "section": "adverse disclosure (litigation)",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 258,
+       "section": "MD&A: figures",
+       "verbatim": true
+      }
+     ],
+     "raw_file": "f85879bb98dc706f19ba89d82d985541",
+     "raw_sha256": "ea8f6f4d25b9523169d707ce1d591316386f495b75c096dba178a74e7962fe20",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/853816/000119312525095315/d847377dex991.htm"
+    },
+    {
+     "passage_problems": [],
+     "passages": [
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 870,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 626,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 2185,
+       "section": "adverse disclosure (litigation)",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 866,
+       "section": "MD&A: figures",
+       "verbatim": true
+      }
+     ],
+     "raw_file": "7c1fc15c989fcd6faeb29a0643892d91",
+     "raw_sha256": "5d0a16936d6cb1d9fa636fb2733d44cc735a1ba700dbdbcbee013cf9b4f2d62e",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/853816/000119312525118369/d946662dex991.htm"
+    },
+    {
+     "passage_problems": [],
+     "passages": [
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 1047,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 421,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 2349,
+       "section": "adverse disclosure (litigation)",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 368,
+       "section": "MD&A: figures",
+       "verbatim": true
+      }
+     ],
+     "raw_file": "090417650394bc759a64e7f67dd6ed06",
+     "raw_sha256": "5f107f5117fe8e214abb1b02fe8f04ed0bc8b195b7d88406539608e97695e5e0",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/853816/000119312525168015/d10498dex991.htm"
+    },
+    {
+     "passage_problems": [],
+     "passages": [
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 1197,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 497,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 169,
+       "section": "adverse disclosure (impairment)",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 315,
+       "section": "MD&A: figures",
+       "verbatim": true
+      }
+     ],
+     "raw_file": "2e88320495a69a5e2645b390cb3a7e85",
+     "raw_sha256": "5a0d6002933228e5b0736ec3c3080588a971f4b15ed21ebb27bee09a08f91783",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/853816/000119312525253591/d29338dex991.htm"
+    },
+    {
+     "inline_xbrl": {
+      "agree": true,
+      "contexts": 1,
+      "entity_matches_url_cik": true,
+      "facts": 3,
+      "share_count_facts": 0,
+      "status": "ok",
+      "trading_symbols_independent": [
+       [
+        "LSTR",
+        null
+       ]
+      ],
+      "trading_symbols_parsed": [
+       [
+        "LSTR",
+        null
+       ]
+      ]
+     },
+     "passage_problems": [],
+     "passages": [
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 556,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 1005,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 400,
+       "section": "adverse disclosure (impairment)",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 185,
+       "section": "MD&A: figures",
+       "verbatim": true
+      }
+     ],
+     "raw_file": "6ccda277262cbaa46266f69fb1529b8b",
+     "raw_sha256": "66cf6ba5abbab44e8b4e93327bee23626951975d7752ef7de3377cb6d9c84fbc",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/853816/000119312526018078/d91663d8k.htm"
+    },
+    {
+     "passage_problems": [],
+     "passages": [
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 559,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 375,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 362,
+       "section": "adverse disclosure (impairment)",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 322,
+       "section": "MD&A: figures",
+       "verbatim": true
+      }
+     ],
+     "raw_file": "f980b1b4b4e7ba2593e9c4ed310dbebb",
+     "raw_sha256": "02d2f3fc65c568ca4c549ee72a5d50ff61f43ba56426c50341212159968b485f",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/853816/000119312526027265/d85231dex991.htm"
+    },
+    {
+     "passage_problems": [],
+     "passages": [
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 779,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 356,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 2687,
+       "section": "adverse disclosure (litigation)",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 763,
+       "section": "MD&A: figures",
+       "verbatim": true
+      }
+     ],
+     "raw_file": "c0206190a18d8a72f3ff63ef60748078",
+     "raw_sha256": "054e69ecd53a6fbcb2e5ad6ad6b54eac617f4306f4457f3dd1cc086b2c1f3812",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/916365/000091636525000085/ex991-q12025earningsrelease.htm"
+    },
+    {
+     "passage_problems": [],
+     "passages": [
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 826,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 305,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 2663,
+       "section": "adverse disclosure (litigation)",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 655,
+       "section": "MD&A: figures",
+       "verbatim": true
+      }
+     ],
+     "raw_file": "cc290b4778ad33d62a0f52bce41892da",
+     "raw_sha256": "f8d24a57a4108924181bc73173053dd1f587c08719d9ab1d4eabb33953de0015",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/916365/000091636525000135/ex991-q22025earningsrelease.htm"
+    },
+    {
+     "passage_problems": [],
+     "passages": [
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 689,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 414,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 2654,
+       "section": "adverse disclosure (litigation)",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 657,
+       "section": "MD&A: figures",
+       "verbatim": true
+      }
+     ],
+     "raw_file": "27b01b5129e8a481ccf345472289e925",
+     "raw_sha256": "9005a0767a1ba9c99fdb221c5bef51bd7907e22fa211cb2f501d0b49b860c3fd",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/916365/000091636525000157/ex991-q32025earningsrelease.htm"
+    },
+    {
+     "passage_problems": [],
+     "passages": [
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 101,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 104,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 2696,
+       "section": "adverse disclosure (litigation)",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 100,
+       "section": "MD&A: figures",
+       "verbatim": true
+      }
+     ],
+     "raw_file": "9ea51241501fc4c57f55e017e2718525",
+     "raw_sha256": "37b60fce8a2011f497a0162c1f273bf92b2ac4975e2b99c456e3077979256329",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/916365/000091636526000005/ex991-q42025earningsrelease.htm"
+    },
+    {
+     "passage_problems": [],
+     "passages": [
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 536,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 258,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 1188,
+       "section": "adverse disclosure (impairment)",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 130,
+       "section": "MD&A: figures",
+       "verbatim": true
+      }
+     ],
+     "raw_file": "f9a1c01e7eb9839c7d40ed7dfb35c8b7",
+     "raw_sha256": "923c9c32d91f70c242eace5c96b3db9d0bb5d58fe55829c47ff0bc3425f2b07c",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/916540/000091654025000012/exh991-pressreleaseq12025.htm"
+    },
+    {
+     "passage_problems": [],
+     "passages": [
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 482,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 431,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 1188,
+       "section": "adverse disclosure (impairment)",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 246,
+       "section": "MD&A: figures",
+       "verbatim": true
+      }
+     ],
+     "raw_file": "372118ac241f1580dd63794071a7edf0",
+     "raw_sha256": "4c0a83cbaefb708a24279eec890b01f046608c435e8e06f6337a099703eba077",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/916540/000091654025000021/exh991-pressreleaseq22025.htm"
+    },
+    {
+     "passage_problems": [],
+     "passages": [
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 422,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 474,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 1188,
+       "section": "adverse disclosure (impairment)",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 418,
+       "section": "MD&A: figures",
+       "verbatim": true
+      }
+     ],
+     "raw_file": "efb3bb1312eecadf1466864a33d05281",
+     "raw_sha256": "5e0086affd4b7b6304c0bae9414f0d00be9c7a3bb49f4f84b275baeae7618d0e",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/916540/000091654025000029/exh991-pressreleaseq32025.htm"
+    },
+    {
+     "passage_problems": [],
+     "passages": [
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 586,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 353,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 349,
+       "section": "adverse disclosure (loss)",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 597,
+       "section": "MD&A: figures",
+       "verbatim": true
+      }
+     ],
+     "raw_file": "55f2aea6ddefeb66f19b819c9ca33621",
+     "raw_sha256": "6029f4a4ed1b2de16cf3b7ea7aac55d339708152af9202d7c6ca7d6169f7ecf8",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/916540/000091654026000002/exh991-pressrelease012926.htm"
+    },
+    {
+     "passage_problems": [],
+     "passages": [
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 147,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 144,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 651,
+       "section": "adverse disclosure (impairment)",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 106,
+       "section": "MD&A: figures",
+       "verbatim": true
+      }
+     ],
+     "raw_file": "153c1a95cab23c33b83d99176b51c255",
+     "raw_sha256": "e946584f364748e833b62c780293e861fe7946c936eabd7f602095c49364622e",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/916540/000091654026000004/exh991-pressreleaseq42025.htm"
+    },
+    {
+     "passage_problems": [],
+     "passages": [
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 114,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 132,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 881,
+       "section": "adverse disclosure (impairment)",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 101,
+       "section": "MD&A: figures",
+       "verbatim": true
+      }
+     ],
+     "raw_file": "c2ef470095c7c1df0985c351c866af0b",
+     "raw_sha256": "5ee8dabbff40f5c02ea1367bc1adfbde837459a5bdef0b1942f1d85c8db959fa",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/917251/000091725126000012/adc20251231-exhibit991.htm"
+    },
+    {
+     "passage_problems": [],
+     "passages": [
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 132,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 109,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 881,
+       "section": "adverse disclosure (impairment)",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 180,
+       "section": "MD&A: figures",
+       "verbatim": true
+      }
+     ],
+     "raw_file": "5bf6433292f9ced8debb5f3186216caa",
+     "raw_sha256": "4094477c8f648c862071a97a3f66837fd57644fd367039c126ebae2cc8444315",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/917251/000110465925037417/tm2512810d1_ex99-1.htm"
+    },
+    {
+     "passage_problems": [],
+     "passages": [
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 115,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 156,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 881,
+       "section": "adverse disclosure (impairment)",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 205,
+       "section": "MD&A: figures",
+       "verbatim": true
+      }
+     ],
+     "raw_file": "a4330b8562fcc4e1ca25ce0d56ca732f",
+     "raw_sha256": "97ea8ad72b832fa8d31a8f141848f177bae7ea37dc1b1eb96401fb966c82a74e",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/917251/000110465925072681/tm2522179d1_ex99-1.htm"
+    },
+    {
+     "passage_problems": [],
+     "passages": [
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 115,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 132,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 881,
+       "section": "adverse disclosure (impairment)",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 102,
+       "section": "MD&A: figures",
+       "verbatim": true
+      }
+     ],
+     "raw_file": "d040748326d2a931736d41965b38d4c4",
+     "raw_sha256": "63bfb72bdb47ae12e2ec8865ad3529768bcb5d27da6486087f41bdfc58b7f8da",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/917251/000110465925101229/adc-20251021xex99d1.htm"
+    },
+    {
+     "passage_problems": [],
+     "passages": [
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 132,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 135,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 192,
+       "section": "adverse disclosure (litigation)",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 142,
+       "section": "MD&A: figures",
+       "verbatim": true
+      }
+     ],
+     "raw_file": "3f5fd7788fe570efb6558e90533139db",
+     "raw_sha256": "974e45d7c64dc6848e240b4fd8bdf3c34922acd2ce8eebf059a2d31ada7c113c",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/93751/000009375125000220/a1q25earningspressrelease.htm"
+    },
+    {
+     "passage_problems": [],
+     "passages": [
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 439,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 616,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 446,
+       "section": "adverse disclosure (litigation)",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 454,
+       "section": "MD&A: figures",
+       "verbatim": true
+      }
+     ],
+     "raw_file": "c7293220e728698b629ab690c9143af2",
+     "raw_sha256": "c6fb3e63001c438f9f99748a9e4eb5960165f25188a0fc19ec910901d7eec565",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/93751/000009375125000403/a2q25earningspressrelease.htm"
+    },
+    {
+     "passage_problems": [],
+     "passages": [
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 414,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 515,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 358,
+       "section": "adverse disclosure (litigation)",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 132,
+       "section": "MD&A: figures",
+       "verbatim": true
+      }
+     ],
+     "raw_file": "3af98a33749027d6201a36bf9cdfa76c",
+     "raw_sha256": "2f66e606fd1ff23eaa19e516ca1c4ac3c02f56ef99e28c0b408bfe249613c14b",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/93751/000009375125000560/a3q25earningspressrelease.htm"
+    },
+    {
+     "passage_problems": [],
+     "passages": [
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 132,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 124,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 192,
+       "section": "adverse disclosure (litigation)",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 131,
+       "section": "MD&A: figures",
+       "verbatim": true
+      }
+     ],
+     "raw_file": "27516a8bf774dc3a4522ab55e671c9ec",
+     "raw_sha256": "ba06a80c01c295a8393b9d704b01d54615329b74088e70980e6b15baaa3d6b89",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/93751/000009375126000008/a4q25earningspressrelease.htm"
+    },
+    {
+     "passage_problems": [],
+     "passages": [
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 179,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 352,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 1244,
+       "section": "adverse disclosure (impairment)",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 163,
+       "section": "MD&A: figures",
+       "verbatim": true
+      }
+     ],
+     "raw_file": "70ee42ce84b20e992cfaf92886673008",
+     "raw_sha256": "835707df807b62a8f1e40c0f6d211eac5334a3e623cde1809e0cbaf168e0c211",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/9389/000000938925000007/ball-20250506xex99.htm"
+    },
+    {
+     "passage_problems": [],
+     "passages": [
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 178,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 354,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 888,
+       "section": "adverse disclosure (impairment)",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 164,
+       "section": "MD&A: figures",
+       "verbatim": true
+      }
+     ],
+     "raw_file": "5fe98b0f162f8530b3a55146409e49c7",
+     "raw_sha256": "5457f6b040aa68b0e29bbaf86352c10cd7832d27e7e31695b2b17b5e928474d9",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/9389/000000938925000015/ball-20250805xex99.htm"
+    },
+    {
+     "passage_problems": [],
+     "passages": [
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 105,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 179,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 1424,
+       "section": "adverse disclosure (impairment)",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 349,
+       "section": "MD&A: figures",
+       "verbatim": true
+      }
+     ],
+     "raw_file": "bebc727b2c4727b1eef4173c7c563eba",
+     "raw_sha256": "448d778cd54bacd0d19e2c1a66e19f9da31044a8574fa1e03d402bcf0cc43d7f",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/9389/000000938925000048/ball-20251104xex99.htm"
+    },
+    {
+     "passage_problems": [],
+     "passages": [
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 103,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 104,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 1416,
+       "section": "adverse disclosure (impairment)",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 126,
+       "section": "MD&A: figures",
+       "verbatim": true
+      }
+     ],
+     "raw_file": "ae278f5a6396d81ea0511a3da50d0ea0",
+     "raw_sha256": "5e69779e8a0739c6a6855e2342712f2710efbe2ad95de1a4b4f665f846be1980",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/9389/000000938926000039/ball-20260203xex99.htm"
+    },
+    {
+     "passage_problems": [],
+     "passages": [
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 104,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 832,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 512,
+       "section": "adverse disclosure (decrease)",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 137,
+       "section": "MD&A: figures",
+       "verbatim": true
+      }
+     ],
+     "raw_file": "f72b443d50363e39ebe6abc6d2e2b6bd",
+     "raw_sha256": "68e7401291cd843703d6c5bee381ea524ec7bfd353995af0324d47c2b7084312",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/939767/000093976725000074/exel20250331exhibit991.htm"
+    },
+    {
+     "passage_problems": [],
+     "passages": [
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 104,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 136,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 1000,
+       "section": "adverse disclosure (litigation)",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 251,
+       "section": "MD&A: figures",
+       "verbatim": true
+      }
+     ],
+     "raw_file": "703edd01ed699fed261759d9761356e0",
+     "raw_sha256": "b22828872d072198be842da0f70ce26fb61988a8f22dfaaedf6c382ad7ef5cea",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/939767/000093976725000111/exel20250630exhibit991.htm"
+    },
+    {
+     "passage_problems": [],
+     "passages": [
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 104,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 141,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 184,
+       "section": "adverse disclosure (impairment)",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 256,
+       "section": "MD&A: figures",
+       "verbatim": true
+      }
+     ],
+     "raw_file": "452fa234df29ac88684a8aca06528a15",
+     "raw_sha256": "d8bd2a9da03349712222ce10e23579b214b7f588696de1e181c84ec021d72a57",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/939767/000093976725000127/exel20250930exhibit991.htm"
+    },
+    {
+     "passage_problems": [],
+     "passages": [
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 126,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 194,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 773,
+       "section": "adverse disclosure (risk)",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 1349,
+       "section": "MD&A: figures",
+       "verbatim": true
+      }
+     ],
+     "raw_file": "23f6bba3906b81715b3e11b695d0ff30",
+     "raw_sha256": "aef76be250f48e2a6af8db02aead3e2c8d83115f43079320b322b6bb37c960a3",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/939767/000093976726000003/exel20260111exhibit991.htm"
+    },
+    {
+     "passage_problems": [],
+     "passages": [
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 106,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 159,
+       "section": "earnings release: figures",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 968,
+       "section": "adverse disclosure (decrease)",
+       "verbatim": true
+      },
+      {
+       "at_least_100_chars": true,
+       "carries_its_rule": true,
+       "chars": 206,
+       "section": "MD&A: figures",
+       "verbatim": true
+      }
+     ],
+     "raw_file": "ecb74939b9890d03ff728a6735ebc174",
+     "raw_sha256": "e0340153067365aff26eb158c1950f7bf033643a46a9339e225536e18fe1f8b6",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/939767/000093976726000019/exel2025q42025exhibit991.htm"
+    }
+   ],
+   "files_refused": [],
+   "files_verified": 223,
+   "nport": [
+    {
+     "discrepancies": [],
+     "fields": [
+      {
+       "agree": true,
+       "field": "holdings",
+       "independent": 1015,
+       "parsed": 1015
+      },
+      {
+       "agree": true,
+       "field": "value_usd_total",
+       "independent": "46423559689.21000000",
+       "parsed": "46423559689.21000000"
+      },
+      {
+       "agree": true,
+       "field": "asset_categories",
+       "independent": {
+        "DE": 2,
+        "EC": 1011,
+        "STIV": 2
+       },
+       "parsed": {
+        "DE": 2,
+        "EC": 1011,
+        "STIV": 2
+       }
+      },
+      {
+       "agree": true,
+       "field": "lei_absent (N/A or empty)",
+       "independent": 273,
+       "parsed": 273
+      },
+      {
+       "agree": true,
+       "field": "cusip_absent (N/A)",
+       "independent": 2,
+       "parsed": 2
+      },
+      {
+       "agree": true,
+       "field": "ticker_identifiers",
+       "independent": 2,
+       "parsed": 2
+      },
+      {
+       "agree": true,
+       "field": "series_id",
+       "independent": "S000004347",
+       "parsed": "S000004347"
+      },
+      {
+       "agree": true,
+       "field": "registrant_cik",
+       "independent": "0001100663",
+       "parsed": "0001100663"
+      },
+      {
+       "agree": true,
+       "field": "report_date",
+       "independent": "2025-12-31",
+       "parsed": "2025-12-31"
+      },
+      {
+       "agree": true,
+       "field": "submission_type",
+       "independent": "NPORT-P",
+       "parsed": "NPORT-P"
+      },
+      {
+       "agree": true,
+       "field": "index_page: series",
+       "independent": [
+        "S000004347"
+       ],
+       "parsed": [
+        "S000004347"
+       ]
+      },
+      {
+       "agree": true,
+       "field": "index_page: period of report",
+       "independent": "2025-12-31",
+       "parsed": "2025-12-31"
+      },
+      {
+       "agree": true,
+       "field": "index_page: filer CIK",
+       "independent": "0001100663",
+       "parsed": "0001100663"
+      },
+      {
+       "agree": true,
+       "field": "universe: distinct common-equity issuers",
+       "independent": 996,
+       "parsed": 996
+      },
+      {
+       "agree": true,
+       "field": "universe: top twelve CUSIPs",
+       "independent": [
+        "67066G104",
+        "037833100",
+        "594918104",
+        "023135106",
+        "02079K305",
+        "11135F101",
+        "30303M102",
+        "88160R101",
+        "084670702",
+        "46625H100",
+        "532457108",
+        "92826C839"
+       ],
+       "parsed": [
+        "67066G104",
+        "037833100",
+        "594918104",
+        "023135106",
+        "02079K305",
+        "11135F101",
+        "30303M102",
+        "88160R101",
+        "084670702",
+        "46625H100",
+        "532457108",
+        "92826C839"
+       ]
+      }
+     ],
+     "filing": {
+      "accepted_at_eastern": "2026-02-23T14:19:39-05:00",
+      "accession": "0001004726-26-000805",
+      "certainly_public_by": "2026-03-02T00:00:00-05:00",
+      "classes": [
+       "C000012077"
+      ],
+      "index_page_sha256": "29f5a36b094187d862a75b882425d7b1543a1f350cfcaee948d317ed189ade41",
+      "index_url": "https://www.sec.gov/Archives/edgar/data/1100663/000100472626000805/0001004726-26-000805-index.htm"
+     },
+     "raw_file": "5379fd5299c223eb32616fbc5aee2669",
+     "raw_sha256": "82633fb55aa0af7cfc2a0e7326227475cdeac7b29591c8d7426330cb53f2d9a6",
+     "retrieved_at": "2026-11-08T13:10:15+00:00",
+     "series_name": "iShares Russell 1000 ETF",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/1100663/000100472626000805/primary_doc.xml",
+     "universe": {
+      "common_equity_rows": 1011,
+      "issuers": 996,
+      "issuers_if_N/A_were_an_LEI (audited rule)": 733,
+      "ticker_identifiers_in_top12": 0,
+      "top12": [
+       {
+        "cusip": "67066G104",
+        "name": "NVIDIA CORPORATION",
+        "rank": 1,
+        "value_usd": "3216414062.00000000"
+       },
+       {
+        "cusip": "037833100",
+        "name": "APPLE INC.",
+        "rank": 2,
+        "value_usd": "2920561259.82000000"
+       },
+       {
+        "cusip": "594918104",
+        "name": "MICROSOFT CORPORATION",
+        "rank": 3,
+        "value_usd": "2643017153.40000000"
+       },
+       {
+        "cusip": "023135106",
+        "name": "AMAZON.COM, INC.",
+        "rank": 4,
+        "value_usd": "1631586254.64000000"
+       },
+       {
+        "cusip": "02079K305",
+        "name": "ALPHABET INC.",
+        "rank": 5,
+        "value_usd": "1340692619.00000000"
+       },
+       {
+        "cusip": "11135F101",
+        "name": "BROADCOM INC.",
+        "rank": 6,
+        "value_usd": "1177833676.00000000"
+       },
+       {
+        "cusip": "30303M102",
+        "name": "META PLATFORMS, INC.",
+        "rank": 7,
+        "value_usd": "1062018140.91000000"
+       },
+       {
+        "cusip": "88160R101",
+        "name": "TESLA, INC.",
+        "rank": 8,
+        "value_usd": "935058273.72000000"
+       },
+       {
+        "cusip": "084670702",
+        "name": "BERKSHIRE HATHAWAY INC.",
+        "rank": 9,
+        "value_usd": "683154630.90000000"
+       },
+       {
+        "cusip": "46625H100",
+        "name": "JPMORGAN CHASE & CO.",
+        "rank": 10,
+        "value_usd": "645029662.60000000"
+       },
+       {
+        "cusip": "532457108",
+        "name": "ELI LILLY AND COMPANY",
+        "rank": 11,
+        "value_usd": "634425516.52000000"
+       },
+       {
+        "cusip": "92826C839",
+        "name": "VISA INC.",
+        "rank": 12,
+        "value_usd": "435028750.33000000"
+       }
+      ],
+      "top12_lei_absent": 0,
+      "top12_under_audited_rule_differs": false
+     }
+    }
+   ],
+   "totals": {
+    "documents": 92,
+    "inline_xbrl_disagreements": 0,
+    "inline_xbrl_documents": 2,
+    "inline_xbrl_share_count_facts": 0,
+    "nport_discrepancies": 0,
+    "nport_fields_checked": 15,
+    "nport_reports": 1,
+    "passage_problems": 0,
+    "passages": 364
+   }
+  }
+ ],
  "totals": {
   "asof_points": 632,
   "companies": 40,
-  "cross_method_agree": 175,
-  "cross_method_checks": 177,
+  "cross_method_agree": 159,
+  "cross_method_checks": 161,
+  "document_passage_problems": 0,
+  "document_passages": 13,
+  "documents": 6,
+  "excluded_not_periodic_report": 269,
   "facts_public_before_period_end": 0,
   "headers_disagree": 0,
   "headers_reconciled": 43,
-  "restatements_seen": 323
+  "inline_xbrl_disagreements": 0,
+  "inline_xbrl_documents": 6,
+  "restatements_seen": 225,
+  "ttm_resolved": 1778,
+  "ttm_unavailable": 88,
+  "ttm_unresolved": 30
  }
 }
