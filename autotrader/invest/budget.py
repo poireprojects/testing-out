@@ -2,8 +2,8 @@
 
 Three kinds of number are kept apart:
 * measured: the exact bytes of the request this code would send for a pack filled to every registered cap
-  (12 candidates x 4 passages x 1,200 characters, 12 valuation rows, three holdings with recorded theses), and of a
-  maximum-length answer under the contract's caps;
+  (12 candidates x 4 passages x 1,200 characters, 12 valuation rows at their longest wording, three holdings with
+  recorded theses), and of a maximum-length answer under the contract's caps;
 * estimated: token counts from bytes, as a range (2.5 to 4 bytes per token). The tokenizer is not public and the
   structured-output system prompt is billed but of undocumented size, so these are estimates, never bounds;
 * documented bounds: `max_tokens` (16,000) is a strict limit on output tokens including thinking, so output cost per
@@ -26,7 +26,7 @@ from ..evidence import Evidence
 from .contract import (INSTRUCTIONS, MAX_CITES, MAX_CLAIM_TEXT, MAX_CLAIMS, MAX_INPUTS, MAX_NOTE, MAX_QUOTE,
                        MAX_REASONING, MAX_TEXT, json_schema)
 from .engine import ModelDecider
-from .pack import MonthPack
+from .pack import MonthPack, _valuation
 from .registration import FROZEN, canonical_json, schedule
 
 D = Decimal
@@ -42,6 +42,24 @@ def _filler(n: int, seed: str) -> str:
     return (unit * (n // len(unit) + 1))[:n]
 
 
+def longest_valuation(sym: str, cutoff) -> str:
+    """The longest valuation row `pack._valuation` can write for `sym`: every form of each part (large figures,
+    several share classes, unresolved inputs) is rendered and the longest row kept, so the budget's request stays a
+    maximum when the row's wording changes."""
+    f = {"form": "10-K/A", "accession": "0000000000-31-000000", "accepted_at": "2031-01-20T16:05:00-05:00"}
+    big = {"shares_outstanding": "123456789012", "revenue_ttm_musd": "-1234567.89", "net_income_ttm_musd": "-123456.78",
+           "eps_diluted_ttm": "-1234.56"}
+    unresolved = {"status": "unresolved", "reason": "budget"}
+    rows = []
+    for classes in ("1", "99"):
+        for gone in ((), ("shares_outstanding",), tuple(big)):
+            facts = {k: v for k, v in big.items() if k not in gone} | ({"share_classes": classes} if
+                                                                         "shares_outstanding" not in gone else {})
+            rec = dict(f, facts=facts, facts_status={k: unresolved for k in gone})
+            rows.append(_valuation(sym, D("123456.78"), rec, cutoff)[0])
+    return max(rows, key=lambda t: (len(t.encode()), t))
+
+
 def max_size_pack() -> MonthPack:
     slot = schedule("2031-01")[1]
     cutoff = slot.cutoff.close
@@ -54,11 +72,7 @@ def max_size_pack() -> MonthPack:
                                   f"SEC 10-Q 0000000000-31-{k:06d} (A Company With A Long Registered Name Incorporated), "
                                   "MD&A: figures", cutoff - timedelta(days=10), _filler(lim["max_passage_chars"], s)))
         items.append(Evidence(f"V.{s}", "valuation", f"computed from the {slot.cutoff.day} close and 0000000000-31-000000",
-                              cutoff, "Valuation of " + s + " at the 2031-01-31 close (computed by code): price 1,234.56 "
-                              "USD; shares outstanding 12,345,678,901 (10-Q 0000000000-31-000000, accepted 2031-01-20 16:05 "
-                              "EST); market value 15,241,578 million USD; revenue, trailing four quarters 123,456 million "
-                              "USD; net income, trailing four quarters 23,456 million USD; diluted EPS, trailing four "
-                              "quarters 12.34 USD; P/E 100.04; price/sales 123.46."))
+                              cutoff, longest_valuation(s, cutoff)))
     holdings = [{"symbol": s, "qty": "0.123456789", "close": "1234.56", "value": "9.99", "weight_pct": "9.99"}
                 for s in syms[:3]] + [{"symbol": "VOO", "qty": "0.123456789", "close": "567.89", "value": "70.01",
                                        "weight_pct": "70.01"}]
