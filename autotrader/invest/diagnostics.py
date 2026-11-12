@@ -10,7 +10,8 @@ where S is the product of split ratios with ex-dates in (fill day, end day] and 
 including that dividend's ex-date (dividends are quoted per post-split share on their ex-date). A dividend or split
 with its ex-date on the fill day itself is not counted: a share bought at that open is already ex. Dividends count
 when entitled, paid or not, and are not reinvested. Excess = (TR_stock - TR_VOO) x 100 percentage points, over
-identical dates. A missing open or close leaves the forecast missing (never filled in). Slots 11 and 12 mature after
+identical dates. A missing open or close, or corporate actions not covered over the horizon, leaves the forecast missing
+(never filled in; an `outcome_gap` record says why, and later data resolves it). Slots 11 and 12 mature after
 the fixed twelve-month end: their forecasts stay pending and are excluded from matured scores, without making the
 primary record incomplete.
 
@@ -40,6 +41,8 @@ from typing import Optional
 D = Decimal
 BINS = (D("0"), D("0.2"), D("0.4"), D("0.6"), D("0.8"), D("1.0"))
 HORIZON_SLOTS = 3
+GAP_TEXT = {"price_missing": "price missing for the horizon",
+            "corporate_actions_not_covered": "corporate actions not covered over the horizon"}
 SHADOW_STOCK_PCT = D("30")
 
 
@@ -102,9 +105,12 @@ def spearman(a: list, b: list) -> Optional[Decimal]:
     return (cov / (va * vb).sqrt()).quantize(D("0.0001"))
 
 
-def score(decisions: list[dict], outcomes: dict, slots: list, last_day: Optional[date]) -> dict:
+def score(decisions: list[dict], outcomes: dict, slots: list, last_day: Optional[date],
+          gaps: Optional[dict] = None) -> dict:
     """`decisions`: decision payloads; `outcomes`: {(slot, symbol): outcome payload}; `last_day`: the latest session
-    valued in the ledger (a horizon ending after it is not matured yet)."""
+    valued in the ledger (a horizon ending after it is not matured yet); `gaps`: {(slot, symbol): reason} from
+    `outcome_gap` records, which explain a missing outcome (prices, or corporate actions not covered)."""
+    gaps = gaps or {}
     rows, pending, missing, per = [], [], [], []
     for p in decisions:
         if p["status"] != "valid":
@@ -125,7 +131,8 @@ def score(decisions: list[dict], outcomes: dict, slots: list, last_day: Optional
                 continue
             o, v = outcomes.get((k, sym)), outcomes.get((k, "VOO"))
             if o is None or v is None:
-                missing.append(base | {"why": "price missing for the horizon"})
+                why = gaps.get((k, sym) if o is None else (k, "VOO"), "price_missing")
+                missing.append(base | {"why": GAP_TEXT.get(why, why)})
                 continue
             ex = (D(o["total_return"]) - D(v["total_return"])) * 100
             y = D(1) if ex > 0 else D(0) if ex < 0 else D("0.5")
