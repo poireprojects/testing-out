@@ -2,7 +2,9 @@
 
     MANIFEST.json   {"synthetic": bool, "sources": {...}, "files": {name: sha256}}
     prices.json     {SYMBOL: {"YYYY-MM-DD": {"open": "123.45", "close": "124.10"}}}   as traded, unadjusted
-    actions.json    {"splits": [{symbol, ex_date, num, den}], "dividends": [{symbol, ex_date, pay_date, amount}]}
+    actions.json    {"splits": [{symbol, ex_date, num, den}], "dividends": [{symbol, ex_date, pay_date, amount}],
+                     "unsupported": [...], "coverage": {"symbols": {SYMBOL: {"intervals": [[from, to]], "note"}},
+                                                        "chains": [...]}}
     universe.json   {"rule": str, "source": str, "members": [{rank, symbol, name, cik}]}
     filings.json    [{symbol, cik, accession, form, accepted_at (ISO, tz), period_end, facts: {...}, passages: [...]}]
     index.json      {"symbols": {SYMBOL: {cik, retrieved_at, source, filings: [{accession, form, accepted_at, items}]}},
@@ -14,15 +16,29 @@ failure, never evidence that a company has no usable financial information. `ind
 every symbol is a collection failure.
 
 A price that is absent is missing data: callers record a gap or a collection failure, never a substitute.
+
+Corporate actions are usable only where `actions.json` records coverage (`adapters.market.action_coverage`): an
+empty action list without coverage is missing data, never "no dividends or splits". Each use asks for the dates it
+needs (`actions_gap`): the accounting for a session, the actions with ex-dates since the previous session, for every
+held security; an outcome, its horizon; a pack, each symbol's dates from its first price to the cutoff day (and only
+actions dated by then are used, so a decision never learns of a later action). A data directory without a coverage
+record covers nothing.
+
+Valuation facts in `filings.json` are either values or explicitly unresolved (`facts_status`: share count or a
+trailing value whose class structure or reporting basis is not established). An unresolved input keeps the candidate
+eligible and is named in its coverage record (`unresolved_inputs`) and its valuation row, which then omits the figures
+derived from it; a fact that is simply absent is a collection failure.
 """
 from __future__ import annotations
 
 import hashlib
 import json
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
 from decimal import Decimal
 from pathlib import Path
 from typing import Optional
+
+from .adapters.market import covers
 
 FILES = ("prices.json", "actions.json", "universe.json", "filings.json")
 OPTIONAL = ("index.json", "provenance.json", "review_table.json")
@@ -51,8 +67,10 @@ class MarketData:
         self.synthetic = bool(self.manifest.get("synthetic"))
         self.prices = json.loads((self.d / "prices.json").read_text())
         acts = json.loads((self.d / "actions.json").read_text())
+        self.actions = acts
         self.splits, self.dividends = acts.get("splits", []), acts.get("dividends", [])
         self.unsupported = acts.get("unsupported", [])
+        self.action_cover = (acts.get("coverage") or {}).get("symbols")
         self.universe = json.loads((self.d / "universe.json").read_text())
         self.filings = json.loads((self.d / "filings.json").read_text())
         p = self.d / "index.json"
@@ -81,6 +99,25 @@ class MarketData:
             raise DataError(f"{symbol} {day} {field}: non-positive price")
         return v
 
+    def first_price_day(self, symbol: str) -> Optional[date]:
+        days = self.prices.get(symbol) or {}
+        return date.fromisoformat(min(days)) if days else None
+
+    def actions_gap(self, symbol: str, after: Optional[date], through: date) -> Optional[str]:
+        """None when the corporate actions of `symbol` dated after `after` up to `through` are covered by the
+        collection record; otherwise why not. `after` None: from the symbol's first price date."""
+        if self.action_cover is None:
+            return "no corporate-action coverage record was collected"
+        first = after + timedelta(days=1) if after is not None else (self.first_price_day(symbol) or through)
+        rec = self.action_cover.get(symbol)
+        if rec is None:
+            return f"{symbol} is not in the corporate-action coverage record"
+        if covers(rec["intervals"], first, through):
+            return None
+        have = ", ".join(f"{a}..{b}" for a, b in rec["intervals"]) or "none"
+        return (f"corporate actions of {symbol} from {first} to {through} are not covered (covered: {have}"
+                + (f"; {rec['note']}" if rec.get("note") else "") + ")")
+
     def filings_by(self, symbol: str, cutoff: datetime) -> list[dict]:
         """The symbol's collected filings accepted at or before `cutoff`, newest first."""
         out = [f for f in self.filings if f["symbol"] == symbol and datetime.fromisoformat(f["accepted_at"]) <= cutoff]
@@ -90,10 +127,15 @@ class MarketData:
         """What the pack needs for `symbol` at `cutoff`, and whether it was collected.
 
         status `complete`; `unavailable` (public evidence legitimately absent, with a reproducible reason: the index
-        shows no 10-K or 10-Q by the cutoff, or the price source records no trading); or `collection_failure`
-        (something that exists, or may exist, was not collected)."""
+        shows no 10-K or 10-Q by the cutoff, an unsupported corporate action by the cutoff, or the price source
+        records no trading); or `collection_failure` (something that exists, or may exist, was not collected,
+        including corporate actions not covered through the cutoff). A complete record may list
+        `unresolved_inputs` (valuation facts that are explicitly unresolved)."""
         idx = (self.index.get("symbols") or {}).get(symbol)
         out = {"symbol": symbol, "required": [], "index_retrieved_at": None, "index_source": None}
+        gap = self.actions_gap(symbol, None, day)
+        if gap is not None:
+            return out | {"status": "collection_failure", "reason": gap}
         act = next((a for a in self.unsupported if a["symbol"] == symbol and a.get("date")
                     and date.fromisoformat(a["date"]) <= day), None)
         if act is not None:
@@ -119,6 +161,7 @@ class MarketData:
         out["required"] = [f["accession"] for f in required]
         have = {f["accession"]: f for f in self.filings if f["symbol"] == symbol}
         problems = idx.get("problems") or {}
+        unresolved = {}
         for f in required:
             got = have.get(f["accession"])
             if got is None:
@@ -131,16 +174,20 @@ class MarketData:
                               "reason": f"{f['form']} {f['accession']} was collected without its text"}
             if f is last and got.get("facts_unavailable"):
                 return out | {"status": "unavailable", "reason": f"{f['form']} {f['accession']}: {got['facts_unavailable']}"}
-            if f is last and any((got.get("facts") or {}).get(k) in (None, "") for k in FACTS):
-                return out | {"status": "collection_failure",
-                              "reason": f"{f['form']} {f['accession']} was collected without its XBRL facts"}
+            if f is last:
+                fx, st = got.get("facts") or {}, got.get("facts_status") or {}
+                unresolved = {k: st[k]["reason"] for k in FACTS if fx.get(k) in (None, "")
+                              and (st.get(k) or {}).get("status") == "unresolved"}
+                if any(fx.get(k) in (None, "") and k not in unresolved for k in FACTS):
+                    return out | {"status": "collection_failure",
+                                  "reason": f"{f['form']} {f['accession']} was collected without its XBRL facts"}
         if self.price(symbol, day, "close") is None:
             exc = next((e for e in self.index.get("price_exceptions") or []
                         if e["symbol"] == symbol and e["date"] == day.isoformat()), None)
             if exc is None:
                 return out | {"status": "collection_failure", "reason": f"no close was collected for {day}"}
             return out | {"status": "unavailable", "reason": f"no close for {day}: {exc['reason']} ({exc['source']})"}
-        return out | {"status": "complete", "reason": ""}
+        return out | {"status": "complete", "reason": ""} | ({"unresolved_inputs": unresolved} if unresolved else {})
 
 
 def write_data_dir(d: Path, *, synthetic: bool, sources: dict, prices: dict, actions: dict, universe: dict,
