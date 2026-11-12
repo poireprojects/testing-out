@@ -188,17 +188,18 @@ def test_a_restatement_filed_after_a_cutoff_never_enters_an_earlier_value():
                                            "by": "K30A"}]
 
 
-def test_eps_is_labelled_an_approximation_and_share_classes_are_summed_with_a_label():
+def test_eps_is_labelled_an_approximation_and_company_facts_alone_never_resolve_a_share_count():
     eps = [dict(F(f["start"], f["end"], D(f["value"]) / 1000, f["accession"], f["public_at"],
                   "EarningsPerShareDiluted", "USD/shares")) for f in CAL]
     r = edgar.ttm(eps, edgar.EPS_DILUTED, "USD/shares", T("2031-08-06T00:00:00-04:00"))
-    assert r["value"] == D("4.4") and "approximation" in r["approximation"]
+    assert r["value"] == D("4.4") and "approximation" in r["approximation"] and r["status"] == "resolved"
+    # company facts carry no dimensions: 800 and 200 for one date could be two classes, or a class and a total
     sh = [dict(F(None, "2031-07-25", 800, "Q231", "2031-08-05T16:05:00-04:00", edgar.SHARES, "shares"), start=None),
-          dict(F(None, "2031-07-25", 200, "Q231", "2031-08-05T16:05:00-04:00", edgar.SHARES, "shares"), start=None),
-          dict(F(None, "2031-04-25", 990, "Q131", "2031-05-06T16:05:00-04:00", edgar.SHARES, "shares"), start=None)]
-    s = edgar.shares_outstanding(sh, T("2031-08-06T00:00:00-04:00"))
-    assert s["value"] == D(1000) and s["as_of_date"] == "2031-07-25" and "identical counts" in s["approximation"]
-    assert edgar.shares_outstanding(sh, T("2031-06-01T00:00:00-04:00"))["value"] == D(990)
+          dict(F(None, "2031-07-25", 200, "Q231", "2031-08-05T16:05:00-04:00", edgar.SHARES, "shares"), start=None)]
+    s = edgar.shares_outstanding(None, 1, "Q231", sh)
+    assert s["status"] == "unresolved" and "value" not in s and "cover-page contexts" in s["reason"]
+    not_ix = edgar.inline_facts("<html><body><p>1,000 shares outstanding</p></body></html>")
+    assert edgar.shares_outstanding(not_ix, 1, "Q231", sh)["reason"].startswith("cover-page contexts unavailable")
 
 
 def test_company_facts_keep_fact_level_provenance_and_exclude_unknown_accessions_and_units():
@@ -212,8 +213,15 @@ def test_company_facts_keep_fact_level_provenance_and_exclude_unknown_accessions
                                         "accn": "0000000001-31-000001"}]}},
         "EarningsPerShareDiluted": {"units": {"pure": [{"start": "2030-01-01", "end": "2030-12-31", "val": 1,
                                                         "accn": "0000000001-31-000001"}]}}}}}
+    proxy = dict(ROW, accessionNumber="0000000001-31-000007", form="DEF 14A",
+                 acceptanceDateTime="2031-03-20T21:05:00.000Z")
+    idx = edgar.parse_submissions([raw(_page([ROW, proxy]))])
+    cf["facts"]["us-gaap"]["Revenues"]["units"]["USD"].append(      # pay-versus-performance figure, rounded
+        {"start": "2030-01-01", "end": "2030-12-31", "val": 4000000000, "accn": "0000000001-31-000007",
+         "form": "DEF 14A"})
     out = edgar.parse_companyfacts(raw(cf, "https://data.sec.gov/api/xbrl/companyfacts/CIK0000000001.json"), idx)
-    assert out["excluded"] == {"accession_not_in_index": 1, "unit": 2} and len(out["facts"]) == 1
+    assert out["excluded"] == {"accession_not_in_index": 1, "not_periodic_report": 1, "unit": 2}
+    assert len(out["facts"]) == 1
     f = out["facts"][0]
     assert (f["accession"], f["public_at"], f["start"], f["end"]) == ("0000000001-31-000001",
                                                                         "2031-02-10T16:05:00-05:00", "2030-01-01",
@@ -307,21 +315,32 @@ def _fund(store):
     return fund, reports
 
 
+TARGET = {"series_id": synthetic_raw.SERIES_ID, "series_name": synthetic_raw.SERIES}
+
+
 def test_nport_selection_uses_the_latest_report_public_before_the_freeze(store):
     fund, reports = _fund(store)
-    s = nport.select_report(fund, reports, synthetic_raw.SERIES, synthetic_raw.FREEZE)
-    assert (s["report_date"], s["accepted_at"][:10]) == ("2030-09-30", "2030-11-27")    # the later one is after it
-    later = nport.select_report(fund, reports, synthetic_raw.SERIES, datetime(2031, 3, 1, tzinfo=ET))
+    s = nport.select_report(fund, reports, TARGET, synthetic_raw.FREEZE)
+    assert (s["report_date"], s["accepted_at"][:10], s["series_id"]) == ("2030-09-30", "2030-11-27", "S000099001")
+    rec = {x["accession"]: x for x in s["reconciliation"]}
+    other = rec["9900000099-30-000002"]                               # newer, pre-freeze, another series
+    assert other["status"] == "excluded" and other["series_id"] == "S000099002" and "another series" in other["why"]
+    post = rec["9900000099-31-000003"]
+    assert post["status"] == "excluded" and "after the freeze" in post["why"]
+    assert all(x["raw_sha256"] for x in rec.values())
+    later = nport.select_report(fund, reports, TARGET, datetime(2031, 6, 1, tzinfo=ET))
     assert later["report_date"] == "2030-12-31"
-    with pytest.raises(nport.NportError, match="no Other Fund NPORT-P"):
-        nport.select_report(fund, reports, "Other Fund", synthetic_raw.FREEZE)
+    with pytest.raises(nport.NportError, match="no SEC series ID"):
+        nport.select_report(fund, reports, {"series_name": synthetic_raw.SERIES}, synthetic_raw.FREEZE)
+    with pytest.raises(nport.NportError, match="no S000099999 NPORT-P public before"):
+        nport.select_report(fund, reports, {"series_id": "S000099999"}, synthetic_raw.FREEZE)
     with pytest.raises(nport.NportError):
-        nport.select_report(fund, reports, synthetic_raw.SERIES, datetime(2030, 11, 1, tzinfo=ET))
+        nport.select_report(fund, reports, TARGET, datetime(2030, 11, 1, tzinfo=ET))
 
 
 def test_the_review_table_never_invents_a_mapping_and_an_unapproved_review_stops_the_freeze(store):
     fund, reports = _fund(store)
-    s = nport.select_report(fund, reports, synthetic_raw.SERIES, synthetic_raw.FREEZE)
+    s = nport.select_report(fund, reports, TARGET, synthetic_raw.FREEZE)
     tickers = store.of_kind("edgar_tickers")[0].json()
     table = nport.review_table(s, tickers, 12)
     assert len(table) == 12 and {r["status"] for r in table} == {"needs_review"}     # proposals, never final
@@ -356,45 +375,59 @@ def bars(sym, rows, adjustment="raw"):
                kind="price_bars", rel=f"bars/{sym}")
 
 
+ACTIONS = "https://vendor.invalid/v1/corporate-actions"
+
+
+def actions(body, symbols="ABC", start="2031-01-01", end="2031-12-31", token=None, nxt=None, rel="acts/1"):
+    """One corporate-actions response page; the request (symbols, dates, page token) is its source URL."""
+    url = f"{ACTIONS}?symbols={symbols}&start={start}&end={end}" + (f"&page_token={token}" if token else "")
+    return raw({"corporate_actions": body, "next_page_token": nxt}, url=url, kind="corporate_actions", rel=rel)
+
+
 SPLIT = {"forward_splits": [{"symbol": "ABC", "ex_date": "2031-02-18", "old_rate": 1, "new_rate": 2}]}
 
 
 def test_unadjusted_bars_with_a_split_step_pass_and_adjusted_ones_are_refused():
     good = [("2031-02-14", "100.00", "100.00"), ("2031-02-18", "50.10", "50.00")]
-    out = market.normalize([bars("ABC", good)], raw(SPLIT, kind="corporate_actions"), ["ABC"])
+    out = market.normalize([bars("ABC", good)], [actions(SPLIT)], ["ABC"])
     assert out["actions"]["splits"] == [{"symbol": "ABC", "ex_date": "2031-02-18", "num": 2, "den": 1}]
     assert out["prices"]["ABC"]["2031-02-18"] == {"open": "50.10", "close": "50.00"}
     adjusted = [("2031-02-14", "50.00", "50.00"), ("2031-02-18", "50.10", "50.00")]       # no step: already adjusted
     with pytest.raises(market.MarketError, match="refusing double adjustment"):
-        market.normalize([bars("ABC", adjusted)], raw(SPLIT, kind="corporate_actions"), ["ABC"])
+        market.normalize([bars("ABC", adjusted)], [actions(SPLIT)], ["ABC"])
     with pytest.raises(market.MarketError, match="not unadjusted"):
-        market.normalize([bars("ABC", good, adjustment="split")], None, ["ABC"])
+        market.normalize([bars("ABC", good, adjustment="split")], [], ["ABC"])
 
 
 def test_symbol_changes_merge_and_conflicting_bars_are_refused():
     acts = {"name_changes": [{"old_symbol": "OLD", "new_symbol": "NEW", "process_date": "2031-03-02"}]}
     out = market.normalize([bars("OLD", [("2031-02-27", "10", "10")]), bars("NEW", [("2031-03-02", "10.5", "11")]),
-                            bars("XYZ", [("2031-02-27", "1", "1")])], raw(acts, kind="corporate_actions"), ["NEW"])
+                            bars("XYZ", [("2031-02-27", "1", "1")])], [actions(acts, symbols="NEW")], ["NEW"])
     assert out["prices"] == {"NEW": {"2031-02-27": {"open": "10", "close": "10"},
                                      "2031-03-02": {"open": "10.5", "close": "11"}}}              # XYZ: not registered
-    assert out["actions"]["symbol_changes"] == [{"old_symbol": "OLD", "new_symbol": "NEW", "registered_as": "NEW"}]
+    assert out["actions"]["symbol_changes"] == [{"old_symbol": "OLD", "new_symbol": "NEW", "process_date": "2031-03-02",
+                                                 "registered_as": "NEW"}]
+    # NEW was queried, OLD was not: dates before the change are not covered (OLD's actions there are unknown)
+    assert out["actions"]["coverage"]["symbols"]["NEW"]["intervals"] == [["2031-03-02", "2031-12-31"]]
+    both = market.normalize([], [actions(acts, symbols="NEW,OLD")], ["NEW"])
+    assert both["actions"]["coverage"]["symbols"]["NEW"]["intervals"] == [["2031-01-01", "2031-12-31"]]
     with pytest.raises(market.MarketError, match="two different bars"):
         market.normalize([bars("OLD", [("2031-02-27", "10", "10")]), bars("NEW", [("2031-02-27", "9", "9")])],
-                         raw(acts, kind="corporate_actions"), ["NEW"])
+                         [actions(acts, symbols="NEW")], ["NEW"])
 
 
 def test_dividends_keep_their_dates_and_unsupported_actions_are_listed_not_modelled():
     acts = {"cash_dividends": [{"symbol": "ABC", "ex_date": "2031-03-27", "payable_date": "2031-03-31", "rate": "0.35"}],
             "cash_mergers": [{"acquiree_symbol": "ABC", "effective_date": "2031-06-01", "rate": "60.00"}],
             "spin_offs": [{"symbol": "ABC", "ex_date": "2031-07-01"}]}
-    out = market.normalize([bars("ABC", [("2031-03-26", "10", "10")])], raw(acts, kind="corporate_actions"), ["ABC"])
+    out = market.normalize([bars("ABC", [("2031-03-26", "10", "10")])], [actions(acts)], ["ABC"])
     assert out["actions"]["dividends"] == [{"symbol": "ABC", "ex_date": "2031-03-27", "pay_date": "2031-03-31",
                                             "amount": "0.35"}]
     assert [(u["kind"], u["date"]) for u in out["actions"]["unsupported"]] == [("cash_mergers", "2031-06-01"),
                                                                                ("spin_offs", "2031-07-01")]
     early = {"cash_dividends": [dict(acts["cash_dividends"][0], payable_date="2031-03-20")]}
     with pytest.raises(market.MarketError, match="before its ex-date"):
-        market.normalize([], raw(early, kind="corporate_actions"), ["ABC"])
+        market.normalize([], [actions(early)], ["ABC"])
 
 
 def test_an_unsupported_action_is_a_data_gap_for_a_holding_and_an_exclusion_for_a_candidate(tmp_path):
@@ -431,7 +464,8 @@ def test_real_sec_excerpts_parse_with_eastern_acceptance_times_and_no_early_fact
     e = {x["accession"]: x for x in idx["entries"]}
     assert e["0000829224-23-000058"]["accepted_at"] == "2023-11-17T17:31:27-05:00"     # UTC 22:31:27 -> EST
     assert e["0000829224-24-000024"]["accepted_at"] == "2024-04-30T16:10:50-04:00"     # UTC 20:10:50 -> EDT
-    assert cf["excluded"] == {"accession_not_in_index": 0, "unit": 0} and len(cf["facts"]) == 97
+    assert cf["excluded"] == {"accession_not_in_index": 0, "not_periodic_report": 0, "unit": 0}
+    assert len(cf["facts"]) == 97
     assert all(T(f["public_at"]).date().isoformat() >= f["end"] for f in cf["facts"])
 
 
@@ -448,5 +482,8 @@ def test_real_sec_trailing_values_follow_the_registered_methods():
     just_before = edgar.ttm(cf["facts"], edgar.REVENUE, "USD", T("2024-11-20T16:08:05-05:00"))
     assert just_before["period_end"] == "2024-06-30"                              # the fiscal 2024 10-K: 1 s later
     assert edgar.ttm(cf["facts"], edgar.REVENUE, "USD", T("2024-11-20T16:08:06-05:00"))["value"] == D("36176200000")
-    sh = edgar.shares_outstanding(cf["facts"], T("2025-11-14T16:08:41-05:00"))
-    assert sh["value"] == D("1137100000") and "approximation" not in sh
+    # the 10-K's company-facts share count (1,137,100,000) is only a cross-check: without that filing's cover page
+    # (its inline XBRL contexts, not in the excerpt) the class structure is not established
+    sh = edgar.shares_outstanding(None, 829224, "0000829224-25-000114", cf["facts"])
+    assert sh["status"] == "unresolved" and "value" not in sh
+    assert k23["revenue_ttm"]["status"] == k23["net_income_ttm"]["status"] == "resolved"
