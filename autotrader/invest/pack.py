@@ -5,12 +5,15 @@ Built at the cutoff (the close of the last session before the fill month) from:
 * for each universe member, passages from its newest filings accepted at or before the cutoff (`P` items) and a
   valuation row computed by code from the cutoff close and the newest 10-K/10-Q's facts (`V` items);
 * a coverage record for every universe member and every held stock (`MarketData.coverage`): what EDGAR's index
-  says was required, whether it was collected, and the reason for any exclusion.
+  says was required, whether it was collected, whether its corporate actions are covered from its first price to the
+  cutoff day, any valuation input that is explicitly unresolved, and the reason for any exclusion.
 Every item carries the time it became available; the pack refuses anything later than the cutoff (no look-ahead).
 The pack cannot be built (`InputsIncomplete`, so no model is asked) when VOO or a held stock has no cutoff close, or
-when any symbol's research inputs failed to collect. A candidate is excluded only for a reproducible reason
-(`unavailable`: no 10-K/10-Q by the cutoff in the index, or a recorded no-trading exception), never for a missing
-download. Once frozen (its hash in the ledger), a pack is read back from its file and never rebuilt from newer data.
+when any symbol's research inputs failed to collect (uncovered corporate actions included). A candidate is excluded
+only for a reproducible reason (`unavailable`: no 10-K/10-Q by the cutoff in the index, an unsupported corporate
+action dated by the cutoff, or a recorded no-trading exception), never for a missing download. An unresolved share
+count or trailing value does not exclude a candidate: its valuation row says so and omits what depends on it.
+Once frozen (its hash in the ledger), a pack is read back from its file and never rebuilt from newer data.
 """
 from __future__ import annotations
 
@@ -129,19 +132,62 @@ class MonthPack:
         return "\n".join(out)
 
 
+UNRESOLVED_TEXT = {"shares_outstanding": "class structure not established from the filing",
+                   "revenue_ttm_musd": "reporting basis not established",
+                   "net_income_ttm_musd": "reporting basis not established",
+                   "eps_diluted_ttm": "reporting basis not established"}
+
+
 def _valuation(sym: str, close: Decimal, f: dict, cutoff: datetime) -> tuple[str, dict]:
-    fx = f["facts"]
-    sh, rev, ni, eps = (Decimal(str(fx[k])) for k in FACTS)
-    mcap = close * sh / Decimal(1_000_000)
-    pe = f"{(close / eps).quantize(TWO)}" if eps > 0 else "not meaningful (EPS at or below zero)"
-    ps = f"{(mcap / rev).quantize(TWO)}" if rev > 0 else "not meaningful"
+    """The valuation row. Only resolved facts are stated as figures. Market value is price x shares only for a
+    single class of common stock: with several classes only this class's price is collected, so company market
+    value (and price/sales) is not computed; an unresolved share count suppresses both; an unresolved EPS
+    suppresses P/E. Each unresolved input is named (its full reason is in the pack's coverage record)."""
+    fx, st = f["facts"], f.get("facts_status") or {}
+
+    def val(k: str) -> Optional[Decimal]:
+        return None if fx.get(k) in (None, "") else Decimal(str(fx[k]))
+
+    def unresolved(k: str) -> str:
+        return "unresolved (" + UNRESOLVED_TEXT[k] + ")" if (st.get(k) or {}).get("status") == "unresolved" \
+            else "not available"
+
+    sh, rev, ni, eps = (val(k) for k in FACTS)
+    classes = int(fx["share_classes"]) if str(fx.get("share_classes") or "").isdigit() else None
     acc = datetime.fromisoformat(f["accepted_at"]).astimezone(ET)
-    text = (f"Valuation of {sym} at the {cutoff.astimezone(ET):%Y-%m-%d} close (computed by code): price {close} USD; "
-            f"shares outstanding {_fmt_int(sh)} ({f['form']} {f['accession']}, accepted {acc:%Y-%m-%d %H:%M %Z}); "
-            f"market value {_fmt_int(mcap)} million USD; revenue, trailing four quarters {_fmt_int(rev)} million USD; "
-            f"net income, trailing four quarters {_fmt_int(ni)} million USD; diluted EPS, trailing four quarters "
-            f"{eps} USD; P/E {pe}; price/sales {ps}.")
-    return text, {"close": str(close), "market_value_musd": str(mcap.quantize(TWO)), "pe": pe, "ps": ps}
+    src = f"({f['form']} {f['accession']}, accepted {acc:%Y-%m-%d %H:%M %Z})"
+    mcap, why_no_mcap = None, ""
+    if sh is None:
+        why_no_mcap = "share count unresolved"
+    elif classes == 1:
+        mcap = close * sh / Decimal(1_000_000)
+    elif classes is None:
+        why_no_mcap = "share-class count not recorded"
+    else:
+        why_no_mcap = f"{classes} share classes; only this class's price is collected"
+    parts = [f"price {close} USD",
+             (f"shares outstanding {_fmt_int(sh)}" + (f" in {classes} share classes" if classes and classes > 1 else "")
+              + f" {src}") if sh is not None else f"shares outstanding {unresolved('shares_outstanding')} {src}",
+             f"market value {_fmt_int(mcap)} million USD" if mcap is not None else
+             f"market value not computed ({why_no_mcap})",
+             f"revenue, trailing four quarters {_fmt_int(rev)} million USD" if rev is not None else
+             f"revenue, trailing four quarters {unresolved('revenue_ttm_musd')}",
+             f"net income, trailing four quarters {_fmt_int(ni)} million USD" if ni is not None else
+             f"net income, trailing four quarters {unresolved('net_income_ttm_musd')}",
+             f"diluted EPS, trailing four quarters {eps} USD" if eps is not None else
+             f"diluted EPS, trailing four quarters {unresolved('eps_diluted_ttm')}"]
+    pe = (f"{(close / eps).quantize(TWO)}" if eps > 0 else "not meaningful (EPS at or below zero)") if eps is not None \
+        else "not computed (EPS unresolved)"
+    if mcap is None:
+        ps = "not computed (no market value)"
+    elif rev is None:
+        ps = "not computed (revenue unresolved)"
+    else:
+        ps = f"{(mcap / rev).quantize(TWO)}" if rev > 0 else "not meaningful"
+    text = (f"Valuation of {sym} at the {cutoff.astimezone(ET):%Y-%m-%d} close (computed by code): "
+            + "; ".join(parts) + f"; P/E {pe}; price/sales {ps}.")
+    return text, {"close": str(close), "market_value_musd": str(mcap.quantize(TWO)) if mcap is not None else None,
+                  "pe": pe, "ps": ps}
 
 
 def build_pack(slot: Slot, book: Book, data: MarketData, built_at: datetime, prior_theses: list[dict]) -> MonthPack:
