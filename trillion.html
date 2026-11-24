@@ -1,0 +1,1424 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Trillion Test</title>
+<meta name="description" content="What would it take for a website to earn $1 trillion a month? Test any business against the math, then follow the path that actually exists.">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#eaefe7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0d1611" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%23eaefe7' stroke='%230f6e45' stroke-width='3'/%3E%3Ccircle cx='32' cy='32' r='22' fill='none' stroke='%230f6e45' stroke-width='1.5'/%3E%3Ctext x='32' y='43' text-anchor='middle' font-family='Georgia,serif' font-size='30' font-weight='700' fill='%23142219'%3E%24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=Schibsted+Grotesk:wght@400..900&display=swap">
+<style>
+:root {
+  color-scheme: light;
+  --paper: #eaefe7;
+  --paper-raised: #f6f8f4;
+  --ink: #142219;
+  --ink-2: #3f4f45;
+  --ink-3: #56655b;
+  --rule: #c4cec3;
+  --rule-strong: #8e9e92;
+  --engrave: #0f6e45;
+  --engrave-wash: rgb(15 110 69 / 0.1);
+  --guilloche: #2f6b50;
+  --bar-muted: #8a9e90;
+  --seal: #a8281d;
+  --ochre: #7f5d0c;
+  --serif: "Bodoni Moda", "Bodoni 72", Didot, "Bodoni MT", Georgia, serif;
+  --sans: "Schibsted Grotesk", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  --gutter: clamp(16px, 4vw, 40px);
+  --max: 1180px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --paper: #0d1611;
+    --paper-raised: #142019;
+    --ink: #e2e9df;
+    --ink-2: #b3c0b6;
+    --ink-3: #95a399;
+    --rule: #2a3a30;
+    --rule-strong: #4d6153;
+    --engrave: #41a676;
+    --engrave-wash: rgb(65 166 118 / 0.13);
+    --guilloche: #5d9a7c;
+    --bar-muted: #56695d;
+    --seal: #f0705f;
+    --ochre: #d8aa45;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --paper: #0d1611;
+  --paper-raised: #142019;
+  --ink: #e2e9df;
+  --ink-2: #b3c0b6;
+  --ink-3: #95a399;
+  --rule: #2a3a30;
+  --rule-strong: #4d6153;
+  --engrave: #41a676;
+  --engrave-wash: rgb(65 166 118 / 0.13);
+  --guilloche: #5d9a7c;
+  --bar-muted: #56695d;
+  --seal: #f0705f;
+  --ochre: #d8aa45;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+@media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+h1, h2, h3, p, ol, ul, dl, figure { margin: 0; }
+a { color: inherit; }
+:focus-visible { outline: 3px solid var(--engrave); outline-offset: 3px; border-radius: 2px; }
+.visually-hidden {
+  position: absolute !important; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+.skip {
+  position: absolute; left: 12px; top: -60px; z-index: 20;
+  background: var(--ink); color: var(--paper); padding: 10px 14px; border-radius: 3px;
+}
+.skip:focus { top: 12px; }
+.wrap { max-width: var(--max); margin: 0 auto; padding: 0 var(--gutter); }
+
+/* Masthead */
+.masthead {
+  max-width: var(--max); margin: 0 auto; padding: 18px var(--gutter);
+  display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 6px 24px;
+}
+.wordmark {
+  font-family: var(--serif); font-weight: 600; font-size: 1.3125rem; letter-spacing: -0.005em;
+  text-decoration: none;
+}
+.masthead nav { display: flex; flex-wrap: wrap; gap: 4px 22px; font-size: 0.9375rem; }
+.masthead nav a { color: var(--ink-2); text-decoration: none; padding: 4px 0; }
+.masthead nav a:hover { color: var(--ink); text-decoration: underline; text-underline-offset: 4px; }
+
+/* Buttons */
+.button {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  font: 600 1rem/1 var(--sans); padding: 0.95em 1.35em; min-height: 48px;
+  background: var(--ink); color: var(--paper); border: 0; border-radius: 3px;
+  text-decoration: none; cursor: pointer; transition: background-color 0.15s ease;
+}
+.button:hover { background: var(--engrave); }
+.button--quiet { background: transparent; color: var(--ink); box-shadow: inset 0 0 0 1px var(--rule-strong); }
+.button--quiet:hover { background: var(--engrave-wash); }
+
+/* Hero: the certificate */
+.hero { padding-top: clamp(8px, 2vw, 24px); }
+.certificate {
+  position: relative; isolation: isolate;
+  background: var(--paper-raised);
+  padding: clamp(40px, 6vw, 60px) clamp(34px, 6.5vw, 72px) clamp(36px, 5vw, 52px);
+  border: 4px double var(--guilloche);
+}
+.certificate.has-frame { border-color: transparent; }
+.cert-frame { position: absolute; inset: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
+.cert-frame path, .cert-frame rect { fill: none; stroke: var(--guilloche); stroke-width: 0.7; }
+.cert-frame .medal { fill: var(--paper-raised); stroke: var(--guilloche); stroke-width: 0.7; }
+.cert-body { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: clamp(20px, 4vw, 48px); align-items: center; }
+.cert-text { container-type: inline-size; min-width: 0; }
+.cert-kind { font-family: var(--serif); font-style: italic; font-size: 1.3125rem; line-height: 1.2; }
+.cert-certifies { margin-top: 10px; color: var(--ink-2); font-size: 0.9375rem; max-width: 48ch; }
+.cert-value {
+  font-family: var(--serif); font-weight: 700; font-optical-sizing: auto;
+  font-size: clamp(1.6rem, 9.6cqi, 5.6rem); line-height: 1; letter-spacing: -0.012em;
+  margin: 0.22em 0 0.14em; white-space: nowrap; font-variant-numeric: lining-nums;
+}
+.cert-words { font-family: var(--serif); font-style: italic; font-size: 1.375rem; line-height: 1.2; }
+.cert-emblem { position: relative; width: clamp(150px, 21vw, 236px); aspect-ratio: 1; }
+.rosette { display: block; width: 100%; height: 100%; overflow: visible; }
+.rosette path, .rosette circle { fill: none; stroke: var(--guilloche); stroke-width: var(--sw, 0.6); }
+.rosette.is-drawing path, .rosette.is-drawing circle {
+  stroke-dasharray: 1; stroke-dashoffset: 1;
+  animation: draw 2.1s cubic-bezier(0.55, 0, 0.3, 1) var(--delay, 0s) forwards;
+}
+@keyframes draw { to { stroke-dashoffset: 0; } }
+.cert-stamp { position: absolute; right: -10%; bottom: 4%; transform: rotate(-9deg); }
+.cert-stamp.is-landing { animation: stamp-land 0.36s cubic-bezier(0.2, 0.9, 0.3, 1.25) 2.45s both; }
+@keyframes stamp-land {
+  from { opacity: 0; transform: rotate(-9deg) scale(1.7); }
+  to { opacity: 1; transform: rotate(-9deg) scale(1); }
+}
+.cert-foot {
+  display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 24px;
+  margin-top: clamp(20px, 3vw, 30px); padding-top: 14px; border-top: 1px solid var(--rule);
+  font-size: 0.875rem; color: var(--ink-2);
+}
+.cert-foot em { font-family: var(--serif); color: var(--ink-3); margin-right: 0.5em; }
+
+/* Stamps (verdicts) */
+.stamp {
+  --stamp: var(--seal);
+  display: inline-block; white-space: nowrap;
+  font: 800 1.375rem/1 var(--sans); letter-spacing: 0.01em;
+  padding: 0.42em 0.62em 0.46em; color: var(--stamp);
+  border: 4px double var(--stamp); border-radius: 5px;
+  background: color-mix(in srgb, var(--paper-raised) 72%, transparent);
+  filter: url(#ink-rough);
+}
+.stamp--ochre { --stamp: var(--ochre); }
+.stamp--green { --stamp: var(--engrave); }
+
+.hero-copy {
+  display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 24px clamp(32px, 6vw, 80px);
+  align-items: end; margin-top: clamp(36px, 6vw, 64px);
+}
+.hero-copy h1 {
+  font-family: var(--serif); font-weight: 500; font-size: clamp(2.25rem, 5.2vw, 4.25rem);
+  line-height: 1.02; letter-spacing: -0.018em; max-width: 17ch; text-wrap: balance;
+}
+.lede { font-size: 1.1875rem; color: var(--ink-2); max-width: 44ch; }
+.lede + .button { margin-top: 24px; }
+
+/* Sections */
+.section { padding-top: clamp(80px, 11vw, 140px); }
+.section h2 {
+  font-family: var(--serif); font-weight: 500; font-size: clamp(2rem, 4.4vw, 3.375rem);
+  line-height: 1.04; letter-spacing: -0.015em; max-width: 20ch; text-wrap: balance;
+}
+.section-lede { margin-top: 18px; max-width: 60ch; font-size: 1.125rem; color: var(--ink-2); }
+
+/* Scale */
+.facts {
+  list-style: none; padding: 0; margin-top: clamp(36px, 5vw, 56px);
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px clamp(24px, 4vw, 56px);
+}
+.facts li { border-top: 1px solid var(--ink); padding-top: 18px; }
+.fact-figure {
+  display: block; font-family: var(--serif); font-weight: 600; font-size: clamp(2.75rem, 5.4vw, 4rem);
+  line-height: 1; letter-spacing: -0.015em; margin-bottom: 12px;
+}
+.facts span { color: var(--ink-2); display: block; max-width: 30ch; }
+
+.compare { margin-top: clamp(56px, 7vw, 88px); }
+.figure-head h3 { font: 600 1.125rem/1.35 var(--sans); }
+.figure-head p { color: var(--ink-2); font-size: 0.9375rem; margin-top: 4px; max-width: 64ch; }
+.bars { display: grid; gap: 6px; margin-top: 24px; }
+.bar-row {
+  display: grid; grid-template-columns: minmax(11rem, 17.5rem) minmax(0, 1fr); align-items: center; gap: 4px 20px;
+  padding: 5px 6px; margin: 0 -6px; border-radius: 3px; cursor: default;
+}
+.bar-row:hover, .bar-row:focus-visible { background: var(--engrave-wash); }
+.bar-name { font-size: 0.9375rem; color: var(--ink-2); line-height: 1.35; }
+.bar-row.is-you .bar-name { color: var(--ink); font-weight: 600; }
+.bar-track { display: flex; align-items: center; gap: 10px; min-width: 0; border-left: 1px solid var(--rule-strong); min-height: 30px; }
+.bar {
+  flex: none; height: 20px; min-width: 2px; width: calc((100% - 8.5rem) * var(--f));
+  background: var(--bar-muted); border-radius: 0 4px 4px 0;
+}
+.bar-row.is-you .bar { background: var(--engrave); }
+.bar-value { font-size: 0.9375rem; white-space: nowrap; }
+.bar-row.is-you .bar-value { font-weight: 600; }
+.source { margin-top: 20px; font-size: 0.8125rem; color: var(--ink-3); max-width: 80ch; }
+
+.tip {
+  position: absolute; z-index: 10; pointer-events: none;
+  background: var(--paper-raised); color: var(--ink);
+  border: 1px solid var(--rule-strong); border-radius: 4px; padding: 8px 11px;
+  box-shadow: 0 8px 24px rgb(0 0 0 / 0.14); font-size: 0.8125rem; line-height: 1.45;
+  max-width: 17rem;
+}
+.tip[hidden] { display: none; }
+.tip-value { display: block; font-size: 0.9375rem; font-weight: 700; }
+.tip-sub { display: block; color: var(--ink-2); }
+#bar-tip { position: fixed; }
+
+/* Planner */
+.planner-grid {
+  display: grid; grid-template-columns: minmax(290px, 400px) minmax(0, 1fr);
+  gap: 40px clamp(32px, 6vw, 88px); align-items: start; margin-top: clamp(36px, 5vw, 56px);
+}
+.field { padding: 18px 0 20px; border-top: 1px solid var(--rule); }
+.field:last-child { border-bottom: 1px solid var(--rule); }
+.field-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 10px; }
+.field label, .field .label { font-weight: 600; font-size: 0.9375rem; line-height: 1.3; }
+.field-hint { display: block; font-weight: 400; color: var(--ink-3); font-size: 0.8125rem; }
+.affix {
+  display: inline-flex; align-items: center; gap: 2px; flex: none;
+  border: 1px solid var(--rule-strong); border-radius: 3px; background: var(--paper-raised);
+  padding: 0 0.65em; color: var(--ink-2);
+}
+.affix:focus-within { outline: 2px solid var(--engrave); outline-offset: 1px; }
+.affix input {
+  border: 0; background: transparent; color: var(--ink); outline: none;
+  font: 600 1rem/1 var(--sans);
+  width: 8ch; padding: 0.6em 0; text-align: right;
+}
+.affix--wide { display: flex; }
+.affix--wide input { width: 100%; text-align: left; }
+.affix.is-invalid { border-color: var(--seal); box-shadow: inset 0 0 0 1px var(--seal); }
+.field-msg { color: var(--seal); font-size: 0.875rem; margin-top: 8px; }
+.field-msg:empty { display: none; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+.chip {
+  font: 500 0.875rem/1 var(--sans); padding: 0.55em 0.85em; min-height: 34px;
+  border-radius: 999px; border: 1px solid var(--rule-strong); background: transparent; color: var(--ink);
+  cursor: pointer;
+}
+.chip:hover { background: var(--engrave-wash); }
+.chip[aria-pressed="true"] { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+
+input[type="range"] {
+  --fill: 50%;
+  -webkit-appearance: none; appearance: none; display: block;
+  width: 100%; height: 30px; margin: 0; background: transparent; cursor: pointer;
+}
+input[type="range"]:focus-visible { outline: none; }
+input[type="range"]::-webkit-slider-runnable-track {
+  height: 4px; border-radius: 2px;
+  background: linear-gradient(to right, var(--engrave) var(--fill), var(--rule) var(--fill));
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none; appearance: none; width: 22px; height: 22px; margin-top: -9px;
+  border-radius: 50%; background: var(--paper-raised); border: 2px solid var(--engrave);
+  box-shadow: 0 1px 3px rgb(0 0 0 / 0.2);
+}
+input[type="range"]:focus-visible::-webkit-slider-thumb { box-shadow: 0 0 0 3px var(--paper), 0 0 0 6px var(--engrave); }
+input[type="range"]::-moz-range-track { height: 4px; border-radius: 2px; background: var(--rule); }
+input[type="range"]::-moz-range-progress { height: 4px; border-radius: 2px; background: var(--engrave); }
+input[type="range"]::-moz-range-thumb {
+  width: 18px; height: 18px; border-radius: 50%; background: var(--paper-raised); border: 2px solid var(--engrave);
+}
+input[type="range"]:focus-visible::-moz-range-thumb { box-shadow: 0 0 0 3px var(--paper), 0 0 0 6px var(--engrave); }
+.range-scale { display: flex; justify-content: space-between; font-size: 0.8125rem; color: var(--ink-3); margin-top: 2px; }
+
+.results { position: sticky; top: 20px; transition: opacity 0.2s ease; }
+.results.is-stale { opacity: 0.45; }
+.verdict { display: flex; align-items: flex-start; gap: 20px 24px; padding-bottom: 26px; min-height: 120px; }
+.verdict .stamp { flex: none; margin-top: 4px; transform: rotate(-4deg); font-size: 1.5rem; }
+.verdict p { font-size: 1.125rem; line-height: 1.5; max-width: 48ch; }
+.ledger { border-top: 3px double var(--ink); }
+.ledger-row {
+  display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2px 24px; align-items: baseline;
+  padding: 14px 0 15px; border-bottom: 1px solid var(--rule);
+}
+.ledger dt { font-size: 0.9375rem; color: var(--ink); font-weight: 500; }
+.ledger-value {
+  margin: 0; font-weight: 700; font-size: 1.375rem; line-height: 1.2; text-align: right;
+  white-space: nowrap;
+}
+.ledger-note { grid-column: 1 / -1; margin: 0; font-size: 0.875rem; color: var(--ink-3); max-width: 62ch; }
+
+.trajectory { margin-top: clamp(56px, 7vw, 88px); }
+.chart { position: relative; margin-top: 18px; touch-action: pan-y; }
+.chart svg { display: block; width: 100%; overflow: visible; }
+.chart svg:focus-visible { outline: 3px solid var(--engrave); outline-offset: 6px; }
+.chart .grid { stroke: var(--rule); stroke-width: 1; }
+.chart .axis { stroke: var(--rule-strong); stroke-width: 1; }
+.chart .tick { fill: var(--ink-3); font: 12px var(--sans); }
+.chart .ref { stroke: var(--ink-2); stroke-width: 1; }
+.chart .ref--ceiling { stroke: var(--ink-3); }
+.chart .ref-label { fill: var(--ink-2); font: 500 12px var(--sans); paint-order: stroke; stroke: var(--paper); stroke-width: 5px; stroke-linejoin: round; }
+.chart .dot-label { paint-order: stroke; stroke: var(--paper); stroke-width: 5px; stroke-linejoin: round; }
+.chart .area { fill: var(--engrave-wash); }
+.chart .line { fill: none; stroke: var(--engrave); stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; }
+.chart .dot { fill: var(--engrave); stroke: var(--paper); stroke-width: 2; }
+.chart .dot-label { fill: var(--ink); font: 600 12px var(--sans); }
+.chart .xhair { stroke: var(--ink-3); stroke-width: 1; }
+.chart-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 24px; margin-top: 18px; }
+.table-view summary { cursor: pointer; font-weight: 600; font-size: 0.9375rem; color: var(--ink-2); padding: 6px 0; }
+.table-view summary:hover { color: var(--ink); }
+.table-scroll { max-height: 360px; overflow: auto; margin-top: 10px; border-top: 1px solid var(--rule); }
+.table-view table { width: 100%; border-collapse: collapse; font-size: 0.9375rem; }
+.table-view th, .table-view td { padding: 7px 12px; text-align: right; border-bottom: 1px solid var(--rule); white-space: nowrap; }
+.table-view th:first-child, .table-view td:first-child { text-align: left; padding-left: 0; }
+.table-view th { position: sticky; top: 0; background: var(--paper); font-weight: 600; color: var(--ink-2); }
+.model-note { margin-top: 14px; font-size: 0.875rem; color: var(--ink-3); max-width: 76ch; }
+.planner-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-top: 36px; }
+.copy-status { font-size: 0.9375rem; color: var(--ink-2); }
+
+/* The path */
+.ladder { list-style: none; padding: 0; margin-top: clamp(36px, 5vw, 56px); max-width: 940px; }
+.rung { display: grid; grid-template-columns: 12.5rem minmax(0, 1fr); gap: 8px 40px; padding: 28px 0 30px; border-top: 1px solid var(--rule); }
+.rung:last-child { border-top: 3px double var(--ink); }
+.rung-amount { font-family: var(--serif); font-weight: 500; font-size: clamp(1.875rem, 3.2vw, 2.5rem); line-height: 1; letter-spacing: -0.01em; }
+.rung-amount small { display: block; font: 400 0.875rem/1.4 var(--sans); color: var(--ink-3); letter-spacing: 0; margin-top: 8px; }
+.rung h3 { font: 600 1.25rem/1.3 var(--sans); }
+.rung p { margin-top: 8px; color: var(--ink-2); max-width: 60ch; }
+.path-end { display: flex; flex-wrap: wrap; align-items: center; gap: 20px 32px; margin-top: 40px; }
+.path-end p { font-family: var(--serif); font-style: italic; font-size: 1.375rem; line-height: 1.35; max-width: 34ch; }
+
+.site-foot { margin-top: clamp(96px, 12vw, 160px); border-top: 1px solid var(--rule); }
+.site-foot p { padding: 28px 0 48px; font-size: 0.875rem; color: var(--ink-3); max-width: 76ch; }
+
+/* Responsive */
+@media (max-width: 900px) {
+  .planner-grid { grid-template-columns: minmax(0, 1fr); }
+  .results { position: static; }
+  .hero-copy { grid-template-columns: minmax(0, 1fr); }
+  .facts { grid-template-columns: minmax(0, 1fr); gap: 28px; }
+}
+@media (max-width: 640px) {
+  body { font-size: 1rem; }
+  .cert-body { grid-template-columns: minmax(0, 1fr); }
+  .cert-emblem { order: -1; width: 140px; margin: 0 auto 4px; }
+  .cert-stamp { right: -46%; bottom: 10%; font-size: 1.125rem; }
+  .cert-kind { font-size: 1.125rem; }
+  .cert-words { font-size: 1.125rem; }
+  .bar-row { grid-template-columns: minmax(0, 1fr); }
+  .rung { grid-template-columns: minmax(0, 1fr); padding: 22px 0 24px; }
+  .verdict { flex-direction: column; gap: 16px; min-height: 0; }
+  .ledger-value { font-size: 1.1875rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+@media (forced-colors: active) {
+  .bar, .bar-row.is-you .bar { background: CanvasText; forced-color-adjust: none; }
+  .stamp { filter: none; }
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#planner">Skip to the calculator</a>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <filter id="ink-rough" x="-5%" y="-10%" width="110%" height="120%">
+    <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="7" result="noise"/>
+    <feDisplacementMap in="SourceGraphic" in2="noise" scale="1.8" xChannelSelector="R" yChannelSelector="G"/>
+  </filter>
+</svg>
+
+<header class="masthead">
+  <a class="wordmark" href="#top">The Trillion Test</a>
+  <nav aria-label="Sections">
+    <a href="#scale">The scale</a>
+    <a href="#planner">Test your business</a>
+    <a href="#path">The path</a>
+  </nav>
+</header>
+
+<main id="top">
+  <section class="hero wrap" aria-labelledby="hero-title">
+    <div class="certificate" id="certificate">
+      <svg class="cert-frame" id="cert-frame" aria-hidden="true" focusable="false"></svg>
+      <div class="cert-body">
+        <div class="cert-text">
+          <p class="cert-kind">Certificate of monthly revenue</p>
+          <p class="cert-certifies">This certifies that one website has earned, within a single calendar month, the sum of</p>
+          <p class="cert-value" aria-label="1 trillion dollars">$1,000,000,000,000</p>
+          <p class="cert-words">One trillion US dollars</p>
+        </div>
+        <div class="cert-emblem">
+          <svg class="rosette" id="rosette" viewBox="-120 -120 240 240" aria-hidden="true" focusable="false"></svg>
+          <span class="stamp cert-stamp" id="cert-stamp">Unissued</span>
+        </div>
+      </div>
+      <div class="cert-foot">
+        <p><em>Issued to</em>no one, ever</p>
+        <p><em>Serial</em>TT 000 000 000 001</p>
+      </div>
+    </div>
+
+    <div class="hero-copy">
+      <h1 id="hero-title">No website has ever earned a trillion dollars in a month.</h1>
+      <div>
+        <p class="lede">No company or government has either. This page shows what it would take, lets you run any business through the same math, and lays out the path that actually exists.</p>
+        <a class="button" href="#planner">Test your business</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="scale" aria-labelledby="scale-title">
+    <div class="wrap">
+      <h2 id="scale-title">How big is a trillion a month?</h2>
+      <p class="section-lede">Bigger than anything that exists today. Here are three ways to picture it, and how it compares with the largest companies on Earth.</p>
+
+      <ul class="facts">
+        <li><strong class="fact-figure">$380,000</strong><span>every second, day and night, for the whole month.</span></li>
+        <li><strong class="fact-figure">$122</strong><span>from every person alive, newborns included, every single month.</span></li>
+        <li><strong class="fact-figure">11%</strong><span>of everything the world economy produces, which is about $110 trillion a year.</span></li>
+      </ul>
+
+      <figure class="compare" aria-labelledby="compare-title">
+        <figcaption class="figure-head">
+          <h3 id="compare-title">Annual revenue, in US dollars</h3>
+          <p>The green bar is a website earning $1 trillion every month for a year. The rest are real.</p>
+        </figcaption>
+        <div class="bars" role="list" id="bars">
+          <div class="bar-row is-you" role="listitem" tabindex="0" data-name="A website earning $1 trillion a month" data-value="$12 trillion a year" data-note="Twelve months at $1 trillion each.">
+            <span class="bar-name">A website earning $1 trillion a month</span>
+            <span class="bar-track"><span class="bar" style="--f:1"></span><span class="bar-value">$12 trillion</span></span>
+          </div>
+          <div class="bar-row" role="listitem" tabindex="0" data-name="US federal government receipts, fiscal 2024" data-value="$4.92 trillion" data-note="The trillion-a-month website would take in 2.4 times as much.">
+            <span class="bar-name">US federal government receipts, fiscal 2024</span>
+            <span class="bar-track"><span class="bar" style="--f:0.41"></span><span class="bar-value">$4.92 trillion</span></span>
+          </div>
+          <div class="bar-row" role="listitem" tabindex="0" data-name="Walmart, fiscal 2025" data-value="$681 billion" data-note="The largest company on Earth by revenue. The website would be 17.6 times bigger.">
+            <span class="bar-name">Walmart, fiscal 2025</span>
+            <span class="bar-track"><span class="bar" style="--f:0.05675"></span><span class="bar-value">$681 billion</span></span>
+          </div>
+          <div class="bar-row" role="listitem" tabindex="0" data-name="Amazon, 2024" data-value="$638 billion" data-note="The website would be 18.8 times bigger.">
+            <span class="bar-name">Amazon, 2024</span>
+            <span class="bar-track"><span class="bar" style="--f:0.05317"></span><span class="bar-value">$638 billion</span></span>
+          </div>
+          <div class="bar-row" role="listitem" tabindex="0" data-name="Apple, fiscal 2024" data-value="$391 billion" data-note="The website would be 30.7 times bigger.">
+            <span class="bar-name">Apple, fiscal 2024</span>
+            <span class="bar-track"><span class="bar" style="--f:0.03258"></span><span class="bar-value">$391 billion</span></span>
+          </div>
+          <div class="bar-row" role="listitem" tabindex="0" data-name="Alphabet, 2024" data-value="$350 billion" data-note="Google's parent company. The website would be 34.3 times bigger.">
+            <span class="bar-name">Alphabet, 2024</span>
+            <span class="bar-track"><span class="bar" style="--f:0.02917"></span><span class="bar-value">$350 billion</span></span>
+          </div>
+          <div class="bar-row" role="listitem" tabindex="0" data-name="Microsoft, fiscal 2024" data-value="$245 billion" data-note="The website would be 49 times bigger.">
+            <span class="bar-name">Microsoft, fiscal 2024</span>
+            <span class="bar-track"><span class="bar" style="--f:0.02043"></span><span class="bar-value">$245 billion</span></span>
+          </div>
+        </div>
+        <p class="source">Company figures are reported annual revenue for the fiscal year shown, rounded. US receipts are from the Congressional Budget Office. World output is the IMF's estimate for 2024.</p>
+      </figure>
+    </div>
+  </section>
+
+  <section class="section" id="planner" aria-labelledby="planner-title">
+    <div class="wrap">
+      <h2 id="planner-title">Test your business</h2>
+      <p class="section-lede">Pick a monthly target and a price. You'll see how many customers that takes, how much traffic you need to win them, and how long it takes at a growth rate you can keep up. It starts at a trillion. Try a number you could actually hit.</p>
+      <noscript><p class="section-lede"><strong>The calculator needs JavaScript. Turn it on to run your numbers.</strong></p></noscript>
+
+      <div class="planner-grid">
+        <form class="controls" id="controls" novalidate>
+          <div class="field">
+            <div class="field-head"><label for="target-input">Monthly revenue target</label></div>
+            <div class="chips" role="group" aria-label="Target presets">
+              <button type="button" class="chip" data-target="10000">$10K</button>
+              <button type="button" class="chip" data-target="1000000">$1M</button>
+              <button type="button" class="chip" data-target="100000000">$100M</button>
+              <button type="button" class="chip" data-target="56750000000">Walmart ($57B)</button>
+              <button type="button" class="chip" data-target="1000000000000">$1T</button>
+            </div>
+            <span class="affix affix--wide"><span aria-hidden="true">$</span><input id="target-input" type="text" inputmode="decimal" autocomplete="off" spellcheck="false" aria-describedby="target-msg target-hint"></span>
+            <p class="field-hint" id="target-hint" style="margin-top:6px">Shorthand works: 250k, 3.5m, 2b, 1t.</p>
+            <p class="field-msg" id="target-msg" aria-live="polite"></p>
+          </div>
+
+          <div class="field">
+            <div class="field-head">
+              <label for="price-input">Price per customer<span class="field-hint">Charged every month</span></label>
+              <span class="affix"><span aria-hidden="true">$</span><input id="price-input" type="text" inputmode="decimal" autocomplete="off" spellcheck="false" aria-describedby="price-msg"></span>
+            </div>
+            <input type="range" id="price-range" min="0" max="1000" step="1" aria-label="Price per customer, per month">
+            <div class="range-scale" aria-hidden="true"><span>$1</span><span>$1,000</span><span>$1M</span></div>
+            <p class="field-msg" id="price-msg" aria-live="polite"></p>
+          </div>
+
+          <div class="field">
+            <div class="field-head">
+              <label for="start-input">Revenue today<span class="field-hint">Per month, where you start from</span></label>
+              <span class="affix"><span aria-hidden="true">$</span><input id="start-input" type="text" inputmode="decimal" autocomplete="off" spellcheck="false" aria-describedby="start-msg"></span>
+            </div>
+            <p class="field-msg" id="start-msg" aria-live="polite"></p>
+          </div>
+
+          <div class="field">
+            <div class="field-head">
+              <label for="growth-input">Monthly growth<span class="field-hint">After cancellations</span></label>
+              <span class="affix"><input id="growth-input" type="text" inputmode="decimal" autocomplete="off" spellcheck="false" aria-describedby="growth-msg"><span aria-hidden="true">%</span></span>
+            </div>
+            <input type="range" id="growth-range" min="0.5" max="50" step="0.5" aria-label="Monthly growth rate">
+            <div class="range-scale" aria-hidden="true"><span>0.5%</span><span>50%</span></div>
+            <p class="field-msg" id="growth-msg" aria-live="polite"></p>
+          </div>
+
+          <div class="field">
+            <div class="field-head">
+              <label for="conv-input">Visitors who buy<span class="field-hint">Conversion rate</span></label>
+              <span class="affix"><input id="conv-input" type="text" inputmode="decimal" autocomplete="off" spellcheck="false" aria-describedby="conv-msg"><span aria-hidden="true">%</span></span>
+            </div>
+            <input type="range" id="conv-range" min="0.1" max="20" step="0.1" aria-label="Conversion rate">
+            <div class="range-scale" aria-hidden="true"><span>0.1%</span><span>20%</span></div>
+            <p class="field-msg" id="conv-msg" aria-live="polite"></p>
+          </div>
+
+          <div class="field">
+            <div class="field-head">
+              <label for="churn-input">Customers who cancel<span class="field-hint">Each month</span></label>
+              <span class="affix"><input id="churn-input" type="text" inputmode="decimal" autocomplete="off" spellcheck="false" aria-describedby="churn-msg"><span aria-hidden="true">%</span></span>
+            </div>
+            <input type="range" id="churn-range" min="0" max="20" step="0.5" aria-label="Monthly cancellation rate">
+            <div class="range-scale" aria-hidden="true"><span>0%</span><span>20%</span></div>
+            <p class="field-msg" id="churn-msg" aria-live="polite"></p>
+          </div>
+        </form>
+
+        <div class="results" id="results">
+          <div class="verdict" aria-live="polite" aria-atomic="true">
+            <span class="stamp" id="verdict-stamp">—</span>
+            <p id="verdict-text">Set your numbers to see the verdict.</p>
+          </div>
+          <dl class="ledger">
+            <div class="ledger-row"><dt>Paying customers</dt><dd class="ledger-value" id="out-customers">—</dd><dd class="ledger-note" id="out-customers-note"></dd></div>
+            <div class="ledger-row"><dt>New customers a month to stay level</dt><dd class="ledger-value" id="out-replace">—</dd><dd class="ledger-note" id="out-replace-note"></dd></div>
+            <div class="ledger-row"><dt>Visitors needed each month</dt><dd class="ledger-value" id="out-visitors">—</dd><dd class="ledger-note" id="out-visitors-note"></dd></div>
+            <div class="ledger-row"><dt>Time to get there</dt><dd class="ledger-value" id="out-time">—</dd><dd class="ledger-note" id="out-time-note"></dd></div>
+            <div class="ledger-row"><dt id="out-rate-label">Revenue every second</dt><dd class="ledger-value" id="out-rate">—</dd><dd class="ledger-note" id="out-rate-note"></dd></div>
+          </dl>
+        </div>
+      </div>
+
+      <figure class="trajectory" aria-labelledby="chart-title">
+        <figcaption class="figure-head">
+          <h3 id="chart-title">Monthly revenue over time</h3>
+          <p id="chart-sub"></p>
+        </figcaption>
+        <div class="chart" id="chart">
+          <svg id="chart-svg" tabindex="0" role="img" aria-labelledby="chart-title chart-sub" aria-describedby="chart-keys"></svg>
+          <div class="tip" id="chart-tip" hidden aria-hidden="true"></div>
+        </div>
+        <p class="visually-hidden" id="chart-keys">Use the left and right arrow keys to move through the months.</p>
+        <div class="chart-actions">
+          <details class="table-view">
+            <summary>Show these numbers as a table</summary>
+            <div class="table-scroll">
+              <table>
+                <thead><tr><th scope="col">Month</th><th scope="col">Monthly revenue</th><th scope="col">Paying customers</th></tr></thead>
+                <tbody id="chart-table"></tbody>
+              </table>
+            </div>
+          </details>
+        </div>
+        <p class="model-note">How the model works: revenue compounds at your growth rate and slows as paying customers approach the number of people alive (8.2 billion), because nobody can sell to more people than exist. Real companies usually slow down long before that, so treat every date here as the best case.</p>
+      </figure>
+
+      <div class="planner-actions">
+        <button type="button" class="button" id="copy-plan">Copy plan</button>
+        <button type="button" class="button button--quiet" id="reset">Reset to $1 trillion</button>
+        <span class="copy-status" id="copy-status" role="status"></span>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="path" aria-labelledby="path-title">
+    <div class="wrap">
+      <h2 id="path-title">The path that actually exists</h2>
+      <p class="section-lede">Every large business climbed the same rungs in the same order. Here is what each one asks of you, from the first dollar to the trillion nobody has reached.</p>
+
+      <ol class="ladder">
+        <li class="rung">
+          <p class="rung-amount">$1<small>once</small></p>
+          <div>
+            <h3>One stranger pays you</h3>
+            <p>Before the logo, the company name or the pitch deck, put a price on the thing and ask someone you don't know to pay it. If nobody will, you've learned that in a week instead of a year.</p>
+          </div>
+        </li>
+        <li class="rung">
+          <p class="rung-amount">$10,000<small>a month</small></p>
+          <div>
+            <h3>A few hundred people keep paying</h3>
+            <p>At $30 a month that's 334 customers, few enough to win one at a time by email, calls and showing up where they are. Watch who cancels: if more than about 5% leave each month, that will cap you no matter how fast you sell.</p>
+          </div>
+        </li>
+        <li class="rung">
+          <p class="rung-amount">$1 million<small>a month</small></p>
+          <div>
+            <h3>Money goes in, customers come out</h3>
+            <p>You have at least one channel where spending a dollar predictably brings back customers. A common rule: each customer should be worth about three times what it cost to win them. This is where you start hiring.</p>
+          </div>
+        </li>
+        <li class="rung">
+          <p class="rung-amount">$100 million<small>a month</small></p>
+          <div>
+            <h3>$1.2 billion a year</h3>
+            <p>Several products, several countries, and an organization that keeps working while you sleep. Most companies that reach this size took a decade or more to get here.</p>
+          </div>
+        </li>
+        <li class="rung">
+          <p class="rung-amount">$57 billion<small>a month</small></p>
+          <div>
+            <h3>Walmart</h3>
+            <p>The largest company on Earth by revenue, with more than 10,000 stores and about 2.1 million employees. No business has ever been bigger.</p>
+          </div>
+        </li>
+        <li class="rung">
+          <p class="rung-amount">$1 trillion<small>a month</small></p>
+          <div>
+            <h3>17.6 Walmarts</h3>
+            <p>At this size you aren't a business inside the world economy; you're a tenth of it. No website, company or government has been here, and the math above shows why.</p>
+          </div>
+        </li>
+      </ol>
+
+      <div class="path-end">
+        <p>The step that leads toward a trillion is the same one that leads to ten thousand.</p>
+        <button type="button" class="button" id="plan-first">Plan your first $10,000 a month</button>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-foot">
+  <div class="wrap">
+    <p>The Trillion Test is a single HTML file with no tracking, no sign-up and nothing to buy. Company figures are rounded public numbers. The growth curve is a model, not a forecast.</p>
+  </div>
+</footer>
+
+<div class="tip" id="bar-tip" hidden aria-hidden="true"></div>
+
+<script>
+(() => {
+  'use strict';
+
+  /* ---------- Constants ---------- */
+  const POP = 8.2e9;                              // people alive, approx. 2025
+  const SECONDS_PER_MONTH = (365.25 / 12) * 86400; // 2,629,800
+  const WALMART_MONTH = 681e9 / 12;               // FY2025 revenue / 12
+  const MAX_MONTHS = 1200;                        // 100 years
+  const TAU = Math.PI * 2;
+  const NS = 'http://www.w3.org/2000/svg';
+  const DEFAULTS = { target: 1e12, price: 20, start: 1000, growth: 0.10, conv: 0.02, churn: 0.05 };
+  const FIRST_10K = { target: 1e4, price: 30, start: 300, growth: 0.10, conv: 0.02, churn: 0.05 };
+  const state = { ...DEFAULTS };
+  const $ = (id) => document.getElementById(id);
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const clamp = (v, lo, hi) => Math.min(hi, Math.max(lo, v));
+  const now = new Date();
+  const baseYear = now.getFullYear();
+  const baseMonth = now.getMonth();
+
+  /* ---------- Formatting ---------- */
+  const SCALE = [[1e15, 'quadrillion'], [1e12, 'trillion'], [1e9, 'billion'], [1e6, 'million']];
+  function words(n) {
+    if (!Number.isFinite(n)) return '—';
+    const a = Math.abs(n);
+    const sign = n < 0 ? '-' : '';
+    if (a >= 1e6) {
+      let i = SCALE.findIndex(([v]) => a >= v);
+      let r = Number((a / SCALE[i][0]).toPrecision(3));
+      if (r >= 1000 && i > 0) { i -= 1; r = Number((a / SCALE[i][0]).toPrecision(3)); }
+      return sign + r.toLocaleString('en-US', { maximumFractionDigits: 2 }) + ' ' + SCALE[i][1];
+    }
+    if (a >= 100) return sign + Math.round(a).toLocaleString('en-US');
+    return sign + String(Number(a.toPrecision(3)));
+  }
+  function money(n) {
+    if (!Number.isFinite(n)) return '—';
+    const a = Math.abs(n);
+    if (a < 100 && !Number.isInteger(Number(a.toFixed(2)))) return (n < 0 ? '-$' : '$') + a.toFixed(2);
+    if (a < 100) return (n < 0 ? '-$' : '$') + a.toFixed(0);
+    return (n < 0 ? '-$' : '$') + words(a);
+  }
+  function count(n) {
+    if (!Number.isFinite(n)) return '—';
+    if (n >= 1e6) return words(n);
+    return Math.ceil(n - 1e-9).toLocaleString('en-US');
+  }
+  function pctTxt(f) { return Number((f * 100).toPrecision(3)) + '%'; }
+  function share(f) {
+    const p = f * 100;
+    if (p < 1) return 'less than 1%';
+    return Math.floor(p) + '%';
+  }
+  function plain(n) { return n.toLocaleString('en-US', { maximumFractionDigits: 2 }); }
+  function monthDate(i, style) {
+    const d = new Date(baseYear, baseMonth + i, 1);
+    return d.toLocaleDateString('en-US', { month: style || 'short', year: 'numeric' });
+  }
+  function duration(m) {
+    const y = Math.floor(m / 12), mo = m % 12;
+    const parts = [];
+    if (y) parts.push(y + (y === 1 ? ' year' : ' years'));
+    if (mo) parts.push(mo + (mo === 1 ? ' month' : ' months'));
+    return parts.join(', ') || 'This month';
+  }
+  function axisMoney(v) {
+    const units = [[1e15, 'Q'], [1e12, 'T'], [1e9, 'B'], [1e6, 'M'], [1e3, 'K']];
+    for (const [u, s] of units) if (v >= u) return '$' + plain(Number((v / u).toPrecision(3))) + s;
+    return '$' + plain(Number(v.toPrecision(3)));
+  }
+  function earthPhrase(c) {
+    const r = c / POP;
+    if (r >= 1) return `${Number(r.toPrecision(2))}× everyone alive.`;
+    if (r >= 0.01) return `${Math.round(r * 100)}% of everyone alive.`;
+    return `About 1 in every ${words(POP / Math.max(c, 1))} people alive.`;
+  }
+
+  /* ---------- Parsing ---------- */
+  const MULT = { k: 1e3, thousand: 1e3, m: 1e6, mm: 1e6, mn: 1e6, million: 1e6, b: 1e9, bn: 1e9, billion: 1e9, t: 1e12, tn: 1e12, trillion: 1e12, q: 1e15, quadrillion: 1e15 };
+  function parseMoney(str) {
+    const s = String(str).trim().toLowerCase().replace(/[$,\s_]/g, '');
+    if (/^\d+(\.\d+)?e\+?\d+$/.test(s)) return Number(s);
+    const m = s.match(/^(\d+(?:\.\d+)?|\.\d+)([a-z]*)$/);
+    if (!m) return NaN;
+    const mult = m[2] ? MULT[m[2]] : 1;
+    return mult ? parseFloat(m[1]) * mult : NaN;
+  }
+  function parsePct(str) {
+    const s = String(str).trim().replace(/[%\s]/g, '');
+    return /^(\d+(\.\d+)?|\.\d+)$/.test(s) ? parseFloat(s) / 100 : NaN;
+  }
+  function niceRound(p) {
+    const digits = Math.floor(Math.log10(p));
+    const step = Math.pow(10, digits - 1);
+    return Number((Math.round(p / step) * step).toPrecision(2));
+  }
+
+  /* ---------- Fields ---------- */
+  const MONEY_ERR = 'Enter an amount such as 20, 1,500 or 2.5m.';
+  const PCT_ERR = 'Enter a percentage such as 2 or 0.5.';
+  const FIELDS = {
+    target: { input: 'target-input', msg: 'target-msg', kind: 'money', min: 1, max: 1e18,
+      rangeErr: (v) => v < 1 ? 'Enter a target of at least $1 a month.' : 'Keep the target under $1 quintillion a month.' },
+    price: { input: 'price-input', range: 'price-range', msg: 'price-msg', kind: 'money', min: 0.01, max: 1e9,
+      toRange: (p) => clamp(Math.log10(p) / 6 * 1000, 0, 1000),
+      fromRange: (v) => niceRound(Math.pow(10, v / 1000 * 6)),
+      valueText: (p) => `${money(p)} a month`,
+      rangeErr: (v) => v < 0.01 ? 'Enter a price of at least 1 cent.' : 'Enter a price under $1 billion a month.' },
+    start: { input: 'start-input', msg: 'start-msg', kind: 'money', min: 0.01, max: 1e18,
+      rangeErr: (v) => v < 0.01 ? 'Enter a starting revenue above $0. Growth needs something to grow.' : 'Enter a starting revenue under $1 quintillion.' },
+    growth: { input: 'growth-input', range: 'growth-range', msg: 'growth-msg', kind: 'pct', min: 0.001, max: 1,
+      toRange: (f) => f * 100, fromRange: (v) => Number((v / 100).toFixed(6)),
+      valueText: (f) => `${pctTxt(f)} a month`,
+      rangeErr: () => 'Use a growth rate above 0% and no higher than 100%.' },
+    conv: { input: 'conv-input', range: 'conv-range', msg: 'conv-msg', kind: 'pct', min: 0.0001, max: 1,
+      toRange: (f) => f * 100, fromRange: (v) => Number((v / 100).toFixed(6)),
+      valueText: (f) => `${pctTxt(f)} of visitors`,
+      rangeErr: () => 'Use a conversion rate above 0% and no higher than 100%.' },
+    churn: { input: 'churn-input', range: 'churn-range', msg: 'churn-msg', kind: 'pct', min: 0, max: 1,
+      toRange: (f) => f * 100, fromRange: (v) => Number((v / 100).toFixed(6)),
+      valueText: (f) => `${pctTxt(f)} a month`,
+      rangeErr: () => 'Use a cancellation rate from 0% to 100%.' },
+  };
+  const invalid = new Set();
+
+  function display(key) {
+    const f = FIELDS[key];
+    return f.kind === 'money' ? plain(state[key]) : String(Number((state[key] * 100).toPrecision(4)));
+  }
+  function paintRange(r) {
+    const min = Number(r.min), max = Number(r.max);
+    r.style.setProperty('--fill', ((Number(r.value) - min) / (max - min) * 100) + '%');
+  }
+  function syncRange(key) {
+    const f = FIELDS[key];
+    if (!f.range) return;
+    const r = $(f.range);
+    r.value = String(f.toRange(state[key]));
+    r.setAttribute('aria-valuetext', f.valueText(state[key]));
+    paintRange(r);
+  }
+  function setError(key, message) {
+    const f = FIELDS[key];
+    const input = $(f.input);
+    input.setAttribute('aria-invalid', 'true');
+    input.parentElement.classList.add('is-invalid');
+    $(f.msg).textContent = message;
+    invalid.add(key);
+    $('results').classList.toggle('is-stale', invalid.size > 0);
+  }
+  function clearError(key) {
+    const f = FIELDS[key];
+    const input = $(f.input);
+    input.removeAttribute('aria-invalid');
+    input.parentElement.classList.remove('is-invalid');
+    $(f.msg).textContent = '';
+    invalid.delete(key);
+    $('results').classList.toggle('is-stale', invalid.size > 0);
+  }
+  function syncAll() {
+    for (const key of Object.keys(FIELDS)) {
+      $(FIELDS[key].input).value = display(key);
+      syncRange(key);
+      clearError(key);
+    }
+  }
+  function syncChips() {
+    document.querySelectorAll('.chip').forEach((c) => {
+      c.setAttribute('aria-pressed', String(Number(c.dataset.target) === state.target));
+    });
+  }
+
+  for (const [key, f] of Object.entries(FIELDS)) {
+    const input = $(f.input);
+    input.addEventListener('input', () => {
+      const v = f.kind === 'money' ? parseMoney(input.value) : parsePct(input.value);
+      if (!Number.isFinite(v)) return setError(key, f.kind === 'money' ? MONEY_ERR : PCT_ERR);
+      if (v < f.min || v > f.max) return setError(key, f.rangeErr(v));
+      clearError(key);
+      state[key] = v;
+      syncRange(key);
+      schedule();
+    });
+    input.addEventListener('change', () => {
+      if (!invalid.has(key)) input.value = display(key);
+    });
+    if (f.range) {
+      const r = $(f.range);
+      r.addEventListener('input', () => {
+        state[key] = f.fromRange(Number(r.value));
+        clearError(key);
+        input.value = display(key);
+        r.setAttribute('aria-valuetext', f.valueText(state[key]));
+        paintRange(r);
+        schedule();
+      });
+    }
+  }
+  document.querySelectorAll('.chip').forEach((chip) => {
+    chip.addEventListener('click', () => {
+      state.target = Number(chip.dataset.target);
+      clearError('target');
+      $('target-input').value = display('target');
+      schedule();
+    });
+  });
+  $('controls').addEventListener('submit', (e) => e.preventDefault());
+
+  /* ---------- Model ---------- */
+  function simulate(s, ceiling) {
+    let m = Math.min(s.start, ceiling);
+    const series = [m];
+    let reached = m >= s.target ? 0 : -1;
+    let saturated = m >= ceiling * 0.99 ? 0 : -1;
+    for (let i = 1; i <= MAX_MONTHS; i++) {
+      m = m + s.growth * m * (1 - m / ceiling);
+      series.push(m);
+      if (reached < 0 && m >= s.target) reached = i;
+      if (saturated < 0 && m >= ceiling * 0.99) saturated = i;
+    }
+    let N;
+    if (reached >= 0) N = Math.max(12, Math.ceil(reached * 1.15) + 1);
+    else if (saturated >= 0) N = Math.max(24, Math.ceil(saturated * 1.15));
+    else N = MAX_MONTHS;
+    return { series, reached, N: Math.min(N, MAX_MONTHS), startClamped: s.start > ceiling };
+  }
+
+  function compute(s) {
+    const customers = s.target / s.price;
+    const ceiling = s.price * POP;
+    const replace = customers * s.churn;
+    const visitors = replace / s.conv;
+    const sim = simulate(s, ceiling);
+    return { customers, ceiling, replace, visitors, minPrice: s.target / POP, ...sim };
+  }
+
+  function verdict(s, r) {
+    const yearly = money(s.target * 12);
+    if (s.target > r.ceiling) {
+      return { tone: '', word: 'Impossible',
+        text: `Even if all 8.2 billion people alive paid you ${money(s.price)} a month, you'd bring in ${money(r.ceiling)}, which is ${share(r.ceiling / s.target)} of your target. With everyone on Earth paying, you'd have to charge at least ${money(r.minPrice)} a month each.` };
+    }
+    if (r.reached === 0) {
+      return { tone: 'green', word: 'Done', text: 'Your revenue today already meets this target. Set a bigger one.' };
+    }
+    if (r.reached < 0) {
+      return { tone: '', word: 'Not this century',
+        text: `Growing ${pctTxt(s.growth)} a month, you'd still be short after 100 years. Raise the growth rate or the price, or lower the target.` };
+    }
+    if (s.target >= WALMART_MONTH) {
+      return { tone: '', word: 'Unprecedented',
+        text: `That's more than Walmart, the largest company on Earth by revenue, takes in each month (about $57 billion). The math says you'd get there by ${monthDate(r.reached, 'long')}. No business ever has.` };
+    }
+    if (s.target >= 1e9) {
+      return { tone: 'ochre', word: 'Rare',
+        text: `${yearly} a year, enough to make the Fortune 500. Most companies that size took decades to build.` };
+    }
+    if (s.target >= 1e7) {
+      return { tone: 'ochre', word: 'Hard',
+        text: `${yearly} a year. That takes a real company with a team behind it, and most startups never get there.` };
+    }
+    if (s.target >= 1e5) {
+      return { tone: 'green', word: 'Within reach',
+        text: `${yearly} a year. A small team with a product people keep paying for can get here.` };
+    }
+    return { tone: 'green', word: 'Doable',
+      text: 'Small enough for one person with a good offer. The hard part is the first customer.' };
+  }
+
+  /* ---------- Rendering: ledger ---------- */
+  let last = null;
+  function renderLedger(s, r, v) {
+    const stamp = $('verdict-stamp');
+    stamp.className = 'stamp' + (v.tone ? ' stamp--' + v.tone : '');
+    stamp.textContent = v.word;
+    $('verdict-text').textContent = v.text;
+
+    $('out-customers').textContent = count(r.customers);
+    $('out-customers-note').textContent = `At ${money(s.price)} each. ${earthPhrase(r.customers)}`;
+
+    $('out-replace').textContent = s.churn > 0 ? count(r.replace) : '0';
+    $('out-replace-note').textContent = s.churn > 0
+      ? `Replaces the ${pctTxt(s.churn)} who cancel every month.`
+      : 'Nobody cancels, so there is no one to replace.';
+
+    $('out-visitors').textContent = s.churn > 0 ? count(r.visitors) : '0';
+    let vNote = `To win those customers when ${pctTxt(s.conv)} of visitors buy.`;
+    if (s.churn > 0 && r.visitors >= POP) vNote += ` That's ${Number((r.visitors / POP).toPrecision(2))} visits from every person alive, every month.`;
+    $('out-visitors-note').textContent = vNote;
+
+    let time, tNote;
+    if (s.target > r.ceiling) {
+      time = 'Never';
+      tNote = `Revenue levels off near ${money(r.ceiling)} a month, the point where everyone alive is paying.`;
+    } else if (r.reached === 0) {
+      time = 'Already there';
+      tNote = 'Your revenue today meets the target.';
+    } else if (r.reached < 0) {
+      time = 'Over 100 years';
+      tNote = `Growing ${pctTxt(s.growth)} a month isn't enough within a century.`;
+    } else {
+      time = duration(r.reached);
+      tNote = `Around ${monthDate(r.reached, 'long')}, growing ${pctTxt(s.growth)} every month without a single slow one.`;
+    }
+    if (r.startClamped) tNote += ' Your revenue today implies more customers than people alive, so the model starts from everyone paying.';
+    $('out-time').textContent = time;
+    $('out-time-note').textContent = tNote;
+
+    const units = [['second', 1], ['minute', 60], ['hour', 3600], ['day', 86400]];
+    let unit = units[units.length - 1];
+    for (const u of units) { if (s.target / SECONDS_PER_MONTH * u[1] >= 1) { unit = u; break; } }
+    $('out-rate-label').textContent = `Revenue every ${unit[0]}`;
+    $('out-rate').textContent = money(s.target / SECONDS_PER_MONTH * unit[1]);
+    $('out-rate-note').textContent = `${money(s.target * 12)} a year.`;
+  }
+
+  /* ---------- Rendering: chart ---------- */
+  const svg = $('chart-svg');
+  const tip = $('chart-tip');
+  let geo = null;
+  let focusIdx = null;
+
+  function sv(name, attrs, parent) {
+    const n = document.createElementNS(NS, name);
+    for (const k in attrs) n.setAttribute(k, attrs[k]);
+    if (parent) parent.appendChild(n);
+    return n;
+  }
+
+  function renderChart(s, r) {
+    const W = Math.max(280, Math.round($('chart').clientWidth));
+    const small = W < 560;
+    const H = small ? 260 : 330;
+    const m = { t: 30, r: small ? 10 : 18, b: 32, l: small ? 46 : 56 };
+    const iw = W - m.l - m.r, ih = H - m.t - m.b;
+    const N = r.N;
+    const data = r.series.slice(0, N + 1);
+    let maxV = s.target, minV = Infinity;
+    for (const v of data) { if (v > maxV) maxV = v; if (v < minV) minV = v; }
+    let loE = Math.floor(Math.log10(minV));
+    let hiE = Math.ceil(Math.log10(maxV) - 1e-9);
+    if (hiE <= loE) hiE = loE + 1;
+    const step = hiE - loE > 6 ? 3 : 1;
+    if (step === 3) { loE = Math.floor(loE / 3) * 3; hiE = Math.ceil(hiE / 3) * 3; }
+    const y = (v) => m.t + ih - (Math.log10(v) - loE) / (hiE - loE) * ih;
+    const x = (i) => m.l + (i / N) * iw;
+    const base = m.t + ih;
+
+    svg.textContent = '';
+    svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+    svg.setAttribute('width', W);
+    svg.setAttribute('height', H);
+
+    // Y grid + ticks
+    const gGrid = sv('g', {}, svg);
+    for (let e = loE; e <= hiE; e += step) {
+      const yy = y(Math.pow(10, e));
+      sv('line', { class: e === loE ? 'axis' : 'grid', x1: m.l, x2: m.l + iw, y1: yy, y2: yy }, gGrid);
+      const t = sv('text', { class: 'tick', x: m.l - 8, y: yy + 4, 'text-anchor': 'end' }, gGrid);
+      t.textContent = axisMoney(Math.pow(10, e));
+    }
+
+    // X ticks: January of every stepY-th year
+    const years = N / 12;
+    const maxTicks = small ? 4 : 7;
+    const stepY = [1, 2, 5, 10, 20, 25, 50].find((st) => years / st <= maxTicks) || 50;
+    for (let i = 0; i <= N; i++) {
+      if ((baseMonth + i) % 12 !== 0) continue;
+      const yr = baseYear + Math.floor((baseMonth + i) / 12);
+      if (yr % stepY !== 0) continue;
+      const xx = x(i);
+      sv('line', { class: 'axis', x1: xx, x2: xx, y1: base, y2: base + 5 }, gGrid);
+      const anchor = xx > m.l + iw - 18 ? 'end' : (xx < m.l + 18 ? 'start' : 'middle');
+      const t = sv('text', { class: 'tick', x: xx, y: base + 20, 'text-anchor': anchor }, gGrid);
+      t.textContent = String(yr);
+    }
+
+    // Area + line
+    let d = '';
+    for (let i = 0; i <= N; i++) d += (i ? 'L' : 'M') + x(i).toFixed(1) + ' ' + y(data[i]).toFixed(1);
+    sv('path', { class: 'area', d: `${d}L${x(N).toFixed(1)} ${base}L${x(0).toFixed(1)} ${base}Z` }, svg);
+
+    // Reference lines
+    const refs = [{ v: s.target, cls: 'ref', label: `Target: ${money(s.target)} a month` }];
+    const lo = Math.pow(10, loE), hi = Math.pow(10, hiE);
+    if (r.ceiling >= lo && r.ceiling <= hi && Math.abs(Math.log10(r.ceiling / s.target)) > 0.004) {
+      refs.push({ v: r.ceiling, cls: 'ref ref--ceiling', label: `Everyone alive paying ${money(s.price)}: ${money(r.ceiling)}` });
+    }
+    refs.sort((a, b) => b.v - a.v);
+    const dotX = r.reached > 0 ? x(r.reached) : null;
+    const labelsRight = dotX !== null && dotX < m.l + (small ? 220 : 300);
+    refs.forEach((ref) => {
+      const yy = y(ref.v);
+      sv('line', { class: ref.cls, x1: m.l, x2: m.l + iw, y1: yy, y2: yy }, svg);
+    });
+
+    sv('path', { class: 'line', d }, svg);
+
+    // Reference labels sit above the line, with a halo so the curve never runs through them
+    refs.forEach((ref, k) => {
+      const yy = y(ref.v);
+      const t = sv('text', {
+        class: 'ref-label',
+        x: labelsRight ? m.l + iw : m.l + 6,
+        y: k === 0 ? yy - 7 : yy + 16,
+        'text-anchor': labelsRight ? 'end' : 'start',
+      }, svg);
+      t.textContent = ref.label;
+    });
+
+    // Reach marker
+    if (r.reached > 0) {
+      const cx = x(r.reached), cy = y(data[r.reached]);
+      sv('circle', { class: 'dot', cx, cy, r: 5 }, svg);
+      const lbl = sv('text', { class: 'dot-label', x: cx - 10, y: cy + 20, 'text-anchor': 'end' }, svg);
+      lbl.textContent = monthDate(r.reached);
+    }
+
+    // Crosshair (hidden until hover/focus)
+    const xh = sv('line', { class: 'xhair', y1: m.t, y2: base, x1: 0, x2: 0, visibility: 'hidden' }, svg);
+    const xd = sv('circle', { class: 'dot', r: 5, cx: 0, cy: 0, visibility: 'hidden' }, svg);
+    geo = { W, H, m, iw, N, x, y, data, xh, xd, price: s.price };
+    if (focusIdx !== null) showAt(Math.min(focusIdx, N));
+  }
+
+  function showAt(i) {
+    if (!geo) return;
+    i = clamp(Math.round(i), 0, geo.N);
+    focusIdx = i;
+    const v = geo.data[i];
+    const xx = geo.x(i), yy = geo.y(v);
+    geo.xh.setAttribute('x1', xx); geo.xh.setAttribute('x2', xx); geo.xh.setAttribute('visibility', 'visible');
+    geo.xd.setAttribute('cx', xx); geo.xd.setAttribute('cy', yy); geo.xd.setAttribute('visibility', 'visible');
+    tip.textContent = '';
+    const a = document.createElement('span'); a.className = 'tip-sub';
+    a.textContent = i === 0 ? `${monthDate(i, 'long')} (now)` : monthDate(i, 'long');
+    const b = document.createElement('span'); b.className = 'tip-value'; b.textContent = `${money(v)} a month`;
+    const c = document.createElement('span'); c.className = 'tip-sub'; c.textContent = `${count(v / geo.price)} paying customers`;
+    tip.append(a, b, c);
+    tip.hidden = false;
+    const tw = tip.offsetWidth, th = tip.offsetHeight;
+    const scale = svg.getBoundingClientRect().width / geo.W || 1;
+    let left = xx * scale + 14;
+    if (left + tw > svg.clientWidth) left = xx * scale - 14 - tw;
+    let top = yy * scale - th - 12;
+    if (top < 0) top = yy * scale + 14;
+    tip.style.left = Math.max(0, left) + 'px';
+    tip.style.top = top + 'px';
+  }
+  function hideTip() {
+    focusIdx = null;
+    tip.hidden = true;
+    if (geo) { geo.xh.setAttribute('visibility', 'hidden'); geo.xd.setAttribute('visibility', 'hidden'); }
+  }
+  svg.addEventListener('pointermove', (e) => {
+    if (!geo) return;
+    const rect = svg.getBoundingClientRect();
+    const px = (e.clientX - rect.left) * (geo.W / rect.width);
+    showAt((px - geo.m.l) / geo.iw * geo.N);
+  });
+  svg.addEventListener('pointerleave', () => { if (document.activeElement !== svg) hideTip(); });
+  svg.addEventListener('focus', () => { if (geo) showAt(focusIdx ?? (last && last.r.reached > 0 ? last.r.reached : geo.N)); });
+  svg.addEventListener('blur', hideTip);
+  svg.addEventListener('keydown', (e) => {
+    if (!geo) return;
+    const big = Math.max(1, Math.round(geo.N / 20));
+    const cur = focusIdx ?? 0;
+    let next = null;
+    if (e.key === 'ArrowRight') next = cur + (e.shiftKey ? big : 1);
+    else if (e.key === 'ArrowLeft') next = cur - (e.shiftKey ? big : 1);
+    else if (e.key === 'PageUp') next = cur + big;
+    else if (e.key === 'PageDown') next = cur - big;
+    else if (e.key === 'Home') next = 0;
+    else if (e.key === 'End') next = geo.N;
+    else if (e.key === 'Escape') { hideTip(); return; }
+    if (next !== null) { e.preventDefault(); showAt(next); }
+  });
+
+  function renderTable(s, r) {
+    const body = $('chart-table');
+    const frag = document.createDocumentFragment();
+    const rows = [];
+    for (let i = 0; i <= r.N; i += 12) rows.push(i);
+    if (r.reached > 0 && !rows.includes(r.reached)) rows.push(r.reached);
+    if (!rows.includes(r.N)) rows.push(r.N);
+    rows.sort((a, b) => a - b);
+    for (const i of rows) {
+      const tr = document.createElement('tr');
+      const v = r.series[i];
+      for (const text of [monthDate(i) + (i === r.reached ? ' (target reached)' : ''), money(v), count(v / s.price)]) {
+        const td = document.createElement('td'); td.textContent = text; tr.appendChild(td);
+      }
+      frag.appendChild(tr);
+    }
+    body.textContent = '';
+    body.appendChild(frag);
+  }
+
+  function renderCaption(s, r) {
+    $('chart-title').textContent = `Monthly revenue, starting at ${money(s.start)} and growing ${pctTxt(s.growth)} a month`;
+    let sub;
+    if (s.target > r.ceiling) sub = `It levels off below the target: at ${money(s.price)} a month, everyone alive paying adds up to ${money(r.ceiling)}.`;
+    else if (r.reached === 0) sub = `You already earn more than ${money(s.target)} a month.`;
+    else if (r.reached > 0) sub = `It crosses ${money(s.target)} in ${monthDate(r.reached, 'long')}. The vertical scale grows tenfold at each step.`;
+    else sub = `It doesn't reach ${money(s.target)} within 100 years.`;
+    $('chart-sub').textContent = sub;
+  }
+
+  /* ---------- URL state ---------- */
+  const KEYS = { target: 't', price: 'p', start: 's', growth: 'g', conv: 'c', churn: 'ch' };
+  function params() {
+    const q = new URLSearchParams();
+    for (const [k, short] of Object.entries(KEYS)) q.set(short, String(Number(state[k].toPrecision(8))));
+    return q.toString();
+  }
+  function baseUrl() { return location.href.split('#')[0].split('?')[0]; }
+  function shareUrl() { return `${baseUrl()}?${params()}`; }
+  let urlTimer = 0;
+  function writeUrl() {
+    clearTimeout(urlTimer);
+    urlTimer = setTimeout(() => {
+      try { history.replaceState(null, '', `${location.pathname}?${params()}${location.hash}`); } catch (_) { /* file:// or sandboxed */ }
+    }, 350);
+  }
+  function readUrl() {
+    let q;
+    try { q = new URLSearchParams(location.search); } catch (_) { return; }
+    for (const [k, short] of Object.entries(KEYS)) {
+      if (!q.has(short)) continue;
+      const v = Number(q.get(short));
+      const f = FIELDS[k];
+      if (Number.isFinite(v) && v >= f.min && v <= f.max) state[k] = v;
+    }
+  }
+
+  /* ---------- Update loop ---------- */
+  let pending = false;
+  let touched = false;
+  function schedule() {
+    touched = true;
+    if (pending) return;
+    pending = true;
+    requestAnimationFrame(() => { pending = false; update(); });
+  }
+  function update() {
+    const s = { ...state };
+    const r = compute(s);
+    const v = verdict(s, r);
+    last = { s, r, v };
+    syncChips();
+    renderLedger(s, r, v);
+    renderCaption(s, r);
+    renderChart(s, r);
+    renderTable(s, r);
+    if (touched) writeUrl();
+  }
+
+  function applyPreset(p) {
+    Object.assign(state, p);
+    syncAll();
+    schedule();
+  }
+  $('reset').addEventListener('click', () => { applyPreset(DEFAULTS); setStatus(''); });
+  $('plan-first').addEventListener('click', () => {
+    applyPreset(FIRST_10K);
+    const target = $('planner');
+    target.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
+    setTimeout(() => $('target-input').focus({ preventScroll: true }), reduceMotion ? 0 : 500);
+  });
+
+  /* ---------- Copy plan ---------- */
+  let statusTimer = 0;
+  function setStatus(text) {
+    clearTimeout(statusTimer);
+    $('copy-status').textContent = text;
+    if (text) statusTimer = setTimeout(() => { $('copy-status').textContent = ''; }, 4000);
+  }
+  function planText() {
+    const { s, r, v } = last;
+    return [
+      'The Trillion Test: my plan',
+      `Target: ${money(s.target)} a month (${money(s.target * 12)} a year)`,
+      `Price: ${money(s.price)} per customer, per month`,
+      `Paying customers needed: ${count(r.customers)}. ${earthPhrase(r.customers)}`,
+      `New customers a month to stay level: ${s.churn > 0 ? count(r.replace) : '0'} (at ${pctTxt(s.churn)} cancelling)`,
+      `Visitors needed each month: ${s.churn > 0 ? count(r.visitors) : '0'} (at ${pctTxt(s.conv)} buying)`,
+      `Time to get there: ${$('out-time').textContent}, starting at ${money(s.start)} a month and growing ${pctTxt(s.growth)} a month`,
+      `Verdict: ${v.word}. ${v.text}`,
+      `Run it yourself: ${shareUrl()}`,
+    ].join('\n');
+  }
+  function fallbackCopy(text) {
+    const ta = document.createElement('textarea');
+    ta.value = text; ta.setAttribute('readonly', ''); ta.style.position = 'fixed'; ta.style.opacity = '0';
+    document.body.appendChild(ta); ta.select();
+    let ok = false;
+    try { ok = document.execCommand('copy'); } catch (_) { ok = false; }
+    ta.remove();
+    return ok;
+  }
+  $('copy-plan').addEventListener('click', async () => {
+    if (!last) return;
+    const text = planText();
+    let ok = false;
+    try { if (navigator.clipboard && window.isSecureContext) { await navigator.clipboard.writeText(text); ok = true; } } catch (_) { ok = false; }
+    if (!ok) ok = fallbackCopy(text);
+    setStatus(ok ? 'Plan copied. Paste it anywhere.' : 'This browser blocked copying. The table above holds the same numbers.');
+  });
+
+  /* ---------- Comparison bar tooltips ---------- */
+  const barTip = $('bar-tip');
+  function showBarTip(row, px, py) {
+    barTip.textContent = '';
+    const a = document.createElement('span'); a.className = 'tip-sub'; a.textContent = row.dataset.name;
+    const b = document.createElement('span'); b.className = 'tip-value'; b.textContent = row.dataset.value;
+    const c = document.createElement('span'); c.className = 'tip-sub'; c.textContent = row.dataset.note;
+    barTip.append(a, b, c);
+    barTip.hidden = false;
+    const tw = barTip.offsetWidth, th = barTip.offsetHeight;
+    let left = px + 16, top = py - th - 12;
+    if (left + tw > window.innerWidth - 8) left = Math.max(8, px - tw - 16);
+    if (top < 8) top = py + 18;
+    barTip.style.left = left + 'px';
+    barTip.style.top = top + 'px';
+  }
+  document.querySelectorAll('.bar-row').forEach((row) => {
+    row.setAttribute('aria-label', `${row.dataset.name}: ${row.dataset.value}. ${row.dataset.note}`);
+    row.addEventListener('pointermove', (e) => { if (e.pointerType !== 'touch') showBarTip(row, e.clientX, e.clientY); });
+    row.addEventListener('pointerleave', () => { barTip.hidden = true; });
+    row.addEventListener('focus', () => {
+      const bar = row.querySelector('.bar').getBoundingClientRect();
+      showBarTip(row, bar.right, bar.top);
+    });
+    row.addEventListener('blur', () => { barTip.hidden = true; });
+  });
+  window.addEventListener('scroll', () => { if (!barTip.hidden && !document.activeElement?.classList.contains('bar-row')) barTip.hidden = true; }, { passive: true });
+
+  /* ---------- Guilloche engraving ---------- */
+  function polyPath(fn, steps, t0, t1) {
+    let d = '';
+    for (let k = 0; k <= steps; k++) {
+      const p = fn(t0 + (t1 - t0) * k / steps);
+      d += (k ? 'L' : 'M') + p[0].toFixed(2) + ' ' + p[1].toFixed(2);
+    }
+    return d;
+  }
+  function polar(R, A, n, phase) {
+    return (t) => { const rr = R + A * Math.sin(n * t + phase); return [rr * Math.cos(t), rr * Math.sin(t)]; };
+  }
+
+  function buildRosette(svgEl, animate) {
+    svgEl.textContent = '';
+    const add = (d, delay) => {
+      const p = sv('path', { d, pathLength: 1 }, svgEl);
+      p.style.setProperty('--delay', delay.toFixed(2) + 's');
+    };
+    const ring = (r, delay) => {
+      const c = sv('circle', { cx: 0, cy: 0, r, pathLength: 1, transform: 'rotate(-90)' }, svgEl);
+      c.style.setProperty('--delay', delay.toFixed(2) + 's');
+    };
+    for (let i = 0; i < 2; i++) add(polyPath(polar(113, 3.2, 64, i * Math.PI), 1600, 0, TAU), 0);
+    ring(108.5, 0.1);
+    for (let i = 0; i < 10; i++) add(polyPath(polar(92, 15, 16, i * TAU / 10), 900, 0, TAU), 0.15 + i * 0.035);
+    ring(74.5, 0.45);
+    for (let i = 0; i < 8; i++) add(polyPath(polar(57, 13, 10, i * TAU / 8), 700, 0, TAU), 0.5 + i * 0.04);
+    ring(40.5, 0.8);
+    const R = 27, r = 12, dd = 14, k = (R - r) / r;
+    add(polyPath((t) => [(R - r) * Math.cos(t) + dd * Math.cos(k * t), (R - r) * Math.sin(t) - dd * Math.sin(k * t)], 1400, 0, TAU * 4), 0.85);
+    ring(4, 1.2);
+    const size = svgEl.getBoundingClientRect().width || 236;
+    svgEl.style.setProperty('--sw', (0.62 * 240 / size).toFixed(3));
+    svgEl.classList.toggle('is-drawing', !!animate);
+  }
+
+  function buildFrame(svgEl, W, H) {
+    svgEl.textContent = '';
+    svgEl.setAttribute('viewBox', `0 0 ${W} ${H}`);
+    const small = W < 560;
+    const inset = small ? 8 : 14;
+    const band = small ? 14 : 20;
+    const A = band / 2 - 2.5;
+    const c = inset + band / 2;
+    sv('rect', { x: inset, y: inset, width: W - 2 * inset, height: H - 2 * inset }, svgEl);
+    sv('rect', { x: inset + band, y: inset + band, width: W - 2 * (inset + band), height: H - 2 * (inset + band) }, svgEl);
+    sv('rect', { x: inset + band + 5, y: inset + band + 5, width: W - 2 * (inset + band + 5), height: H - 2 * (inset + band + 5) }, svgEl);
+    const K = 3;
+    const wl = small ? 13 : 18;
+    const ribbon = (len, toXY) => {
+      const waves = Math.max(4, Math.round(len / wl));
+      for (let i = 0; i < K; i++) {
+        sv('path', { d: polyPath((s) => toXY(s * len, A * Math.sin(s * waves * TAU + i * TAU / K)), waves * 14, 0, 1) }, svgEl);
+      }
+    };
+    const LH = W - 2 * c, LV = H - 2 * c;
+    ribbon(LH, (u, o) => [c + u, c + o]);
+    ribbon(LH, (u, o) => [c + u, H - c + o]);
+    ribbon(LV, (u, o) => [c + o, c + u]);
+    ribbon(LV, (u, o) => [W - c + o, c + u]);
+    const mr = band / 2 + 3;
+    for (const [cx, cy] of [[c, c], [W - c, c], [c, H - c], [W - c, H - c]]) {
+      sv('circle', { class: 'medal', cx, cy, r: mr }, svgEl);
+      for (let i = 0; i < 3; i++) {
+        const f = polar(mr * 0.58, mr * 0.26, 6, i * TAU / 3);
+        sv('path', { d: polyPath((t) => { const p = f(t); return [cx + p[0], cy + p[1]]; }, 180, 0, TAU) }, svgEl);
+      }
+    }
+  }
+
+  const cert = $('certificate');
+  const frame = $('cert-frame');
+  const rosette = $('rosette');
+  let frameSize = '';
+  function refreshFrame() {
+    const rect = cert.getBoundingClientRect();
+    const W = Math.round(rect.width), H = Math.round(rect.height);
+    const key = W + 'x' + H;
+    if (key === frameSize || W < 10) return;
+    frameSize = key;
+    buildFrame(frame, W, H);
+    cert.classList.add('has-frame');
+    const size = rosette.getBoundingClientRect().width || 236;
+    rosette.style.setProperty('--sw', (0.62 * 240 / size).toFixed(3));
+  }
+
+  /* ---------- Boot ---------- */
+  readUrl();
+  syncAll();
+  update();
+  buildRosette(rosette, !reduceMotion);
+  if (!reduceMotion) $('cert-stamp').classList.add('is-landing');
+  refreshFrame();
+
+  if ('ResizeObserver' in window) {
+    let raf = 0;
+    const ro = new ResizeObserver(() => {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() => {
+        refreshFrame();
+        if (last) renderChart(last.s, last.r);
+      });
+    });
+    ro.observe(cert);
+    ro.observe($('chart'));
+  } else {
+    window.addEventListener('resize', () => { refreshFrame(); if (last) renderChart(last.s, last.r); });
+  }
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(refreshFrame);
+})();
+</script>
+</body>
+</html>
